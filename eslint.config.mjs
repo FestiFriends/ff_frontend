@@ -26,6 +26,13 @@ const eslintConfig = [
       globals: {
         ...globals.browser,
         React: 'readonly', 
+        describe: 'readonly',
+        it: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        jest: 'readonly',
+        test: 'readonly',
       },
       parserOptions: {
         ecmaFeatures: {
