@@ -1,0 +1,22 @@
+name: "feat"
+description: "새로운 기능 추가"
+labels: ["feat"]
+body:
+  - type: textarea
+    attributes:
+      label: 📄 구현할 기능
+      description: 구현할 기능에 대한 설명을 작성해 주세요.
+      placeholder: 자세히 적을수록 좋습니다!
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: ✅ 구현방법 및 예상동작
+      description: 어떻게 구현하고 어떻게 동작할지 간략하게 적어주세요.
+      placeholder: 최대한 세분화해서 적어주세요! 
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 특이사항
+      description: 특이사항이 있다면 작성해 주세요.

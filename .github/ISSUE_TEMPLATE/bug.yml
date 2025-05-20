@@ -1,0 +1,22 @@
+name: "bug"
+description: "버그 리포트"
+labels: ["bug"]
+body:
+  - type: textarea
+    attributes:
+      label: 📄 수정 계획
+      description: 수정 계획에 대해서 작성해주세요.
+      placeholder: 자세히 적을수록 좋습니다!
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: ✅ 수정 완료 후 예상 동작
+      description: 어떻게 수정할지 적어주세요
+      placeholder: 최대한 세분화 해서 적어주세요! 
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 특이사항
+      description: 특이사항이 있다면 작성해 주세요.
