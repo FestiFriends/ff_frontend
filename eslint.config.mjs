@@ -11,6 +11,8 @@ import filenamesPlugin from 'eslint-plugin-filenames';
 import foldersPlugin from 'eslint-plugin-folders';
 import stylisticJs from '@stylistic/eslint-plugin-js';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
+import nextjs from '@next/eslint-plugin-next';
+
 
 const eslintConfig = [
   {
@@ -65,12 +67,17 @@ const eslintConfig = [
       'filenames': filenamesPlugin,
       'folders': foldersPlugin,
       '@stylistic/js': stylisticJs,
+      '@next/next': nextjs,
     },
 
       rules: {
       ...js.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       
+      //next.js 권장 설정
+      ...nextjs.configs.recommended.rules,
+      ...nextjs.configs['core-web-vitals'].rules,
+
       // var 금지
       'no-var': 'error',
 
