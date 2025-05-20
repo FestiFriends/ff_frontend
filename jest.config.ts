@@ -11,8 +11,8 @@ const config: Config = {
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
-  testEnvironment: 'jsdom',
-
+  // testEnvironment: 'jsdom',
+  testEnvironment: 'jest-fixed-jsdom',
   // 테스트 전에 실행할 설정 파일을 지정
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };
