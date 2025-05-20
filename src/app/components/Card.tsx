@@ -7,6 +7,7 @@ const Card = () => (
       velit eligendi, doloremque atque neque mollitia quisquam nesciunt quasi
       laudantium?
     </span>
+    <button>View All</button>
   </div>
 );
 
