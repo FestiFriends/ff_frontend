@@ -155,7 +155,10 @@ const eslintConfig = [
         { allowConstantExport: true }],
       
       // 사용하지 않는 변수 금지
-      'no-unused-vars': 'error',
+      // 'no-unused-vars': 'error',
+      "no-unused-vars": ['error', {
+        "argsIgnorePattern": "^_"
+      }],
       // JSX에서 변수 사용 시 오류 방지
       "react/jsx-uses-vars": "error",
 
