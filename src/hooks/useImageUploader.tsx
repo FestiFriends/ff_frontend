@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import axios from 'axios';
 
 export interface UploadedImage {
   file: File;
@@ -7,14 +8,9 @@ export interface UploadedImage {
 
 const loadFile = async (url: string) => {
   try {
-    const response = await fetch(url);
+    const response = await axios.get(url, { responseType: 'blob' });
+    const blob = response.data;
 
-    if (!response.ok)
-      throw new Error(
-        `이미지를 불러오는데 실패하였습니다. code:${response.status}`
-      );
-
-    const blob = await response.blob();
     const random = Math.random().toString(36).substring(2, 10);
     const timestamp = Date.now();
 
@@ -30,6 +26,7 @@ const loadFile = async (url: string) => {
     const file = new File([blob], `${timestamp}_${random}.${ext}`, {
       type: blob.type,
     });
+
     return file;
   } catch (error) {
     console.error(error);
