@@ -8,11 +8,11 @@
   "jsxSingleQuote": true,
   "trailingComma": "es5",
   "bracketSpacing": true,
-  "bracketSameLine": false,
   "arrowParens": "always",
   "endOfLine": "auto",
   "proseWrap": "preserve",
   "htmlWhitespaceSensitivity": "strict",
+  "singleAttributePerLine": true,
   "plugins": ["prettier-plugin-tailwindcss"],
-  "tailwindStylesheet": "./src/app/globals.css" 
+  "tailwindStylesheet": "./src/app/globals.css"
 }

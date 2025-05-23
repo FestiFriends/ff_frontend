@@ -9,7 +9,7 @@
 	"editor.quickSuggestions": {
 		"strings": true
 	},
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "eslint.format.enable": false,
   "cSpell.words": [
   ]

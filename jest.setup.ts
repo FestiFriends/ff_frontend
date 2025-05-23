@@ -1,4 +1,4 @@
-import { server } from './src/mock/index';
+import { server } from '@/mocks/server';
 import '@testing-library/jest-dom';
 
 beforeAll(() => server.listen());

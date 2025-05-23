@@ -1,5 +1,9 @@
+import { initMocks } from '@/mocks';
+import { MSWComponent } from '@/providers/MSWComponent';
 import QueryProvider from '@/providers/QueryProviders';
 import './globals.css';
+
+initMocks();
 
 const RootLayout = ({
   children,
@@ -8,7 +12,9 @@ const RootLayout = ({
 }>) => (
   <html lang='ko'>
     <body>
-      <QueryProvider>{children}</QueryProvider>
+      <MSWComponent>
+        <QueryProvider>{children}</QueryProvider>
+      </MSWComponent>
     </body>
   </html>
 );
