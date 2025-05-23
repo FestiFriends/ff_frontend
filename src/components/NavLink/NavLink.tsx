@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
-interface NavLinkProps {
+interface NavLinkProps extends React.ComponentProps<typeof Link> {
   href: string;
   className?: string;
   activeClassName?: string;
@@ -20,6 +20,7 @@ const NavLink = ({
   isActive,
   end,
   children,
+  ...props
 }: PropsWithChildren<NavLinkProps>) => {
   const path = usePathname();
   const activePath =
@@ -34,6 +35,7 @@ const NavLink = ({
       href={href}
       className={cn(activePath && activeClassName, className)}
       aria-current={isActive ? 'page' : undefined}
+      {...props}
     >
       {children}
     </Link>
