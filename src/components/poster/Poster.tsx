@@ -28,17 +28,20 @@ const Poster = ({
   const sizeClass = sizeMap[size] ?? '';
 
   return (
-    <div className={cn('relative', sizeClass)}>
+    <div
+      className={cn(
+        'relative overflow-hidden',
+        sizeClass,
+        shadow && 'shadow-md',
+        border && 'border border-gray-300',
+        className
+      )}
+    >
       <Image
         src={src}
         alt={alt}
         fill
-        className={cn(
-          'object-contain',
-          shadow && 'shadow-md',
-          border && 'border border-gray-300',
-          className
-        )}
+        className='object-contain'
       />
     </div>
   );
