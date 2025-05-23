@@ -28,18 +28,19 @@ const Poster = ({
   const sizeClass = sizeMap[size] ?? '';
 
   return (
-    <Image
-      src={src}
-      alt={alt}
-      fill
-      className={cn(
-        'object-contain',
-        sizeClass,
-        shadow && 'shadow-md',
-        border && 'border border-gray-300',
-        className
-      )}
-    />
+    <div className={cn('relative', sizeClass)}>
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className={cn(
+          'object-contain',
+          shadow && 'shadow-md',
+          border && 'border border-gray-300',
+          className
+        )}
+      />
+    </div>
   );
 };
 
