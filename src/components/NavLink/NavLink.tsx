@@ -30,7 +30,11 @@ const NavLink = ({
         : path.startsWith(href);
 
   return (
-    <Link href={href} className={cn(activePath && activeClassName, className)}>
+    <Link
+      href={href}
+      className={cn(activePath && activeClassName, className)}
+      aria-current={isActive ? 'page' : undefined}
+    >
       {children}
     </Link>
   );
