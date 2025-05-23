@@ -31,8 +31,7 @@ const Poster = ({
     <Image
       src={src}
       alt={alt}
-      width={160}
-      height={240}
+      fill
       className={clsx(
         'object-contain',
         sizeClass,
