@@ -6,24 +6,35 @@ export interface UploadedImage {
 }
 
 const loadFile = async (url: string) => {
-  const response = await fetch(url);
-  const blob = await response.blob();
-  const random = Math.random().toString(36).substring(2, 10);
-  const timestamp = Date.now();
+  try {
+    const response = await fetch(url);
 
-  const extensionMap: Record<string, string> = {
-    'image/jpeg': 'jpg',
-    'image/png': 'png',
-    'image/gif': 'gif',
-    'image/webp': 'webp',
-  };
+    if (!response.ok)
+      throw new Error(
+        `이미지를 불러오는데 실패하였습니다. code:${response.status}`
+      );
 
-  const ext = extensionMap[blob.type] || 'jpg';
+    const blob = await response.blob();
+    const random = Math.random().toString(36).substring(2, 10);
+    const timestamp = Date.now();
 
-  const file = new File([blob], `${timestamp}_${random}.${ext}`, {
-    type: blob.type,
-  });
-  return file;
+    const extensionMap: Record<string, string> = {
+      'image/jpeg': 'jpg',
+      'image/png': 'png',
+      'image/gif': 'gif',
+      'image/webp': 'webp',
+    };
+
+    const ext = extensionMap[blob.type] || 'jpg';
+
+    const file = new File([blob], `${timestamp}_${random}.${ext}`, {
+      type: blob.type,
+    });
+    return file;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 };
 
 export const useMultipleImageUploader = () => {
@@ -32,10 +43,15 @@ export const useMultipleImageUploader = () => {
   const defaultUrlUpload = useCallback(async (urls: string[]) => {
     const filePromises = urls.map(async (url) => {
       const file = await loadFile(url);
-      return { file, url };
+      if (file) {
+        return { file, url };
+      }
+      return null;
     });
 
-    const imageDataArray = await Promise.all(filePromises);
+    const imageDataArray = (await Promise.all(filePromises)).filter(
+      (data) => data !== null
+    );
     setImages(imageDataArray);
   }, []);
 
@@ -67,7 +83,7 @@ export const useSingleImageUploader = () => {
 
   const defaultUrlUpload = useCallback(async (url: string) => {
     const file = await loadFile(url);
-    setImage({ file, url });
+    if (file) setImage({ file, url });
   }, []);
 
   const upload = useCallback((files: File | FileList | null) => {
