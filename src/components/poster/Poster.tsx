@@ -32,6 +32,7 @@ const Poster = ({
       className={cn(
         'relative overflow-hidden',
         sizeClass,
+        'bg-gray-100',
         shadow && 'shadow-md',
         border && 'border border-gray-300',
         className
