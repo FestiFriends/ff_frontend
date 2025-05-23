@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
-import Image from "next/image";
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
 interface PosterProps {
   src: string;
@@ -11,10 +11,10 @@ interface PosterProps {
 }
 
 const sizeMap = {
-  sm: 'w-20 h-28', 
-  md: 'w-28 h-40', 
-  lg: 'w-40 h-56', 
-  xl: 'w-52 h-72', 
+  sm: 'w-20 h-28',
+  md: 'w-28 h-40',
+  lg: 'w-40 h-56',
+  xl: 'w-52 h-72',
 };
 
 const Poster = ({
@@ -38,12 +38,7 @@ const Poster = ({
         className
       )}
     >
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        className='object-contain'
-      />
+      <Image src={src} alt={alt} fill className='object-contain' />
     </div>
   );
 };
