@@ -45,7 +45,7 @@
     "src",
     "tests",
     ".next/types/**/*.ts"
-, "src/mock"  ],
+, "src/mocks"  ],
   "exclude": [
     "node_modules"
   ],
