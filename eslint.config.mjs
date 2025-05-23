@@ -1,7 +1,7 @@
-import js from "@eslint/js";
+import js from '@eslint/js';
 
 import prettier from 'eslint-plugin-prettier';
-import tseslint, { parser } from 'typescript-eslint'
+import tseslint, { parser } from 'typescript-eslint';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
@@ -12,7 +12,6 @@ import foldersPlugin from 'eslint-plugin-folders';
 import stylisticJs from '@stylistic/eslint-plugin-js';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import nextjs from '@next/eslint-plugin-next';
-
 
 const eslintConfig = [
   {
@@ -99,7 +98,13 @@ const eslintConfig = [
       quotes: ['error', 'single'],
 
       // 인덴트: space 2개 => prettier
-      indent: ['error', 2],
+      indent: [
+        'error',
+        2,
+        {
+          SwitchCase: 1,
+        },
+      ],
 
       // 세미콜론:  무조건 사용 => prettier
       semi: ['error', 'always'],
@@ -154,6 +159,7 @@ const eslintConfig = [
         'error',
         {
           experimentalOperatorPosition: 'start',
+          singleAttributePerLine: true,
         },
       ],
 
