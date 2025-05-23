@@ -21,7 +21,7 @@ const Button = ({
   // Todo: 디자인 받은 후 스타일 변경 필요
   const buttonClasses = cn(
     // default style
-    'cursor-pointer rounded-sm inline-flex justify-center align-center',
+    'cursor-pointer rounded-sm inline-flex justify-center items-center text-center',
 
     // variant style
     {
