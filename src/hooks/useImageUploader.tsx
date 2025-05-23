@@ -29,6 +29,16 @@ const loadFile = async (url: string) => {
 export const useMultipleImageUploader = () => {
   const [images, setImages] = useState<UploadedImage[]>([]);
 
+  const defaultUrlUpload = useCallback(async (urls: string[]) => {
+    const filePromises = urls.map(async (url) => {
+      const file = await loadFile(url);
+      return { file, url };
+    });
+
+    const imageDataArray = await Promise.all(filePromises);
+    setImages(imageDataArray);
+  }, []);
+
   const upload = useCallback((files: File | FileList | null) => {
     if (!files) return;
 
@@ -49,5 +59,5 @@ export const useMultipleImageUploader = () => {
     setImages([]);
   }, []);
 
-  return { images, upload, remove, reset };
+  return { defaultUrlUpload, images, upload, remove, reset };
 };
