@@ -5,6 +5,27 @@ export interface UploadedImage {
   url: string;
 }
 
+const loadFile = async (url: string) => {
+  const response = await fetch(url);
+  const blob = await response.blob();
+  const random = Math.random().toString(36).substring(2, 10);
+  const timestamp = Date.now();
+
+  const extensionMap: Record<string, string> = {
+    'image/jpeg': 'jpg',
+    'image/png': 'png',
+    'image/gif': 'gif',
+    'image/webp': 'webp',
+  };
+
+  const ext = extensionMap[blob.type] || 'jpg';
+
+  const file = new File([blob], `${timestamp}_${random}.${ext}`, {
+    type: blob.type,
+  });
+  return file;
+};
+
 export const useMultipleImageUploader = () => {
   const [images, setImages] = useState<UploadedImage[]>([]);
 
