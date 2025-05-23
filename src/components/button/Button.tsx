@@ -1,10 +1,10 @@
-import { PropsWithChildren } from 'react';
+import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 import { cn } from '@/lib/utils';
 
-interface ButtonProps {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'sm' | 'md' | 'lg';
   className?: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const Button = ({
@@ -12,6 +12,7 @@ const Button = ({
   className,
   onClick,
   children,
+  ...props
 }: PropsWithChildren<ButtonProps>) => {
   const buttonClasses = cn(
     // default style
@@ -29,7 +30,7 @@ const Button = ({
   );
 
   return (
-    <button className={buttonClasses} onClick={onClick}>
+    <button className={buttonClasses} onClick={onClick} {...props}>
       {children}
     </button>
   );
