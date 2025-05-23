@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 interface HashtagBadgeProps {
   text: string; // 배지 내부에 들어갈 텍스트('#'여부는 페이지 내부에서 설정)
   type: 'groupInfo' | 'groupCard' | 'userProfile';
-  canClick?: boolean; // 클릭 가능한 배지인지 확인
+  isClickable?: boolean; // 클릭 가능한 배지인지 확인
   onClick?: () => void; // 배지 클릭 시 실행되는 함수
   className?: string;
 }
@@ -22,7 +22,7 @@ const badgeStyles: Record<HashtagBadgeProps['type'], string> = {
 const HashtagBadge = ({
   text,
   type,
-  canClick = false,
+  isClickable = false,
   onClick,
   className,
 }: HashtagBadgeProps) => {
@@ -40,7 +40,7 @@ const HashtagBadge = ({
     <span
       className={badgeClasses}
       onClick={() => {
-        if (canClick) {
+        if (isClickable) {
           handleClick();
         }
       }}
