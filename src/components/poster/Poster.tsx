@@ -13,7 +13,7 @@ interface PosterProps {
 const sizeMap = {
   sm: 'w-20 h-28', 
   md: 'w-28 h-40', 
-  lg: 'w-40 h-60', 
+  lg: 'w-40 h-56', 
   xl: 'w-52 h-72', 
 };
 
