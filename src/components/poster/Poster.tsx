@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 interface PosterProps {
@@ -32,7 +32,7 @@ const Poster = ({
       src={src}
       alt={alt}
       fill
-      className={clsx(
+      className={cn(
         'object-contain',
         sizeClass,
         shadow && 'shadow-md',
