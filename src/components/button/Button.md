@@ -77,7 +77,7 @@ import Button from '@/components/Button';
 ## 📁 파일 구조
 
 ```
-/components/button
+/components/Button
   ├── Button.tsx
   └── Button.test.tsx
 ```
