@@ -61,3 +61,24 @@ export const useMultipleImageUploader = () => {
 
   return { defaultUrlUpload, images, upload, remove, reset };
 };
+
+export const useSingleImageUploader = () => {
+  const [image, setImage] = useState<UploadedImage | null>(null);
+
+  const defaultUrlUpload = useCallback(async (url: string) => {
+    const file = await loadFile(url);
+    setImage({ file, url });
+  }, []);
+
+  const upload = useCallback((files: File | FileList | null) => {
+    if (!files) return;
+    const file = files instanceof FileList ? files[0] : files;
+    setImage({ file, url: URL.createObjectURL(file) });
+  }, []);
+
+  const remove = useCallback(() => {
+    setImage(null);
+  }, []);
+
+  return { image, upload, remove, defaultUrlUpload };
+};
