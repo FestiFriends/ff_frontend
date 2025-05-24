@@ -38,7 +38,12 @@ const Poster = ({
         className
       )}
     >
-      <Image src={src} alt={alt} fill className='object-contain' />
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className='object-contain'
+      />
     </div>
   );
 };
