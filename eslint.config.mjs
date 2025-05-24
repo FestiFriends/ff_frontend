@@ -15,13 +15,20 @@ import nextjs from '@next/eslint-plugin-next';
 
 const eslintConfig = [
   {
+    // 무시할 파일
     ignores: ['dist', 'node_modules', '.next', 'out'],
+
+    // eslint 대상 파일
     files: ['**/*.{js,jsx,ts,tsx}'],
 
+    // 언어 설정
     languageOptions: {
       parser: tseslint.parser,
+      // ecma는 최신 버전
       ecmaVersion: 'latest',
+      // 모듈(esm) 사용
       sourceType: 'module',
+      // 전역 설정
       globals: {
         ...globals.browser,
         ...globals.node,
@@ -36,6 +43,7 @@ const eslintConfig = [
         jest: 'readonly',
         test: 'readonly',
       },
+      // parser 옵션
       parserOptions: {
         ecmaFeatures: {
           jsx: true,
@@ -44,28 +52,33 @@ const eslintConfig = [
       },
     },
 
+    // 설정
     settings: {
       react: {
         version: 'detect',
       },
+
       'import/resolver': {
         node: {
           extensions: ['.js', '.jsx', '.ts', '.tsx', '.css'],
         },
         typescript: {},
       },
+
       filenames: {
         // 컴포넌트 파일명은 PascalCase
         components: '^[A-Z][a-zA-Z0-9]*$',
         // 일반 파일명은 camelCase
         utils: '^[a-z][a-zA-Z0-9]*$',
       },
+
       folders: {
         // 폴더명은 kebab-case
         pattern: '^([a-z][a-z0-9]*)(-[a-z0-9]+)*$',
       },
     },
 
+    // 플러그인 이름 지정
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
@@ -79,8 +92,12 @@ const eslintConfig = [
       '@next/next': nextjs,
     },
 
+    // 규칙칙
     rules: {
+      // js 권장 설정
       ...js.configs.recommended.rules,
+
+      // reactHooks 권장 설정
       ...reactHooks.configs.recommended.rules,
 
       //next.js 권장 설정
@@ -91,23 +108,6 @@ const eslintConfig = [
       'no-var': 'error',
 
       // 상수는 SCREAMING_SNAKE_CASE
-
-      // prettier
-
-      // 문자열 작은 따옴표 => prettier
-      quotes: ['error', 'single'],
-
-      // 인덴트: space 2개 => prettier
-      indent: [
-        'error',
-        2,
-        {
-          SwitchCase: 1,
-        },
-      ],
-
-      // 세미콜론:  무조건 사용 => prettier
-      semi: ['error', 'always'],
 
       // for...in 비권장, for...of 권장
       'no-restricted-syntax': [
@@ -138,28 +138,16 @@ const eslintConfig = [
         },
       ],
 
-      // 함수 뒤에 공백
-      'space-before-function-paren': ['error', 'always'],
-      // 예약어 뒤에 공백 명시
-      'keyword-spacing': ['error', { before: true, after: true }],
-      // 쉼표 뒤에 공백
-      'comma-spacing': ['error', { before: false, after: true }],
-      // 연산자 뒤에 공백
-      'space-infix-ops': 'error',
-
-      // 배열 요소 개행 일관성 유지
-      'array-bracket-newline': ['error', 'consistent'],
-      'array-element-newline': ['error', 'consistent'],
-
       // React 17+ JSX Transform 사용
       'react/react-in-jsx-scope': 'off',
 
-      // Prettier 포맷팅
+      // Prettier 랑 겹치는 포매팅
       'prettier/prettier': [
         'error',
         {
           experimentalOperatorPosition: 'start',
           singleAttributePerLine: true,
+          experimentalTernaries: false,
         },
       ],
 
@@ -179,7 +167,6 @@ const eslintConfig = [
       ],
 
       // 사용하지 않는 변수 금지
-      // 'no-unused-vars': 'error',
       'no-unused-vars': [
         'error',
         {
@@ -203,24 +190,6 @@ const eslintConfig = [
 
       // 함수는 화살표, 선언 금지
       'func-style': ['error', 'expression'],
-
-      // 연산자 줄바꿈은 연산자 앞에 (= 제외)
-      'operator-linebreak': [
-        'error',
-        'before',
-        { overrides: { '=': 'after' } },
-      ],
-
-      // 객객체 중괄호 개행 일관성, 속성이 여러줄일 경우 줄마다 하나씩 바꿈, 객수는 제한이 어려움
-      'object-curly-newline': [
-        'error',
-        {
-          ObjectExpression: { multiline: true, consistent: true },
-          ObjectPattern: { multiline: true, consistent: true },
-          ImportDeclaration: { multiline: true, consistent: true },
-          ExportDeclaration: { multiline: true, consistent: true },
-        },
-      ],
 
       // 컨벤션: 임포트 순서 정렬
       'import/order': [
