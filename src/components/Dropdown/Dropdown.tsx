@@ -19,6 +19,7 @@ const Dropdown = ({
 
   useClickOutside({ ref: dropdownRef, onClose: dropdownState.closeDropdown });
 
+  // TODO: 디자인 시안 나오면 스타일 수정 필요
   const dropdownClasses = cn(
     // default style
     'relative inline-block',

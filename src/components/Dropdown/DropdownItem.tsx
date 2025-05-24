@@ -37,12 +37,16 @@ const DropdownItem = ({
     }
   }, [isOpen, selectedItem, value]);
 
+  // TODO: 디자인 시안 나오면 스타일 수정 필요
   const dropdownItemClasses = cn(
     // default style
-    'bg-white',
+    'cursor-pointer bg-white px-4 py-2 select-none',
+
+    // hover style
+    'hover:bg-gray-200',
 
     // focus style
-    'focus:bg-gray-300',
+    'focus:bg-gray-300 focus:outline-none',
 
     // custom style
     className
