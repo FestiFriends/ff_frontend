@@ -1,7 +1,8 @@
 'use client';
 
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useRef } from 'react';
 import useDropdownState from '@/app/hooks/useDropdownState';
+import useOutsideClick from '@/app/hooks/useOutsideClick';
 import { cn } from '@/lib/utils';
 import { DropdownContext } from './DropdownContext';
 
@@ -13,7 +14,10 @@ const Dropdown = ({
   className,
   children,
 }: PropsWithChildren<DropdownProps>) => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const dropdownState = useDropdownState();
+
+  useOutsideClick({ ref: dropdownRef, onClose: dropdownState.closeDropdown });
 
   const dropdownClasses = cn(
     // default style
@@ -25,7 +29,12 @@ const Dropdown = ({
 
   return (
     <DropdownContext.Provider value={dropdownState}>
-      <div className={dropdownClasses}>{children}</div>
+      <div
+        ref={dropdownRef}
+        className={dropdownClasses}
+      >
+        {children}
+      </div>
     </DropdownContext.Provider>
   );
 };
