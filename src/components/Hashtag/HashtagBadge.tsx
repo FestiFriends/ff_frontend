@@ -9,14 +9,13 @@ interface HashtagBadgeProps {
   className?: string;
 }
 
-// 타입을 명확히 지정한 badgeStyles 객체
 const badgeStyles: Record<HashtagBadgeProps['type'], string> = {
   groupInfo:
-    'bg-yellow-200 text-gray-800 py-2 px-4 rounded-full font-semibold cursor-pointer',
+    'cursor-pointer rounded-full bg-yellow-200 px-4 py-2 font-semibold text-gray-800 select-none',
   groupCard:
-    'bg-blue-100 text-blue-600 py-2 px-4 rounded-lg font-medium cursor-pointer',
+    'cursor-pointer rounded-lg bg-blue-100 px-4 py-2 font-medium text-blue-600 select-none',
   userProfile:
-    'bg-purple-100 text-purple-600 py-2 px-4 rounded-lg font-semibold cursor-pointer',
+    'cursor-pointer rounded-lg bg-purple-100 px-4 py-2 font-semibold text-purple-600 select-none',
 };
 
 const HashtagBadge = ({
@@ -26,10 +25,10 @@ const HashtagBadge = ({
   onClick,
   className,
 }: HashtagBadgeProps) => {
-  const getBadgeStyle = () => badgeStyles[type]; // 타입별 스타일 반환
+  const getBadgeStyle = () => badgeStyles[type];
 
   const handleClick = () => {
-    if (onClick) {
+    if (isClickable && onClick) {
       onClick();
     }
   };
@@ -39,11 +38,7 @@ const HashtagBadge = ({
   return (
     <span
       className={badgeClasses}
-      onClick={() => {
-        if (isClickable) {
-          handleClick();
-        }
-      }}
+      onClick={handleClick}
     >
       {text}
     </span>
