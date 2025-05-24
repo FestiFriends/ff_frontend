@@ -1,6 +1,7 @@
 'use client';
 
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useEffect, useRef } from 'react';
+import { cn } from '@/lib/utils';
 import { useDropdownContext } from './DropdownContext';
 
 interface DropdownItemProps {
@@ -13,17 +14,48 @@ const DropdownItem = ({
   className,
   children,
 }: PropsWithChildren<DropdownItemProps>) => {
-  const { setSelectedItem, closeDropdown } = useDropdownContext();
+  const { isOpen, selectedItem, setSelectedItem, closeDropdown } =
+    useDropdownContext();
+  const itemRef = useRef<HTMLLIElement>(null);
 
   const handleClick = () => {
     setSelectedItem(value);
     closeDropdown();
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === '  ') {
+      e.preventDefault();
+      setSelectedItem(value);
+      closeDropdown();
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen && selectedItem === value) {
+      itemRef.current?.focus();
+    }
+  }, [isOpen, selectedItem, value]);
+
+  const dropdownItemClasses = cn(
+    // default style
+    'bg-white',
+
+    // focus style
+    'focus:bg-gray-300',
+
+    // custom style
+    className
+  );
+
   return (
     <li
+      role='menuitem'
+      ref={itemRef}
+      tabIndex={0}
       onClick={handleClick}
-      className={className}
+      onKeyDown={handleKeyDown}
+      className={dropdownItemClasses}
     >
       {children}
     </li>

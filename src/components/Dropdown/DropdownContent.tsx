@@ -24,7 +24,14 @@ const DropdownContent = ({
     className
   );
 
-  return <ul className={dropdownContentClasses}>{children}</ul>;
+  return (
+    <ul
+      role='menu'
+      className={dropdownContentClasses}
+    >
+      {children}
+    </ul>
+  );
 };
 
 export default DropdownContent;

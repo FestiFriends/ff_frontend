@@ -1,8 +1,8 @@
 'use client';
 
 import { PropsWithChildren, useRef } from 'react';
+import useClickOutside from '@/app/hooks/useClickOutside';
 import useDropdownState from '@/app/hooks/useDropdownState';
-import useOutsideClick from '@/app/hooks/useOutsideClick';
 import { cn } from '@/lib/utils';
 import { DropdownContext } from './DropdownContext';
 
@@ -17,7 +17,7 @@ const Dropdown = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const dropdownState = useDropdownState();
 
-  useOutsideClick({ ref: dropdownRef, onClose: dropdownState.closeDropdown });
+  useClickOutside({ ref: dropdownRef, onClose: dropdownState.closeDropdown });
 
   const dropdownClasses = cn(
     // default style
