@@ -61,6 +61,21 @@ test.each([
   }
 );
 
+test('size props가 잘못된 값일 경우 size 관련 클래스가 적용되지 않아야 한다', () => {
+  const { container } = render(
+    <Poster
+      src='/poster.jpg'
+      size={'xs' as any}
+      shadow={false}
+      border={false}
+    />
+  );
+  const wrapper = container.firstChild as HTMLElement;
+
+  expect(wrapper.className).not.toMatch(/\bw-\d+/);
+  expect(wrapper.className).not.toMatch(/\bh-\d+/);
+});
+
 test('className props가 전달되면 해당 클래스가 포함되어야 한다', () => {
   const { container } = render(
     <Poster
