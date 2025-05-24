@@ -19,7 +19,7 @@ const DropdownContent = ({
   // TODO: 디자인 시안 나오면 스타일 수정 필요
   const dropdownContentClasses = cn(
     // default style
-    'absolute z-10 mt-2 w-48 rounded-md border shadow-md',
+    'absolute z-10 mt-2 w-48 overflow-hidden rounded-md border bg-white shadow-md',
 
     // focus style
     'focus:outline-none',
