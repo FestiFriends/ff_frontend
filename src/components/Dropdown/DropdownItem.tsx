@@ -24,7 +24,7 @@ const DropdownItem = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === '  ') {
+    if (e.key === 'Enter') {
       e.preventDefault();
       setSelectedItem(value);
       closeDropdown();
