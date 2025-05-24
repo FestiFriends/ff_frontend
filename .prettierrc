@@ -13,6 +13,10 @@
   "proseWrap": "preserve",
   "htmlWhitespaceSensitivity": "strict",
   "singleAttributePerLine": true,
+  "breakBeforeElse": true,
   "plugins": ["prettier-plugin-tailwindcss"],
-  "tailwindStylesheet": "./src/app/globals.css"
+  "tailwindStylesheet": "./src/app/globals.css",
+  "experimentalOperatorPosition": "start",
+  "experimentalTernaries": false,
+  "tailwindFunctions": ["tw", "clsx", "cn"]
 }
