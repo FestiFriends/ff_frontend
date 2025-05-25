@@ -2,7 +2,10 @@
 
 import { useState, ChangeEvent } from 'react';
 
-const useInput = (initialValue = '') => {
+const useInput = (
+  initialValue = '',
+  validate?: (_value: string) => string | undefined
+) => {
   const [value, setValue] = useState(initialValue);
   const [touched, setTouched] = useState(false);
 
@@ -19,7 +22,9 @@ const useInput = (initialValue = '') => {
     setTouched(false);
   };
 
-  return { value, onChange, onBlur, setValue, reset, touched };
+  const error = touched && validate ? validate(value) : undefined;
+
+  return { value, onChange, onBlur, setValue, reset, touched, error };
 };
 
 export default useInput;
