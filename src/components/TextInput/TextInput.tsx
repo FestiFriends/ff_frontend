@@ -23,6 +23,7 @@ interface TextInputProps {
   autoComplete?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
+  helperText?: string;
 }
 
 const SIZE_MAP = {
@@ -56,6 +57,7 @@ const TextInput = ({
   autoComplete,
   size = 'md',
   className,
+  helperText,
 }: TextInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -137,6 +139,9 @@ const TextInput = ({
         >
           {error}
         </p>
+      )}
+      {!showError && helperText && (
+        <p className='mt-1 text-sm text-gray-500'>{helperText}</p>
       )}
     </div>
   );
