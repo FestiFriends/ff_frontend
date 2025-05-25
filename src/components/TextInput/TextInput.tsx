@@ -13,6 +13,8 @@ interface TextInputProps {
   label?: string;
   value: string;
   onChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (_e: React.FocusEvent<HTMLInputElement>) => void;
+  touched?: boolean;
   placeholder?: string;
   required?: boolean;
   readOnly?: boolean;
@@ -44,6 +46,8 @@ const TextInput = ({
   label,
   value,
   onChange,
+  onBlur,
+  touched,
   placeholder,
   required,
   readOnly,
@@ -53,24 +57,30 @@ const TextInput = ({
   size = 'md',
   className,
 }: TextInputProps) => {
-  const [touched, setTouched] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const isPasswordType = type === 'password' || type === 'new-password';
   const inputType = isPasswordType && showPassword ? 'text' : type;
 
-  const handleBlur = () => setTouched(true);
   const showError = touched && !!error;
 
-  const autoCompleteValue =
-    autoComplete
-    ?? (type === 'password'
-      ? 'current-password'
-      : type === 'new-password'
-        ? 'new-password'
-        : type === 'email'
-          ? 'email'
-          : 'off');
+  let autoCompleteValue = autoComplete;
+
+  if (!autoCompleteValue) {
+    switch (type) {
+      case 'password':
+        autoCompleteValue = 'current-password';
+        break;
+      case 'new-password':
+        autoCompleteValue = 'new-password';
+        break;
+      case 'email':
+        autoCompleteValue = 'email';
+        break;
+      default:
+        autoCompleteValue = 'off';
+    }
+  }
 
   const inputClass = cn(
     'w-full rounded-xl border pr-10 transition-colors focus:outline-none',
@@ -101,7 +111,7 @@ const TextInput = ({
           type={inputType}
           value={value}
           onChange={onChange}
-          onBlur={handleBlur}
+          onBlur={onBlur}
           placeholder={placeholder}
           readOnly={readOnly}
           disabled={disabled}
