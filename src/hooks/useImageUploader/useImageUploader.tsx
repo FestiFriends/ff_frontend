@@ -60,10 +60,13 @@ export const useImageUploader = <T extends 'multi' | 'single'>(type: T) => {
   );
 
   const upload = useCallback(
-    (files: File | FileList | null) => {
+    (files: File | File[] | FileList | null) => {
       if (!files) return;
 
-      const fileArray = files instanceof FileList ? Array.from(files) : [files];
+      const fileArray =
+        files instanceof FileList || Array.isArray(files)
+          ? Array.from(files)
+          : [files];
 
       const uploadFileInfo = fileArray.map((file) => ({
         file,
