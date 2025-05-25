@@ -63,24 +63,18 @@ const TextInput = ({
   const inputType = isPasswordType && showPassword ? 'text' : type;
 
   const showError = touched && !!error;
+  const sizeKey = size in SIZE_MAP ? size : 'md';
 
-  let autoCompleteValue = autoComplete;
+  SIZE_MAP[sizeKey];
+  ICON_SIZE[sizeKey];
 
-  if (!autoCompleteValue) {
-    switch (type) {
-      case 'password':
-        autoCompleteValue = 'current-password';
-        break;
-      case 'new-password':
-        autoCompleteValue = 'new-password';
-        break;
-      case 'email':
-        autoCompleteValue = 'email';
-        break;
-      default:
-        autoCompleteValue = 'off';
-    }
-  }
+  const autoCompleteMap: Record<string, string> = {
+    password: 'current-password',
+    'new-password': 'new-password',
+    email: 'email',
+  };
+
+  const autoCompleteValue = autoComplete ?? autoCompleteMap[type] ?? 'off';
 
   const inputClass = cn(
     'w-full rounded-xl border pr-10 transition-colors focus:outline-none',
