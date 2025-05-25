@@ -34,64 +34,75 @@ const loadFile = async (url: string) => {
   }
 };
 
-export const useMultipleImageUploader = () => {
+export const useImageUploader = <T extends 'multi' | 'single'>(type: T) => {
   const [images, setImages] = useState<UploadedImage[]>([]);
 
-  const defaultUrlUpload = useCallback(async (urls: string[]) => {
-    const filePromises = urls.map(async (url) => {
-      const file = await loadFile(url);
-      if (file) {
-        return { file, url };
+  const defaultUrlUpload = useCallback(
+    async (urls: string[] | string) => {
+      const defaultUrls = Array.isArray(urls) ? urls : [urls];
+
+      const filePromises = defaultUrls.map(async (url) => {
+        const file = await loadFile(url);
+        return file ? { file, url } : null;
+      });
+
+      const imageDataArray = (await Promise.all(filePromises)).filter(
+        (data) => data !== null
+      );
+
+      if (type === 'multi') {
+        setImages(imageDataArray);
+      } else {
+        setImages([imageDataArray[0]]);
       }
-      return null;
-    });
+    },
+    [type]
+  );
 
-    const imageDataArray = (await Promise.all(filePromises)).filter(
-      (data) => data !== null
-    );
-    setImages(imageDataArray);
-  }, []);
+  const upload = useCallback(
+    (files: File | FileList | null) => {
+      if (!files) return;
 
-  const upload = useCallback((files: File | FileList | null) => {
-    if (!files) return;
+      const fileArray = files instanceof FileList ? Array.from(files) : [files];
 
-    const fileArray = files instanceof FileList ? Array.from(files) : [files];
-    const uploadFileInfo = fileArray.map((file) => ({
-      file,
-      url: URL.createObjectURL(file),
-    }));
+      const uploadFileInfo = fileArray.map((file) => ({
+        file,
+        url: URL.createObjectURL(file),
+      }));
 
-    setImages((prev) => [...prev, ...uploadFileInfo]);
-  }, []);
+      if (type === 'multi') {
+        setImages((prev) => [...prev, ...uploadFileInfo]);
+      }
+      if (type === 'single') {
+        setImages([uploadFileInfo[0]]);
+      }
+    },
+    [type]
+  );
 
-  const remove = useCallback((index: number) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
-  }, []);
+  const remove = useCallback(
+    (index: number) => {
+      if (type === 'multi') {
+        setImages((prev) => prev.filter((_, i) => i !== index));
+      } else {
+        setImages([]);
+      }
+    },
+    [type]
+  );
 
   const reset = useCallback(() => {
     setImages([]);
   }, []);
 
-  return { defaultUrlUpload, images, upload, remove, reset };
-};
-
-export const useSingleImageUploader = () => {
-  const [image, setImage] = useState<UploadedImage | null>(null);
-
-  const defaultUrlUpload = useCallback(async (url: string) => {
-    const file = await loadFile(url);
-    if (file) setImage({ file, url });
-  }, []);
-
-  const upload = useCallback((files: File | FileList | null) => {
-    if (!files) return;
-    const file = files instanceof FileList ? files[0] : files;
-    setImage({ file, url: URL.createObjectURL(file) });
-  }, []);
-
-  const remove = useCallback(() => {
-    setImage(null);
-  }, []);
-
-  return { image, upload, remove, defaultUrlUpload };
+  return {
+    images:
+      type === 'multi'
+        ? (images as T extends 'multi' ? UploadedImage[] : never)
+        : (images[0] as T extends 'single' ? UploadedImage | undefined : never),
+    upload,
+    remove,
+    reset,
+    defaultUrlUpload,
+  };
 };
