@@ -80,7 +80,7 @@ const TextInput = ({
 
   const inputClass = cn(
     'w-full rounded-xl border pr-10 transition-colors focus:outline-none',
-    SIZE_MAP[size],
+    SIZE_MAP[sizeKey],
     showError
       ? 'border-red-500 focus:ring-1 focus:ring-red-500'
       : 'border-gray-300 focus:ring-1 focus:ring-gray-800',
@@ -125,9 +125,9 @@ const TextInput = ({
             aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
           >
             {showPassword ? (
-              <EyeOff size={ICON_SIZE[size]} />
+              <EyeOff size={ICON_SIZE[sizeKey]} />
             ) : (
-              <Eye size={ICON_SIZE[size]} />
+              <Eye size={ICON_SIZE[sizeKey]} />
             )}
           </button>
         )}
