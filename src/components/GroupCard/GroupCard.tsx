@@ -12,7 +12,7 @@ import { Group } from '@/types/group';
 interface GroupCardProps {
   groupData: Group;
   className?: string;
-  buttonText?: string;
+  buttonText: string;
   isHashtagClickable?: boolean;
   onButtonClick: () => void;
   onHashtagClick?: (hashtagText: string) => void;
@@ -117,6 +117,7 @@ const GroupCard = ({
         <div className='mt-1 flex gap-1'>
           {groupData.hashtag?.map((tag, i) => (
             <HashtagBadge
+              key={tag}
               type='groupCard'
               isClickable={isHashtagClickable}
               text={`#${tag}`}
