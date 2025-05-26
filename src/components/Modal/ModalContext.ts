@@ -6,6 +6,7 @@ interface IModalContext {
   open: boolean;
   openModal: () => void;
   closeModal: () => void;
+  onClose?: () => void;
 }
 
 export const ModalContext = createContext<IModalContext | null>(null);

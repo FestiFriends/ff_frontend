@@ -18,7 +18,12 @@ const ModalContent = ({
   children,
 }: PropsWithChildren<ModalContentProps>) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const { open, closeModal } = useModalContext();
+  const { open, closeModal, onClose } = useModalContext();
+
+  const handleClose = () => {
+    onClose?.();
+    closeModal();
+  };
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -52,7 +57,7 @@ const ModalContent = ({
         'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
         className
       )}
-      onClose={closeModal}
+      onClose={handleClose}
       aria-modal='true'
     >
       {isValidElement(children) ? (
