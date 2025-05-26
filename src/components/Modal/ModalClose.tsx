@@ -24,6 +24,7 @@ const ModalClose = ({
     const child = children as ReactElement<any>;
 
     return cloneElement(child, {
+      'aria-label': '모달 닫기',
       onClick: (e: MouseEvent) => {
         child.props.onClick?.(e);
         closeModal();
@@ -42,6 +43,7 @@ const ModalClose = ({
         className
       )}
       onClick={closeModal}
+      aria-label='모달 닫기'
     >
       <XIcon className='h-4 w-4' />
     </button>
