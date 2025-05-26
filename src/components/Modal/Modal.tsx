@@ -5,11 +5,13 @@ import { ModalContext } from './ModalContext';
 
 interface ModalProps {
   defaultOpen?: boolean;
+  disableBackdropClose?: boolean;
   onClose?: () => void;
 }
 
 const Modal = ({
   defaultOpen = false,
+  disableBackdropClose = false,
   onClose,
   children,
 }: PropsWithChildren<ModalProps>) => {
@@ -21,6 +23,7 @@ const Modal = ({
 
   const ModalValue = {
     open,
+    disableBackdropClose,
     openModal,
     closeModal,
     onClose,
