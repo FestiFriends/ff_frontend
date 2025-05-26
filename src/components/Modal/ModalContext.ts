@@ -4,6 +4,7 @@ import { createContext, useContext } from 'react';
 
 interface IModalContext {
   open: boolean;
+  disableBackdropClose?: boolean;
   openModal: () => void;
   closeModal: () => void;
   onClose?: () => void;

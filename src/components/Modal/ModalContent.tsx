@@ -18,7 +18,7 @@ const ModalContent = ({
   children,
 }: PropsWithChildren<ModalContentProps>) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const { open, closeModal, onClose } = useModalContext();
+  const { open, disableBackdropClose, closeModal, onClose } = useModalContext();
 
   const handleClose = () => {
     onClose?.();
@@ -41,14 +41,14 @@ const ModalContent = ({
     if (!dialog) return;
 
     const handleBackdropClick = (event: MouseEvent) => {
-      if (event.target === dialog) {
+      if (event.target === dialog && !disableBackdropClose) {
         dialog.close();
       }
     };
 
     dialog.addEventListener('click', handleBackdropClick);
     return () => dialog.removeEventListener('click', handleBackdropClick);
-  }, []);
+  }, [disableBackdropClose]);
 
   return (
     <dialog
