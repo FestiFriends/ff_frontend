@@ -167,6 +167,7 @@ const eslintConfig = [
       ],
 
       // 사용하지 않는 변수 금지
+
       'no-unused-vars': 'off',
 
       // 켜기: TS 전용 활성화
