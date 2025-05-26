@@ -51,6 +51,18 @@ const ModalContent = ({
     return () => dialog.removeEventListener('click', handleBackdropClick);
   }, [disableBackdropClose]);
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && disableBackdropClose) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [disableBackdropClose]);
+
   if (!open) return null;
 
   return (

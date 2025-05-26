@@ -254,4 +254,18 @@ describe('<Modal>컴포넌트 테스트', () => {
     expect(onCloseMock).toHaveBeenCalled();
     expect(closeModalMock).toHaveBeenCalled();
   });
+
+  test('disableBackdropClose가 true일 경우 esc로 닫을 수 없다', async () => {
+    render(
+      <Modal
+        defaultOpen
+        disableBackdropClose
+      >
+        <ModalContent>콘텐츠</ModalContent>
+      </Modal>
+    );
+
+    await userEvent.keyboard('{Escape}');
+    expect(screen.queryByText('콘텐츠')).toBeInTheDocument();
+  });
 });
