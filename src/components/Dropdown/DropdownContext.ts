@@ -5,7 +5,7 @@ interface DropdownContextType {
   toggleDropdown: () => void;
   closeDropdown: () => void;
   selectedItem: string;
-  setSelectedItem: (item: string) => void;
+  setSelectedItem: (_item: string) => void;
 }
 
 export const DropdownContext = createContext<DropdownContextType | undefined>(

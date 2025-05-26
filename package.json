@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.76.1",
+    "@testing-library/user-event": "^14.6.1",
     "axios": "^1.9.0",
     "badwords-ko": "^1.0.4",
     "class-variance-authority": "^0.7.1",
