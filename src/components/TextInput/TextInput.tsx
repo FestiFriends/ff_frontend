@@ -125,9 +125,9 @@ const TextInput = ({
             aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
           >
             {showPassword ? (
-              <EyeOff size={ICON_SIZE[size]} />
+              <EyeOff size={ICON_SIZE[sizeKey]} />
             ) : (
-              <Eye size={ICON_SIZE[size]} />
+              <Eye size={ICON_SIZE[sizeKey]} />
             )}
           </button>
         )}
