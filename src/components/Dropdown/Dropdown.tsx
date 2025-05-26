@@ -1,8 +1,8 @@
 'use client';
 
 import { PropsWithChildren, useRef } from 'react';
-import useClickOutside from '@/app/hooks/useClickOutside/useClickOutside';
-import useDropdownState from '@/app/hooks/useDropdownState/useDropdownState';
+import useClickOutside from '@/hooks/useClickOutside/useClickOutside';
+import useDropdownState from '@/hooks/useDropdownState/useDropdownState';
 import { cn } from '@/lib/utils';
 import { DropdownContext } from './DropdownContext';
 
