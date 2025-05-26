@@ -12,6 +12,7 @@ const RootLayout = ({
 }>) => (
   <html lang='ko'>
     <body>
+      <div id='portal' />
       <MSWComponent>
         <QueryProvider>{children}</QueryProvider>
       </MSWComponent>
