@@ -24,7 +24,7 @@ const DropdownItem = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       setSelectedItem(label);
       closeDropdown();
@@ -40,7 +40,7 @@ const DropdownItem = ({
   // TODO: 디자인 시안 나오면 스타일 수정 필요
   const dropdownItemClasses = cn(
     // default style
-    'cursor-pointer bg-white px-4 py-2  select-none',
+    'cursor-pointer bg-white px-4 py-2 select-none',
 
     // hover style
     'hover:bg-gray-200',
