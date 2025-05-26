@@ -144,7 +144,7 @@ export default function Example() {
   ├── DropdownTrigger.tsx
   ├── DropdownContent.tsx
   ├── DropdownItem.tsx
-  ├── DropdownContext.tsx
+  ├── DropdownContext.ts
   └── index.ts
 ```
 
