@@ -19,6 +19,7 @@ const SearchInput = ({
     <form onSubmit={handleSubmit}>
       <input
         {...props}
+        type='search'
         aria-label='검색어 입력'
       />
       <button type='submit'>{children}</button>
