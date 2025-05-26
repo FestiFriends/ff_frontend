@@ -37,5 +37,5 @@ describe('ProfileImage 컴포넌트', () => {
 
 test('지원되지 않는 size는 기본 md 크기로 설정되어야 한다', () => {
   const { container } = render(<ProfileImage size={'xxl' as any} />);
-  expect(container.firstChild).toHaveClass('w-12', 'h-12'); // md 크기
+  expect(container.firstChild).toHaveClass('w-12', 'h-12');
 });
