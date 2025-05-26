@@ -24,6 +24,7 @@ const ModalTrigger = ({
     const child = children as ReactElement<any>;
 
     return cloneElement(child, {
+      'aria-label': '모달 열기',
       onClick: (e: MouseEvent) => {
         child.props.onClick?.(e);
         openModal();
@@ -35,6 +36,7 @@ const ModalTrigger = ({
     <button
       onClick={openModal}
       className={cn('cursor-pointer', className)}
+      aria-label='모달 열기'
     >
       {children}
     </button>

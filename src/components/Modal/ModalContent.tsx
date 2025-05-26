@@ -53,6 +53,7 @@ const ModalContent = ({
         className
       )}
       onClose={closeModal}
+      aria-modal='true'
     >
       {isValidElement(children) ? (
         cloneElement(children)
