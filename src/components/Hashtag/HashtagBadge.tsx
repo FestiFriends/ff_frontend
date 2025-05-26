@@ -13,7 +13,7 @@ const badgeStyles: Record<HashtagBadgeProps['type'], string> = {
   groupInfo:
     'cursor-pointer rounded-full bg-yellow-200 px-4 py-2 font-semibold text-gray-800 select-none',
   groupCard:
-    'cursor-pointer rounded-lg bg-blue-100 px-4 py-2 font-medium text-blue-600 select-none',
+    'max-w-40 overflow-hidden text-ellipsis whitespace-nowrap cursor-pointer rounded-lg bg-blue-100 px-4 py-2 font-medium text-blue-600 select-none',
   userProfile:
     'cursor-pointer rounded-lg bg-purple-100 px-4 py-2 font-semibold text-purple-600 select-none',
 };
