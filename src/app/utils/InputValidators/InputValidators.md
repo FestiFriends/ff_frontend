@@ -79,6 +79,7 @@ validatePasswordConfirm('qwer123!', 'qwer123@'); // '비밀번호가 일치하�
 
 ```
 /utils
-  └── InputValidators.ts
-  └── InputValidators.test.ts
+├── InputValidators
+│   ├── InputValidators.ts
+│   └── InputValidators.test.ts
 ```

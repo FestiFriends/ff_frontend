@@ -119,6 +119,7 @@ describe('useInput 훅 테스트', () => {
 
 ```
 /hooks
-  └── useInput.ts
-  └── useInput.test.ts
+├── useInput
+│   ├── useInput.ts
+│   └── useInput.test.ts
 ```
