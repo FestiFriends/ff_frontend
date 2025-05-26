@@ -167,10 +167,15 @@ const eslintConfig = [
       ],
 
       // 사용하지 않는 변수 금지
-      'no-unused-vars': [
+      // 끄기: JS 전용 비활성화
+      'no-unused-vars': 'off',
+
+      // 켜기: TS 전용 활성화
+      '@typescript-eslint/no-unused-vars': [
         'error',
         {
           argsIgnorePattern: '^_',
+          varsIgnorePattern: '^(T|K|V|U|E|Key|value)$',
         },
       ],
       // JSX에서 변수 사용 시 오류 방지
