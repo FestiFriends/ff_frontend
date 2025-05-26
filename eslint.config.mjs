@@ -189,7 +189,7 @@ const eslintConfig = [
       ],
 
       // 함수는 화살표, 선언 금지
-      'func-style': ['error', 'expression'],
+      'func-style': ['warn', 'expression'],
 
       // 컨벤션: 임포트 순서 정렬
       'import/order': [
