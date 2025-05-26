@@ -7,6 +7,7 @@ import React, {
   useRef,
 } from 'react';
 import { cn } from '@/lib/utils';
+import Portal from '../Portal';
 import { useModalContext } from './ModalContext';
 
 interface ModalContentProps {
@@ -50,22 +51,26 @@ const ModalContent = ({
     return () => dialog.removeEventListener('click', handleBackdropClick);
   }, [disableBackdropClose]);
 
+  if (!open) return null;
+
   return (
-    <dialog
-      ref={dialogRef}
-      className={cn(
-        'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-        className
-      )}
-      onClose={handleClose}
-      aria-modal='true'
-    >
-      {isValidElement(children) ? (
-        cloneElement(children)
-      ) : (
-        <div>{children}</div>
-      )}
-    </dialog>
+    <Portal>
+      <dialog
+        ref={dialogRef}
+        className={cn(
+          'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+          className
+        )}
+        onClose={handleClose}
+        aria-modal='true'
+      >
+        {isValidElement(children) ? (
+          cloneElement(children)
+        ) : (
+          <div>{children}</div>
+        )}
+      </dialog>
+    </Portal>
   );
 };
 
