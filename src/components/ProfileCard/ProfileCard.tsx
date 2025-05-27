@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import ProfileCardUi from './ProfileCardUi';
+import { Gender } from '@/types/enums';
 
 interface ProfileData {
   profileImageUrl?: string;
   nickname: string;
+  gender: Gender;
   rating: number;
   description?: string;
   sns?: string;
