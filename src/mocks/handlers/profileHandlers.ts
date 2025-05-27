@@ -30,7 +30,7 @@ export const profileHandlers = [
         gender: 'MALE',
         description: ' ',
         sns: ' ',
-        tags: ['서울 재즈 페스티벌', '시간 잘 지켜요', '조용한 편이에요'],
+        tags: ['서울 재즈 페스티벌', ' ', '조용한 편이에요'],
         isMyProfile: false,
       });
     }

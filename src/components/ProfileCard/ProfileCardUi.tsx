@@ -27,6 +27,8 @@ const ProfileCardUi = ({
   onEditClick,
   isMyProfile,
 }: ProfileCardUiProps) => {
+  const filteredTags = tags?.filter((tag) => tag.trim().length > 0) ?? [];
+
   return (
     <div className='w-full max-w-md rounded-lg bg-gray-200 p-4'>
       <div className='flex items-start justify-between'>
@@ -86,7 +88,7 @@ const ProfileCardUi = ({
       )}
 
       <div className='mt-3 flex flex-wrap gap-2'>
-        {tags.map((tag, i) => (
+        {filteredTags.map((tag, i) => (
           <span
             key={i}
             className='rounded-full bg-gray-100 px-3 py-1 text-sm text-black'

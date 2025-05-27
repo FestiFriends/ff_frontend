@@ -14,7 +14,7 @@ const ProfileCardSkeleton = ({ error }: ProfileCardSkeletonProps) => {
           <div className='h-16 w-16 rounded-full bg-gray-300' />
 
           <div className='flex items-end gap-3'>
-            <p className='flex items-center text-lg font-bold text-gray-500'>
+            <div className='flex items-center text-lg font-bold text-gray-500'>
               {isError ? (
                 '알 수 없음'
               ) : (
@@ -23,7 +23,7 @@ const ProfileCardSkeleton = ({ error }: ProfileCardSkeletonProps) => {
               {isError && (
                 <span className='ml-1 text-sm text-gray-400'>'?'</span>
               )}
-            </p>
+            </div>
             {isError && (
               <div className='flex items-center gap-1'>
                 <Star
