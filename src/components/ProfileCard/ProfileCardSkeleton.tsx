@@ -31,7 +31,7 @@ const ProfileCardSkeleton = ({ error }: ProfileCardSkeletonProps) => {
                   className='h-4 w-4 text-yellow-500'
                   fill='currentColor'
                 />
-                <span className='text-black'>'4.04'</span>
+                <span className='text-gray-500'>4.04</span>
               </div>
             )}
           </div>
