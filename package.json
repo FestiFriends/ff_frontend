@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.76.1",
-    "@testing-library/user-event": "^14.6.1",
     "axios": "^1.9.0",
     "badwords-ko": "^1.0.4",
     "class-variance-authority": "^0.7.1",
@@ -24,7 +23,6 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.3.0",
-    "tailwind-scrollbar-hide": "^2.0.0",
     "zustand": "^5.0.5"
   },
   "devDependencies": {

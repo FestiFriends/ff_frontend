@@ -119,4 +119,6 @@
   }
 }
 
-@config "../../tailwind.config.ts";
+@utility scrollbar-hide {
+  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}
