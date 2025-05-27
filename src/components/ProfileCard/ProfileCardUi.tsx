@@ -2,10 +2,12 @@
 
 import { Star } from 'lucide-react';
 import ProfileImage from '../ProfileImage/ProfileImage';
+import { Gender } from '@/types/enums';
 
 interface ProfileCardUiProps {
   profileImageUrl?: string;
   nickname: string;
+  gender: Gender;
   rating: number;
   description?: string;
   sns?: string;
@@ -17,6 +19,7 @@ interface ProfileCardUiProps {
 const ProfileCardUi = ({
   profileImageUrl,
   nickname,
+  gender,
   rating,
   description,
   sns,
@@ -31,7 +34,16 @@ const ProfileCardUi = ({
           <ProfileImage src={profileImageUrl} />
 
           <div className='flex items-end gap-3'>
-            <p className='text-lg font-bold text-black'>{nickname}</p>
+            <p className='flex items-center text-lg font-bold text-black'>
+              {nickname}
+              {gender === Gender.FEMALE && (
+                <span className='ml-1 text-sm text-pink-500'>♀</span>
+              )}
+              {gender === Gender.MALE && (
+                <span className='ml-1 text-sm text-blue-500'>♂</span>
+              )}
+            </p>
+
             <div className='flex items-center gap-1'>
               <Star
                 className='h-4 w-4 text-yellow-500'
