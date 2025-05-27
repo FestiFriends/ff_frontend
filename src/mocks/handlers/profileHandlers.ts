@@ -29,7 +29,7 @@ export const profileHandlers = [
         rating: 4.2,
         gender: 'MALE',
         description: ' ',
-        sns: 'https://instagram.com/beatboy',
+        sns: ' ',
         tags: ['서울 재즈 페스티벌', '시간 잘 지켜요', '조용한 편이에요'],
         isMyProfile: false,
       });

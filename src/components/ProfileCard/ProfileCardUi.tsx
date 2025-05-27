@@ -69,9 +69,16 @@ const ProfileCardUi = ({
           || '이 사용자는 아직 자기소개를 작성하지 않았어요.'}
       </div>
 
-      {sns && (
+      {sns?.trim() && (
         <div className='mt-1 text-sm text-gray-800'>
-          🔗 <a href={sns}>{sns}</a>
+          🔗{' '}
+          <a
+            href={sns}
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            {sns}
+          </a>
         </div>
       )}
 
