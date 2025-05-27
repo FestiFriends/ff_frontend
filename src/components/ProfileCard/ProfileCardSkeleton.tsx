@@ -23,9 +23,7 @@ const ProfileCardSkeleton = ({ error }: ProfileCardSkeletonProps) => {
               ) : (
                 <div className='h-7 w-50 animate-pulse rounded bg-gray-300' />
               )}
-              {isError && (
-                <span className='ml-1 text-sm text-gray-400'>'?'</span>
-              )}
+              {isError && <span className='ml-1 text-sm text-gray-400'>?</span>}
             </div>
             {isError && (
               <div className='flex items-center gap-1'>
