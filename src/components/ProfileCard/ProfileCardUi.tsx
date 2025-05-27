@@ -65,7 +65,8 @@ const ProfileCardUi = ({
       </div>
 
       <div className='mt-2 rounded bg-white p-3 text-sm text-black'>
-        {description}
+        {description?.trim()
+          || '이 사용자는 아직 자기소개를 작성하지 않았어요.'}
       </div>
 
       {sns && (

@@ -19,6 +19,7 @@ interface ProfileData {
 const ProfileCard = ({ userId }: { userId?: string }) => {
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
 
@@ -28,12 +29,18 @@ const ProfileCard = ({ userId }: { userId?: string }) => {
 
   useEffect(() => {
     fetch(`/api/profile/${userId}`)
-      .then((res) => res.json())
+      .then(async (res) => {
+        if (!res.ok) throw new Error('존재하지 않는 유저');
+        return res.json();
+      })
       .then((data) => {
         setProfile(data);
         setIsLoading(false);
       })
-      .catch(() => setIsLoading(false));
+      .catch(() => {
+        setError('존재하지 않는 유저입니다.');
+        setIsLoading(false);
+      });
   }, [userId]);
 
   if (isLoading) return <div>로딩 중...</div>;
