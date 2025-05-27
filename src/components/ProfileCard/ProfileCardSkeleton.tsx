@@ -18,7 +18,7 @@ const ProfileCardSkeleton = ({ error }: ProfileCardSkeletonProps) => {
               {isError ? (
                 '알 수 없음'
               ) : (
-                <div className='h-6 w-42 animate-pulse rounded bg-gray-300' />
+                <div className='h-7 w-50 animate-pulse rounded bg-gray-300' />
               )}
               {isError && (
                 <span className='ml-1 text-sm text-gray-400'>'?'</span>
@@ -52,8 +52,9 @@ const ProfileCardSkeleton = ({ error }: ProfileCardSkeletonProps) => {
           </span>
         ) : (
           <>
-            <div className='h-6 w-24 animate-pulse rounded-full bg-gray-300' />
-            <div className='h-6 w-24 animate-pulse rounded-full bg-gray-300' />
+            <div className='h-7 w-32 animate-pulse rounded-full bg-gray-300' />
+            <div className='h-7 w-24 animate-pulse rounded-full bg-gray-300' />
+            <div className='h-7 w-36 animate-pulse rounded-full bg-gray-300' />
           </>
         )}
       </div>
