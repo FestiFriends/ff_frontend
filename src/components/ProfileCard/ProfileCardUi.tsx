@@ -7,7 +7,7 @@ interface ProfileCardUiProps {
   profileImageUrl?: string;
   nickname: string;
   rating: number;
-  description: string;
+  description?: string;
   sns?: string;
   tags: string[];
   onEditClick?: () => void;
