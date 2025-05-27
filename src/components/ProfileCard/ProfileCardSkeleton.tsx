@@ -18,29 +18,21 @@ const ProfileCardSkeleton = ({ error }: ProfileCardSkeletonProps) => {
               {isError ? (
                 '알 수 없음'
               ) : (
-                <div className='h-5 w-24 rounded bg-gray-300' />
+                <div className='h-6 w-42 animate-pulse rounded bg-gray-300' />
               )}
-              <span className='ml-1 text-sm text-gray-400'>
-                {isError ? (
-                  '?'
-                ) : (
-                  <div className='h-4 w-4 rounded bg-gray-300' />
-                )}
-              </span>
+              {isError && (
+                <span className='ml-1 text-sm text-gray-400'>'?'</span>
+              )}
             </p>
-            <div className='flex items-center gap-1'>
-              <Star
-                className='h-4 w-4 text-yellow-500'
-                fill='currentColor'
-              />
-              <span className='text-black'>
-                {isError ? (
-                  '4.04'
-                ) : (
-                  <div className='h-4 w-10 rounded bg-gray-300' />
-                )}
-              </span>
-            </div>
+            {isError && (
+              <div className='flex items-center gap-1'>
+                <Star
+                  className='h-4 w-4 text-yellow-500'
+                  fill='currentColor'
+                />
+                <span className='text-black'>'4.04'</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -49,7 +41,7 @@ const ProfileCardSkeleton = ({ error }: ProfileCardSkeletonProps) => {
         {isError ? (
           <span className='text-red-500'>{error}</span>
         ) : (
-          <div className='h-12 rounded bg-gray-300' />
+          <div className='h-12 animate-pulse rounded bg-gray-200' />
         )}
       </div>
 
@@ -60,8 +52,8 @@ const ProfileCardSkeleton = ({ error }: ProfileCardSkeletonProps) => {
           </span>
         ) : (
           <>
-            <div className='h-6 w-20 rounded-full bg-gray-300' />
-            <div className='h-6 w-16 rounded-full bg-gray-300' />
+            <div className='h-6 w-24 animate-pulse rounded-full bg-gray-300' />
+            <div className='h-6 w-24 animate-pulse rounded-full bg-gray-300' />
           </>
         )}
       </div>

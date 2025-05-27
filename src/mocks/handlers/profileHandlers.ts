@@ -53,6 +53,10 @@ export const profileHandlers = [
       });
     }
 
+    if (userId === 'loading') {
+      return new Promise(() => {}) as never;
+    }
+
     return HttpResponse.json(
       { message: '존재하지 않는 유저입니다.' },
       { status: 404 }
