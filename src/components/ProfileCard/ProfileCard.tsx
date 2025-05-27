@@ -1,17 +1,36 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import ProfileCardUi from './ProfileCardUi';
 
-const ProfileCard = () => {
-  const mockProfile = {
-    profileImageUrl: '',
-    nickname: '락서니',
-    rating: 4.9,
-    description: '공연과 여행을 사랑하는 자유로운 영혼, 락서니입니다 🎸🌍',
-    sns: 'https://instagram.com/roxani.rocks',
-    tags: ['시간 잘 지켜요', '배려심 있어요', '대화를 잘 이끌어요'],
-    isMyProfile: true,
-  };
+interface ProfileData {
+  profileImageUrl?: string;
+  nickname: string;
+  rating: number;
+  description?: string;
+  sns?: string;
+  tags: string[];
+  isMyProfile?: boolean;
+}
 
-  return <ProfileCardUi {...mockProfile} />;
+const ProfileCard = ({ userId = 'me' }: { userId?: string }) => {
+  const [profile, setProfile] = useState<ProfileData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`/api/profile/${userId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setProfile(data);
+        setIsLoading(false);
+      })
+      .catch(() => setIsLoading(false));
+  }, [userId]);
+
+  if (isLoading) return <div>로딩 중...</div>;
+  if (!profile) return <div>프로필 정보를 불러오지 못했습니다.</div>;
+
+  return <ProfileCardUi {...profile} />;
 };
 
 export default ProfileCard;
