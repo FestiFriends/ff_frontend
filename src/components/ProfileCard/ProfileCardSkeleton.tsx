@@ -11,7 +11,7 @@ const ProfileCardSkeleton = ({ error }: ProfileCardSkeletonProps) => {
     <div className='w-full max-w-md rounded-lg bg-gray-200 p-4'>
       <div className='flex items-start justify-between'>
         <div className='flex items-center gap-4'>
-          <div className='h-16 w-16 rounded-full bg-gray-300' />
+          <div className='h-16 w-16 animate-pulse rounded-full bg-gray-300' />
 
           <div className='flex items-end gap-3'>
             <div className='flex items-center text-lg font-bold text-gray-500'>
