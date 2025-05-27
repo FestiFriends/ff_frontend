@@ -28,7 +28,7 @@ export const profileHandlers = [
         nickname: '비트보이',
         rating: 4.2,
         gender: 'MALE',
-        description: '락보다 힙합을 사랑하는 서울남자 🎧',
+        description: ' ',
         sns: 'https://instagram.com/beatboy',
         tags: ['서울 재즈 페스티벌', '시간 잘 지켜요', '조용한 편이에요'],
         isMyProfile: false,
@@ -41,7 +41,8 @@ export const profileHandlers = [
         nickname: '페스타걸',
         rating: 4.7,
         gender: 'FEMALE',
-        description: '매년 페스티벌 전국투어 중인 진짜 마니아 🤘',
+        description:
+          '매년 페스티벌 전국투어 중인 진짜 마니아 🤘 매년 페스티벌 전국투어 중인 진짜 마니아 🤘 매년 페스티벌 전국투어 중인 진짜 마니아 🤘 매년 페스티벌 전국투어 중인 진짜 마니아 🤘 ',
         sns: 'https://instagram.com/festagirl',
         tags: [
           '부산 록 페스티벌',
@@ -52,15 +53,9 @@ export const profileHandlers = [
       });
     }
 
-    return HttpResponse.json({
-      profileImageUrl: '',
-      nickname: `유저 ${userId}`,
-      rating: 0,
-      gender: 'ALL',
-      description: '알 수 없는 유저입니다.',
-      sns: '',
-      tags: [],
-      isMyProfile: false,
-    });
+    return HttpResponse.json(
+      { message: '존재하지 않는 유저입니다.' },
+      { status: 404 }
+    );
   }),
 ];
