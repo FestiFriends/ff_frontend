@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import ProfileCardUi from './ProfileCardUi';
 import { Gender } from '@/types/enums';
+import { useRouter } from 'next/navigation';
 
 interface ProfileData {
   profileImageUrl?: string;
@@ -15,9 +16,15 @@ interface ProfileData {
   isMyProfile?: boolean;
 }
 
-const ProfileCard = ({ userId = 'me' }: { userId?: string }) => {
+const ProfileCard = ({ userId }: { userId?: string }) => {
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const router = useRouter();
+
+  const handleEdit = () => {
+    router.push('/profile/me');
+  };
 
   useEffect(() => {
     fetch(`/api/profile/${userId}`)
@@ -32,7 +39,12 @@ const ProfileCard = ({ userId = 'me' }: { userId?: string }) => {
   if (isLoading) return <div>로딩 중...</div>;
   if (!profile) return <div>프로필 정보를 불러오지 못했습니다.</div>;
 
-  return <ProfileCardUi {...profile} />;
+  return (
+    <ProfileCardUi
+      {...profile}
+      onEditClick={handleEdit}
+    />
+  );
 };
 
 export default ProfileCard;
