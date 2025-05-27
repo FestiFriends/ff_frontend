@@ -31,7 +31,10 @@ const ProfileCardUi = ({
     <div className='w-full max-w-md rounded-lg bg-gray-200 p-4'>
       <div className='flex items-start justify-between'>
         <div className='flex items-center gap-4'>
-          <ProfileImage src={profileImageUrl} />
+          <ProfileImage
+            src={profileImageUrl}
+            size='lg'
+          />
 
           <div className='flex items-end gap-3'>
             <p className='flex items-center text-lg font-bold text-black'>
