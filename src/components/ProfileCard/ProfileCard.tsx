@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import ProfileCardUi from './ProfileCardUi';
 import { Gender } from '@/types/enums';
 import { useRouter } from 'next/navigation';
+import ProfileCardSkeleton from './ProfileCardSkeleton';
 
 interface ProfileData {
   profileImageUrl?: string;
@@ -43,8 +44,11 @@ const ProfileCard = ({ userId }: { userId?: string }) => {
       });
   }, [userId]);
 
-  if (isLoading) return <div>로딩 중...</div>;
-  if (!profile) return <div>프로필 정보를 불러오지 못했습니다.</div>;
+  if (isLoading) return <ProfileCardSkeleton />;
+
+  if (error) return <ProfileCardSkeleton error={error} />;
+
+  if (!profile) return null;
 
   return (
     <ProfileCardUi
