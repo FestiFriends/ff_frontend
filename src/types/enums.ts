@@ -1,5 +1,3 @@
-// constants/group.ts
-
 export const GroupCategory = {
   COMPANION: 'COMPANION',
   RIDE_SHARE: 'RIDE_SHARE',
