@@ -3,6 +3,7 @@ import {
   MultiLevelData,
 } from '@/hooks/useMultiLevelFilter/useMultiLevelFilter';
 import FilterUi from '@/components/Filter/FilterUi';
+import { useCallback } from 'react';
 
 interface FilterProps {
   data: MultiLevelData[];
@@ -13,6 +14,16 @@ interface FilterProps {
 const Filter = ({ data, levelPlaceholders, onChange }: FilterProps) => {
   const { selectedValues, optionsByLevel, setValueAtLevel } =
     useMultiLevelFilter(data);
+
+  const levelHandleChange = useCallback(
+    (level: number) => (val: string) => {
+      setValueAtLevel(level, val);
+
+      const updated = [...selectedValues.slice(0, level), val];
+      onChange?.(updated);
+    },
+    [onChange, setValueAtLevel]
+  );
 
   return (
     <div className='space-y-4'>
@@ -32,10 +43,7 @@ const Filter = ({ data, levelPlaceholders, onChange }: FilterProps) => {
               label: opt.label,
               value: opt.value,
             }))}
-            onChange={(val) => {
-              setValueAtLevel(i, val);
-              onChange?.([...selectedValues.slice(0, i), val]);
-            }}
+            onChange={levelHandleChange(i)}
           />
         );
       })}

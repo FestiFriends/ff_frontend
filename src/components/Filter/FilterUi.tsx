@@ -28,6 +28,10 @@ const FilterUi = ({
   placeholder = '선택',
   className,
 }: FilterProps) => {
+  const handleClick = (value: string) => () => {
+    onChange?.(value);
+  };
+
   return (
     <div className={cn('inline-block', className)}>
       <Dropdown>
@@ -41,7 +45,7 @@ const FilterUi = ({
             <DropdownItem
               key={option.value}
               label={option.label}
-              onClick={() => onChange?.(option.value)}
+              onClick={handleClick(option.value)}
             >
               {option.label}
             </DropdownItem>
