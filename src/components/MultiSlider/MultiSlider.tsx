@@ -11,6 +11,7 @@ interface MultiSliderProps {
   defaultValue?: [number, number];
   value?: [number, number];
   onChange?: (value: [number, number]) => void;
+  valuePosition?: 'top' | 'bottom' | 'none';
   marks?: Record<number, string>;
 }
 
@@ -21,12 +22,13 @@ const inputRangeClasses = `pointer-events-none absolute z-2 h-3 w-full appearanc
 const MultiSlider = ({
   min = 0,
   max = 100,
-  step = 1,
+  step,
   disabled,
   defaultValue = [min, max],
   value,
   onChange,
   marks,
+  valuePosition = 'top',
 }: MultiSliderProps) => {
   const isControlled = value !== undefined;
   const [internalValue, setInternalValue] =
@@ -67,6 +69,18 @@ const MultiSlider = ({
 
     // disabled style
     disabled && 'border-gray-400'
+  );
+
+  const thumbValueClasses = cn(
+    // default style
+    'absolute left-1/2 -translate-x-1/2 text-xs text-gray-600',
+
+    // valuePosition style
+    {
+      '-top-full -translate-y-0.5': valuePosition === 'top',
+      'top-full translate-y-0.5': valuePosition === 'bottom',
+      hidden: valuePosition === 'none',
+    }
   );
 
   return (
@@ -119,9 +133,7 @@ const MultiSlider = ({
             left: `calc(${getPercent(currentValue[0])}% + ${thumbOffsetLeft}px)`,
           }}
         >
-          <span className='absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-sm text-gray-600'>
-            {currentValue[0]}
-          </span>
+          <span className={thumbValueClasses}>{currentValue[0]}</span>
         </span>
         <span
           id='thumb-right'
@@ -132,9 +144,7 @@ const MultiSlider = ({
             left: `calc(${getPercent(currentValue[1])}% + ${thumbOffsetRight}px)`,
           }}
         >
-          <span className='absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-1/2 text-sm text-gray-600'>
-            {currentValue[1]}
-          </span>
+          <span className={thumbValueClasses}>{currentValue[1]}</span>
         </span>
       </div>
     </div>
