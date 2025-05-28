@@ -1,8 +1,6 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import Button from '../button/Button';
-import { ChevronDown } from 'lucide-react';
 import {
   Dropdown,
   DropdownTrigger,
@@ -35,16 +33,7 @@ const Filter = ({
   return (
     <div className={cn('inline-block', className)}>
       <Dropdown>
-        <DropdownTrigger>
-          <Button
-            variant='outlined'
-            size='sm'
-            className='flex w-36 items-center justify-between'
-          >
-            {value || placeholder}
-            <ChevronDown size={16} />
-          </Button>
-        </DropdownTrigger>
+        <DropdownTrigger placeholder={placeholder}></DropdownTrigger>
 
         <DropdownContent>
           {options.map((option) => (
