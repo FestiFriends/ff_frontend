@@ -172,7 +172,7 @@ describe('Popover 컴포넌트 테스트', () => {
     expect(content).toBeInTheDocument();
   });
 
-  test('<ModalTrigger> chilren에 ReactElement가 들어오면 <button>으로 감싸지지 않아야 하며, 클릭시 모달이 열려야 한다.', async () => {
+  test('<PopoverTrigger> chilren에 ReactElement가 들어오면 <button>으로 감싸지지 않아야 하며, 클릭시 모달이 열려야 한다.', async () => {
     const mockFn = jest.fn();
     render(
       <Popover>
