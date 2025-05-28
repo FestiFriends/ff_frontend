@@ -92,7 +92,7 @@ describe('useImageUploader(type:single) 테스트', () => {
     });
 
     act(() => {
-      result.current.remove(0);
+      result.current.remove();
     });
 
     expect(result.current.images).toStrictEqual(undefined);
