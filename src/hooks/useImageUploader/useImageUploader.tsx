@@ -34,7 +34,27 @@ const loadFile = async (url: string) => {
   }
 };
 
-export const useImageUploader = <T extends 'multi' | 'single'>(type: T) => {
+interface useMultiImageUploaderReturn {
+  images: UploadedImage[];
+  upload: (files: File | File[] | FileList | null) => void;
+  remove: (index: number) => void;
+  reset: () => void;
+  defaultUrlUpload: (urls: string[] | string) => Promise<void>;
+}
+
+interface useSingleImageUploaderReturn {
+  images: UploadedImage | undefined;
+  upload: (files: File | File[] | FileList | null) => void;
+  remove: () => void;
+  reset: () => void;
+  defaultUrlUpload: (urls: string[] | string) => Promise<void>;
+}
+
+export function useImageUploader(type: 'multi'): useMultiImageUploaderReturn;
+
+export function useImageUploader(type: 'single'): useSingleImageUploaderReturn;
+
+export function useImageUploader(type: 'multi' | 'single') {
   const [images, setImages] = useState<UploadedImage[]>([]);
 
   const defaultUrlUpload = useCallback(
@@ -83,16 +103,13 @@ export const useImageUploader = <T extends 'multi' | 'single'>(type: T) => {
     [type]
   );
 
-  const remove = useCallback(
-    (index: number) => {
-      if (type === 'multi') {
-        setImages((prev) => prev.filter((_, i) => i !== index));
-      } else {
-        setImages([]);
-      }
-    },
-    [type]
-  );
+  const removeMulti = useCallback((index: number) => {
+    setImages((prev) => prev.filter((_, i) => i !== index));
+  }, []);
+
+  const removeSingle = useCallback(() => {
+    setImages([]);
+  }, []);
 
   const reset = useCallback(() => {
     setImages([]);
@@ -100,12 +117,10 @@ export const useImageUploader = <T extends 'multi' | 'single'>(type: T) => {
 
   return {
     images:
-      type === 'multi'
-        ? (images as T extends 'multi' ? UploadedImage[] : never)
-        : (images[0] as T extends 'single' ? UploadedImage | undefined : never),
+      type === 'multi' ? images : (images[0] as UploadedImage | undefined),
     upload,
-    remove,
+    remove: type === 'multi' ? removeMulti : removeSingle,
     reset,
     defaultUrlUpload,
   };
-};
+}
