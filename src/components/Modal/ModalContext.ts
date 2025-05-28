@@ -2,7 +2,7 @@
 
 import { createContext, useContext } from 'react';
 
-interface IModalContext {
+interface ModalContext {
   open: boolean;
   disableBackdropClose?: boolean;
   openModal: () => void;
@@ -10,7 +10,7 @@ interface IModalContext {
   onClose?: () => void;
 }
 
-export const ModalContext = createContext<IModalContext | null>(null);
+export const ModalContext = createContext<ModalContext | null>(null);
 
 export const useModalContext = () => {
   const ctx = useContext(ModalContext);
