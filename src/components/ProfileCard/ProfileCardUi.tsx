@@ -3,17 +3,10 @@
 import { Star } from 'lucide-react';
 import ProfileImage from '../ProfileImage/ProfileImage';
 import { Gender } from '@/types/enums';
+import { ProfileData } from '@/types/profile';
 
-interface ProfileCardUiProps {
-  profileImageUrl?: string;
-  nickname: string;
-  gender: Gender;
-  rating: number;
-  description?: string;
-  sns?: string;
-  tags: string[];
+interface ProfileCardUiProps extends ProfileData {
   onEditClick?: () => void;
-  isMyProfile?: boolean;
 }
 
 const ProfileCardUi = ({

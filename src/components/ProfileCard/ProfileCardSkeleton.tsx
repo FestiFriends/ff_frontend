@@ -11,8 +11,11 @@ const ProfileCardSkeleton = ({ error }: ProfileCardSkeletonProps) => {
     <div className='w-full max-w-md rounded-lg bg-gray-200 p-4'>
       <div className='flex items-start justify-between'>
         <div className='flex items-center gap-4'>
-          <div className='h-16 w-16 rounded-full bg-gray-300' />
-
+          {isError ? (
+            <div className='h-16 w-16 rounded-full bg-gray-300' />
+          ) : (
+            <div className='h-16 w-16 animate-pulse rounded-full bg-gray-300' />
+          )}
           <div className='flex items-end gap-3'>
             <div className='flex items-center text-lg font-bold text-gray-500'>
               {isError ? (
@@ -20,9 +23,7 @@ const ProfileCardSkeleton = ({ error }: ProfileCardSkeletonProps) => {
               ) : (
                 <div className='h-7 w-50 animate-pulse rounded bg-gray-300' />
               )}
-              {isError && (
-                <span className='ml-1 text-sm text-gray-400'>'?'</span>
-              )}
+              {isError && <span className='ml-1 text-sm text-gray-400'>?</span>}
             </div>
             {isError && (
               <div className='flex items-center gap-1'>
@@ -30,7 +31,7 @@ const ProfileCardSkeleton = ({ error }: ProfileCardSkeletonProps) => {
                   className='h-4 w-4 text-yellow-500'
                   fill='currentColor'
                 />
-                <span className='text-black'>'4.04'</span>
+                <span className='text-gray-500'>4.04</span>
               </div>
             )}
           </div>
@@ -41,7 +42,7 @@ const ProfileCardSkeleton = ({ error }: ProfileCardSkeletonProps) => {
         {isError ? (
           <span className='text-red-500'>{error}</span>
         ) : (
-          <div className='h-12 animate-pulse rounded bg-gray-200' />
+          <div className='h-7 animate-pulse rounded bg-gray-200' />
         )}
       </div>
 
