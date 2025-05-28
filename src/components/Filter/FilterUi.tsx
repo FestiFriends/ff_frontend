@@ -31,7 +31,10 @@ const FilterUi = ({
   return (
     <div className={cn('inline-block', className)}>
       <Dropdown>
-        <DropdownTrigger placeholder={value || placeholder}></DropdownTrigger>
+        <DropdownTrigger
+          value={value}
+          placeholder={placeholder}
+        ></DropdownTrigger>
 
         <DropdownContent>
           {options.map((option) => (
