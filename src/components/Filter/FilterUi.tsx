@@ -9,7 +9,6 @@ import {
 } from '@/components/Dropdown';
 
 interface FilterProps {
-  name: string;
   options: filterOption[];
   value?: string;
   onChange?: (value: string) => void;
@@ -23,7 +22,6 @@ interface filterOption {
 }
 
 const FilterUi = ({
-  name,
   options,
   value,
   onChange,
