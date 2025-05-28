@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ButtonGroup, ButtonGroupItem } from './ButtonGroup';
+import MESSAGE from './ButtonGroupMessage';
 
 const TestButtonGroup = ({
   mode = 'single',
@@ -295,14 +296,14 @@ describe('ButtonGroup', () => {
   });
 
   describe('에러 처리', () => {
-    it('ButtonGroup 없이 ButtonGroupItem 사용 시 에러가 발생한다', () => {
+    it(MESSAGE.NOT_IN_BUTTON_GROUP, () => {
       const consoleSpy = jest
         .spyOn(console, 'error')
         .mockImplementation(() => {});
 
       expect(() => {
         render(<ButtonGroupItem value='test'>Test</ButtonGroupItem>);
-      }).toThrow('ButtonGroupItem must be used within a ButtonGroup');
+      }).toThrow(MESSAGE.NOT_IN_BUTTON_GROUP);
 
       consoleSpy.mockRestore();
     });
