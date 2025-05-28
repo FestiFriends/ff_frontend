@@ -7,12 +7,14 @@ import { useDropdownContext } from './DropdownContext';
 interface DropdownItemProps {
   label: string;
   className?: string;
+  onClick?: () => void;
 }
 
 const DropdownItem = ({
   label,
   className,
   children,
+  onClick,
 }: PropsWithChildren<DropdownItemProps>) => {
   const { isOpen, selectedItem, setSelectedItem, closeDropdown } =
     useDropdownContext();
@@ -21,6 +23,7 @@ const DropdownItem = ({
   const handleClick = () => {
     setSelectedItem(label);
     closeDropdown();
+    onClick?.();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -28,6 +31,7 @@ const DropdownItem = ({
       e.preventDefault();
       setSelectedItem(label);
       closeDropdown();
+      onClick?.();
     }
   };
 

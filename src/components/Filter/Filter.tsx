@@ -2,6 +2,13 @@
 
 import { cn } from '@/lib/utils';
 import Button from '../button/Button';
+import { ChevronDown } from 'lucide-react';
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownContent,
+  DropdownItem,
+} from '@/components/Dropdown';
 
 interface FilterProps {
   name: string;
@@ -27,7 +34,30 @@ const Filter = ({
 }: FilterProps) => {
   return (
     <div className={cn('inline-block', className)}>
-      <Button>{value || placeholder}</Button>
+      <Dropdown>
+        <DropdownTrigger>
+          <Button
+            variant='outlined'
+            size='sm'
+            className='flex w-36 items-center justify-between'
+          >
+            {value || placeholder}
+            <ChevronDown size={16} />
+          </Button>
+        </DropdownTrigger>
+
+        <DropdownContent>
+          {options.map((option) => (
+            <DropdownItem
+              key={option.value}
+              label={option.label}
+              onClick={() => onChange?.(option.value)}
+            >
+              {option.label}
+            </DropdownItem>
+          ))}
+        </DropdownContent>
+      </Dropdown>
     </div>
   );
 };
