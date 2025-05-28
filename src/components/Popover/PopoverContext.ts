@@ -2,14 +2,14 @@
 
 import { createContext, useContext } from 'react';
 
-interface IPopoverContext {
+interface PopoverContext {
   open: boolean;
   direction: 'top' | 'right' | 'bottom' | 'left';
   openPopover: () => void;
   closePopover: () => void;
 }
 
-export const PopoverContext = createContext<IPopoverContext | null>(null);
+export const PopoverContext = createContext<PopoverContext | null>(null);
 
 export const usePopoverContext = () => {
   const ctx = useContext(PopoverContext);
