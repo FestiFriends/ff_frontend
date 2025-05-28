@@ -22,7 +22,7 @@ interface filterOption {
   value: string;
 }
 
-const Filter = ({
+const FilterUi = ({
   name,
   options,
   value,
@@ -33,7 +33,7 @@ const Filter = ({
   return (
     <div className={cn('inline-block', className)}>
       <Dropdown>
-        <DropdownTrigger placeholder={placeholder}></DropdownTrigger>
+        <DropdownTrigger placeholder={value || placeholder}></DropdownTrigger>
 
         <DropdownContent>
           {options.map((option) => (
@@ -51,4 +51,4 @@ const Filter = ({
   );
 };
 
-export default Filter;
+export default FilterUi;
