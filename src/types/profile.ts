@@ -7,6 +7,6 @@ export interface ProfileData {
   rating: number;
   description?: string;
   sns?: string;
-  tags: string[];
+  tags?: string[];
   isMyProfile?: boolean;
 }
