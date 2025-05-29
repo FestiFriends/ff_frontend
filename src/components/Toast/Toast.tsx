@@ -5,6 +5,7 @@ export interface ToastProps {
   message: string;
   type?: 'default' | 'success' | 'warning' | 'error' | 'info';
   onClose: () => void;
+  className?: string;
 }
 
 const typeStyles: Record<NonNullable<ToastProps['type']>, string> = {
@@ -18,7 +19,12 @@ const typeStyles: Record<NonNullable<ToastProps['type']>, string> = {
 const animationClass = (visible: boolean) =>
   visible ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0';
 
-const Toast = ({ message, type = 'default', onClose }: ToastProps) => {
+const Toast = ({
+  message,
+  type = 'default',
+  onClose,
+  className = 'top-4 left-1/2 -translate-x-1/2',
+}: ToastProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -39,9 +45,10 @@ const Toast = ({ message, type = 'default', onClose }: ToastProps) => {
         aria-live='assertive'
         role='alert'
         className={cn(
-          'fixed top-4 left-1/2 z-50 -translate-x-1/2 rounded px-4 py-2 text-white shadow-md transition-all duration-500 ease-in-out',
+          'fixed z-50 rounded px-4 py-2 text-white shadow-md transition-all duration-500 ease-in-out',
           typeStyles[type],
-          animationClass(isVisible)
+          animationClass(isVisible),
+          className
         )}
       >
         {message}
