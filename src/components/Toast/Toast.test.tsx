@@ -84,4 +84,18 @@ describe('Toast 컴포넌트', () => {
 
     expect(toast.className).toMatch(/opacity-0/);
   });
+
+  test('className props가 정상적으로 적용된다', () => {
+    const customClass = 'top-10 right-10';
+    render(
+      <Toast
+        message='위치 조정 메시지'
+        onClose={jest.fn()}
+        className={customClass}
+      />
+    );
+
+    const toast = screen.getByText('위치 조정 메시지');
+    expect(toast.className).toContain('top-10 right-10');
+  });
 });
