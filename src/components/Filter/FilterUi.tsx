@@ -28,6 +28,9 @@ const FilterUi = ({
   placeholder = '선택',
   className,
 }: FilterProps) => {
+  const selectedOption = options.find((opt) => opt.value === value);
+  const displayLabel = selectedOption?.label;
+
   const handleClick = (value: string) => () => {
     onChange?.(value);
   };
@@ -36,7 +39,7 @@ const FilterUi = ({
     <div className={cn('inline-block', className)}>
       <Dropdown>
         <DropdownTrigger
-          value={value}
+          value={displayLabel}
           placeholder={placeholder}
         ></DropdownTrigger>
 
