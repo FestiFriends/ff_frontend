@@ -73,12 +73,12 @@ const MultiSlider = ({
 
   const thumbValueClasses = cn(
     // default style
-    'absolute left-1/2 -translate-x-1/2 text-xs text-gray-600',
+    'absolute left-1/2 -translate-x-1/2 rounded-sm bg-white px-1 py-0.5 text-xs text-gray-600 shadow-sm',
 
     // valuePosition style
     {
-      '-top-full -translate-y-0.5': valuePosition === 'top',
-      'top-full translate-y-0.5': valuePosition === 'bottom',
+      '-top-full -translate-y-1/2': valuePosition === 'top',
+      '-bottom-full translate-y-1/2': valuePosition === 'bottom',
       hidden: valuePosition === 'none',
     }
   );
@@ -131,6 +131,7 @@ const MultiSlider = ({
             width: `${thumbSize}px`,
             height: `${thumbSize}px`,
             left: `calc(${getPercent(currentValue[0])}% + ${thumbOffsetLeft}px)`,
+            boxShadow: `0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px`,
           }}
         >
           <span className={thumbValueClasses}>{currentValue[0]}</span>
@@ -142,6 +143,7 @@ const MultiSlider = ({
             width: `${thumbSize}px`,
             height: `${thumbSize}px`,
             left: `calc(${getPercent(currentValue[1])}% + ${thumbOffsetRight}px)`,
+            boxShadow: `0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px`,
           }}
         >
           <span className={thumbValueClasses}>{currentValue[1]}</span>
