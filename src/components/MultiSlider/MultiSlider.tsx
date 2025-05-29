@@ -17,6 +17,7 @@ interface MultiSliderProps {
 
 const thumbSize = 20;
 
+// TODO: 디자인 시안 나오면 스타일 수정 필요
 const inputRangeClasses = `pointer-events-none absolute z-2 h-3 w-full appearance-none bg-transparent opacity-0 [&::-moz-range-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:pointer-events-auto [&::-moz-range-thumb]:h-[20px] [&::-webkit-slider-thumb]:h-[20px] [&::-moz-range-thumb]:w-[20px] [&::-webkit-slider-thumb]:w-[20px] [&::-moz-range-thumb]:cursor-pointer [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-moz-range-thumb]:rounded-none [&::-webkit-slider-thumb]:rounded-none [&::-moz-range-thumb]:border-0 [&::-webkit-slider-thumb]:border-0 [&::-moz-range-thumb]:bg-red-400 [&::-webkit-slider-thumb]:bg-red-400`;
 
 const MultiSlider = ({
@@ -52,11 +53,10 @@ const MultiSlider = ({
 
   const getPercent = (value: number) => ((value - min) / (max - min)) * 100;
 
-  const thumbOffsetLeft =
-    thumbSize / 2 - ((thumbSize / 2) * getPercent(currentValue[0])) / 50;
-  const thumbOffsetRight =
-    thumbSize / 2 - ((thumbSize / 2) * getPercent(currentValue[1])) / 50;
+  const getThumbOffset = (index: 0 | 1) =>
+    thumbSize / 2 - ((thumbSize / 2) * getPercent(currentValue[index])) / 50;
 
+  // TODO: 디자인 시안 나오면 스타일 수정 필요
   const rangeClasses = cn(
     // default style
     'absolute top-0 right-0 bottom-0 left-0 z-2 rounded-full bg-blue-400',
@@ -85,6 +85,7 @@ const MultiSlider = ({
     }
   );
 
+  // TODO: 디자인 시안 나오면 스타일 수정 필요
   return (
     <div className='relative'>
       <input
@@ -132,7 +133,7 @@ const MultiSlider = ({
           style={{
             width: `${thumbSize}px`,
             height: `${thumbSize}px`,
-            left: `calc(${getPercent(currentValue[0])}% + ${thumbOffsetLeft}px)`,
+            left: `calc(${getPercent(currentValue[0])}% + ${getThumbOffset(0)}px)`,
             boxShadow: `0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px`,
           }}
         >
@@ -144,13 +145,35 @@ const MultiSlider = ({
           style={{
             width: `${thumbSize}px`,
             height: `${thumbSize}px`,
-            left: `calc(${getPercent(currentValue[1])}% + ${thumbOffsetRight}px)`,
+            left: `calc(${getPercent(currentValue[1])}% + ${getThumbOffset(1)}px)`,
             boxShadow: `0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px`,
           }}
         >
           <span className={thumbValueClasses}>{currentValue[1]}</span>
         </span>
       </div>
+
+      {marks && (
+        <div className='relative'>
+          <div
+            className='absolute text-gray-600 select-none'
+            style={{ left: `${thumbSize / 2}px`, right: `${thumbSize / 2}px` }}
+          >
+            {Object.entries(marks).map(([key, label]) => {
+              return (
+                <span
+                  key={key}
+                  className='absolute inline-flex -translate-x-1/2 flex-col items-center text-center text-xs text-gray-600'
+                  style={{ left: `${getPercent(parseInt(key))}%` }}
+                >
+                  <span className='mb-0.5 h-0.75 w-px bg-gray-400' />
+                  <span className='whitespace-nowrap'>{label}</span>
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
