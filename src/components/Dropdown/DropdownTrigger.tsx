@@ -7,13 +7,15 @@ import { useDropdownContext } from './DropdownContext';
 interface DropdownTriggerProps {
   placeholder?: string;
   className?: string;
+  value?: string;
 }
 
 const DropdownTrigger = ({
   placeholder = '',
   className,
+  value,
 }: PropsWithChildren<DropdownTriggerProps>) => {
-  const { toggleDropdown, selectedItem } = useDropdownContext();
+  const { toggleDropdown } = useDropdownContext();
 
   // TODO: 디자인 시안 나오면 스타일 수정 필요
   const dropdownTriggerClasses = cn(
@@ -35,7 +37,7 @@ const DropdownTrigger = ({
       onClick={toggleDropdown}
       className={dropdownTriggerClasses}
     >
-      {selectedItem || placeholder}
+      {value || placeholder}
     </button>
   );
 };
