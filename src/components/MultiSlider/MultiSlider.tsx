@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/lib/utils';
+import { cn, sortRangeValues } from '@/lib/utils';
 import { useState } from 'react';
 
 interface MultiSliderProps {
@@ -32,23 +32,24 @@ const MultiSlider = ({
   valuePosition = 'top',
 }: MultiSliderProps) => {
   const isControlled = value !== undefined;
-  const [internalValue, setInternalValue] =
-    useState<[number, number]>(defaultValue);
-  const currentValue = isControlled ? value : internalValue;
+  const [internalValue, setInternalValue] = useState<[number, number]>(
+    sortRangeValues(defaultValue)
+  );
+  const currentValue = isControlled ? sortRangeValues(value) : internalValue;
 
   const handleChange = (
     index: 0 | 1,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const value = parseInt(e.target.value);
+    const value = Number(e.target.value);
 
     const newValue: [number, number] =
-      index === 0
-        ? [value, value > currentValue[1] ? value : currentValue[1]]
-        : [value < currentValue[0] ? value : currentValue[0], value];
+      index === 0 ? [value, currentValue[1]] : [currentValue[0], value];
 
-    if (!isControlled) setInternalValue(newValue);
-    onChange?.(newValue);
+    const sorted = sortRangeValues(newValue);
+
+    if (!isControlled) setInternalValue(sorted);
+    onChange?.(sorted);
   };
 
   const getPercent = (value: number) => ((value - min) / (max - min)) * 100;
@@ -137,7 +138,14 @@ const MultiSlider = ({
             boxShadow: `0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px`,
           }}
         >
-          <span className={thumbValueClasses}>{currentValue[0]}</span>
+          {valuePosition !== 'none' && (
+            <span
+              aria-label='thumb-value'
+              className={thumbValueClasses}
+            >
+              {currentValue[0]}
+            </span>
+          )}
         </span>
         <span
           id='thumb-right'
@@ -149,7 +157,14 @@ const MultiSlider = ({
             boxShadow: `0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px`,
           }}
         >
-          <span className={thumbValueClasses}>{currentValue[1]}</span>
+          {valuePosition !== 'none' && (
+            <span
+              aria-label='thumb-value'
+              className={thumbValueClasses}
+            >
+              {currentValue[1]}
+            </span>
+          )}
         </span>
       </div>
 
@@ -164,7 +179,7 @@ const MultiSlider = ({
                 <span
                   key={key}
                   className='absolute inline-flex -translate-x-1/2 flex-col items-center text-center text-xs text-gray-600'
-                  style={{ left: `${getPercent(parseInt(key))}%` }}
+                  style={{ left: `${getPercent(Number(key))}%` }}
                 >
                   <span className='mb-0.5 h-0.75 w-px bg-gray-400' />
                   <span className='whitespace-nowrap'>{label}</span>
