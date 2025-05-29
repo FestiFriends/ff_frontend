@@ -104,3 +104,16 @@ UI/UX는 Tailwind 기반으로 구성되어 있으며, 디자인 시스템에 �
 > 참고: `FilterUi` 컴포넌트는 내부적으로 커스텀 `Dropdown` 컴포넌트를 사용하며,  
 > `DropdownTrigger`에 `value`, `placeholder` 프롭을 전달하고,  
 > 각 `DropdownItem`에 `label`, `onClick`을 연결해 동작합니다.
+
+---
+
+## 파일 구조
+
+```
+/components/Filter
+  ├── Filter.tsx
+  └── FilterUi.tsx
+
+/hooks/useMultiLevelFilter
+  └──useMultiLevelFilter.tsx
+```
