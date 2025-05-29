@@ -167,12 +167,18 @@ const eslintConfig = [
       ],
 
       // 사용하지 않는 변수 금지
-      'no-unused-vars': [
+
+      'no-unused-vars': 'off',
+
+      // 켜기: TS 전용 활성화
+      '@typescript-eslint/no-unused-vars': [
         'error',
         {
           argsIgnorePattern: '^_',
+          varsIgnorePattern: '^(T|K|V|U|E|Key|value)$',
         },
       ],
+
       // JSX에서 변수 사용 시 오류 방지
       'react/jsx-uses-vars': 'error',
 
@@ -189,7 +195,7 @@ const eslintConfig = [
       ],
 
       // 함수는 화살표, 선언 금지
-      'func-style': ['error', 'expression'],
+      'func-style': ['warn', 'expression'],
 
       // 컨벤션: 임포트 순서 정렬
       'import/order': [
