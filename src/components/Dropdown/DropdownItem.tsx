@@ -6,36 +6,41 @@ import { useDropdownContext } from './DropdownContext';
 
 interface DropdownItemProps {
   label: string;
+  value: string;
   className?: string;
+  onClick?: () => void;
 }
 
 const DropdownItem = ({
-  label,
+  value,
   className,
   children,
+  onClick,
 }: PropsWithChildren<DropdownItemProps>) => {
   const { isOpen, selectedItem, setSelectedItem, closeDropdown } =
     useDropdownContext();
   const itemRef = useRef<HTMLLIElement>(null);
 
   const handleClick = () => {
-    setSelectedItem(label);
+    setSelectedItem(value);
     closeDropdown();
+    onClick?.();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      setSelectedItem(label);
+      setSelectedItem(value);
       closeDropdown();
+      onClick?.();
     }
   };
 
   useEffect(() => {
-    if (isOpen && selectedItem === label) {
+    if (isOpen && selectedItem === value) {
       itemRef.current?.focus();
     }
-  }, [isOpen, selectedItem, label]);
+  }, [isOpen, selectedItem, value]);
 
   // TODO: 디자인 시안 나오면 스타일 수정 필요
   const dropdownItemClasses = cn(
