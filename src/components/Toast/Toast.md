@@ -17,6 +17,7 @@ const [showToast, setShowToast] = useState(false);
       message='저장되었습니다!'
       type='success'
       onClose={() => setShowToast(false)}
+      className='right-10 top-10'
     />
   );
 }
@@ -24,11 +25,12 @@ const [showToast, setShowToast] = useState(false);
 
 ## ✨ Props
 
-| 이름      | 타입                                                       | 필수 | 설명                                                      |
-| --------- | ---------------------------------------------------------- | ---- | --------------------------------------------------------- |
-| `message` | `string`                                                   | ✅   | 표시할 메시지 텍스트                                      |
-| `type`    | `'default' \| 'success' \| 'warning' \| 'error' \| 'info'` | ❌   | 메시지 타입. 기본값 `'default'`                           |
-| `onClose` | `() => void`                                               | ✅   | Toast가 닫힐 때 실행되는 콜백 함수 (보통 상태 업데이트용) |
+| 이름        | 타입                                                       | 필수 | 설명                                                             |
+| ----------- | ---------------------------------------------------------- | ---- | ---------------------------------------------------------------- |
+| `message`   | `string`                                                   | ✅   | 표시할 메시지 텍스트                                             |
+| `type`      | `'default' \| 'success' \| 'warning' \| 'error' \| 'info'` | ❌   | 메시지 타입. 기본값 `'default'`                                  |
+| `onClose`   | `() => void`                                               | ✅   | Toast가 닫힐 때 실행되는 콜백 함수 (보통 상태 업데이트용)        |
+| `className` | `string`                                                   | ❌   | Toast의 위치 또는 커스텀 스타일을 지정하기 위한 추가 클래스 이름 |
 
 ## 🎨 스타일 가이드 (Tailwind CSS 기준)
 
@@ -44,7 +46,7 @@ const [showToast, setShowToast] = useState(false);
 
   info: bg-blue-500
 
-- top-4 left-1/2 -translate-x-1/2 위치 고정
+- className props 미할당 시 위치 기본값: top-4 left-1/2 -translate-x-1/2
 
 - transition-all duration-500 ease-in-out 애니메이션
 
@@ -58,12 +60,13 @@ const [showToast, setShowToast] = useState(false);
 | ------------------------------------- | ---------------------------------------------------------------------- |
 | 메시지 렌더링 테스트                  | `message`로 전달된 문자열이 화면에 렌더링되는지 확인                   |
 | type 미지정 시 기본 스타일 테스트     | `type` props가 없을 때 `bg-gray-800` 클래스가 적용되는지 확인          |
-| 타입별 스타일 적용 테스트             | `type='error'` 등 지정 시 해당 타입의 배경 색 클래스가 적용되는지 확인 |
+| 타입별 스타일 적용 테스트             | `type="error"` 등 지정 시 해당 타입의 배경 색 클래스가 적용되는지 확인 |
 | 초기 상태 애니메이션 클래스 테스트    | 렌더링 직후 `opacity-100`, `translate-y-0` 클래스가 포함되는지 확인    |
 | onClose 콜백 호출 테스트 (3초 후)     | 3초가 지난 후 `onClose`가 정확히 1회 호출되는지 확인                   |
 | onClose 콜백 미호출 테스트 (3초 이전) | 3초가 되기 전까지는 `onClose`가 호출되지 않는지 확인                   |
 | 애니메이션 종료 상태 클래스 테스트    | 2.5초 후 `opacity-0`, `-translate-y-4` 클래스가 포함되는지 확인        |
 | 접근성 role 테스트 (`role="alert"`)   | 컴포넌트에 `role="alert"` 속성이 적용되어 있는지 확인                  |
+| className props 테스트                | 전달된 `className`이 실제 DOM 클래스에 포함되는지 확인                 |
 
 ## 🧠 Todo
 
