@@ -1,19 +1,9 @@
 {
   "compilerOptions": {
-    "types": [
-      "jest",
-      "node"
-    ],
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/types"
-    ],
+    "types": ["jest", "node"],
+    "typeRoots": ["./node_modules/@types", "./src/types"],
     "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -31,9 +21,7 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
   "include": [
@@ -43,15 +31,13 @@
     ".next/types/**/*.ts, **.",
     "next-env.d.ts",
     "src",
+    "src/types",
     "tests",
-    ".next/types/**/*.ts"
-, "src/mocks"  ],
-  "exclude": [
-    "node_modules"
+    ".next/types/**/*.ts",
+    "src/mocks"
   ],
+  "exclude": ["node_modules"],
   "typeAcquisition": {
-    "include": [
-      "jest"
-    ]
+    "include": ["jest"]
   }
 }
