@@ -12,7 +12,6 @@ interface DropdownItemProps {
 }
 
 const DropdownItem = ({
-  label,
   value,
   className,
   children,
@@ -31,7 +30,7 @@ const DropdownItem = ({
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      setSelectedItem(label);
+      setSelectedItem(value);
       closeDropdown();
       onClick?.();
     }
