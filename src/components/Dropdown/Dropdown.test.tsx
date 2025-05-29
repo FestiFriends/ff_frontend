@@ -19,12 +19,14 @@ const renderDropdown = () => {
           />
           <DropdownContent>
             <DropdownItem
+              value='option 1'
               label='옵션 레이블 1'
               onClick={() => setSelected('옵션 레이블 1')}
             >
               옵션 1
             </DropdownItem>
             <DropdownItem
+              value='option 2'
               label='옵션 레이블 2'
               onClick={() => setSelected('옵션 레이블 2')}
             >

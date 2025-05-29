@@ -46,6 +46,7 @@ const FilterUi = ({
         <DropdownContent>
           {options.map((option) => (
             <DropdownItem
+              value={option.value}
               key={option.value}
               label={option.label}
               onClick={handleClick(option.value)}
