@@ -1,7 +1,6 @@
 import js from '@eslint/js';
-
 import prettier from 'eslint-plugin-prettier';
-import tseslint, { parser } from 'typescript-eslint';
+import tseslint from 'typescript-eslint';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
@@ -14,21 +13,25 @@ import jsxA11y from 'eslint-plugin-jsx-a11y';
 import nextjs from '@next/eslint-plugin-next';
 
 const eslintConfig = [
+  // 무시할 파일들
   {
-    // 무시할 파일
     ignores: ['dist', 'node_modules', '.next', 'out'],
+  },
 
-    // eslint 대상 파일
+  // JavaScript 기본 권장 설정
+  js.configs.recommended,
+
+  // TypeScript 권장 설정들
+  ...tseslint.configs.recommended,
+
+  // 메인 설정
+  {
     files: ['**/*.{js,jsx,ts,tsx}'],
 
-    // 언어 설정
     languageOptions: {
       parser: tseslint.parser,
-      // ecma는 최신 버전
       ecmaVersion: 'latest',
-      // 모듈(esm) 사용
       sourceType: 'module',
-      // 전역 설정
       globals: {
         ...globals.browser,
         ...globals.node,
@@ -43,7 +46,6 @@ const eslintConfig = [
         jest: 'readonly',
         test: 'readonly',
       },
-      // parser 옵션
       parserOptions: {
         ecmaFeatures: {
           jsx: true,
@@ -52,33 +54,25 @@ const eslintConfig = [
       },
     },
 
-    // 설정
     settings: {
       react: {
         version: 'detect',
       },
-
       'import/resolver': {
         node: {
           extensions: ['.js', '.jsx', '.ts', '.tsx', '.css'],
         },
         typescript: {},
       },
-
       filenames: {
-        // 컴포넌트 파일명은 PascalCase
         components: '^[A-Z][a-zA-Z0-9]*$',
-        // 일반 파일명은 camelCase
         utils: '^[a-z][a-zA-Z0-9]*$',
       },
-
       folders: {
-        // 폴더명은 kebab-case
         pattern: '^([a-z][a-z0-9]*)(-[a-z0-9]+)*$',
       },
     },
 
-    // 플러그인 이름 지정
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
@@ -90,24 +84,25 @@ const eslintConfig = [
       folders: foldersPlugin,
       '@stylistic/js': stylisticJs,
       '@next/next': nextjs,
+      '@typescript-eslint': tseslint.plugin,
     },
 
-    // 규칙칙
     rules: {
-      // js 권장 설정
-      ...js.configs.recommended.rules,
+      // React 기본 권장 규칙들
+      ...react.configs.recommended.rules,
 
-      // reactHooks 권장 설정
+      // React Hooks 권장 설정
       ...reactHooks.configs.recommended.rules,
 
-      //next.js 권장 설정
+      // JSX A11y 권장 설정
+      ...jsxA11y.configs.recommended.rules,
+
+      // Next.js 권장 설정
       ...nextjs.configs.recommended.rules,
       ...nextjs.configs['core-web-vitals'].rules,
 
       // var 금지
       'no-var': 'error',
-
-      // 상수는 SCREAMING_SNAKE_CASE
 
       // for...in 비권장, for...of 권장
       'no-restricted-syntax': [
@@ -141,7 +136,7 @@ const eslintConfig = [
       // React 17+ JSX Transform 사용
       'react/react-in-jsx-scope': 'off',
 
-      // Prettier 랑 겹치는 포매팅
+      // Prettier 설정
       'prettier/prettier': [
         'error',
         {
@@ -154,10 +149,10 @@ const eslintConfig = [
       // 화살표 함수: 중괄호 생략 가능
       'arrow-body-style': ['error', 'as-needed'],
 
-      // 콜백 선언은 화살표 함수: 언제나
+      // 콜백 선언은 화살표 함수
       'prefer-arrow-callback': 'error',
 
-      // ?
+      // React target blank 규칙 비활성화
       'react/jsx-no-target-blank': 'off',
 
       // React Fast Refresh
@@ -166,15 +161,15 @@ const eslintConfig = [
         { allowConstantExport: true },
       ],
 
-      // 사용하지 않는 변수 금지
-      'no-unused-vars': 'off',
+      // 기본 unused vars 규칙 비활성화 (TypeScript 전용 사용)
+      // 'no-unused-vars': 'off',
 
-      // 켜기: TS 전용 활성화
+      // TypeScript 전용 unused vars 규칙
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^(T|K|V|U|E|Key|value)$',
+          // argsIgnorePattern: '^_',
+          // varsIgnorePattern: '^(T|K|V|U|E|Key|value)$',
         },
       ],
 
@@ -184,58 +179,50 @@ const eslintConfig = [
       // 일치 비교 연산자(===) 강제
       eqeqeq: ['error', 'always'],
 
-      // 컴포넌트는 화살표 함수 또는 함수 표현식 사용, 함수 선언식 금지
+      // 컴포넌트는 화살표 함수 또는 함수 표현식 사용
       'react/function-component-definition': [
         'error',
         {
-          namedComponents: ['function-expression', `arrow-function`],
+          namedComponents: ['function-expression', 'arrow-function'],
           unnamedComponents: 'arrow-function',
         },
       ],
 
-      // 함수는 화살표, 선언 금지
+      // 함수는 표현식 형태 권장
       'func-style': ['warn', 'expression'],
 
-      // 컨벤션: 임포트 순서 정렬
+      // 임포트 순서 정렬
       'import/order': [
         'error',
         {
-          // 그룹 구분 사용
           distinctGroup: true,
-          // 임포트 그룹 사이 개행 없음
           'newlines-between': 'never',
           pathGroupsExcludedImportTypes: ['react'],
-          // 정렬 순서
           alphabetize: {
             order: 'asc',
             caseInsensitive: true,
           },
-          // 그룹 정의
           groups: [
-            'builtin', // Node.js 내장 모듈
-            'external', // npm 패키지
-            'internal', // 프로젝트 내부 모듈
-            'parent', // 상위 디렉토리
-            'sibling', // 같은 디렉토리
-            'index', // index 파일
-            'object', // require 호출
-            'type', // TypeScript type import
+            'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
+            'object',
+            'type',
           ],
           pathGroups: [
-            // external
             {
-              // react
               pattern: 'react',
               group: 'external',
               position: 'before',
             },
             {
-              // react-*
               pattern: '{react-*,react-*/**, react/*}',
               group: 'external',
               position: 'before',
             },
-            // internal
             {
               pattern: './routes/**',
               group: 'internal',
@@ -282,7 +269,6 @@ const eslintConfig = [
               position: 'after',
             },
           ],
-          // "consolidateIslands": 'inside-groups',
         },
       ],
     },
