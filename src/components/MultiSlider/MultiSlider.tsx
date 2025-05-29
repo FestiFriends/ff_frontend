@@ -42,7 +42,9 @@ const MultiSlider = ({
     const value = parseInt(e.target.value);
 
     const newValue: [number, number] =
-      index === 0 ? [value, currentValue[1]] : [currentValue[0], value];
+      index === 0
+        ? [value, value > currentValue[1] ? value : currentValue[1]]
+        : [value < currentValue[0] ? value : currentValue[0], value];
 
     if (!isControlled) setInternalValue(newValue);
     onChange?.(newValue);
