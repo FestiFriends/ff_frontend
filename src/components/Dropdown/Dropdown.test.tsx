@@ -1,23 +1,43 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, renderHook, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import Dropdown from './Dropdown';
 import DropdownContent from './DropdownContent';
 import DropdownItem from './DropdownItem';
 import DropdownTrigger from './DropdownTrigger';
+import { useState } from 'react';
+import { useDropdownContext } from './DropdownContext';
 
 const renderDropdown = () => {
-  render(
-    <div>
-      <Dropdown>
-        <DropdownTrigger placeholder='선택하세요' />
-        <DropdownContent>
-          <DropdownItem label='옵션 레이블 1'>옵션 1</DropdownItem>
-          <DropdownItem label='옵션 레이블 2'>옵션 2</DropdownItem>
-        </DropdownContent>
-      </Dropdown>
-      <div data-testid='outside'>외부</div>
-    </div>
-  );
+  const Wrapper = () => {
+    const [selected, setSelected] = useState('');
+    return (
+      <div>
+        <Dropdown>
+          <DropdownTrigger
+            placeholder='선택하세요'
+            value={selected}
+          />
+          <DropdownContent>
+            <DropdownItem
+              label='옵션 레이블 1'
+              onClick={() => setSelected('옵션 레이블 1')}
+            >
+              옵션 1
+            </DropdownItem>
+            <DropdownItem
+              label='옵션 레이블 2'
+              onClick={() => setSelected('옵션 레이블 2')}
+            >
+              옵션 2
+            </DropdownItem>
+          </DropdownContent>
+        </Dropdown>
+        <div data-testid='outside'>외부</div>
+      </div>
+    );
+  };
+
+  render(<Wrapper />);
 };
 
 const getTrigger = () => screen.getByRole('button');
@@ -118,6 +138,13 @@ describe('Dropdown 컴포넌트 테스트', () => {
 
       await user.keyboard('{Escape}');
       expect(screen.queryByText('옵션 2')).not.toBeInTheDocument();
+    });
+  });
+  describe('useDropdownContext 예외 테스트', () => {
+    test('DropdownContext.Provider 외부에서 호출 시 에러를 던진다', () => {
+      expect(() => {
+        renderHook(() => useDropdownContext());
+      }).toThrowError('Dropdown 컴포넌트 내부에서만 사용할 수 있습니다.');
     });
   });
 });
