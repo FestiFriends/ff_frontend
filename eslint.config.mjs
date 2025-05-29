@@ -13,18 +13,11 @@ import jsxA11y from 'eslint-plugin-jsx-a11y';
 import nextjs from '@next/eslint-plugin-next';
 
 const eslintConfig = [
-  // 무시할 파일들
-  {
-    ignores: ['dist', 'node_modules', '.next', 'out'],
-  },
+  { ignores: ['dist', 'node_modules', '.next', 'out'] },
 
-  // JavaScript 기본 권장 설정
-  js.configs.recommended,
+  js.configs.recommended, // JavaScript 기본 권장 설정
+  ...tseslint.configs.recommended, // TypeScript 권장 설정들
 
-  // TypeScript 권장 설정들
-  ...tseslint.configs.recommended,
-
-  // 메인 설정
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
 
@@ -46,12 +39,7 @@ const eslintConfig = [
         jest: 'readonly',
         test: 'readonly',
       },
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-          tsx: true,
-        },
-      },
+      parserOptions: { ecmaFeatures: { jsx: true, tsx: true } },
     },
 
     settings: {
@@ -88,22 +76,21 @@ const eslintConfig = [
     },
 
     rules: {
-      // React 기본 권장 규칙들
-      ...react.configs.recommended.rules,
-
-      // React Hooks 권장 설정
-      ...reactHooks.configs.recommended.rules,
-
-      // JSX A11y 권장 설정
-      ...jsxA11y.configs.recommended.rules,
-
-      // Next.js 권장 설정
-      ...nextjs.configs.recommended.rules,
+      ...react.configs.recommended.rules, // React 기본 권장 규칙들
+      ...reactHooks.configs.recommended.rules, // React Hooks 권장 설정
+      ...jsxA11y.configs.recommended.rules, // JSX A11y 권장 설정
+      ...nextjs.configs.recommended.rules, // Next.js 권장 설정
       ...nextjs.configs['core-web-vitals'].rules,
 
-      // var 금지
-      'no-var': 'error',
-
+      /************************ js ************************/
+      'no-var': 'error', // var 금지
+      'no-new-object': 'error', // 객체 생성자 사용 금지
+      'quote-props': ['error', 'as-needed'], // 유효하지 않은 객체 키는 따옴표 사용
+      'no-array-constructor': 'error', // new Array() 생성자 사용 금지
+      'arrow-body-style': ['error', 'as-needed'], // 화살표 함수는 중괄호 생략 가능
+      'prefer-arrow-callback': 'error', // 콜백 선언은 화살표 함수로만
+      eqeqeq: ['error', 'always'], // 일치 비교 연산자(===) 강제
+      'func-style': ['warn', 'expression'], // 함수는 표현식 형태 권장
       // for...in 비권장, for...of 권장
       'no-restricted-syntax': [
         'error',
@@ -114,15 +101,11 @@ const eslintConfig = [
         },
       ],
 
-      // 객체 생성자 사용 금지
-      'no-new-object': 'error',
-
-      // 유효하지 않은 객체 키는 따옴표 사용
-      'quote-props': ['error', 'as-needed'],
-
-      // new Array() 생성자 사용 금지
-      'no-array-constructor': 'error',
-
+      /******************* react & jsx *******************/
+      'react/prop-types': 'off', // react prop 검증 건너뛰기 => ts면 필요 없음
+      'react/react-in-jsx-scope': 'off', // React 17+ JSX Transform 사용
+      'react/jsx-no-target-blank': 'off', // target blank 금지
+      'react/jsx-uses-vars': 'error', // JSX에서 변수 사용 시 오류 방지
       // 인라인 함수 지양
       'react/jsx-no-bind': [
         'error',
@@ -132,53 +115,11 @@ const eslintConfig = [
           allowBind: false,
         },
       ],
-
-      // React 17+ JSX Transform 사용
-      'react/react-in-jsx-scope': 'off',
-
-      // Prettier 설정
-      'prettier/prettier': [
-        'error',
-        {
-          experimentalOperatorPosition: 'start',
-          singleAttributePerLine: true,
-          experimentalTernaries: false,
-        },
-      ],
-
-      // 화살표 함수: 중괄호 생략 가능
-      'arrow-body-style': ['error', 'as-needed'],
-
-      // 콜백 선언은 화살표 함수
-      'prefer-arrow-callback': 'error',
-
-      // React target blank 규칙 비활성화
-      'react/jsx-no-target-blank': 'off',
-
-      // React Fast Refresh
+      // React Fast Refresh, 컴포넌트만 내보내기 허용
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
       ],
-
-      // 기본 unused vars 규칙 비활성화 (TypeScript 전용 사용)
-      // 'no-unused-vars': 'off',
-
-      // TypeScript 전용 unused vars 규칙
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        {
-          // argsIgnorePattern: '^_',
-          // varsIgnorePattern: '^(T|K|V|U|E|Key|value)$',
-        },
-      ],
-
-      // JSX에서 변수 사용 시 오류 방지
-      'react/jsx-uses-vars': 'error',
-
-      // 일치 비교 연산자(===) 강제
-      eqeqeq: ['error', 'always'],
-
       // 컴포넌트는 화살표 함수 또는 함수 표현식 사용
       'react/function-component-definition': [
         'error',
@@ -188,10 +129,32 @@ const eslintConfig = [
         },
       ],
 
-      // 함수는 표현식 형태 권장
-      'func-style': ['warn', 'expression'],
+      /******************* typescript *******************/
+      '@typescript-eslint/no-unused-vars': ['error'], // 사용하지 않는 변수 금지
+      // 헝가리안 케이스 금지
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {
+          selector: 'interface',
+          format: ['PascalCase'],
+          custom: {
+            regex: '^I[A-Z]',
+            match: false,
+          },
+        },
+      ],
 
-      // 임포트 순서 정렬
+      /******************* prettier *******************/
+      'prettier/prettier': [
+        'error',
+        {
+          experimentalOperatorPosition: 'start',
+          singleAttributePerLine: true,
+          experimentalTernaries: false,
+        },
+      ],
+
+      /******************* import/order *******************/
       'import/order': [
         'error',
         {
