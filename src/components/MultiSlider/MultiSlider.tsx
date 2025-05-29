@@ -18,7 +18,7 @@ interface MultiSliderProps {
 const thumbSize = 20;
 
 // TODO: 디자인 시안 나오면 스타일 수정 필요
-const inputRangeClasses = `pointer-events-none absolute z-2 h-3 w-full appearance-none bg-transparent opacity-0 [&::-moz-range-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:pointer-events-auto [&::-moz-range-thumb]:h-[20px] [&::-webkit-slider-thumb]:h-[20px] [&::-moz-range-thumb]:w-[20px] [&::-webkit-slider-thumb]:w-[20px] [&::-moz-range-thumb]:cursor-pointer [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-moz-range-thumb]:rounded-none [&::-webkit-slider-thumb]:rounded-none [&::-moz-range-thumb]:border-0 [&::-webkit-slider-thumb]:border-0 [&::-moz-range-thumb]:bg-red-400 [&::-webkit-slider-thumb]:bg-red-400`;
+const inputRangeClasses = `pointer-events-none absolute z-2 h-3 w-full appearance-none bg-transparent opacity-0 [&::-moz-range-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:pointer-events-auto [&::-moz-range-thumb]:h-[20px] [&::-webkit-slider-thumb]:h-[20px] [&::-moz-range-thumb]:w-[20px] [&::-webkit-slider-thumb]:w-[20px] [&::-moz-range-thumb]:appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-moz-range-thumb]:rounded-none [&::-webkit-slider-thumb]:rounded-none [&::-moz-range-thumb]:border-0 [&::-webkit-slider-thumb]:border-0 [&::-moz-range-thumb]:bg-red-400 [&::-webkit-slider-thumb]:bg-red-400`;
 
 const MultiSlider = ({
   min = 0,
