@@ -35,7 +35,7 @@ const {
   remove, // 인덱스 기반 이미지 삭제 함수
   reset, // 이미지 초기화 함수
   defaultUrlUpload, // URL로부터 이미지 업로드 함수 (비동기)
-} = useImageUploader<'single' | 'multi'>(type);
+} = useImageUploader('single' | 'multi');
 ```
 
 - type: 'single' 또는 'multi'로 업로드 모드 지정
@@ -92,7 +92,7 @@ const Test = () => {
         <div
           key={images.url}
           className='relative h-48 w-48'
-          onClick={() => remove(0)}
+          onClick={() => remove()}
         >
           <Image
             src={images.url}
