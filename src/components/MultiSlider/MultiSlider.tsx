@@ -88,7 +88,7 @@ const MultiSlider = ({
 
   // TODO: 디자인 시안 나오면 스타일 수정 필요
   return (
-    <div className='relative'>
+    <div className='relative w-full'>
       <input
         type='range'
         id='range-left'
