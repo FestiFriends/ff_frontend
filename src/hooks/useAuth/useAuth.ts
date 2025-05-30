@@ -27,14 +27,32 @@ export const useKakaoLogin = (redirectPath: string) => {
   return useMutation({
     mutationFn: authApi.loginWithKakaoCode,
     onSuccess: (res) => {
-      if (res.data) {
-        login(res.data.accessToken);
+      const resData = res.data;
+      if (resData.data) {
+        login(resData.data.accessToken);
       }
       router.push(redirectPath);
     },
     onError: (error: ApiResponse) => {
       alert(error.message ?? '로그인 중 문제가 발생했습니다.');
       router.push(redirectPath);
+    },
+  });
+};
+
+export const useLogout = () => {
+  const logout = useAuthStore((state) => state.logout);
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: authApi.logout,
+    onSuccess: () => {
+      logout();
+      router.push('/');
+    },
+    onError: (error: ApiResponse) => {
+      alert(error.message ?? '로그아웃 중 문제가 발생했습니다.');
+      router.push('/');
     },
   });
 };
