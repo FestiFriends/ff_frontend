@@ -1,6 +1,6 @@
-import { callLogout } from '@/providers/AuthStoreProvider';
-import { authApi } from '@/services/authService';
+import { callLogout, callTokenUpdater } from '@/providers/AuthStoreProvider';
 import { ApiResponse } from '@/types/api';
+import { TokenRefreshResponse } from '@/types/auth';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const instance = axios.create({
@@ -41,9 +41,14 @@ instance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const res = await authApi.refreshToken();
+        const res = await axios.post<TokenRefreshResponse>(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/token`,
+          {},
+          { withCredentials: true }
+        );
         const resData = res.data;
         const newAccessToken = resData.data?.accessToken;
+        if (newAccessToken) callTokenUpdater(newAccessToken);
 
         originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
         return instance(originalRequest);

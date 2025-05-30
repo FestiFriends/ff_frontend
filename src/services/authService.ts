@@ -12,16 +12,6 @@ export const authApi = {
     );
   },
 
-  refreshToken: async () => {
-    const res =
-      await axiosFetcher.post<TokenRefreshResponse>('/api/v1/auth/token');
-
-    if (res.data.data) {
-      callTokenUpdater(res.data.data.accessToken);
-    }
-    return res;
-  },
-
   logout: async () => {
     const res = await apiFetcher.post<ApiResponse>('/api/v1/auth/logout');
     return res;
