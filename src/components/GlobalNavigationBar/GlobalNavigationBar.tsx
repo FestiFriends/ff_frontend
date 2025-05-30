@@ -7,7 +7,8 @@ import { BellIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useMediaQuery } from 'react-responsive';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { useLogin } from '@/hooks/useAuth/useAuth';
+import { useLogin, useLogout } from '@/hooks/useAuth/useAuth';
+import { useAuthStore } from '@/providers/AuthStoreProvider';
 
 const NAV_ITEM = [
   { herf: '/calendar', name: '캘린더' },
@@ -18,7 +19,9 @@ const NAV_ITEM = [
 const GlobalNavigationBar = () => {
   const isDesktop = useMediaQuery({ minWidth: 768 });
   const router = useRouter();
+  const isLoggedin = useAuthStore((state) => state.isLoggedin);
   const { onLogin } = useLogin();
+  const { mutate: logoutMutate } = useLogout();
 
   return (
     <nav className='grid grid-cols-3'>
@@ -59,7 +62,11 @@ const GlobalNavigationBar = () => {
         ) : (
           <BellIcon onClick={() => router.push('/notifications')} />
         )}
-        <button onClick={onLogin}>로그인</button>
+        {!isLoggedin ? (
+          <button onClick={onLogin}>로그인</button>
+        ) : (
+          <button onClick={() => logoutMutate()}>로그아웃</button>
+        )}
       </div>
     </nav>
   );
