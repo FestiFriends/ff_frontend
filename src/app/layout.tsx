@@ -2,6 +2,7 @@ import { initMocks } from '@/mocks';
 import { MSWComponent } from '@/providers/MSWComponent';
 import QueryProvider from '@/providers/QueryProviders';
 import './globals.css';
+import { AuthStoreProvider } from '@/providers/AuthStoreProvider';
 
 initMocks();
 
@@ -13,9 +14,11 @@ const RootLayout = ({
   <html lang='ko'>
     <body className='touch-manipulation'>
       <div id='portal' />
-      <MSWComponent>
-        <QueryProvider>{children}</QueryProvider>
-      </MSWComponent>
+      <AuthStoreProvider>
+        <MSWComponent>
+          <QueryProvider>{children}</QueryProvider>
+        </MSWComponent>
+      </AuthStoreProvider>
     </body>
   </html>
 );
