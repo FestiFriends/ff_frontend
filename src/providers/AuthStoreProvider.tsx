@@ -4,6 +4,30 @@ import { AuthStore, createAuthStore, initAuthStore } from '@/stores/authStore';
 import { type ReactNode, createContext, useRef, useContext } from 'react';
 import { useStore } from 'zustand';
 
+let updateAccessToken: ((token: string) => void) | null = null;
+
+const setTokenUpdater = (fn: (token: string) => void) => {
+  updateAccessToken = fn;
+};
+
+export const callTokenUpdater = (token: string) => {
+  if (updateAccessToken) {
+    updateAccessToken(token);
+  }
+};
+
+let logout: (() => void) | null = null;
+
+const setLogout = (fn: () => void) => {
+  logout = fn;
+};
+
+export const callLogout = () => {
+  if (logout) {
+    logout();
+  }
+};
+
 export type AuthStoreApi = ReturnType<typeof createAuthStore>;
 
 export const AuthStoreContext = createContext<AuthStoreApi | null>(null);
@@ -17,6 +41,9 @@ export const AuthStoreProvider = ({ children }: AuthStoreProviderProps) => {
   if (storeRef.current === null) {
     storeRef.current = createAuthStore(initAuthStore());
   }
+
+  setTokenUpdater(storeRef.current.getState().login);
+  setLogout(storeRef.current.getState().logout);
 
   return (
     <AuthStoreContext.Provider value={storeRef.current}>
