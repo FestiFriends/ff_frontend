@@ -18,6 +18,8 @@ interface SortDropdownUiProps {
   onChange?: (value: string) => void;
   placeholder?: string;
 }
+const getLabel = (option?: SortOption) =>
+  option?.label?.trim() || option?.value;
 
 const SortDropdownUi = ({
   options,
@@ -25,13 +27,9 @@ const SortDropdownUi = ({
   onChange,
   placeholder = '정렬',
 }: SortDropdownUiProps) => {
-  const isEmptyValue = !selectedValue || selectedValue.trim() === '';
   const selectedOption = options.find((o) => o.value === selectedValue);
-  const selectedLabel = !isEmptyValue
-    ? selectedOption?.label?.trim() || selectedOption?.value
-    : undefined;
+  const selectedLabel = getLabel(selectedOption);
 
-  const createClickHandler = (value: string) => () => onChange?.(value);
   return (
     <Dropdown>
       <DropdownTrigger
@@ -44,9 +42,9 @@ const SortDropdownUi = ({
             key={option.value}
             label={option.label}
             value={option.value}
-            onClick={createClickHandler(option.value)}
+            onClick={() => onChange?.(option.value)}
           >
-            {option.label}
+            {getLabel(option)}
           </DropdownItem>
         ))}
       </DropdownContent>
