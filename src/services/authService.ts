@@ -1,8 +1,7 @@
 import apiFetcher from '@/lib/apiFetcher';
 import axiosFetcher from '@/lib/axiosFetcher';
-import { callLogout, callTokenUpdater } from '@/providers/AuthStoreProvider';
 import { ApiResponse } from '@/types/api';
-import { KakaoLoginResponse, TokenRefreshResponse } from '@/types/auth';
+import { KakaoLoginResponse } from '@/types/auth';
 
 export const authApi = {
   loginWithKakaoCode: async (code: string) => {
