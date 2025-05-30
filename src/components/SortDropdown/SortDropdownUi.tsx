@@ -25,7 +25,10 @@ const SortDropdownUi = ({
   onChange,
   placeholder = '정렬',
 }: SortDropdownUiProps) => {
-  const selectedLabel = options.find((o) => o.value === selectedValue)?.label;
+  const isEmptyValue = !selectedValue || selectedValue.trim() === '';
+  const selectedLabel = !isEmptyValue
+    ? options.find((o) => o.value === selectedValue)?.label
+    : undefined;
   return (
     <Dropdown>
       <DropdownTrigger
