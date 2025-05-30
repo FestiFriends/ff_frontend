@@ -6,3 +6,9 @@ export interface KakaoLoginData {
 }
 
 export type KakaoLoginResponse = ApiResponse<KakaoLoginData>;
+
+export interface TokenRefreshData {
+  accessToken: string;
+}
+
+export type TokenRefreshResponse = ApiResponse<TokenRefreshData>;
