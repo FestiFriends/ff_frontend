@@ -1,7 +1,15 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination:
+          'http://ec2-13-124-38-21.ap-northeast-2.compute.amazonaws.com:8080/api/:path*', // 실제 백엔드 서버 주소
+      },
+    ];
+  },
 };
 
 export default nextConfig;
