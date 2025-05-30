@@ -30,6 +30,8 @@ const SortDropdownUi = ({
   const selectedLabel = !isEmptyValue
     ? selectedOption?.label?.trim() || selectedOption?.value
     : undefined;
+
+  const createClickHandler = (value: string) => () => onChange?.(value);
   return (
     <Dropdown>
       <DropdownTrigger
@@ -42,7 +44,7 @@ const SortDropdownUi = ({
             key={option.value}
             label={option.label}
             value={option.value}
-            onClick={() => onChange?.(option.value)}
+            onClick={createClickHandler(option.value)}
           >
             {option.label}
           </DropdownItem>
