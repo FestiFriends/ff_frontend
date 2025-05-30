@@ -33,16 +33,15 @@ export const createAuthStore = (initState: AuthState = defaultInitState) => {
             isLoggedin: true,
           }),
         logout: () => {
-          localStorage.removeItem('authInfo');
           set({
             accessToken: null,
             isLoggedin: false,
           });
+          localStorage.removeItem('authInfo');
         },
       }),
       {
         name: 'authInfo',
-        partialize: (state) => ({ accessToken: state.accessToken }),
       }
     )
   );
