@@ -11,7 +11,7 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => (
   <html lang='ko'>
-    <body className='touch-manipulation select-none'>
+    <body className='touch-manipulation'>
       <div id='portal' />
       <MSWComponent>
         <QueryProvider>{children}</QueryProvider>
