@@ -49,7 +49,7 @@ const Calendar = ({
     // TODO: 디자인 시안 나오면 스타일 수정 필요
     const dayClasses = cn(
       // default style
-      'flex h-10 w-10 items-center justify-center rounded-full',
+      'flex items-center justify-center rounded-full',
 
       // clickable style
       onDateClick && 'cursor-pointer',
@@ -77,15 +77,16 @@ const Calendar = ({
 
   const calendarClasses = cn('w-full', className);
 
+  // TODO: 디자인 시안 나오면 스타일 수정 필요
   return (
     <div className={calendarClasses}>
       <div className='text-center'></div>
-      <div className='grid grid-cols-7 gap-1 text-center'>
+      <div className='grid grid-cols-7 place-items-center gap-1 text-center'>
         {WEEKDAYS_KR.map((d) => (
           <div key={d}>{d}</div>
         ))}
       </div>
-      <div className='grid grid-cols-7 gap-1 text-center'>
+      <div className='grid grid-cols-7 place-items-center gap-1 text-center'>
         {days.map((day, index) => renderDay(day, index))}
       </div>
     </div>
