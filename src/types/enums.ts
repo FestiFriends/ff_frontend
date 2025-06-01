@@ -12,6 +12,7 @@ export const Gender = {
   MALE: 'MALE',
   ALL: 'ALL',
 } as const;
+
 export type GenderType = (typeof Gender)[keyof typeof Gender];
 
 export const ReportReason = {
@@ -22,4 +23,5 @@ export const ReportReason = {
   PERSONAL_INFO: 'PERSONAL_INFO',
   SPAM: 'SPAM',
 } as const;
+
 export type ReportReasonType = (typeof ReportReason)[keyof typeof ReportReason];
