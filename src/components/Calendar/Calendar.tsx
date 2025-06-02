@@ -82,14 +82,14 @@ const Calendar = ({
       // prevMonthDate, nextMonthDate style
       !isCurrentMonth && 'text-gray-400',
 
+      // rangeDate style
+      isRange && 'bg-blue-100 text-blue-700',
+
       // startDate style
       isStart && 'bg-blue-500 text-white',
 
       // endDate style
-      isEnd && 'bg-blue-500 text-white',
-
-      // rangeDate style
-      isRange && 'bg-blue-100 text-blue-700'
+      isEnd && 'bg-blue-500 text-white'
     );
 
     return (
@@ -112,7 +112,7 @@ const Calendar = ({
         <div className='flex items-center justify-between text-center'>
           <button
             className='cursor-pointer'
-            aria-label='이전 달'
+            aria-label='prev month'
             onClick={handlePrevMonth}
           >
             <ChevronLeft />
@@ -120,7 +120,7 @@ const Calendar = ({
           <span>{format(currentMonth, 'yyyy년 M월', { locale: ko })}</span>
           <button
             className='cursor-pointer'
-            aria-label='다음 달'
+            aria-label='next month'
             onClick={handleNextMonth}
           >
             <ChevronRight />

@@ -48,8 +48,8 @@ describe('Calendar 컴포넌트 테스트', () => {
       />
     );
 
-    const prevButton = screen.getByLabelText('이전 달');
-    const nextButton = screen.getByLabelText('다음 달');
+    const prevButton = screen.getByLabelText('prev month');
+    const nextButton = screen.getByLabelText('next month');
 
     expect(prevButton).toBeInTheDocument();
     expect(nextButton).toBeInTheDocument();
@@ -69,7 +69,7 @@ describe('Calendar 컴포넌트 테스트', () => {
         isControllable={false}
       />
     );
-    expect(screen.queryByLabelText('이전 달')).not.toBeInTheDocument();
-    expect(screen.queryByLabelText('다음 달')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('prev month')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('next month')).not.toBeInTheDocument();
   });
 });
