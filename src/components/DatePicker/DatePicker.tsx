@@ -4,22 +4,23 @@ import { useState } from 'react';
 import { DateRange } from '@/types/dateRange';
 import { addMonths, format, subMonths } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  Calendar as CalendarIcon,
+  ChevronLeft,
+  ChevronRight,
+} from 'lucide-react';
 import Calendar from '../Calendar/Calendar';
+import Popover from '../Popover/Popover';
+import PopoverContent from '../Popover/PopoverContent';
+import PopoverTrigger from '../Popover/PopoverTrigger';
 
 interface DatePickerProps {
   startDate: Date | null;
   endDate: Date | null;
   onChange: (range: DateRange) => void;
-  className?: string;
 }
 
-const DatePicker = ({
-  startDate,
-  endDate,
-  onChange,
-  className,
-}: DatePickerProps) => {
+const DatePicker = ({ startDate, endDate, onChange }: DatePickerProps) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedRange, setSelectedRange] = useState<DateRange>({
     startDate,
@@ -45,29 +46,46 @@ const DatePicker = ({
   const nextMonth = addMonths(currentMonth, 1);
 
   return (
-    <div className={className}>
-      <div className='flex items-center justify-between'>
-        <button
-          className='cursor-pointer'
-          onClick={() => setCurrentMonth(prevMonth)}
-        >
-          <ChevronLeft />
+    <Popover>
+      <PopoverTrigger>
+        <button className='flex cursor-pointer items-center gap-1 rounded border'>
+          <CalendarIcon />
+          {!startDate || !endDate ? (
+            <span>날짜를 선택하세요</span>
+          ) : (
+            <div className='flex items-center gap-1'>
+              <span>{format(startDate, 'yyyy년 M월 d일', { locale: ko })}</span>
+              <span>-</span>
+              <span>{format(endDate, 'yyyy년 M월 d일', { locale: ko })}</span>
+            </div>
+          )}
         </button>
-        <span>{format(currentMonth, 'yyyy년 M월', { locale: ko })}</span>
-        <button
-          className='cursor-pointer'
-          onClick={() => setCurrentMonth(nextMonth)}
-        >
-          <ChevronRight />
-        </button>
-      </div>
-      <Calendar
-        month={currentMonth}
-        startDate={selectedRange.startDate}
-        endDate={selectedRange.endDate}
-        onDateClick={handleDateClick}
-      />
-    </div>
+      </PopoverTrigger>
+
+      <PopoverContent className='left-0 translate-0'>
+        <div className='flex items-center justify-center gap-1'>
+          <button
+            className='cursor-pointer'
+            onClick={() => setCurrentMonth(prevMonth)}
+          >
+            <ChevronLeft />
+          </button>
+          <span>{format(currentMonth, 'yyyy년 M월', { locale: ko })}</span>
+          <button
+            className='cursor-pointer'
+            onClick={() => setCurrentMonth(nextMonth)}
+          >
+            <ChevronRight />
+          </button>
+        </div>
+        <Calendar
+          month={currentMonth}
+          startDate={selectedRange.startDate}
+          endDate={selectedRange.endDate}
+          onDateClick={handleDateClick}
+        />
+      </PopoverContent>
+    </Popover>
   );
 };
 
