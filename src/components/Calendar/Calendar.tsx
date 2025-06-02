@@ -44,14 +44,6 @@ const Calendar = ({
     const lastDay = endOfWeek(endOfMonth(currentMonth), { weekStartsOn: 0 });
 
     return eachDayOfInterval({ start: firstDay, end: lastDay });
-    // const start = startOfMonth(currentMonth);
-    // const end = endOfMonth(currentMonth);
-    // const daysInMonth = eachDayOfInterval({ start, end });
-
-    // const startWeekDay = start.getDay();
-    // const emptyDays = Array.from({ length: startWeekDay }, () => null);
-
-    // return [...emptyDays, ...daysInMonth];
   }, [currentMonth]);
 
   const handlePrevMonth = () => {
