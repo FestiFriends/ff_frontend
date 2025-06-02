@@ -17,6 +17,7 @@ interface CalendarProps {
   startDate?: Date | null;
   endDate?: Date | null;
   onDateClick?: (date: Date) => void;
+  isControllable?: boolean;
   className?: string;
 }
 
@@ -27,6 +28,7 @@ const Calendar = ({
   startDate,
   endDate,
   onDateClick,
+  isControllable,
   className,
 }: CalendarProps) => {
   const [currentMonth, setCurrentMonth] = useState<Date>(month);
@@ -43,12 +45,16 @@ const Calendar = ({
   }, [currentMonth]);
 
   const handlePrevMonth = () => {
+    if (!isControllable) return;
+
     setCurrentMonth(
       new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
     );
   };
 
   const handleNextMonth = () => {
+    if (!isControllable) return;
+
     setCurrentMonth(
       new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
     );
@@ -96,23 +102,25 @@ const Calendar = ({
   // TODO: 디자인 시안 나오면 스타일 수정 필요
   return (
     <div className={calendarClasses}>
-      <div className='flex items-center justify-between text-center'>
-        <button
-          className='cursor-pointer'
-          aria-label='이전 달'
-          onClick={handlePrevMonth}
-        >
-          <ChevronLeft />
-        </button>
-        <span>{format(currentMonth, 'yyyy년 M월', { locale: ko })}</span>
-        <button
-          className='cursor-pointer'
-          aria-label='다음 달'
-          onClick={handleNextMonth}
-        >
-          <ChevronRight />
-        </button>
-      </div>
+      {isControllable && (
+        <div className='flex items-center justify-between text-center'>
+          <button
+            className='cursor-pointer'
+            aria-label='이전 달'
+            onClick={handlePrevMonth}
+          >
+            <ChevronLeft />
+          </button>
+          <span>{format(currentMonth, 'yyyy년 M월', { locale: ko })}</span>
+          <button
+            className='cursor-pointer'
+            aria-label='다음 달'
+            onClick={handleNextMonth}
+          >
+            <ChevronRight />
+          </button>
+        </div>
+      )}
       <div className='grid grid-cols-7 place-items-center gap-1 text-center'>
         {WEEKDAYS_KR.map((d) => (
           <div key={d}>{d}</div>
