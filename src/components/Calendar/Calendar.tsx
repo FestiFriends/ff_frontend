@@ -3,11 +3,14 @@ import { cn } from '@/lib/utils';
 import {
   eachDayOfInterval,
   endOfMonth,
+  endOfWeek,
   format,
   isAfter,
   isBefore,
   isSameDay,
+  isSameMonth,
   startOfMonth,
+  startOfWeek,
 } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -35,14 +38,20 @@ const Calendar = ({
   const currentMonth = isControllable ? internalMonth : month;
 
   const days = useMemo(() => {
-    const start = startOfMonth(currentMonth);
-    const end = endOfMonth(currentMonth);
-    const daysInMonth = eachDayOfInterval({ start, end });
+    const firstDay = startOfWeek(startOfMonth(currentMonth), {
+      weekStartsOn: 0,
+    });
+    const lastDay = endOfWeek(endOfMonth(currentMonth), { weekStartsOn: 0 });
 
-    const startWeekDay = start.getDay();
-    const emptyDays = Array.from({ length: startWeekDay }, () => null);
+    return eachDayOfInterval({ start: firstDay, end: lastDay });
+    // const start = startOfMonth(currentMonth);
+    // const end = endOfMonth(currentMonth);
+    // const daysInMonth = eachDayOfInterval({ start, end });
 
-    return [...emptyDays, ...daysInMonth];
+    // const startWeekDay = start.getDay();
+    // const emptyDays = Array.from({ length: startWeekDay }, () => null);
+
+    // return [...emptyDays, ...daysInMonth];
   }, [currentMonth]);
 
   const handlePrevMonth = () => {
@@ -64,6 +73,7 @@ const Calendar = ({
   const renderDay = (day: Date | null, index: number) => {
     if (day === null) return <div key={`empty-${index}`}></div>;
 
+    const isCurrentMonth = isSameMonth(day, currentMonth);
     const isStart = startDate && isSameDay(day, startDate);
     const isEnd = endDate && isSameDay(day, endDate);
     const isRange =
@@ -76,6 +86,9 @@ const Calendar = ({
 
       // clickable style
       onDateClick && 'cursor-pointer',
+
+      // prevMonthDate, nextMonthDate style
+      !isCurrentMonth && 'text-gray-400',
 
       // startDate style
       isStart && 'bg-blue-500 text-white',
