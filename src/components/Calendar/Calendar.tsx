@@ -31,7 +31,8 @@ const Calendar = ({
   isControllable,
   className,
 }: CalendarProps) => {
-  const [currentMonth, setCurrentMonth] = useState<Date>(month);
+  const [internalMonth, setInternalMonth] = useState<Date>(month);
+  const currentMonth = isControllable ? internalMonth : month;
 
   const days = useMemo(() => {
     const start = startOfMonth(currentMonth);
@@ -47,7 +48,7 @@ const Calendar = ({
   const handlePrevMonth = () => {
     if (!isControllable) return;
 
-    setCurrentMonth(
+    setInternalMonth(
       new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
     );
   };
@@ -55,7 +56,7 @@ const Calendar = ({
   const handleNextMonth = () => {
     if (!isControllable) return;
 
-    setCurrentMonth(
+    setInternalMonth(
       new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
     );
   };
