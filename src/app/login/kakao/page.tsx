@@ -1,10 +1,10 @@
 'use client';
 
-import { useKakaoLogin } from '@/hooks/useAuth/useAuth';
-import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useKakaoLogin } from '@/hooks/useAuth/useAuth';
 
-export default function KakaoCallback() {
+const KakaoCallback = () => {
   const searchParams = useSearchParams();
   const hasCalled = useRef(false);
   const code = searchParams.get('code');
@@ -18,7 +18,9 @@ export default function KakaoCallback() {
     if (code) {
       mutate(code);
     }
-  }, []);
+  }, [code, mutate]);
 
   return null;
-}
+};
+
+export default KakaoCallback;

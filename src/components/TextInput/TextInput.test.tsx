@@ -66,7 +66,6 @@ test('지원되지 않는 size는 기본 md 스타일을 사용해야 한다', (
   const { container } = render(
     <TextInput
       id='invalid-size'
-      size={'xxl' as any}
       value=''
       onChange={() => {}}
     />

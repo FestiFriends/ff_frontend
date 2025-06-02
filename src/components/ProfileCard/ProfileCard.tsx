@@ -1,6 +1,6 @@
-import ProfileCardUi from './ProfileCardUi';
-import ProfileCardSkeleton from './ProfileCardSkeleton';
 import { ProfileData } from '@/types/profile';
+import ProfileCardSkeleton from './ProfileCardSkeleton';
+import ProfileCardUi from './ProfileCardUi';
 
 interface ProfileCardProps {
   profile?: ProfileData;

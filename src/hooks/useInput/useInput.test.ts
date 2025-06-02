@@ -17,7 +17,9 @@ describe('useInput 훅 테스트', () => {
     const { result } = renderHook(() => useInput('', validate));
 
     act(() => {
-      result.current.onChange({ target: { value: 'hi' } } as any);
+      result.current.onChange({
+        target: { value: 'hi' },
+      } as React.ChangeEvent<HTMLInputElement>);
     });
     expect(result.current.value).toBe('hi');
     expect(result.current.error).toBe(undefined);
@@ -33,7 +35,9 @@ describe('useInput 훅 테스트', () => {
     const { result } = renderHook(() => useInput('hello', validate));
 
     act(() => {
-      result.current.onChange({ target: { value: 'hi' } } as any);
+      result.current.onChange({
+        target: { value: 'hi' },
+      } as React.ChangeEvent<HTMLInputElement>);
       result.current.onBlur();
     });
 

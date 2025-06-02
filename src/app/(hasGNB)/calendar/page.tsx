@@ -1,5 +1,3 @@
-const CalendarPage = () => {
-  return <div>캘린더 페이지</div>;
-};
+const CalendarPage = () => <div>캘린더 페이지</div>;
 
 export default CalendarPage;

@@ -1,22 +1,22 @@
 'use client';
 
-import { cn } from '@/lib/utils';
 import {
   Dropdown,
   DropdownTrigger,
   DropdownContent,
   DropdownItem,
 } from '@/components/Dropdown';
+import { cn } from '@/lib/utils';
 
 interface FilterProps {
-  options: filterOption[];
+  options: FilterOption[];
   value?: string;
   onChange?: (value: string) => void;
   placeholder?: string;
   className?: string;
 }
 
-interface filterOption {
+interface FilterOption {
   label: string;
   value: string;
 }

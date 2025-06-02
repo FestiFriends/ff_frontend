@@ -36,12 +36,12 @@ const HashtagBadge = ({
   const badgeClasses = cn(getBadgeStyle(), className);
 
   return (
-    <span
+    <button
       className={badgeClasses}
       onClick={handleClick}
     >
       {text}
-    </span>
+    </button>
   );
 };
 

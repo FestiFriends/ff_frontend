@@ -1,8 +1,8 @@
 'use client';
 
 import React, { PropsWithChildren } from 'react';
-import { usePopoverContext } from './PopoverContext';
 import { cn } from '@/lib/utils';
+import { usePopoverContext } from './PopoverContext';
 
 interface PopoverContentProps {
   className?: string;

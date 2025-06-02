@@ -1,9 +1,9 @@
 'use client';
 
 import { Star } from 'lucide-react';
-import ProfileImage from '../ProfileImage/ProfileImage';
 import { Gender } from '@/types/enums';
 import { ProfileData } from '@/types/profile';
+import ProfileImage from '../ProfileImage/ProfileImage';
 
 interface ProfileCardUiProps extends ProfileData {
   onEditClick?: () => void;
