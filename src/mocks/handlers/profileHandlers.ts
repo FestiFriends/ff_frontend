@@ -2,7 +2,7 @@ import { http, HttpResponse } from 'msw';
 import { mockProfiles } from '../mockProfiles';
 
 export const profileHandlers = [
-  http.get('/api/profile/:userId', ({ params }) => {
+  http.get('/api/profiles/:userId', ({ params }) => {
     const { userId } = params;
 
     if (userId === 'loading') {
