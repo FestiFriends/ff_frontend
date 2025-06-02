@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import Calendar from './Calendar';
 
-describe('Calendar', () => {
+describe('Calendar 컴포넌트 테스트', () => {
   const today = new Date('2025-06-02');
 
   test('요일이 올바르게 렌더링된다', () => {
