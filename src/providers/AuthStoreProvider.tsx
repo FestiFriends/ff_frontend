@@ -1,8 +1,8 @@
 'use client';
 
-import { AuthStore, createAuthStore, initAuthStore } from '@/stores/authStore';
 import { type ReactNode, createContext, useRef, useContext } from 'react';
 import { useStore } from 'zustand';
+import { AuthStore, createAuthStore, initAuthStore } from '@/stores/authStore';
 
 let updateAccessToken: ((token: string) => void) | null = null;
 

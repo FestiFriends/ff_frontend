@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ButtonGroup, ButtonGroupItem } from './ButtonGroup';
 import MESSAGE from './ButtonGroupMessage';
+
+interface TestButtonGruopProps {
+  mode?: 'single' | 'multiple';
+  maxSelections?: number;
+  defaultValue?: string | string[];
+  onChange?: (value: string | string[]) => void;
+}
 
 const TestButtonGroup = ({
   mode = 'single',
   maxSelections,
   defaultValue,
   onChange = jest.fn(),
-}: any) => (
+}: TestButtonGruopProps) => (
   <ButtonGroup
     mode={mode}
     maxSelections={maxSelections}

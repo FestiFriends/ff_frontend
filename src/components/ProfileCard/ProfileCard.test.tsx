@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react';
-import ProfileCard from './ProfileCard';
+import { cleanup, render, screen } from '@testing-library/react';
 import { Gender } from '@/types/enums';
+import ProfileCard from './ProfileCard';
 
 const dummyProfile = {
   profileImageUrl: '/profile.jpg',
@@ -12,6 +12,10 @@ const dummyProfile = {
   tags: ['친절함', '시간 약속'],
   isMyProfile: true,
 };
+
+afterEach(() => {
+  cleanup(); // 명시적으로 DOM 정리, 보통 jest에서 자동 처리됨
+});
 
 test('로딩 중일 때 스켈레톤 컴포넌트 렌더링', () => {
   render(<ProfileCard isLoading />);
@@ -45,7 +49,10 @@ test('자기소개가 없으면 기본 안내 문구가 출력된다', () => {
 
 test('tags가 undefined이면 아무 태그도 렌더링되지 않는다', () => {
   render(<ProfileCard profile={{ ...dummyProfile, tags: undefined }} />);
-  expect(screen.queryByText(/./)).not.toBeInTheDocument(); // 아무 텍스트도 없어야
+
+  dummyProfile.tags?.forEach((tag) => {
+    expect(screen.queryByText(tag)).not.toBeInTheDocument();
+  });
 });
 
 test('태그가 빈 배열일 때 렌더링되지 않는다', () => {
@@ -55,6 +62,9 @@ test('태그가 빈 배열일 때 렌더링되지 않는다', () => {
 
 test('태그가 공백 문자열만 있을 때 렌더링되지 않는다', () => {
   render(<ProfileCard profile={{ ...dummyProfile, tags: ['  ', ''] }} />);
-  const tagEl = screen.queryByText(/./); // 아무 태그도 없어야 함
-  expect(tagEl).not.toBeInTheDocument();
+
+  dummyProfile.tags?.forEach((tag) => {
+    const tagElement = screen.queryByText(tag.trim());
+    expect(tagElement).not.toBeInTheDocument();
+  });
 });

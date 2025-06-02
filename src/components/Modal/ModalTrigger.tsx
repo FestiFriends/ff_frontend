@@ -2,6 +2,7 @@
 
 import React, {
   cloneElement,
+  HTMLAttributes,
   isValidElement,
   MouseEvent,
   PropsWithChildren,
@@ -21,11 +22,11 @@ const ModalTrigger = ({
   const { openModal } = useModalContext();
 
   if (isValidElement(children)) {
-    const child = children as ReactElement<any>;
+    const child = children as ReactElement<HTMLAttributes<HTMLElement>>;
 
     return cloneElement(child, {
       'aria-label': '모달 열기',
-      onClick: (e: MouseEvent) => {
+      onClick: (e: MouseEvent<HTMLElement>) => {
         child.props.onClick?.(e);
         openModal();
       },

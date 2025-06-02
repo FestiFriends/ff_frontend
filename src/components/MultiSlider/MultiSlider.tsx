@@ -1,7 +1,7 @@
 'use client';
 
-import { cn, sortRangeValues } from '@/lib/utils';
 import { useState } from 'react';
+import { cn, sortRangeValues } from '@/lib/utils';
 
 interface MultiSliderProps {
   min?: number;
@@ -174,18 +174,16 @@ const MultiSlider = ({
             className='absolute text-gray-600 select-none'
             style={{ left: `${thumbSize / 2}px`, right: `${thumbSize / 2}px` }}
           >
-            {Object.entries(marks).map(([key, label]) => {
-              return (
-                <span
-                  key={key}
-                  className='absolute inline-flex -translate-x-1/2 flex-col items-center text-center text-xs text-gray-600'
-                  style={{ left: `${getPercent(Number(key))}%` }}
-                >
-                  <span className='mb-0.5 h-0.75 w-px bg-gray-400' />
-                  <span className='whitespace-nowrap'>{label}</span>
-                </span>
-              );
-            })}
+            {Object.entries(marks).map(([key, label]) => (
+              <span
+                key={key}
+                className='absolute inline-flex -translate-x-1/2 flex-col items-center text-center text-xs text-gray-600'
+                style={{ left: `${getPercent(Number(key))}%` }}
+              >
+                <span className='mb-0.5 h-0.75 w-px bg-gray-400' />
+                <span className='whitespace-nowrap'>{label}</span>
+              </span>
+            ))}
           </div>
         </div>
       )}

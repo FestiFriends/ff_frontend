@@ -1,8 +1,17 @@
 import { renderHook, act } from '@testing-library/react';
 import useSort from './useSort';
 
+interface Sample1 {
+  name: string;
+  count: number;
+}
+
+interface Sample2 {
+  name: string;
+}
+
 describe('useSort 훅 테스트', () => {
-  const sampleData = [
+  const sampleData: Sample1[] = [
     { name: 'Charlie', count: 3 },
     { name: 'Alice', count: 1 },
     { name: 'Bob', count: 2 },
@@ -10,10 +19,8 @@ describe('useSort 훅 테스트', () => {
 
   describe('정렬 함수 적용', () => {
     const customSortMap = {
-      name: (a: (typeof sampleData)[0], b: (typeof sampleData)[0]) =>
-        a.name.localeCompare(b.name),
-      count: (a: (typeof sampleData)[0], b: (typeof sampleData)[0]) =>
-        a.count - b.count,
+      name: (a: Sample1, b: Sample1) => a.name.localeCompare(b.name),
+      count: (a: Sample1, b: Sample1) => a.count - b.count,
     };
 
     it('기본 sortKey로 정렬되어야 한다', () => {
@@ -61,7 +68,7 @@ describe('useSort 훅 테스트', () => {
   });
 
   describe('옵션 기본값 처리', () => {
-    const sampleData = [{ name: 'A' }, { name: 'B' }];
+    const sampleData: Sample2[] = [{ name: 'A' }, { name: 'B' }];
 
     it('옵션 없이 호출하면 기본값으로 설정되어야 한다', () => {
       const { result } = renderHook(() => useSort(sampleData));
@@ -88,7 +95,7 @@ describe('useSort 훅 테스트', () => {
 
     it('customSortMap만 주어지면 defaultKey는 빈 문자열이어야 한다', () => {
       const sortMap = {
-        name: (a: any, b: any) => a.name.localeCompare(b.name),
+        name: (a: Sample2, b: Sample2) => a.name.localeCompare(b.name),
       };
 
       const { result } = renderHook(() =>

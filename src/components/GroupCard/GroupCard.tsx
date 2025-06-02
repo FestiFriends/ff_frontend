@@ -3,11 +3,11 @@
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { GroupCategory } from '@/types/enums';
+import { Group } from '@/types/group';
 import { getGenderLabels } from '@/utils/genderEnumLabel';
 import { getGroupCategoryLabels } from '@/utils/groupEnumLabel';
-import HashtagBadge from '../Hashtag/HashtagBadge';
 import Button from '../Button/Button';
-import { Group } from '@/types/group';
+import HashtagBadge from '../Hashtag/HashtagBadge';
 
 interface GroupCardProps {
   groupData: Group;
@@ -36,10 +36,10 @@ const GroupCard = ({
   const groupTypeClass = groupTypeStyles[groupData.category];
   const genderLabel = getGenderLabels(groupData.gender);
   const handleButtonClick = () => {
-    onButtonClick && onButtonClick();
+    onButtonClick();
   };
   const handleHashtagClick = (hashtagText: string) => {
-    onHashtagClick && onHashtagClick(hashtagText);
+    onHashtagClick?.(hashtagText);
   };
   return (
     <div
@@ -115,13 +115,13 @@ const GroupCard = ({
         </div>
         {/* 해시태그 */}
         <div className='mt-1 flex gap-1'>
-          {groupData.hashtag?.map((tag, i) => (
+          {groupData.hashtag?.map((tag) => (
             <HashtagBadge
               key={tag}
               type='groupCard'
               isClickable={isHashtagClickable}
               text={`#${tag}`}
-              onClick={handleHashtagClick}
+              onClick={() => handleHashtagClick(tag)}
             />
           ))}
         </div>

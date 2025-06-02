@@ -34,7 +34,7 @@ const loadFile = async (url: string) => {
   }
 };
 
-interface useMultiImageUploaderReturn {
+interface UseMultiImageUploaderReturn {
   images: UploadedImage[];
   upload: (files: File | File[] | FileList | null) => void;
   remove: (index: number) => void;
@@ -42,7 +42,7 @@ interface useMultiImageUploaderReturn {
   defaultUrlUpload: (urls: string[] | string) => Promise<void>;
 }
 
-interface useSingleImageUploaderReturn {
+interface UseSingleImageUploaderReturn {
   images: UploadedImage | undefined;
   upload: (files: File | File[] | FileList | null) => void;
   remove: () => void;
@@ -50,9 +50,9 @@ interface useSingleImageUploaderReturn {
   defaultUrlUpload: (urls: string[] | string) => Promise<void>;
 }
 
-export function useImageUploader(type: 'multi'): useMultiImageUploaderReturn;
+export function useImageUploader(type: 'multi'): UseMultiImageUploaderReturn;
 
-export function useImageUploader(type: 'single'): useSingleImageUploaderReturn;
+export function useImageUploader(type: 'single'): UseSingleImageUploaderReturn;
 
 export function useImageUploader(type: 'multi' | 'single') {
   const [images, setImages] = useState<UploadedImage[]>([]);

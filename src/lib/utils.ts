@@ -14,6 +14,7 @@ export const hasProfanity = (text: string) => filter.isProfane(text);
  * @param value
  * @returns [number, number]
  */
-export const sortRangeValues = (value: [number, number]): [number, number] => {
-  return [Math.min(value[0], value[1]), Math.max(value[0], value[1])];
-};
+export const sortRangeValues = (value: [number, number]): [number, number] => [
+  Math.min(value[0], value[1]),
+  Math.max(value[0], value[1]),
+];

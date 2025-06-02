@@ -53,7 +53,7 @@ test.each([
     const { container } = render(
       <Poster
         src='/poster.jpg'
-        size={size as any}
+        size={size as 'sm' | 'md' | 'lg' | 'xl' | undefined}
       />
     );
     const wrapper = container.firstChild as HTMLElement;
@@ -65,7 +65,7 @@ test('size props가 잘못된 값일 경우 size 관련 클래스가 적용되�
   const { container } = render(
     <Poster
       src='/poster.jpg'
-      size={'xs' as any}
+      size={'xs' as 'sm' | 'md' | 'lg' | 'xl' | undefined}
       shadow={false}
       border={false}
     />

@@ -1,10 +1,10 @@
+import { ReactNode } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, act } from '@testing-library/react';
+import { useRouter, usePathname } from 'next/navigation';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import { authApi } from '@/services/authService';
-import { useRouter, usePathname } from 'next/navigation';
 import { useKakaoLogin, useLogin, useLogout } from './useAuth';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactNode } from 'react';
 
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
@@ -119,7 +119,9 @@ describe('인증 관련 훅 테스트', () => {
       await act(async () => {
         try {
           await result.current.mutateAsync('code');
-        } catch {}
+        } catch {
+          //
+        }
       });
 
       expect(global.alert).toHaveBeenCalledWith('로그인에 실패했습니다.');
@@ -142,7 +144,9 @@ describe('인증 관련 훅 테스트', () => {
       await act(async () => {
         try {
           await result.current.mutateAsync('code');
-        } catch {}
+        } catch {
+          //
+        }
       });
 
       expect(global.alert).toHaveBeenCalledWith(
@@ -192,7 +196,9 @@ describe('인증 관련 훅 테스트', () => {
       await act(async () => {
         try {
           await result.current.mutateAsync();
-        } catch {}
+        } catch {
+          //
+        }
       });
 
       expect(global.alert).toHaveBeenCalledWith('로그아웃에 실패했습니다.');
@@ -213,7 +219,9 @@ describe('인증 관련 훅 테스트', () => {
       await act(async () => {
         try {
           await result.current.mutateAsync();
-        } catch {}
+        } catch {
+          //
+        }
       });
 
       expect(global.alert).toHaveBeenCalledWith(

@@ -1,8 +1,8 @@
 import { initMocks } from '@/mocks';
+import { AuthStoreProvider } from '@/providers/AuthStoreProvider';
 import { MSWComponent } from '@/providers/MSWComponent';
 import QueryProvider from '@/providers/QueryProviders';
 import './globals.css';
-import { AuthStoreProvider } from '@/providers/AuthStoreProvider';
 
 initMocks();
 

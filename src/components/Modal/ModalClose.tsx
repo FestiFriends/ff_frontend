@@ -2,7 +2,9 @@
 
 import {
   cloneElement,
+  HTMLAttributes,
   isValidElement,
+  MouseEvent,
   PropsWithChildren,
   ReactElement,
 } from 'react';
@@ -21,11 +23,11 @@ const ModalClose = ({
   const { closeModal } = useModalContext();
 
   if (isValidElement(children)) {
-    const child = children as ReactElement<any>;
+    const child = children as ReactElement<HTMLAttributes<HTMLElement>>;
 
     return cloneElement(child, {
       'aria-label': '모달 닫기',
-      onClick: (e: MouseEvent) => {
+      onClick: (e: MouseEvent<HTMLElement>) => {
         child.props.onClick?.(e);
         closeModal();
       },

@@ -8,7 +8,7 @@ const baseConfig: AxiosRequestConfig = {
 
 const instance = axios.create(baseConfig);
 
-const request = async <T = any, R = AxiosResponse<T>, D = any>(
+const request = async <T = unknown, R = AxiosResponse<T>, D = unknown>(
   url: string,
   config?: AxiosRequestConfig<D>
 ) => {
@@ -24,29 +24,29 @@ const request = async <T = any, R = AxiosResponse<T>, D = any>(
 };
 
 const axiosFetcher = {
-  get: <T = any, R = AxiosResponse<T>, D = any>(
+  get: <T = unknown, R = AxiosResponse<T>, D = unknown>(
     url: string,
     config?: AxiosRequestConfig<D>
   ): Promise<R> => request<T, R, D>(url, { ...config, method: 'GET' }),
 
-  delete: <T = any, R = AxiosResponse<T>, D = any>(
+  delete: <T = unknown, R = AxiosResponse<T>, D = unknown>(
     url: string,
     config?: AxiosRequestConfig<D>
   ): Promise<R> => request<T, R, D>(url, { ...config, method: 'DELETE' }),
 
-  post: <T = any, R = AxiosResponse<T>, D = any>(
+  post: <T = unknown, R = AxiosResponse<T>, D = unknown>(
     url: string,
     data?: D,
     config?: AxiosRequestConfig<D>
   ): Promise<R> => request<T, R, D>(url, { ...config, method: 'POST', data }),
 
-  put: <T = any, R = AxiosResponse<T>, D = any>(
+  put: <T = unknown, R = AxiosResponse<T>, D = unknown>(
     url: string,
     data?: D,
     config?: AxiosRequestConfig<D>
   ): Promise<R> => request<T, R, D>(url, { ...config, method: 'PUT', data }),
 
-  patch: <T = any, R = AxiosResponse<T>, D = any>(
+  patch: <T = unknown, R = AxiosResponse<T>, D = unknown>(
     url: string,
     data?: D,
     config?: AxiosRequestConfig<D>
