@@ -3,7 +3,7 @@ import {
   validateEmail,
   validatePassword,
   validatePasswordConfirm,
-} from '@/app/utils/InputValidators/InputValidators';
+} from '@/utils/InputValidators/InputValidators';
 
 describe('InputValidators 유효성 검사 테스트', () => {
   test('닉네임: 유효하지 않은 값', () => {
