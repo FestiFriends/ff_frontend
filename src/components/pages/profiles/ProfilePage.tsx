@@ -1,7 +1,7 @@
 'use client';
 
 import { useProfile } from '@/hooks/useProfile/useProfile';
-import ProfileCard from './ProfileCard/ProfileCard';
+import ProfileCard from '../../ProfileCard/ProfileCard';
 
 interface Props {
   userId: string;
