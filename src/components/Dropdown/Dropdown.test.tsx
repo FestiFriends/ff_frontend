@@ -1,12 +1,11 @@
-import { fireEvent, render, renderHook, renderHook, screen } from '@testing-library/react';
+import { useState } from 'react';
+import { fireEvent, render, renderHook, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import Dropdown from './Dropdown';
 import DropdownContent from './DropdownContent';
 import { useDropdownContext } from './DropdownContext';
 import DropdownItem from './DropdownItem';
 import DropdownTrigger from './DropdownTrigger';
-import { useState } from 'react';
-import { useDropdownContext } from './DropdownContext';
 
 const renderDropdown = () => {
   const Wrapper = () => {

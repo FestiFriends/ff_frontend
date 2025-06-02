@@ -76,6 +76,8 @@ describe('<Modal>컴포넌트 테스트', () => {
 
   test('<ModalTrigger> chilren에 ReactElement가 들어오면 <button>으로 감싸지지 않아야 하며, 클릭시 모달이 열려야 한다.', async () => {
     const mockFn = jest.fn();
+    /* eslint-disable jsx-a11y/click-events-have-key-events */
+    /* eslint-disable jsx-a11y/no-static-element-interactions */
     render(
       <Modal defaultOpen>
         <ModalTrigger>
@@ -180,6 +182,8 @@ describe('<Modal>컴포넌트 테스트', () => {
 
   test('<ModalClose> chilren에 ReactElement가 들어오면 <button>으로 감싸지지 않아야 하며, 클릭시 모달이 닫혀야 한다.', async () => {
     const mockFn = jest.fn();
+    /* eslint-disable jsx-a11y/click-events-have-key-events */
+    /* eslint-disable jsx-a11y/no-static-element-interactions */
     render(
       <Modal defaultOpen>
         <ModalTrigger>열기</ModalTrigger>

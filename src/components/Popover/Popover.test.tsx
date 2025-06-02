@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Popover from './Popover';
-import PopoverTrigger from './PopoverTrigger';
 import PopoverContent from './PopoverContent';
+import PopoverTrigger from './PopoverTrigger';
 
 describe('Popover 컴포넌트 테스트', () => {
   test('초기에는 PopoverContent가 보이지 않아야 함', () => {
@@ -174,6 +174,8 @@ describe('Popover 컴포넌트 테스트', () => {
 
   test('<PopoverTrigger> chilren에 ReactElement가 들어오면 <button>으로 감싸지지 않아야 하며, 클릭시 모달이 열려야 한다.', async () => {
     const mockFn = jest.fn();
+    /* eslint-disable jsx-a11y/click-events-have-key-events */
+    /* eslint-disable jsx-a11y/no-static-element-interactions */
     render(
       <Popover>
         <PopoverTrigger>

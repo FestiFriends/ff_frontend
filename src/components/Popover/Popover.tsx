@@ -1,6 +1,6 @@
 import React, { ReactNode, useRef, useState } from 'react';
-import { PopoverContext } from './PopoverContext';
 import useClickOutside from '@/hooks/useClickOutside/useClickOutside';
+import { PopoverContext } from './PopoverContext';
 
 interface PopoverProps {
   direction?: 'top' | 'right' | 'bottom' | 'left';

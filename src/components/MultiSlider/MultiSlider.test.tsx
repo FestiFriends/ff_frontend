@@ -1,6 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import MultiSlider from './MultiSlider';
-import { sortRangeValues } from '@/lib/utils';
 
 describe('MultiSlider 컴포넌트 테스트', () => {
   test('두 개의 range input이 렌더링된다', () => {

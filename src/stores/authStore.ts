@@ -13,17 +13,18 @@ export type AuthActions = {
 
 export type AuthStore = AuthState & AuthActions;
 
-export const initAuthStore = (): AuthState => {
-  return { isLoggedin: false, accessToken: null };
-};
+export const initAuthStore = (): AuthState => ({
+  isLoggedin: false,
+  accessToken: null,
+});
 
 export const defaultInitState: AuthState = {
   isLoggedin: false,
   accessToken: null,
 };
 
-export const createAuthStore = (initState: AuthState = defaultInitState) => {
-  return createStore<AuthStore>()(
+export const createAuthStore = (initState: AuthState = defaultInitState) =>
+  createStore<AuthStore>()(
     persist(
       (set) => ({
         ...initState,
@@ -45,4 +46,3 @@ export const createAuthStore = (initState: AuthState = defaultInitState) => {
       }
     )
   );
-};

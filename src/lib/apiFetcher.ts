@@ -1,14 +1,14 @@
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { callLogout, callTokenUpdater } from '@/providers/AuthStoreProvider';
 import { ApiResponse } from '@/types/api';
 import { TokenRefreshResponse } from '@/types/auth';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
   withCredentials: true,
 });
 
-const request = async <T = any, R = AxiosResponse<T>, D = any>(
+const request = async <T = unknown, R = AxiosResponse<T>, D = unknown>(
   url: string,
   config?: AxiosRequestConfig<D>
 ) => {
@@ -88,29 +88,29 @@ export const getAccessToken = (): string | null => {
 };
 
 const apiFetcher = {
-  get: <T = any, R = AxiosResponse<T>, D = any>(
+  get: <T = unknown, R = AxiosResponse<T>, D = unknown>(
     url: string,
     config?: AxiosRequestConfig<D>
   ): Promise<R> => request<T, R, D>(url, { ...config, method: 'GET' }),
 
-  delete: <T = any, R = AxiosResponse<T>, D = any>(
+  delete: <T = unknown, R = AxiosResponse<T>, D = unknown>(
     url: string,
     config?: AxiosRequestConfig<D>
   ): Promise<R> => request<T, R, D>(url, { ...config, method: 'DELETE' }),
 
-  post: <T = any, R = AxiosResponse<T>, D = any>(
+  post: <T = unknown, R = AxiosResponse<T>, D = unknown>(
     url: string,
     data?: D,
     config?: AxiosRequestConfig<D>
   ): Promise<R> => request<T, R, D>(url, { ...config, method: 'POST', data }),
 
-  put: <T = any, R = AxiosResponse<T>, D = any>(
+  put: <T = unknown, R = AxiosResponse<T>, D = unknown>(
     url: string,
     data?: D,
     config?: AxiosRequestConfig<D>
   ): Promise<R> => request<T, R, D>(url, { ...config, method: 'PUT', data }),
 
-  patch: <T = any, R = AxiosResponse<T>, D = any>(
+  patch: <T = unknown, R = AxiosResponse<T>, D = unknown>(
     url: string,
     data?: D,
     config?: AxiosRequestConfig<D>

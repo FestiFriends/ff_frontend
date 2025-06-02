@@ -1,9 +1,9 @@
+import { useCallback } from 'react';
+import FilterUi from '@/components/Filter/FilterUi';
 import {
   useMultiLevelFilter,
   MultiLevelData,
 } from '@/hooks/useMultiLevelFilter/useMultiLevelFilter';
-import FilterUi from '@/components/Filter/FilterUi';
-import { useCallback } from 'react';
 
 interface FilterProps {
   data: MultiLevelData[];
@@ -22,7 +22,7 @@ const Filter = ({ data, levelPlaceholders, onChange }: FilterProps) => {
       const updated = [...selectedValues.slice(0, level), val];
       onChange?.(updated);
     },
-    [onChange, setValueAtLevel]
+    [onChange, setValueAtLevel, selectedValues]
   );
 
   return (

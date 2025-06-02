@@ -67,9 +67,6 @@ const TextInput = ({
   const showError = touched && !!error;
   const sizeKey = size in SIZE_MAP ? size : 'md';
 
-  SIZE_MAP[sizeKey];
-  ICON_SIZE[sizeKey];
-
   const autoCompleteMap: Record<string, string> = {
     password: 'current-password',
     'new-password': 'new-password',

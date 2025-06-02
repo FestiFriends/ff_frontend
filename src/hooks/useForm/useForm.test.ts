@@ -22,7 +22,9 @@ describe('useForm 훅 테스트', () => {
     const { result } = renderHook(() => useForm(initialValues, validators));
 
     act(() => {
-      result.current.onChange('email')({ target: { value: 'abc' } } as any);
+      result.current.onChange('email')({
+        target: { value: 'abc' },
+      } as React.ChangeEvent<HTMLInputElement>);
       result.current.onBlur('email')();
     });
 
@@ -35,7 +37,9 @@ describe('useForm 훅 테스트', () => {
     const { result } = renderHook(() => useForm(initialValues, validators));
 
     act(() => {
-      result.current.onChange('name')({ target: { value: '홍길동' } } as any);
+      result.current.onChange('name')({
+        target: { value: '홍길동' },
+      } as React.ChangeEvent<HTMLInputElement>);
       result.current.onBlur('name')();
     });
 

@@ -1,6 +1,6 @@
+import { fireEvent, render, screen } from '@testing-library/react';
 import { Gender, GroupCategory } from '@/types/enums';
 import { Group } from '@/types/group';
-import { fireEvent, render, screen } from '@testing-library/react';
 import GroupCard from './GroupCard';
 
 const mockGroup: Group = {
@@ -101,6 +101,6 @@ describe('GroupCard 컴포넌트', () => {
 
     const hashtag = screen.getByText('#페스티벌');
     fireEvent.click(hashtag);
-    expect(mockTagClick).toHaveBeenCalledWith('#페스티벌');
+    expect(mockTagClick).toHaveBeenCalledWith('페스티벌');
   });
 });

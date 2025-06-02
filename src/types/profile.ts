@@ -1,9 +1,9 @@
-import { Gender } from './enums';
+import { GenderType } from './enums';
 
 export interface ProfileData {
   profileImageUrl?: string;
   nickname: string;
-  gender: Gender;
+  gender: GenderType;
   rating: number;
   description?: string;
   sns?: string;

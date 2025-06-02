@@ -1,8 +1,8 @@
+import { useMutation } from '@tanstack/react-query';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import { authApi } from '@/services/authService';
 import { ApiResponse } from '@/types/api';
-import { useMutation } from '@tanstack/react-query';
-import { usePathname, useRouter } from 'next/navigation';
 
 export const useLogin = () => {
   const pathname = usePathname();
