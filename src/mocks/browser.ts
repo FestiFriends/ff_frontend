@@ -1,5 +1,5 @@
 import { setupWorker } from 'msw/browser';
-import { performancesHandler } from './handlers/performancesHandler';
+import { performancesHandlers } from './handlers/performancesHandlers';
 import { profileHandlers } from './handlers/profileHandlers';
 
-export const worker = setupWorker(...profileHandlers, ...performancesHandler);
+export const worker = setupWorker(...profileHandlers, ...performancesHandlers);

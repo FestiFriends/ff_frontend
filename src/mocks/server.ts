@@ -1,4 +1,4 @@
 import { setupServer } from 'msw/node';
-import { performancesHandler } from './handlers/performancesHandler';
+import { performancesHandlers } from './handlers/performancesHandlers';
 
-export const server = setupServer(...performancesHandler);
+export const server = setupServer(...performancesHandlers);

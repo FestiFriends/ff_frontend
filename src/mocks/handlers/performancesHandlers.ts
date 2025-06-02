@@ -395,7 +395,7 @@ const TOP_GROUPS_SAMPLE_DATA: PerformancesResponse = {
   ],
 };
 
-export const performancesHandler = [
+export const performancesHandlers = [
   http.get('/api/v1/performances/top-favorites', () =>
     HttpResponse.json(TOP_FAVORITES_SAMPLE_DATA)
   ),
