@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { DateRange } from '@/types/dateRange';
 import { addMonths, format, subMonths } from 'date-fns';
 import { ko } from 'date-fns/locale';
@@ -27,20 +27,23 @@ const DatePicker = ({ startDate, endDate, onChange }: DatePickerProps) => {
     endDate,
   });
 
-  const handleDateClick = (date: Date) => {
-    const { startDate, endDate } = selectedRange;
+  const handleDateClick = useCallback(
+    (date: Date) => {
+      const { startDate, endDate } = selectedRange;
 
-    if (!startDate || (startDate && endDate)) {
-      setSelectedRange({ startDate: date, endDate: null });
-    } else {
-      const earlier = date < startDate ? date : startDate;
-      const later = date < startDate ? startDate : date;
+      if (!startDate || (startDate && endDate)) {
+        setSelectedRange({ startDate: date, endDate: null });
+      } else {
+        const earlier = date < startDate ? date : startDate;
+        const later = date < startDate ? startDate : date;
 
-      const newRange = { startDate: earlier, endDate: later };
-      setSelectedRange(newRange);
-      onChange(newRange);
-    }
-  };
+        const newRange = { startDate: earlier, endDate: later };
+        setSelectedRange(newRange);
+        onChange(newRange);
+      }
+    },
+    [selectedRange, onChange]
+  );
 
   const prevMonth = subMonths(currentMonth, 1);
   const nextMonth = addMonths(currentMonth, 1);
