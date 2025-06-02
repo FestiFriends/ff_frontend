@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { cn } from '@/lib/utils';
 import {
   eachDayOfInterval,
@@ -9,6 +9,8 @@ import {
   isSameDay,
   startOfMonth,
 } from 'date-fns';
+import { ko } from 'date-fns/locale';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface CalendarProps {
   month?: Date;
@@ -27,16 +29,30 @@ const Calendar = ({
   onDateClick,
   className,
 }: CalendarProps) => {
+  const [currentMonth, setCurrentMonth] = useState<Date>(month);
+
   const days = useMemo(() => {
-    const start = startOfMonth(month);
-    const end = endOfMonth(month);
+    const start = startOfMonth(currentMonth);
+    const end = endOfMonth(currentMonth);
     const daysInMonth = eachDayOfInterval({ start, end });
 
     const startWeekDay = start.getDay();
     const emptyDays = Array.from({ length: startWeekDay }, () => null);
 
     return [...emptyDays, ...daysInMonth];
-  }, [month]);
+  }, [currentMonth]);
+
+  const handlePrevMonth = () => {
+    setCurrentMonth(
+      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
+    );
+  };
+
+  const handleNextMonth = () => {
+    setCurrentMonth(
+      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
+    );
+  };
 
   const renderDay = (day: Date | null, index: number) => {
     if (day === null) return <div key={`empty-${index}`}></div>;
@@ -80,7 +96,23 @@ const Calendar = ({
   // TODO: 디자인 시안 나오면 스타일 수정 필요
   return (
     <div className={calendarClasses}>
-      <div className='text-center'></div>
+      <div className='flex items-center justify-between text-center'>
+        <button
+          className='cursor-pointer'
+          aria-label='이전 달'
+          onClick={handlePrevMonth}
+        >
+          <ChevronLeft />
+        </button>
+        <span>{format(currentMonth, 'yyyy년 M월', { locale: ko })}</span>
+        <button
+          className='cursor-pointer'
+          aria-label='다음 달'
+          onClick={handleNextMonth}
+        >
+          <ChevronRight />
+        </button>
+      </div>
       <div className='grid grid-cols-7 place-items-center gap-1 text-center'>
         {WEEKDAYS_KR.map((d) => (
           <div key={d}>{d}</div>
