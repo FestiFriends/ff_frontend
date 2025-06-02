@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import useInput from '@/app/hooks/useInput/useInput';
+import useInput from '@/hooks/useInput/useInput';
 
 describe('useInput 훅 테스트', () => {
   const validate = (v: string) =>
