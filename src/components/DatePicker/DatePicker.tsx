@@ -50,6 +50,7 @@ const DatePicker = ({ startDate, endDate, onChange }: DatePickerProps) => {
   const prevMonth = subMonths(currentMonth, 1);
   const nextMonth = addMonths(currentMonth, 1);
 
+  // TODO: 디자인 시안 나오면 스타일 수정 필요
   return (
     <Popover>
       <PopoverTrigger>
