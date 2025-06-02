@@ -1,10 +1,7 @@
 'use client';
 
-const MESSAGE = {
-  NOT_IN_BUTTON_GROUP: 'ButtonGroupItem은 ButtonGroup 안에서 사용해야 함',
-};
-
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import MESSAGE from './ButtonGroupMessage';
 
 // 타입 정의
 interface ButtonGroupContextType {
