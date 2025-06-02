@@ -32,7 +32,9 @@ const DatePicker = ({ startDate, endDate, onChange }: DatePickerProps) => {
       const { startDate, endDate } = selectedRange;
 
       if (!startDate || (startDate && endDate)) {
-        setSelectedRange({ startDate: date, endDate: null });
+        const newRange = { startDate: date, endDate: null };
+        setSelectedRange(newRange);
+        onChange(newRange);
       } else {
         const earlier = date < startDate ? date : startDate;
         const later = date < startDate ? startDate : date;
@@ -53,13 +55,23 @@ const DatePicker = ({ startDate, endDate, onChange }: DatePickerProps) => {
       <PopoverTrigger>
         <button className='flex cursor-pointer items-center gap-1 rounded border'>
           <CalendarIcon />
-          {!startDate || !endDate ? (
+          {!startDate && !endDate ? (
             <span>날짜를 선택하세요</span>
           ) : (
             <div className='flex items-center gap-1'>
-              <span>{format(startDate, 'yyyy년 M월 d일', { locale: ko })}</span>
-              <span>-</span>
-              <span>{format(endDate, 'yyyy년 M월 d일', { locale: ko })}</span>
+              {startDate && (
+                <span>
+                  {format(startDate, 'yyyy년 M월 d일', { locale: ko })}
+                </span>
+              )}
+              {endDate && (
+                <>
+                  <span>-</span>
+                  <span>
+                    {format(endDate, 'yyyy년 M월 d일', { locale: ko })}
+                  </span>
+                </>
+              )}
             </div>
           )}
         </button>
@@ -69,6 +81,7 @@ const DatePicker = ({ startDate, endDate, onChange }: DatePickerProps) => {
         <div className='flex items-center justify-center gap-1'>
           <button
             className='cursor-pointer'
+            aria-label='prev month'
             onClick={() => setCurrentMonth(prevMonth)}
           >
             <ChevronLeft />
@@ -76,6 +89,7 @@ const DatePicker = ({ startDate, endDate, onChange }: DatePickerProps) => {
           <span>{format(currentMonth, 'yyyy년 M월', { locale: ko })}</span>
           <button
             className='cursor-pointer'
+            aria-label='next month'
             onClick={() => setCurrentMonth(nextMonth)}
           >
             <ChevronRight />
