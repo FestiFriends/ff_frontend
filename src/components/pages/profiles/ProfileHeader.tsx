@@ -24,12 +24,12 @@ const ProfileHeader = ({ profile, onEditClick }: ProfileHeaderProps) => {
   const filteredTags = hashtag?.filter((tag) => tag.trim().length > 0) ?? [];
 
   return (
-    <section className='flex flex-col items-center bg-white p-6 shadow'>
+    <section className='flex flex-col items-center rounded-xl bg-white p-2 shadow'>
       <div className='relative w-full max-w-xl'>
         {isMine && (
           <Button
             size='sm'
-            className='absolute top-0 right-0 rounded-md bg-blue-500 px-4 py-2 text-sm text-white'
+            className='absolute top-0 right-0 rounded-md bg-blue-500 px-4 py-2 text-xs text-white'
             onClick={onEditClick}
           >
             프로필 수정

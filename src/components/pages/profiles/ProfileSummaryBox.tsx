@@ -7,7 +7,7 @@ interface ProfileSummaryBoxProps {
 const ProfileSummaryBox = ({ groupSummary }: ProfileSummaryBoxProps) => {
   const { joinedCount, totalJoinedCount, createdCount } = groupSummary;
   const summaryData = [
-    { label: '참여 중인 모임', value: joinedCount },
+    { label: '참여 중 모임 ', value: joinedCount },
     { label: '참여한 모임', value: totalJoinedCount },
     { label: '개설한 모임', value: createdCount },
   ];
