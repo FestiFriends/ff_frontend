@@ -1,9 +1,15 @@
 import { ApiResponse } from './api';
-import { ReviewTagType } from './enums';
+import { GroupCategoryType, ReviewTagType } from './enums';
 
-export interface ReviewsData {
+export interface RecentReviewsData {
   groupId: string; // 모임 ID
+  performance: {
+    id: string; // 공연 ID
+    title: string; // 공연 이름
+    poster: string; // 포스터 이미지 url
+  };
   groupTitle: string; // 모임 이름
+  category: GroupCategoryType; // 모임 카테고리 종류
   groupStartDate: string; // 모임 시작 날짜 (ISO 8601)
   groupEndDate: string; // 모임 종료 날짜 (ISO 8601)
   reviews: {
@@ -15,4 +21,4 @@ export interface ReviewsData {
   }[];
 }
 
-export type ReviewsResponse = ApiResponse<ReviewsData[]>;
+export type RecentReviewsResponse = ApiResponse<RecentReviewsData[]>;

@@ -27,13 +27,13 @@ export const ReportReason = {
 export type ReportReasonType = (typeof ReportReason)[keyof typeof ReportReason];
 
 export const ReviewTag = {
-  PUNCTUAL: 'PUNCTUAL', // 시간 약속을 잘 지켜요
-  POLITE: 'POLITE', // 친절하고 매너가 좋아요
-  COMFORTABLE: 'COMFORTABLE', // 편안한 분위기였어요
-  COMMUNICATIVE: 'COMMUNICATIVE', // 대화가 잘 통했어요
-  CLEAN: 'CLEAN', // 청결하고 깔끔했어요
-  RESPONSIVE: 'RESPONSIVE', // 소통이 잘 되고 응답이 빨라요
-  RECOMMEND: 'RECOMMEND', // 다음에도 함께하고 싶어요
-};
+  PUNCTUAL: '시간 약속을 잘 지켜요', // 시간 약속을 잘 지켜요
+  POLITE: '친절하고 매너가 좋아요', // 친절하고 매너가 좋아요
+  COMFORTABLE: '편안한 분위기였어요', // 편안한 분위기였어요
+  COMMUNICATIVE: '대화가 잘 통했어요', // 대화가 잘 통했어요
+  CLEAN: '청결하고 깔끔했어요', // 청결하고 깔끔했어요
+  RESPONSIVE: '소통이 잘 되고 응답이 빨라요', // 소통이 잘 되고 응답이 빨라요
+  RECOMMEND: '다음에도 함께하고 싶어요', // 다음에도 함께하고 싶어요
+} as const;
 
-export type ReviewTagType = (typeof ReviewTag)[keyof typeof ReviewTag];
+export type ReviewTagType = keyof typeof ReviewTag;
