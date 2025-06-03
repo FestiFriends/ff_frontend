@@ -319,7 +319,8 @@ describe('PerformanceCard', () => {
   describe('Preset Components', () => {
     it('DefaultCard가 기본 스타일로 렌더링된다', () => {
       render(
-        <PerformanceCard.Default
+        <PerformanceCard
+          type='default'
           performance={mockPerformance}
           onCardClick={jest.fn()}
         />
@@ -332,7 +333,8 @@ describe('PerformanceCard', () => {
 
     it('CompactCard가 컴팩트 스타일로 렌더링된다', () => {
       render(
-        <PerformanceCard.Compact
+        <PerformanceCard
+          type='compact'
           performance={mockPerformance}
           onCardClick={jest.fn()}
         />
@@ -343,7 +345,8 @@ describe('PerformanceCard', () => {
 
     it('VerticalCard가 세로 스타일로 렌더링된다', () => {
       render(
-        <PerformanceCard.Vertical
+        <PerformanceCard
+          type='vertical'
           performance={mockPerformance}
           onCardClick={jest.fn()}
         />
@@ -354,7 +357,8 @@ describe('PerformanceCard', () => {
 
     it('DetailedCard가 상세 스타일로 렌더링된다', () => {
       render(
-        <PerformanceCard.Detailed
+        <PerformanceCard
+          type='detailed'
           performance={mockPerformance}
           onCardClick={jest.fn()}
         />
@@ -366,7 +370,6 @@ describe('PerformanceCard', () => {
 
   describe('Context Error Handling', () => {
     it('Context 밖에서 하위 컴포넌트를 사용하면 에러가 발생한다', () => {
-      // Error boundary로 에러를 잡기 위한 설정
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
       expect(() => {
