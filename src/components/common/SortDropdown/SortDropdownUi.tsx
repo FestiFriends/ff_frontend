@@ -2,10 +2,10 @@
 
 import {
   Dropdown,
-  DropdownTrigger,
   DropdownContent,
   DropdownItem,
-} from '@/components/Dropdown';
+  DropdownTrigger,
+} from '../Dropdown';
 
 interface SortOption {
   label: string;
