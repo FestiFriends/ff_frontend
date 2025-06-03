@@ -4,11 +4,15 @@ import React from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { BellIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import { useLogin, useLogout } from '@/hooks/useAuth/useAuth';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import NavLink from '../NavLink/NavLink';
 import SearchInput from '../SearchInput/SearchInput';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
 const NAV_ITEM = [
   { herf: '/calendar', name: '캘린더' },

@@ -1,7 +1,6 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { DateRange } from '@/types/dateRange';
 import { addMonths, format, subMonths } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import {
@@ -9,6 +8,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
+import { DateRange } from '@/types/dateRange';
 import Calendar from '../Calendar/Calendar';
 import Popover from '../Popover/Popover';
 import PopoverContent from '../Popover/PopoverContent';
