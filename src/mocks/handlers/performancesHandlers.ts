@@ -396,10 +396,10 @@ const TOP_GROUPS_SAMPLE_DATA: PerformancesResponse = {
 };
 
 export const performancesHandlers = [
-  http.get('/api/v1/performances/top-favorites', () =>
+  http.get('http://localhost:3000/api/v1/performances/top-favorites', () =>
     HttpResponse.json(TOP_FAVORITES_SAMPLE_DATA)
   ),
-  http.get('/api/v1/performances/top-groups', () =>
+  http.get('http://localhost:3000/api/v1/performances/top-groups', () =>
     HttpResponse.json(TOP_GROUPS_SAMPLE_DATA)
   ),
 ];
