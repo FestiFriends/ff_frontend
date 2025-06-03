@@ -1,20 +1,22 @@
 'use client';
 
 import { useProfile } from '@/hooks/useProfile/useProfile';
-import ProfileCard from '../../ProfileCard/ProfileCard';
+import ProfileHeader from './ProfileHeader';
 
 interface Props {
   userId: string;
 }
 
 const ProfilePage = ({ userId }: Props) => {
-  const { profile, isLoading, error } = useProfile(userId);
+  const { profile } = useProfile(userId);
+
+  if (!profile) return null;
 
   return (
-    <ProfileCard
-      profile={profile}
-      isLoading={isLoading}
-      error={error ?? undefined}
+    <ProfileHeader
+      {...profile}
+      // isLoading={isLoading}
+      // error={error ?? undefined}
     />
   );
 };
