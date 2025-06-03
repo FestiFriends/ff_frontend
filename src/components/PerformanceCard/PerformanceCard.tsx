@@ -296,86 +296,158 @@ const LikeButton = ({
 
 /* compound */
 
+interface VisibilityProps {
+  showImage?: boolean;
+  showTitle?: boolean;
+  showStatus?: boolean;
+  showDateRange?: boolean;
+  showLocation?: boolean;
+  showCast?: boolean;
+  showPrice?: boolean;
+  showLikeButton?: boolean;
+}
+
 // variants
-const DefaultCard = ({ isLiked = false }: { isLiked?: boolean }) => (
+const DefaultCard = ({
+  isLiked = false,
+  showImage = true,
+  showTitle = true,
+  showStatus = true,
+  showDateRange = true,
+  showLocation = true,
+  showCast = true,
+  showPrice = true,
+  showLikeButton = true,
+}: { isLiked?: boolean } & VisibilityProps) => (
   <>
-    <LikeButton
-      isLiked={isLiked}
-      className={cn(styles.likeButton.size, styles.likeButton.position.default)}
-    />
+    {showLikeButton && (
+      <LikeButton
+        isLiked={isLiked}
+        className={cn(
+          styles.likeButton.size,
+          styles.likeButton.position.default
+        )}
+      />
+    )}
     <div className={styles.layout.horizontal.default.container}>
-      <ImageComponent className={styles.image.size.default} />
+      {showImage && <ImageComponent className={styles.image.size.default} />}
       <div className={styles.layout.horizontal.default.content}>
-        <Title className={styles.title.size.default} />
+        {showTitle && <Title className={styles.title.size.default} />}
         <div className={cn(styles.info.container, styles.info.size.default)}>
-          <Status className={styles.status.size.default} />
-          <DateRange />
-          <Location />
-          <Cast />
-          <Price className={styles.price.default} />
+          {showStatus && <Status className={styles.status.size.default} />}
+          {showDateRange && <DateRange />}
+          {showLocation && <Location />}
+          {showCast && <Cast />}
+          {showPrice && <Price className={styles.price.default} />}
         </div>
       </div>
     </div>
   </>
 );
 
-const CompactCard = ({ isLiked = false }: { isLiked?: boolean }) => (
+const CompactCard = ({
+  isLiked = false,
+  showImage = true,
+  showTitle = true,
+  showStatus = true,
+  showDateRange = true,
+  showLocation = true,
+  showCast = false,
+  showPrice = true,
+  showLikeButton = true,
+}: { isLiked?: boolean } & VisibilityProps) => (
   <>
-    <LikeButton
-      isLiked={isLiked}
-      className={cn(styles.likeButton.size, styles.likeButton.position.compact)}
-    />
+    {showLikeButton && (
+      <LikeButton
+        isLiked={isLiked}
+        className={cn(
+          styles.likeButton.size,
+          styles.likeButton.position.compact
+        )}
+      />
+    )}
     <div className={styles.layout.horizontal.compact.container}>
-      <ImageComponent className={styles.image.size.compact} />
+      {showImage && <ImageComponent className={styles.image.size.compact} />}
       <div className={styles.layout.horizontal.compact.content}>
-        <Title className={styles.title.size.compact} />
+        {showTitle && <Title className={styles.title.size.compact} />}
         <div className={cn(styles.info.container, styles.info.size.compact)}>
-          <Status className={styles.status.size.compact} />
-          <DateRange />
-          <Location />
-          <Price className={styles.price.compact} />
+          {showStatus && <Status className={styles.status.size.compact} />}
+          {showDateRange && <DateRange />}
+          {showLocation && <Location />}
+          {showCast && <Cast />}
+          {showPrice && <Price className={styles.price.compact} />}
         </div>
       </div>
     </div>
   </>
 );
 
-const VerticalCard = ({ isLiked = false }: { isLiked?: boolean }) => (
+const VerticalCard = ({
+  isLiked = false,
+  showImage = true,
+  showTitle = true,
+  showStatus = true,
+  showDateRange = true,
+  showLocation = true,
+  showCast = true,
+  showPrice = true,
+  showLikeButton = true,
+}: { isLiked?: boolean } & VisibilityProps) => (
   <>
-    <LikeButton
-      isLiked={isLiked}
-      className={cn(styles.likeButton.size, styles.likeButton.position.default)}
-    />
-    <ImageComponent className={styles.image.size.vertical} />
+    {showLikeButton && (
+      <LikeButton
+        isLiked={isLiked}
+        className={cn(
+          styles.likeButton.size,
+          styles.likeButton.position.default
+        )}
+      />
+    )}
+    {showImage && <ImageComponent className={styles.image.size.vertical} />}
     <div className={styles.layout.vertical.container}>
-      <Title className={styles.title.size.verticalDefault} />
+      {showTitle && <Title className={styles.title.size.verticalDefault} />}
       <div className={styles.layout.vertical.info}>
-        <Status className={styles.status.size.default} />
-        <DateRange />
-        <Location />
-        <Cast />
-        <Price className={styles.price.default} />
+        {showStatus && <Status className={styles.status.size.default} />}
+        {showDateRange && <DateRange />}
+        {showLocation && <Location />}
+        {showCast && <Cast />}
+        {showPrice && <Price className={styles.price.default} />}
       </div>
     </div>
   </>
 );
 
-const DetailedCard = ({ isLiked = false }: { isLiked?: boolean }) => (
+const DetailedCard = ({
+  isLiked = false,
+  showImage = true,
+  showTitle = true,
+  showStatus = true,
+  showDateRange = true,
+  showLocation = true,
+  showCast = true,
+  showPrice = true,
+  showLikeButton = true,
+}: { isLiked?: boolean } & VisibilityProps) => (
   <>
-    <LikeButton
-      isLiked={isLiked}
-      className={cn(styles.likeButton.size, styles.likeButton.position.default)}
-    />
+    {showLikeButton && (
+      <LikeButton
+        isLiked={isLiked}
+        className={cn(
+          styles.likeButton.size,
+          styles.likeButton.position.default
+        )}
+      />
+    )}
     <div className={styles.layout.horizontal.default.container}>
-      <ImageComponent className={styles.image.size.default} />
+      {showImage && <ImageComponent className={styles.image.size.default} />}
       <div className={styles.layout.horizontal.default.content}>
-        <Title className={styles.title.size.detailed} />
+        {showTitle && <Title className={styles.title.size.detailed} />}
         <div className={cn(styles.info.container, styles.info.size.default)}>
-          <Status className={styles.status.size.default} />
-          <DateRange />
-          <Location />
-          <Cast />
-          <Price className={styles.price.default} />
+          {showStatus && <Status className={styles.status.size.default} />}
+          {showDateRange && <DateRange />}
+          {showLocation && <Location />}
+          {showCast && <Cast />}
+          {showPrice && <Price className={styles.price.default} />}
         </div>
       </div>
     </div>
@@ -385,7 +457,7 @@ const DetailedCard = ({ isLiked = false }: { isLiked?: boolean }) => (
 /* export */
 type CardType = 'default' | 'compact' | 'vertical' | 'detailed';
 
-interface PerformanceCardProps {
+interface PerformanceCardProps extends VisibilityProps {
   performance: Performance;
   type?: CardType;
   className?: string;
@@ -401,17 +473,56 @@ const PerformanceCard = ({
   onCardClick,
   onLikeClick,
   isLiked = false,
+  showImage,
+  showTitle,
+  showStatus,
+  showDateRange,
+  showLocation,
+  showCast,
+  showPrice,
+  showLikeButton,
 }: PerformanceCardProps) => {
+  const visibilityProps = {
+    showImage,
+    showTitle,
+    showStatus,
+    showDateRange,
+    showLocation,
+    showCast,
+    showPrice,
+    showLikeButton,
+  };
+
   const getCardContent = () => {
     switch (type) {
       case 'compact':
-        return <CompactCard isLiked={isLiked} />;
+        return (
+          <CompactCard
+            isLiked={isLiked}
+            {...visibilityProps}
+          />
+        );
       case 'vertical':
-        return <VerticalCard isLiked={isLiked} />;
+        return (
+          <VerticalCard
+            isLiked={isLiked}
+            {...visibilityProps}
+          />
+        );
       case 'detailed':
-        return <DetailedCard isLiked={isLiked} />;
+        return (
+          <DetailedCard
+            isLiked={isLiked}
+            {...visibilityProps}
+          />
+        );
       default:
-        return <DefaultCard isLiked={isLiked} />;
+        return (
+          <DefaultCard
+            isLiked={isLiked}
+            {...visibilityProps}
+          />
+        );
     }
   };
 
@@ -452,6 +563,7 @@ export {
   Price,
   LikeButton,
   usePerformanceCardContext,
+  type VisibilityProps,
 };
 
 PerformanceCard.Root = Root;
