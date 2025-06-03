@@ -1,16 +1,20 @@
-import { use } from 'react';
-import PerformanceDetailLayout from '@/components/pages/performanceDetail/PerformanceDetailLayout';
+import { performanceDetailApi } from '@/services/performanceDetailService';
 
-interface PerformanceDetailPageProps {
+type PerformanceDetailPageProps = {
   params: Promise<{ performanceId: string }>;
-}
+};
 
-const PerformanceDetailPage = ({ params }: PerformanceDetailPageProps) => {
-  const { performanceId } = use(params);
+const PerformanceDetailPage = async ({
+  params,
+}: PerformanceDetailPageProps) => {
+  const { performanceId } = await params;
+
+  const performanceDetail =
+    await performanceDetailApi.getPerformanceDetail(performanceId);
 
   return (
     <div>
-      <PerformanceDetailLayout performanceId={performanceId} />
+      <h1>공연 상세 페이지</h1>
     </div>
   );
 };
