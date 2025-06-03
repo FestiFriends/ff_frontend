@@ -1,8 +1,10 @@
+/* eslint-disable react-refresh/only-export-components */
 import React from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Performance } from '@/types/performance';
 import formatPerformanceData from '@/utils/formatPerformanceData';
+import { PERFORMANCE_CARD_MESSAGES } from './PerformanceCard.messages';
 import { performanceCardStyles as styles } from './PerformanceCard.styles';
 
 /* Context */
@@ -19,9 +21,7 @@ const PerformanceCardContext =
 const usePerformanceCardContext = () => {
   const context = React.useContext(PerformanceCardContext);
   if (!context) {
-    throw new Error(
-      'PerformanceCard 컴포넌트는 PerformanceCard.Root 내부에서 사용해야 합니다.'
-    );
+    throw new Error(PERFORMANCE_CARD_MESSAGES.CONTEXT_ERROR);
   }
   return context;
 };
@@ -70,7 +70,11 @@ const Root = ({
         onKeyDown={onCardClick ? handleKeyDown : undefined}
         role={onCardClick ? 'button' : undefined}
         tabIndex={onCardClick ? 0 : undefined}
-        aria-label={onCardClick ? `${data.title} 공연 상세 보기` : undefined}
+        aria-label={
+          onCardClick
+            ? PERFORMANCE_CARD_MESSAGES.CARD_DETAIL_LABEL(data.title)
+            : undefined
+        }
         {...props}
       >
         {children}
@@ -105,12 +109,16 @@ const ImageComponent = ({
         <Image
           fill
           src={data.mainImage}
-          alt={alt || `${data.title} 포스터`}
+          alt={alt || PERFORMANCE_CARD_MESSAGES.POSTER_ALT(data.title)}
           className='object-cover'
           priority={priority}
         />
       ) : (
-        fallback || <div className={styles.image.fallback}>No Image</div>
+        fallback || (
+          <div className={styles.image.fallback}>
+            {PERFORMANCE_CARD_MESSAGES.NO_IMAGE_FALLBACK}
+          </div>
+        )
       )}
     </div>
   );
@@ -180,6 +188,7 @@ const DateRange = ({
     </div>
   );
 };
+
 const Location = ({
   className,
   children,
@@ -231,8 +240,7 @@ const Price = ({
   );
 };
 
-// LikeButton
-// TODO: [?] 분리 해야 하는가
+// LikeButton // TODO: [?] 분리 해야 하는가
 interface LikeButtonProps {
   isLiked?: boolean;
   showText?: boolean;
@@ -266,13 +274,20 @@ const LikeButton = ({
     <button
       onClick={handleClick}
       className={cn(styles.likeButton.base, className)}
-      aria-label={isLiked ? '좋아요 취소' : '좋아요'}
+      aria-label={
+        isLiked
+          ? PERFORMANCE_CARD_MESSAGES.UNLIKE_BUTTON_LABEL
+          : PERFORMANCE_CARD_MESSAGES.LIKE_BUTTON_LABEL
+      }
       {...props}
     >
       <span>{isLiked ? icon.liked : icon.unliked}</span>
       {showText && (
         <span className='ml-1'>
-          {children || (isLiked ? '좋아요 취소' : '좋아요')}
+          {children
+            || (isLiked
+              ? PERFORMANCE_CARD_MESSAGES.UNLIKE_TEXT
+              : PERFORMANCE_CARD_MESSAGES.LIKE_TEXT)}
         </span>
       )}
     </button>
