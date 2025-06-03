@@ -2,15 +2,21 @@
 
 import { useState } from 'react';
 import Tabs from '@/components/Tabs/Tabs';
+import { FullProfile } from '@/types/profiles';
+import ProfileSummaryBox from './ProfileSummaryBox';
+
+interface ProfileBodyProps {
+  profile: FullProfile;
+}
 
 const TABS = ['참여 모임', '리뷰 목록'];
 
-const ProfileBody = () => {
+const ProfileBody = ({ profile }: ProfileBodyProps) => {
   const [selectedTab, setSelectedTab] = useState(TABS[0]);
 
   return (
-    <div className='w-full max-w-4xl px-4'>
-      <div>모임이력</div>
+    <div className='mx-auto w-full max-w-xl'>
+      <ProfileSummaryBox groupSummary={profile.groupSummary} />
 
       <Tabs
         tabs={TABS}

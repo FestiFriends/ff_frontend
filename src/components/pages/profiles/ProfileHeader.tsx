@@ -2,29 +2,31 @@ import { Star } from 'lucide-react';
 import Button from '@/components/Button/Button';
 import ProfileImage from '@/components/ProfileImage/ProfileImage';
 import { Gender } from '@/types/enums';
-import { ProfileData } from '@/types/profile';
+import { FullProfile } from '@/types/profiles';
 
-interface ProfileHeaderProps extends ProfileData {
+interface ProfileHeaderProps {
+  profile: FullProfile;
   onEditClick?: () => void;
 }
 
-const ProfileHeader = ({
-  profileImageUrl,
-  nickname,
-  gender,
-  rating,
-  description,
-  sns,
-  tags,
-  onEditClick,
-  isMyProfile,
-}: ProfileHeaderProps) => {
-  const filteredTags = tags?.filter((tag) => tag.trim().length > 0) ?? [];
+const ProfileHeader = ({ profile, onEditClick }: ProfileHeaderProps) => {
+  console.log('[ProfileHeader] 렌더링됨! 받은 profile:', profile);
+  const {
+    name,
+    gender,
+    profileImage,
+    rating,
+    description,
+    sns,
+    hashtag,
+    isMine,
+  } = profile;
+  const filteredTags = hashtag?.filter((tag) => tag.trim().length > 0) ?? [];
 
   return (
     <section className='flex flex-col items-center bg-white p-6 shadow'>
       <div className='relative w-full max-w-xl'>
-        {isMyProfile && (
+        {isMine && (
           <Button
             size='sm'
             className='absolute top-0 right-0 rounded-md bg-blue-500 px-4 py-2 text-sm text-white'
@@ -36,12 +38,12 @@ const ProfileHeader = ({
 
         <div className='flex flex-row items-end gap-4'>
           <ProfileImage
-            src={profileImageUrl}
+            src={profileImage?.src}
             size='lg'
           />
           <div>
             <div className='flex items-end gap-1'>
-              <h2 className='text-2xl font-bold'>{nickname}</h2>
+              <h2 className='text-2xl font-bold'>{name}</h2>
               {gender === Gender.MALE && (
                 <span className='mb-1 text-sm text-blue-500'>♂</span>
               )}

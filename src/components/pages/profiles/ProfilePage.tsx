@@ -15,12 +15,8 @@ const ProfilePage = ({ userId }: Props) => {
 
   return (
     <div>
-      <ProfileHeader
-        {...profile}
-        // isLoading={isLoading}
-        // error={error ?? undefined}
-      />
-      <ProfileBody />
+      <ProfileHeader profile={profile} />
+      <ProfileBody profile={profile} />
     </div>
   );
 };

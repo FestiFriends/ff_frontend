@@ -27,3 +27,12 @@ export interface Profile {
   sns?: string;
   rating: number;
 }
+
+export interface FullProfile extends Profile {
+  isReported?: boolean;
+  isMine: boolean;
+  groupSummary: GroupSummary;
+  reviewSummary: ReviewSummary;
+  reviewCount: number;
+  reviewList?: string[];
+}
