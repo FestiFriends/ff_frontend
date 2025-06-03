@@ -15,6 +15,7 @@ const config: Config = {
   testEnvironment: 'jest-fixed-jsdom',
   // 테스트 전에 실행할 설정 파일을 지정
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  moduleNameMapper: { '^@/(.*)$': '<rootDir>/src/$1' },
 };
 
 export default createJestConfig(config);
