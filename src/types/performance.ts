@@ -17,9 +17,9 @@ export interface Performance {
   price: string[]; // 티켓 가격
   poster?: string; // 포스터 이미지 URL
   state: string; // 공연 상태
-  visit?: string; // 내한 여부
+  visit: string; // 내한 여부
   images?: Image[]; // 소개 이미지 리스트
-  time?: string[]; // 요일별 공연 시간
+  time: string[]; // 요일별 공연 시간
   groupCount: number; // 해당 공연의 모임 개수
   favoriteCount: number; // 공연 찜 수
 }
