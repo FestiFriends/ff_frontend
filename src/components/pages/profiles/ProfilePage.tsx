@@ -1,6 +1,7 @@
 'use client';
 
 import { useProfile } from '@/hooks/useProfile/useProfile';
+import ProfileBody from './ProfileBody';
 import ProfileHeader from './ProfileHeader';
 
 interface Props {
@@ -13,11 +14,14 @@ const ProfilePage = ({ userId }: Props) => {
   if (!profile) return null;
 
   return (
-    <ProfileHeader
-      {...profile}
-      // isLoading={isLoading}
-      // error={error ?? undefined}
-    />
+    <div>
+      <ProfileHeader
+        {...profile}
+        // isLoading={isLoading}
+        // error={error ?? undefined}
+      />
+      <ProfileBody />
+    </div>
   );
 };
 
