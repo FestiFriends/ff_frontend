@@ -240,7 +240,7 @@ const Price = ({
   );
 };
 
-// LikeButton // TODO: [?] 분리 해야 하는가
+// LikeButton
 interface LikeButtonProps {
   isLiked?: boolean;
   showText?: boolean;
@@ -294,39 +294,19 @@ const LikeButton = ({
   );
 };
 
-/* Compound Component */
-interface PresetCardProps {
-  performance: Performance;
-  className?: string;
-  onCardClick?: (performance: Performance) => void;
-  onLikeClick?: (performance: Performance, isLiked: boolean) => void;
-  isLiked?: boolean;
-}
+/* compound */
 
-const DefaultCard = ({
-  performance,
-  className,
-  onCardClick,
-  onLikeClick,
-  isLiked = false,
-}: PresetCardProps) => (
-  <Root
-    performance={performance}
-    onCardClick={onCardClick}
-    onLikeClick={onLikeClick}
-    className={cn(styles.card.base, styles.card.variant.default, className)}
-  >
+// variants
+const DefaultCard = ({ isLiked = false }: { isLiked?: boolean }) => (
+  <>
     <LikeButton
       isLiked={isLiked}
       className={cn(styles.likeButton.size, styles.likeButton.position.default)}
     />
-
     <div className={styles.layout.horizontal.default.container}>
       <ImageComponent className={styles.image.size.default} />
-
       <div className={styles.layout.horizontal.default.content}>
         <Title className={styles.title.size.default} />
-
         <div className={cn(styles.info.container, styles.info.size.default)}>
           <Status className={styles.status.size.default} />
           <DateRange />
@@ -336,30 +316,17 @@ const DefaultCard = ({
         </div>
       </div>
     </div>
-  </Root>
+  </>
 );
 
-const CompactCard = ({
-  performance,
-  className,
-  onCardClick,
-  onLikeClick,
-  isLiked = false,
-}: PresetCardProps) => (
-  <Root
-    performance={performance}
-    onCardClick={onCardClick}
-    onLikeClick={onLikeClick}
-    className={cn(styles.card.base, styles.card.variant.compact, className)}
-  >
+const CompactCard = ({ isLiked = false }: { isLiked?: boolean }) => (
+  <>
     <LikeButton
       isLiked={isLiked}
       className={cn(styles.likeButton.size, styles.likeButton.position.compact)}
     />
-
     <div className={styles.layout.horizontal.compact.container}>
       <ImageComponent className={styles.image.size.compact} />
-
       <div className={styles.layout.horizontal.compact.content}>
         <Title className={styles.title.size.compact} />
         <div className={cn(styles.info.container, styles.info.size.compact)}>
@@ -370,32 +337,18 @@ const CompactCard = ({
         </div>
       </div>
     </div>
-  </Root>
+  </>
 );
 
-const VerticalCard = ({
-  performance,
-  className,
-  onCardClick,
-  onLikeClick,
-  isLiked = false,
-}: PresetCardProps) => (
-  <Root
-    performance={performance}
-    onCardClick={onCardClick}
-    onLikeClick={onLikeClick}
-    className={cn(styles.card.base, styles.card.variant.default, className)}
-  >
+const VerticalCard = ({ isLiked = false }: { isLiked?: boolean }) => (
+  <>
     <LikeButton
       isLiked={isLiked}
       className={cn(styles.likeButton.size, styles.likeButton.position.default)}
     />
-
     <ImageComponent className={styles.image.size.vertical} />
-
     <div className={styles.layout.vertical.container}>
       <Title className={styles.title.size.verticalDefault} />
-
       <div className={styles.layout.vertical.info}>
         <Status className={styles.status.size.default} />
         <DateRange />
@@ -404,33 +357,19 @@ const VerticalCard = ({
         <Price className={styles.price.default} />
       </div>
     </div>
-  </Root>
+  </>
 );
 
-const DetailedCard = ({
-  performance,
-  className,
-  onCardClick,
-  onLikeClick,
-  isLiked = false,
-}: PresetCardProps) => (
-  <Root
-    performance={performance}
-    onCardClick={onCardClick}
-    onLikeClick={onLikeClick}
-    className={cn(styles.card.base, styles.card.variant.detailed, className)}
-  >
+const DetailedCard = ({ isLiked = false }: { isLiked?: boolean }) => (
+  <>
     <LikeButton
       isLiked={isLiked}
       className={cn(styles.likeButton.size, styles.likeButton.position.default)}
     />
-
     <div className={styles.layout.horizontal.default.container}>
       <ImageComponent className={styles.image.size.default} />
-
       <div className={styles.layout.horizontal.default.content}>
         <Title className={styles.title.size.detailed} />
-
         <div className={cn(styles.info.container, styles.info.size.default)}>
           <Status className={styles.status.size.default} />
           <DateRange />
@@ -440,12 +379,71 @@ const DetailedCard = ({
         </div>
       </div>
     </div>
-  </Root>
+  </>
 );
 
-export const PerformanceCard = {
+/* export */
+type CardType = 'default' | 'compact' | 'vertical' | 'detailed';
+
+interface PerformanceCardProps {
+  performance: Performance;
+  type?: CardType;
+  className?: string;
+  onCardClick?: (performance: Performance) => void;
+  onLikeClick?: (performance: Performance, isLiked: boolean) => void;
+  isLiked?: boolean;
+}
+
+const PerformanceCard = ({
+  performance,
+  type = 'default',
+  className,
+  onCardClick,
+  onLikeClick,
+  isLiked = false,
+}: PerformanceCardProps) => {
+  const getCardContent = () => {
+    switch (type) {
+      case 'compact':
+        return <CompactCard isLiked={isLiked} />;
+      case 'vertical':
+        return <VerticalCard isLiked={isLiked} />;
+      case 'detailed':
+        return <DetailedCard isLiked={isLiked} />;
+      default:
+        return <DefaultCard isLiked={isLiked} />;
+    }
+  };
+
+  const getCardVariantClass = () => {
+    switch (type) {
+      case 'compact':
+        return styles.card.variant.compact;
+      case 'detailed':
+        return styles.card.variant.detailed;
+      default:
+        return styles.card.variant.default;
+    }
+  };
+
+  return (
+    <Root
+      performance={performance}
+      onCardClick={onCardClick}
+      onLikeClick={onLikeClick}
+      className={cn(styles.card.base, getCardVariantClass(), className)}
+    >
+      {getCardContent()}
+    </Root>
+  );
+};
+
+export default PerformanceCard;
+
+export {
+  PerformanceCard,
   Root,
-  Image: ImageComponent,
+  ImageComponent as Image,
   Title,
   Status,
   DateRange,
@@ -453,11 +451,16 @@ export const PerformanceCard = {
   Cast,
   Price,
   LikeButton,
-
-  Default: DefaultCard,
-  Compact: CompactCard,
-  Vertical: VerticalCard,
-  Detailed: DetailedCard,
-
-  useContext: usePerformanceCardContext,
+  usePerformanceCardContext,
 };
+
+PerformanceCard.Root = Root;
+PerformanceCard.Image = ImageComponent;
+PerformanceCard.Title = Title;
+PerformanceCard.Status = Status;
+PerformanceCard.DateRange = DateRange;
+PerformanceCard.Location = Location;
+PerformanceCard.Cast = Cast;
+PerformanceCard.Price = Price;
+PerformanceCard.LikeButton = LikeButton;
+PerformanceCard.useContext = usePerformanceCardContext;
