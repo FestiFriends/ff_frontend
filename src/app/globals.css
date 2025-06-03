@@ -39,6 +39,24 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-gray-25: #f8f8f8;
+  --color-gray-50: #edeef2;
+  --color-gray-100: #e0e0e5;
+  --color-gray-200: #c6c8cf;
+  --color-gray-300: #b3b4bc;
+  --color-gray-400: #9fa0a7;
+  --color-gray-500: #84858c;
+  --color-gray-600: #707177;
+  --color-gray-700: #5d5d61;
+  --color-gray-800: #49494c;
+  --color-gray-900: #323236;
+  --color-gray-950: #1f1f22;
+
+  --color-primary-100: #e5f3ff;
+  --color-primary-500: #3d9ef2;
+
+  --color-red-500: #ff2727;
 }
 
 :root {
@@ -121,4 +139,92 @@
 
 @utility scrollbar-hide {
   @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}
+
+@utility text-11_M {
+  @apply text-[10px] leading-[100%] font-medium tracking-[-2.5%];
+}
+
+@utility text-11_B {
+  @apply text-[10px] leading-[100%] font-bold tracking-[-2.5%];
+}
+
+@utility text-12_M {
+  @apply text-[12px] leading-[100%] font-medium tracking-[-2.5%];
+}
+
+@utility text-12_B {
+  @apply text-[12px] leading-[100%] font-bold tracking-[-2.5%];
+}
+
+@utility text-13_M {
+  @apply text-[13px] leading-[100%] font-medium tracking-[-2.5%];
+}
+
+@utility text-13_B {
+  @apply text-[12px] leading-[100%] font-bold tracking-[-2.5%];
+}
+
+@utility text-14_M {
+  @apply text-[14px] leading-[100%] font-medium tracking-[-2.5%];
+}
+
+@utility text-14_B {
+  @apply text-[14px] leading-[100%] font-bold tracking-[-2.5%];
+}
+
+@utility text-16_M {
+  @apply text-[16px] leading-[100%] font-medium tracking-[-2.5%];
+}
+
+@utility text-16_B {
+  @apply text-[16px] leading-[100%] font-bold tracking-[-2.5%];
+}
+
+@utility text-18_M {
+  @apply text-[18px] leading-[100%] font-medium tracking-[-2.5%];
+}
+
+@utility text-18_B {
+  @apply text-[18px] leading-[100%] font-bold tracking-[-2.5%];
+}
+
+@utility text-20_M {
+  @apply text-[20px] leading-[100%] font-medium tracking-[-2.5%];
+}
+
+@utility text-20_B {
+  @apply text-[20px] leading-[100%] font-bold tracking-[-2.5%];
+}
+
+@utility text-24_M {
+  @apply text-[24px] leading-[100%] font-medium tracking-[-2.5%];
+}
+
+@utility text-24_B {
+  @apply text-[24px] leading-[100%] font-bold tracking-[-2.5%];
+}
+
+@utility text-32_M {
+  @apply text-[32px] leading-[100%] font-medium tracking-[-2.5%];
+}
+
+@utility text-32_B {
+  @apply text-[32px] leading-[100%] font-bold tracking-[-2.5%];
+}
+
+@utility text-14_body_M {
+  @apply text-[14px] leading-[180%] font-medium tracking-[-2.5%];
+}
+
+@utility text-16_body_M {
+  @apply text-[16px] leading-[180%] font-medium tracking-[-2.5%];
+}
+
+@utility text-18_body_B {
+  @apply text-[18px] leading-[140%] font-bold tracking-[-2.5%];
+}
+
+@utility text-20_body_B {
+  @apply text-[20px] leading-[160%] font-bold tracking-[-2.5%];
 }
