@@ -1,3 +1,5 @@
+import { Image } from './image';
+
 export interface Performance {
   id: string; // 공연 ID
   title: string; // 공연명
@@ -16,11 +18,8 @@ export interface Performance {
   poster?: string; // 포스터 이미지 URL
   state: string; // 공연 상태
   visit: string; // 내한 여부
-  imgs?: {
-    // 소개 이미지 목록
-    id: string; // 이미지 ID
-    src: string; // 소개 이미지 URL
-    alt?: string; // 소개 이미지 설명
-  }[];
-  time: string[]; // 공연 시간 (ISO 8601) 배열
+  images?: Image[]; // 소개 이미지 리스트
+  time: string[]; // 요일별 공연 시간
+  groupCount: number; // 해당 공연의 모임 개수
+  favoriteCount: number; // 공연 찜 수
 }
