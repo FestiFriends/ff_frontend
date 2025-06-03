@@ -1,4 +1,4 @@
-import GlobalNavigationBar from '@/components/GlobalNavigationBar/GlobalNavigationBar';
+import GlobalNavigationBar from '@/components/common/GlobalNavigationBar/GlobalNavigationBar';
 
 const RootLayout = ({
   children,
