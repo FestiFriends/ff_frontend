@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Filter from '@/components/Filter/Filter';
-import type { MultiLevelData } from '@/hooks/useMultiLevelFilter/useMultiLevelFilter';
+import { MultiLevelData } from '@/hooks/useMultiLevelFilter/useMultiLevelFilter';
+import Filter from './Filter';
 
 const mockData: MultiLevelData[] = [
   {

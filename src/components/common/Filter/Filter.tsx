@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
-import FilterUi from '@/components/Filter/FilterUi';
 import {
-  useMultiLevelFilter,
   MultiLevelData,
+  useMultiLevelFilter,
 } from '@/hooks/useMultiLevelFilter/useMultiLevelFilter';
+import FilterUi from './FilterUi';
 
 interface FilterProps {
   data: MultiLevelData[];
