@@ -7,8 +7,8 @@ import { performanceCardStyles as styles } from './PerformanceCard.styles';
 
 /* Context */
 interface PerformanceCardContextValue {
-  data: ReturnType<typeof formatPerformanceData>;
   performance: Performance;
+  data: ReturnType<typeof formatPerformanceData>;
   onCardClick?: (performance: Performance) => void;
   onLikeClick?: (performance: Performance, isLiked: boolean) => void;
 }
@@ -16,7 +16,7 @@ interface PerformanceCardContextValue {
 const PerformanceCardContext =
   React.createContext<PerformanceCardContextValue | null>(null);
 
-const usePerformanceCard = () => {
+const usePerformanceCardContext = () => {
   const context = React.useContext(PerformanceCardContext);
   if (!context) {
     throw new Error(
@@ -27,6 +27,16 @@ const usePerformanceCard = () => {
 };
 
 /* Headless Component */
+
+// Root
+interface RootProps {
+  performance: Performance;
+  onCardClick?: (performance: Performance) => void;
+  onLikeClick?: (performance: Performance, isLiked: boolean) => void;
+  children: React.ReactNode;
+  className?: string;
+}
+
 const Root = ({
   performance,
   onCardClick,
@@ -34,13 +44,7 @@ const Root = ({
   children,
   className,
   ...props
-}: {
-  performance: Performance;
-  onCardClick?: (performance: Performance) => void;
-  onLikeClick?: (performance: Performance, isLiked: boolean) => void;
-  children: React.ReactNode;
-  className?: string;
-} & Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick'>) => {
+}: RootProps & Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick'>) => {
   const data = formatPerformanceData(performance);
 
   const contextValue: PerformanceCardContextValue = {
@@ -50,6 +54,7 @@ const Root = ({
     onLikeClick,
   };
 
+  const handleClick = () => onCardClick?.(performance);
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (onCardClick && (e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault();
@@ -61,7 +66,7 @@ const Root = ({
     <PerformanceCardContext.Provider value={contextValue}>
       <div
         className={className}
-        onClick={onCardClick ? () => onCardClick(performance) : undefined}
+        onClick={onCardClick ? handleClick : undefined}
         onKeyDown={onCardClick ? handleKeyDown : undefined}
         role={onCardClick ? 'button' : undefined}
         tabIndex={onCardClick ? 0 : undefined}
@@ -74,15 +79,22 @@ const Root = ({
   );
 };
 
-const Image_ = ({
-  className,
-  alt,
-  ...props
-}: {
+// Image
+interface ImageProps {
   className?: string;
   alt?: string;
-} & React.HTMLAttributes<HTMLDivElement>) => {
-  const { data } = usePerformanceCard();
+  fallback?: React.ReactNode;
+  priority?: boolean;
+}
+
+const ImageComponent = ({
+  className,
+  alt,
+  fallback,
+  priority = false,
+  ...props
+}: ImageProps & React.HTMLAttributes<HTMLDivElement>) => {
+  const { data } = usePerformanceCardContext();
 
   return (
     <div
@@ -95,29 +107,35 @@ const Image_ = ({
           src={data.mainImage}
           alt={alt || `${data.title} 포스터`}
           className='object-cover'
+          priority={priority}
         />
       ) : (
-        <div className={styles.image.fallback}>No Image</div>
+        fallback || <div className={styles.image.fallback}>No Image</div>
       )}
     </div>
   );
 };
 
+// Content
+interface ContentProps {
+  className?: string;
+  children?: React.ReactNode;
+  fallback?: React.ReactNode;
+}
+
 const Title = ({
   className,
   children,
+  fallback,
   ...props
-}: {
-  className?: string;
-  children?: React.ReactNode;
-} & React.HTMLAttributes<HTMLHeadingElement>) => {
-  const { data } = usePerformanceCard();
+}: ContentProps & React.HTMLAttributes<HTMLHeadingElement>) => {
+  const { data } = usePerformanceCardContext();
   return (
     <h3
-      className={className}
+      className={cn(styles.title.base, className)}
       {...props}
     >
-      {children || data.title}
+      {children || data.title || fallback}
     </h3>
   );
 };
@@ -125,12 +143,10 @@ const Title = ({
 const Status = ({
   className,
   children,
+  fallback,
   ...props
-}: {
-  className?: string;
-  children?: React.ReactNode;
-} & React.HTMLAttributes<HTMLSpanElement>) => {
-  const { data } = usePerformanceCard();
+}: ContentProps & React.HTMLAttributes<HTMLSpanElement>) => {
+  const { data } = usePerformanceCardContext();
 
   const stateClass = data.isEnded
     ? styles.status.state.ended
@@ -143,7 +159,7 @@ const Status = ({
       className={cn(styles.status.base, stateClass, className)}
       {...props}
     >
-      {children || data.status}
+      {children || data.status || fallback}
     </span>
   );
 };
@@ -151,37 +167,32 @@ const Status = ({
 const DateRange = ({
   className,
   children,
+  fallback,
   ...props
-}: {
-  className?: string;
-  children?: React.ReactNode;
-} & React.HTMLAttributes<HTMLDivElement>) => {
-  const { data } = usePerformanceCard();
+}: ContentProps & React.HTMLAttributes<HTMLDivElement>) => {
+  const { data } = usePerformanceCardContext();
   return (
     <div
       className={className}
       {...props}
     >
-      {children || data.dateRange}
+      {children || data.dateRange || fallback}
     </div>
   );
 };
-
 const Location = ({
   className,
   children,
+  fallback,
   ...props
-}: {
-  className?: string;
-  children?: React.ReactNode;
-} & React.HTMLAttributes<HTMLDivElement>) => {
-  const { data } = usePerformanceCard();
+}: ContentProps & React.HTMLAttributes<HTMLDivElement>) => {
+  const { data } = usePerformanceCardContext();
   return (
     <div
       className={className}
       {...props}
     >
-      {children || data.location}
+      {children || data.location || fallback}
     </div>
   );
 };
@@ -189,18 +200,16 @@ const Location = ({
 const Cast = ({
   className,
   children,
+  fallback,
   ...props
-}: {
-  className?: string;
-  children?: React.ReactNode;
-} & React.HTMLAttributes<HTMLDivElement>) => {
-  const { data } = usePerformanceCard();
+}: ContentProps & React.HTMLAttributes<HTMLDivElement>) => {
+  const { data } = usePerformanceCardContext();
   return (
     <div
       className={className}
       {...props}
     >
-      {children || data.castSummary}
+      {children || data.castSummary || fallback}
     </div>
   );
 };
@@ -208,236 +217,232 @@ const Cast = ({
 const Price = ({
   className,
   children,
+  fallback,
   ...props
-}: {
-  className?: string;
-  children?: React.ReactNode;
-} & React.HTMLAttributes<HTMLDivElement>) => {
-  const { data } = usePerformanceCard();
+}: ContentProps & React.HTMLAttributes<HTMLDivElement>) => {
+  const { data } = usePerformanceCardContext();
   return (
     <div
       className={className}
       {...props}
     >
-      {children || data.priceRange}
+      {children || data.priceRange || fallback}
     </div>
   );
 };
+
+// LikeButton
+// TODO: [?] 분리 해야 하는가
+interface LikeButtonProps {
+  isLiked?: boolean;
+  showText?: boolean;
+  className?: string;
+  children?: React.ReactNode;
+  icon?: {
+    liked: React.ReactNode;
+    unliked: React.ReactNode;
+  };
+}
 
 const LikeButton = ({
   isLiked = false,
   showText = false,
   className,
   children,
+  icon = { liked: '❤️', unliked: '🤍' },
   ...props
-}: {
-  isLiked?: boolean;
-  showText?: boolean;
-  className?: string;
-  children?: React.ReactNode;
-} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'>) => {
-  const { performance, onLikeClick } = usePerformanceCard();
+}: LikeButtonProps
+  & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'>) => {
+  const { performance, onLikeClick } = usePerformanceCardContext();
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (onLikeClick) onLikeClick(performance, !isLiked);
+    onLikeClick?.(performance, !isLiked);
   };
+
+  if (!onLikeClick) return null;
 
   return (
     <button
       onClick={handleClick}
-      className={className}
+      className={cn(styles.likeButton.base, className)}
+      aria-label={isLiked ? '좋아요 취소' : '좋아요'}
       {...props}
     >
-      <span>{isLiked ? '❤️' : '🤍'}</span>
+      <span>{isLiked ? icon.liked : icon.unliked}</span>
       {showText && (
-        <span>{children || (isLiked ? '좋아요 취소' : '좋아요')}</span>
+        <span className='ml-1'>
+          {children || (isLiked ? '좋아요 취소' : '좋아요')}
+        </span>
       )}
     </button>
   );
 };
 
 /* Compound Component */
-interface PerformanceCardProps {
+interface PresetCardProps {
   performance: Performance;
   className?: string;
   onCardClick?: (performance: Performance) => void;
   onLikeClick?: (performance: Performance, isLiked: boolean) => void;
-  variant?: 'default' | 'compact' | 'detailed';
-  type?: 'horizontal' | 'vertical';
-  showImage?: boolean;
-  showStatus?: boolean;
-  showCast?: boolean;
-  showPrice?: boolean;
-  showLikeButton?: boolean;
   isLiked?: boolean;
 }
 
-const PerformanceCard = ({
+const DefaultCard = ({
   performance,
   className,
   onCardClick,
   onLikeClick,
-  variant = 'default',
-  type = 'horizontal',
-  showImage = true,
-  showStatus = true,
-  showCast = true,
-  showPrice = true,
-  showLikeButton = true,
   isLiked = false,
-}: PerformanceCardProps) => {
-  if (type === 'vertical') {
-    return (
-      <Root
-        performance={performance}
-        onCardClick={onCardClick}
-        onLikeClick={onLikeClick}
-        className={cn(
-          styles.card.base,
-          styles.card.variant[variant],
-          className
-        )}
-      >
-        {showLikeButton && (
-          <LikeButton
-            isLiked={isLiked}
-            className={cn(
-              styles.likeButton.base,
-              styles.likeButton.size,
-              styles.likeButton.position[
-                variant === 'compact' ? 'compact' : 'default'
-              ]
-            )}
-          />
-        )}
+}: PresetCardProps) => (
+  <Root
+    performance={performance}
+    onCardClick={onCardClick}
+    onLikeClick={onLikeClick}
+    className={cn(styles.card.base, styles.card.variant.default, className)}
+  >
+    <LikeButton
+      isLiked={isLiked}
+      className={cn(styles.likeButton.size, styles.likeButton.position.default)}
+    />
 
-        {showImage && <Image_ className={styles.image.size.vertical} />}
+    <div className={styles.layout.horizontal.default.container}>
+      <ImageComponent className={styles.image.size.default} />
 
-        <div className={styles.layout.vertical.container}>
-          <Title
-            className={cn(
-              styles.title.base,
-              variant === 'detailed'
-                ? styles.title.size.verticalDetailed
-                : styles.title.size.verticalDefault
-            )}
-          />
+      <div className={styles.layout.horizontal.default.content}>
+        <Title className={styles.title.size.default} />
 
-          <div className={styles.layout.vertical.info}>
-            {showStatus && (
-              <Status
-                className={cn(
-                  styles.status.size[
-                    variant === 'compact' ? 'compact' : 'default'
-                  ]
-                )}
-              />
-            )}
-            <DateRange />
-            <Location />
-            {showCast && <Cast />}
-            {showPrice && (
-              <Price
-                className={
-                  styles.price[variant === 'compact' ? 'compact' : 'default']
-                }
-              />
-            )}
-          </div>
-        </div>
-      </Root>
-    );
-  }
-
-  if (variant === 'compact') {
-    return (
-      <Root
-        performance={performance}
-        onCardClick={onCardClick}
-        onLikeClick={onLikeClick}
-        className={cn(styles.card.base, styles.card.variant.compact, className)}
-      >
-        {showLikeButton && (
-          <LikeButton
-            isLiked={isLiked}
-            className={cn(
-              styles.likeButton.base,
-              styles.likeButton.size,
-              styles.likeButton.position.compact
-            )}
-          />
-        )}
-
-        <div className={styles.layout.horizontal.compact.container}>
-          {showImage && <Image_ className={styles.image.size.compact} />}
-
-          <div className={styles.layout.horizontal.compact.content}>
-            <Title className={styles.title.size.compact} />
-            <div
-              className={cn(styles.info.container, styles.info.size.compact)}
-            >
-              {showStatus && <Status className={styles.status.size.compact} />}
-              <DateRange />
-              <Location />
-              {showPrice && <Price className={styles.price.compact} />}
-            </div>
-          </div>
-        </div>
-      </Root>
-    );
-  }
-
-  return (
-    <Root
-      performance={performance}
-      onCardClick={onCardClick}
-      onLikeClick={onLikeClick}
-      className={cn(styles.card.base, styles.card.variant[variant], className)}
-    >
-      {showLikeButton && (
-        <LikeButton
-          isLiked={isLiked}
-          className={cn(
-            styles.likeButton.base,
-            styles.likeButton.size,
-            styles.likeButton.position.default
-          )}
-        />
-      )}
-
-      <div className={styles.layout.horizontal.default.container}>
-        {showImage && <Image_ className={styles.image.size.default} />}
-
-        <div className={styles.layout.horizontal.default.content}>
-          <Title
-            className={cn(
-              styles.title.base,
-              styles.title.size[variant === 'detailed' ? 'detailed' : 'default']
-            )}
-          />
-
-          <div className={cn(styles.info.container, styles.info.size.default)}>
-            {showStatus && <Status className={styles.status.size.default} />}
-            <DateRange />
-            <Location />
-            {showCast && <Cast />}
-            {showPrice && <Price className={styles.price.default} />}
-          </div>
+        <div className={cn(styles.info.container, styles.info.size.default)}>
+          <Status className={styles.status.size.default} />
+          <DateRange />
+          <Location />
+          <Cast />
+          <Price className={styles.price.default} />
         </div>
       </div>
-    </Root>
-  );
+    </div>
+  </Root>
+);
+
+const CompactCard = ({
+  performance,
+  className,
+  onCardClick,
+  onLikeClick,
+  isLiked = false,
+}: PresetCardProps) => (
+  <Root
+    performance={performance}
+    onCardClick={onCardClick}
+    onLikeClick={onLikeClick}
+    className={cn(styles.card.base, styles.card.variant.compact, className)}
+  >
+    <LikeButton
+      isLiked={isLiked}
+      className={cn(styles.likeButton.size, styles.likeButton.position.compact)}
+    />
+
+    <div className={styles.layout.horizontal.compact.container}>
+      <ImageComponent className={styles.image.size.compact} />
+
+      <div className={styles.layout.horizontal.compact.content}>
+        <Title className={styles.title.size.compact} />
+        <div className={cn(styles.info.container, styles.info.size.compact)}>
+          <Status className={styles.status.size.compact} />
+          <DateRange />
+          <Location />
+          <Price className={styles.price.compact} />
+        </div>
+      </div>
+    </div>
+  </Root>
+);
+
+const VerticalCard = ({
+  performance,
+  className,
+  onCardClick,
+  onLikeClick,
+  isLiked = false,
+}: PresetCardProps) => (
+  <Root
+    performance={performance}
+    onCardClick={onCardClick}
+    onLikeClick={onLikeClick}
+    className={cn(styles.card.base, styles.card.variant.default, className)}
+  >
+    <LikeButton
+      isLiked={isLiked}
+      className={cn(styles.likeButton.size, styles.likeButton.position.default)}
+    />
+
+    <ImageComponent className={styles.image.size.vertical} />
+
+    <div className={styles.layout.vertical.container}>
+      <Title className={styles.title.size.verticalDefault} />
+
+      <div className={styles.layout.vertical.info}>
+        <Status className={styles.status.size.default} />
+        <DateRange />
+        <Location />
+        <Cast />
+        <Price className={styles.price.default} />
+      </div>
+    </div>
+  </Root>
+);
+
+const DetailedCard = ({
+  performance,
+  className,
+  onCardClick,
+  onLikeClick,
+  isLiked = false,
+}: PresetCardProps) => (
+  <Root
+    performance={performance}
+    onCardClick={onCardClick}
+    onLikeClick={onLikeClick}
+    className={cn(styles.card.base, styles.card.variant.detailed, className)}
+  >
+    <LikeButton
+      isLiked={isLiked}
+      className={cn(styles.likeButton.size, styles.likeButton.position.default)}
+    />
+
+    <div className={styles.layout.horizontal.default.container}>
+      <ImageComponent className={styles.image.size.default} />
+
+      <div className={styles.layout.horizontal.default.content}>
+        <Title className={styles.title.size.detailed} />
+
+        <div className={cn(styles.info.container, styles.info.size.default)}>
+          <Status className={styles.status.size.default} />
+          <DateRange />
+          <Location />
+          <Cast />
+          <Price className={styles.price.default} />
+        </div>
+      </div>
+    </div>
+  </Root>
+);
+
+export const PerformanceCard = {
+  Root,
+  Image: ImageComponent,
+  Title,
+  Status,
+  DateRange,
+  Location,
+  Cast,
+  Price,
+  LikeButton,
+
+  Default: DefaultCard,
+  Compact: CompactCard,
+  Vertical: VerticalCard,
+  Detailed: DetailedCard,
+
+  useContext: usePerformanceCardContext,
 };
-
-PerformanceCard.Root = Root;
-PerformanceCard.Image = Image_;
-PerformanceCard.Title = Title;
-PerformanceCard.Status = Status;
-PerformanceCard.DateRange = DateRange;
-PerformanceCard.Location = Location;
-PerformanceCard.Cast = Cast;
-PerformanceCard.Price = Price;
-PerformanceCard.LikeButton = LikeButton;
-
-export { PerformanceCard };
