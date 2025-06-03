@@ -1,4 +1,6 @@
 import { FullProfile } from '@/types/profiles';
+import ReviewList from './ReviewList';
+import ReviewTagSummary from './ReviewTagSummary';
 
 interface ReceivedReviewsProps {
   profile: FullProfile;
@@ -10,10 +12,13 @@ const ReceivedReviews = ({ profile }: ReceivedReviewsProps) => {
   return (
     <section className='space-y-6'>
       <ReviewTagSummary summary={reviewSummary} />
-      <p className='text-sm text-gray-600'>
-        총 {reviewCount}개의 리뷰를 받았어요.
-      </p>
-      {reviewList && <ReviewList reviews={reviewList} />}
+
+      {reviewList && (
+        <ReviewList
+          reviews={reviewList}
+          reviewCount={reviewCount}
+        />
+      )}
     </section>
   );
 };
