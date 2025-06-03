@@ -8,6 +8,7 @@
 - Compound Component 패턴으로 유연한 커스터마이징
 - Headless UI 구조로 스타일과 로직 분리
 - 4가지 사전 정의 카드 레이아웃
+- **가시성 제어 Props로 각 요소 표시/숨김 제어**
 - 접근성 지원 (키보드 네비게이션, ARIA)
 - TypeScript 완전 지원
 
@@ -29,6 +30,14 @@
 <PerformanceCard performance={performance} type="compact" />
 <PerformanceCard performance={performance} type="vertical" />
 <PerformanceCard performance={performance} type="detailed" />
+
+// 가시성 제어
+<PerformanceCard
+  performance={performance}
+  type="compact"
+  showCast={false}
+  showPrice={false}
+/>
 ```
 
 ### 2. Compound Component 방식 (커스터마이징)
@@ -77,6 +86,17 @@ import { Root, Title, Image, Status } from './PerformanceCard';
 - `isLiked`: boolean (기본: false) - 좋아요 상태
 - `className`: string
 
+#### 가시성 제어 Props
+
+- `showImage`: boolean - 이미지 표시 여부
+- `showTitle`: boolean - 제목 표시 여부
+- `showStatus`: boolean - 상태 표시 여부
+- `showDateRange`: boolean - 공연 기간 표시 여부
+- `showLocation`: boolean - 장소 표시 여부
+- `showCast`: boolean - 출연진 표시 여부
+- `showPrice`: boolean - 가격 표시 여부
+- `showLikeButton`: boolean - 좋아요 버튼 표시 여부
+
 ### Compound Components
 
 #### PerformanceCard.Root
@@ -109,9 +129,14 @@ import { Root, Title, Image, Status } from './PerformanceCard';
 ## 카드 타입
 
 - **default**: 표준 가로형, 모든 정보 표시
-- **compact**: 압축형 가로형, 주요 정보만 표시
+- **compact**: 압축형 가로형, 주요 정보만 표시 (출연진 기본 숨김)
 - **vertical**: 세로형, 이미지 상단 배치
 - **detailed**: 확장형 가로형, 상세 정보 강조
+
+### 카드 타입별 기본 가시성
+
+- **default/detailed/vertical**: 모든 요소 표시
+- **compact**: `showCast=false` (출연진 기본 숨김)
 
 ## 예제
 
@@ -127,6 +152,42 @@ const cardType = isMobile ? 'compact' : 'default';
 />;
 ```
 
+### 가시성 제어
+
+```tsx
+// 특정 요소만 표시
+<PerformanceCard
+  performance={performance}
+  type="compact"
+  showImage={true}
+  showTitle={true}
+  showStatus={false}  // 상태 숨김
+  showPrice={false}   // 가격 숨김
+  showCast={false}    // 출연진 숨김
+/>
+
+// 이미지 없는 카드
+<PerformanceCard
+  performance={performance}
+  showImage={false}
+  showLikeButton={false}
+/>
+
+// 최소 정보만 표시
+<PerformanceCard
+  performance={performance}
+  type="compact"
+  showTitle={true}
+  showStatus={true}
+  showImage={false}
+  showDateRange={false}
+  showLocation={false}
+  showCast={false}
+  showPrice={false}
+  showLikeButton={false}
+/>
+```
+
 ### 리스트 렌더링
 
 ```tsx
@@ -138,6 +199,7 @@ const cardType = isMobile ? 'compact' : 'default';
       type='compact'
       onCardClick={handleClick}
       isLiked={likedPerfs.includes(perf.id)}
+      showCast={false} // 리스트에서는 출연진 숨김
     />
   ));
 }
@@ -202,6 +264,10 @@ import PerformanceCard from './PerformanceCard';
 
 - 모든 하위 컴포넌트는 `Root` 내부에서 사용 필수
 - `onCardClick` 제공 시에만 카드 클릭 가능
+- `onLikeClick` 제공 시에만 좋아요 버튼 표시
+- 이미지 없을 경우 자동 fallback UI 표시
+- Context 밖에서 하위 컴포넌트 사용 시 에러 발생
+- **가시성 Props가 `false`일 때 해당 요소는 DOM에서 완전히 제거됨**
 - `onLikeClick` 제공 시에만 좋아요 버튼 표시
 - 이미지 없을 경우 자동 fallback UI 표시
 - Context 밖에서 하위 컴포넌트 사용 시 에러 발생
