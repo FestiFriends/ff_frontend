@@ -15,6 +15,7 @@ interface EventCalendarProps {
   onPerformanceClick?: (performance: Performance) => void;
   onDateClick?: (date: Date, performances: Performance[]) => void;
 }
+const WEEKDAYS_KR = ['일', '월', '화', '수', '목', '금', '토'];
 
 const EventCalendar = ({
   month,
@@ -49,44 +50,51 @@ const EventCalendar = ({
   }, [performances]);
 
   return (
-    <div className='grid grid-cols-7 gap-1'>
-      {days.map((day) => {
-        const key = format(day, 'yyyy-MM-dd');
-        const events = eventsByDate[key] ?? [];
+    <div className='w-full'>
+      <div className='mb-1 grid grid-cols-7 text-center text-sm font-medium text-gray-600'>
+        {WEEKDAYS_KR.map((day) => (
+          <div key={day}>{day}</div>
+        ))}
+      </div>
+      <div className='grid grid-cols-7 gap-1'>
+        {days.map((day) => {
+          const key = format(day, 'yyyy-MM-dd');
+          const events = eventsByDate[key] ?? [];
 
-        return (
-          <div
-            key={key}
-            className='rounded border p-2 text-center'
-          >
-            <button
-              onClick={() => onDateClick?.(day, events)}
-              className='w-full text-sm font-medium hover:underline'
+          return (
+            <div
+              key={key}
+              className='rounded border p-2 text-center'
             >
-              {format(day, 'd')}
-            </button>
+              <button
+                onClick={() => onDateClick?.(day, events)}
+                className='w-full text-sm font-medium hover:underline'
+              >
+                {format(day, 'd')}
+              </button>
 
-            {events.length > 0 && (
-              <div className='mt-1 space-y-0.5'>
-                {events.slice(0, 2).map((perf) => (
-                  <button
-                    key={perf.id}
-                    onClick={() => onPerformanceClick?.(perf)}
-                    className='block w-full truncate rounded bg-blue-100 px-1 text-left text-xs text-blue-700 hover:underline'
-                  >
-                    {perf.title}
-                  </button>
-                ))}
-                {events.length > 2 && (
-                  <div className='text-xs text-gray-400'>
-                    +{events.length - 2}개 더 있음
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        );
-      })}
+              {events.length > 0 && (
+                <div className='mt-1 space-y-0.5'>
+                  {events.slice(0, 2).map((perf) => (
+                    <button
+                      key={perf.id}
+                      onClick={() => onPerformanceClick?.(perf)}
+                      className='block w-full truncate rounded bg-blue-100 px-1 text-left text-xs text-blue-700 hover:underline'
+                    >
+                      {perf.title}
+                    </button>
+                  ))}
+                  {events.length > 2 && (
+                    <div className='text-xs text-gray-400'>
+                      +{events.length - 2}개 더 있음
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
