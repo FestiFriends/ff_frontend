@@ -128,11 +128,10 @@ const Title = ({
   ...props
 }: ContentProps & React.HTMLAttributes<HTMLHeadingElement>) => {
   const { data } = usePerformanceCardContext();
-  const { title } = STYLES.content;
 
   return (
     <h3
-      className={cn(title, className)}
+      className={cn(className)}
       {...props}
     >
       {children || data.title || fallback}
@@ -191,11 +190,10 @@ const Location = ({
   ...props
 }: ContentProps & React.HTMLAttributes<HTMLDivElement>) => {
   const { data } = usePerformanceCardContext();
-  const { location } = STYLES.content;
 
   return (
     <div
-      className={cn(location, className)}
+      className={cn(className)}
       {...props}
     >
       {children || data.location || fallback}
