@@ -1,5 +1,6 @@
-import PerformanceInfo from '@/components/pages/performanceDetail/PerformanceInfo';
+import { Summary, Tabs } from '@/components/pages/performanceDetail';
 import { performancesApi } from '@/services/performancesService';
+import { Performance } from '@/types/performance';
 
 type PerformanceDetailPageProps = {
   params: Promise<{ performanceId: string }>;
@@ -9,13 +10,13 @@ const PerformanceDetailPage = async ({
   params,
 }: PerformanceDetailPageProps) => {
   const { performanceId } = await params;
-  const performanceDetail =
+  const performanceDetail: Performance =
     await performancesApi.getPerformanceDetail(performanceId);
 
   return (
     <div className='bg-blue-100'>
-      <h1>공연 상세 페이지</h1>
-      {/* <PerformanceInfo performanceDetail={performanceDetail} /> */}
+      <Summary performanceDetail={performanceDetail} />
+      <Tabs performanceDetail={performanceDetail} />
     </div>
   );
 };
