@@ -3,7 +3,7 @@ const ProfileBodySkeleton = () => (
     <div className='mt-4 grid w-full grid-cols-3 gap-4 rounded-lg border border-gray-200 bg-white p-4 text-center shadow-sm'>
       {[1, 2, 3].map((i) => (
         <div key={i}>
-          <div className='mx-auto h-5 w-30 rounded bg-gray-200' />{' '}
+          <div className='mx-auto h-5 w-20 rounded bg-gray-200' />{' '}
           <div className='mx-auto mt-2 h-6 w-5 rounded bg-gray-300' />{' '}
         </div>
       ))}
