@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import {
   eachDayOfInterval,
   endOfMonth,
@@ -10,6 +10,7 @@ import {
 import { isSameMonth } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Performance } from '@/types/performance';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface EventCalendarProps {
   month: Date;
@@ -25,12 +26,16 @@ const EventCalendar = ({
   onPerformanceClick,
   onDateClick,
 }: EventCalendarProps) => {
-  const days = useMemo(() => {
-    const firstDay = startOfWeek(startOfMonth(month), { weekStartsOn: 0 });
-    const lastDay = endOfWeek(endOfMonth(month), { weekStartsOn: 0 });
+  const [internalMonth, setInternalMonth] = useState(month);
+  const currentMonth = internalMonth;
 
+  const days = useMemo(() => {
+    const firstDay = startOfWeek(startOfMonth(currentMonth), {
+      weekStartsOn: 0,
+    });
+    const lastDay = endOfWeek(endOfMonth(currentMonth), { weekStartsOn: 0 });
     return eachDayOfInterval({ start: firstDay, end: lastDay });
-  }, [month]);
+  }, [currentMonth]);
 
   const eventsByDate = useMemo(() => {
     const map: Record<string, Performance[]> = {};
@@ -51,8 +56,37 @@ const EventCalendar = ({
     return map;
   }, [performances]);
 
+  const handlePrevMonth = () => {
+    setInternalMonth(
+      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
+    );
+  };
+
+  const handleNextMonth = () => {
+    setInternalMonth(
+      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
+    );
+  };
+
   return (
     <div className='w-full'>
+      <div className='mb-2 flex items-center justify-center'>
+        <button
+          onClick={handlePrevMonth}
+          aria-label='이전 달'
+        >
+          <ChevronLeft size={20} />
+        </button>
+        <div className='min-w-[120px] text-center font-semibold'>
+          {format(currentMonth, 'yyyy년 M월')}
+        </div>
+        <button
+          onClick={handleNextMonth}
+          aria-label='다음 달'
+        >
+          <ChevronRight size={20} />
+        </button>
+      </div>
       <div className='mb-1 grid grid-cols-7 text-center text-sm font-medium text-gray-600'>
         {WEEKDAYS_KR.map((day) => (
           <div key={day}>{day}</div>
