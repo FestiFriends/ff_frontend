@@ -50,6 +50,7 @@ export const MOCK_PERFORMANCE_DETAIL = {
     ],
     groupCount: 25,
     favoriteCount: 70,
+    isLiked: false,
   },
 };
 
