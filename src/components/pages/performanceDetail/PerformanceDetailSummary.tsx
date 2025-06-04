@@ -24,7 +24,7 @@ const PerformanceDetailSummary = ({
       <h2>{performanceDetail.title}</h2>
       <div>
         <button>
-          <LikeIcon />
+          <LikeIcon type='empty' />
         </button>
         <button>
           <ShareIcon />
@@ -90,5 +90,4 @@ const PerformanceDetailSummary = ({
     </div>
   </div>
 );
-
 export default PerformanceDetailSummary;

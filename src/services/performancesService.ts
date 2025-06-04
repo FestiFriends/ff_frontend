@@ -1,5 +1,4 @@
 import apiFetcher from '@/lib/apiFetcher';
-import { nextFetcher } from '@/lib/nextFetcher';
 import {
   PerformanceIsLikedData,
   PerformanceIsLikedResponse,
@@ -23,10 +22,9 @@ export const performancesApi = {
       { isLiked }
     ),
   getPerformanceDetail: async (id: string) => {
-    const res = await nextFetcher<PerformanceDetailResponse>(
-      `/api/v1/performances/${id}`,
-      { method: 'GET', revalidate: 21600 }
+    const res = await apiFetcher.get<PerformanceDetailResponse>(
+      `/api/v1/performances/${id}`
     );
-    return res;
+    return res.data;
   },
 };
