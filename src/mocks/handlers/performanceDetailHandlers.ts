@@ -59,7 +59,7 @@ export const performanceDetailHandlers = [
 
       if (performanceId === '') {
         return HttpResponse.json(
-          { message: '존재하지 않는 공연입니다.' },
+          { message: '공연 상세 조회 요청에 실패했습니다.' },
           { status: 404 }
         );
       } else {
