@@ -1,5 +1,6 @@
 import Poster from '@/components/common/poster/Poster';
 import { Image } from '@/types/image';
+import { Performance } from '@/types/performance';
 
 interface PerformanceDetailInfoProps {
   performanceDetail: Performance;

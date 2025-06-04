@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Tabs from '@/components/common/Tabs/Tabs';
 import { Groups, Info } from '@/components/pages/performanceDetail';
+import { Performance } from '@/types/performance';
 
 interface PerformanceDetailTabsProps {
   performanceDetail: Performance;

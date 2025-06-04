@@ -1,3 +1,5 @@
+import { Performance } from '@/types/performance';
+
 interface PerformanceDetailGroupsProps {
   performanceDetail: Performance;
 }

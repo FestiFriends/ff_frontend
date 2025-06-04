@@ -10,13 +10,13 @@ const PerformanceDetailPage = async ({
   params,
 }: PerformanceDetailPageProps) => {
   const { performanceId } = await params;
-  const performanceDetail: Performance =
+  const performanceDetail =
     await performancesApi.getPerformanceDetail(performanceId);
 
   return (
     <div className='bg-blue-100'>
-      <Summary performanceDetail={performanceDetail} />
-      <Tabs performanceDetail={performanceDetail} />
+      <Summary performanceDetail={performanceDetail.data as Performance} />
+      <Tabs performanceDetail={performanceDetail.data as Performance} />
     </div>
   );
 };
