@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useProfile } from '@/hooks/useProfile/useProfile';
 import ProfileBody from './ProfileBody';
 import ProfileBodySkeleton from './ProfileBodySkeleton';
@@ -15,13 +16,25 @@ interface Props {
 const ProfilePage = ({ userId }: Props) => {
   const { profile, isLoading, error } = useProfile(userId);
 
-  if (isLoading)
+  const [skeletonVisible, setSkeletonVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!error) setSkeletonVisible(true);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [error]);
+
+  if (isLoading && skeletonVisible) {
     return (
       <ProfileWrapper>
-        <ProfileHeaderSkeleton />
-        <ProfileBodySkeleton />
+        <div className='opacity-100 transition-opacity duration-500'>
+          <ProfileHeaderSkeleton />
+          <ProfileBodySkeleton />
+        </div>
       </ProfileWrapper>
     );
+  }
 
   if (error || !profile) {
     return (
