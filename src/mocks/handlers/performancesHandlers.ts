@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { PerformancesResponse } from '@/types/performances';
+import { PerformancesResponse } from '@/types/performance';
 
 const TOP_FAVORITES_SAMPLE_DATA: PerformancesResponse = {
   code: 200,
@@ -7,7 +7,7 @@ const TOP_FAVORITES_SAMPLE_DATA: PerformancesResponse = {
   data: [
     {
       id: 'pf-20250522',
-      title: '2025 서울 재즈 페스티벌',
+      title: '2025 서울 재즈 페스티벌asdasdasdasd',
       startDate: '2025-05-30T18:00:00Z',
       endDate: '2025-06-01T22:00:00Z',
       location: '올림픽공원 88잔디마당',
@@ -20,18 +20,18 @@ const TOP_FAVORITES_SAMPLE_DATA: PerformancesResponse = {
       host: ['서울특별시'],
       organizer: ['SJF조직위'],
       price: ['일반석 99,000원', 'VIP석 150,000원'],
-      poster: 'https://example.com/posters/jazz2025.jpg',
+      poster: 'https://picsum.photos/200/300',
       state: '예매중',
       visit: '국내',
       images: [
         {
           id: 'img-001',
-          src: 'https://example.com/images/jazz_stage.jpg',
+          src: 'https://picsum.photos/200/300',
           alt: '페스티벌 메인 무대',
         },
         {
           id: 'img-002',
-          src: 'https://example.com/images/jazz_night.jpg',
+          src: 'https://picsum.photos/200/300',
           alt: '야경 속 재즈 공연',
         },
       ],
@@ -42,6 +42,7 @@ const TOP_FAVORITES_SAMPLE_DATA: PerformancesResponse = {
       ],
       groupCount: 20,
       favoriteCount: 10000,
+      isLiked: false,
     },
     {
       id: 'pf-20251001',
@@ -80,6 +81,7 @@ const TOP_FAVORITES_SAMPLE_DATA: PerformancesResponse = {
       ],
       groupCount: 18,
       favoriteCount: 7160,
+      isLiked: true,
     },
     {
       id: 'pf-20251002',
@@ -118,6 +120,7 @@ const TOP_FAVORITES_SAMPLE_DATA: PerformancesResponse = {
       ],
       groupCount: 11,
       favoriteCount: 7548,
+      isLiked: false,
     },
     {
       id: 'pf-20251003',
@@ -156,6 +159,7 @@ const TOP_FAVORITES_SAMPLE_DATA: PerformancesResponse = {
       ],
       groupCount: 18,
       favoriteCount: 8412,
+      isLiked: false,
     },
     {
       id: 'pf-20251004',
@@ -194,6 +198,7 @@ const TOP_FAVORITES_SAMPLE_DATA: PerformancesResponse = {
       ],
       groupCount: 15,
       favoriteCount: 8089,
+      isLiked: true,
     },
   ],
 };
@@ -239,6 +244,7 @@ const TOP_GROUPS_SAMPLE_DATA: PerformancesResponse = {
       ],
       groupCount: 26,
       favoriteCount: 9935,
+      isLiked: true,
     },
     {
       id: 'pf-20251002',
@@ -277,6 +283,7 @@ const TOP_GROUPS_SAMPLE_DATA: PerformancesResponse = {
       ],
       groupCount: 21,
       favoriteCount: 1434,
+      isLiked: false,
     },
     {
       id: 'pf-20251003',
@@ -315,6 +322,7 @@ const TOP_GROUPS_SAMPLE_DATA: PerformancesResponse = {
       ],
       groupCount: 29,
       favoriteCount: 3615,
+      isLiked: false,
     },
     {
       id: 'pf-20251004',
@@ -353,6 +361,7 @@ const TOP_GROUPS_SAMPLE_DATA: PerformancesResponse = {
       ],
       groupCount: 7,
       favoriteCount: 7224,
+      isLiked: false,
     },
     {
       id: 'pf-20251005',
@@ -391,6 +400,7 @@ const TOP_GROUPS_SAMPLE_DATA: PerformancesResponse = {
       ],
       groupCount: 22,
       favoriteCount: 3045,
+      isLiked: true,
     },
   ],
 };

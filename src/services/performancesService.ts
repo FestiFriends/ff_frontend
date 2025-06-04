@@ -1,5 +1,5 @@
 import axiosFetcher from '@/lib/axiosFetcher';
-import { PerformancesResponse } from '@/types/performances';
+import { PerformancesResponse } from '@/types/performance';
 
 export const performancesApi = {
   getTopFavorites: async () =>
