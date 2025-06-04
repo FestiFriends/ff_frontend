@@ -34,3 +34,4 @@ export interface PerformanceIsLikedData {
 }
 
 export type PerformanceIsLikedResponse = ApiResponse<PerformanceIsLikedData>;
+export type PerformanceDetailResponse = ApiResponse<Performance>;

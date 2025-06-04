@@ -15,18 +15,18 @@ export const MOCK_PERFORMANCE_DETAIL = {
   host: ['서울특별시'],
   organizer: ['SJF조직위'],
   price: ['일반석 99,000원', 'VIP석 150,000원'],
-  poster: 'https://example.com/posters/jazz2025.jpg',
+  poster: 'https://picsum.photos/id/158/420/600',
   state: '예매중',
   visit: '국내',
   images: [
     {
       id: 'img-001',
-      src: 'https://example.com/images/jazz_stage.jpg',
+      src: 'https://picsum.photos/420/700',
       alt: '페스티벌 메인 무대',
     },
     {
       id: 'img-002',
-      src: 'https://example.com/images/jazz_night.jpg',
+      src: 'https://picsum.photos/500',
       alt: '야경 속 재즈 공연',
     },
   ],
