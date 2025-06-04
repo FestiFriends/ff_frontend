@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 interface PosterProps {
   src: string;
@@ -20,8 +20,8 @@ const sizeMap = {
 const Poster = ({
   src,
   alt = '포스터 이미지',
-  shadow = true,
-  border = true,
+  shadow,
+  border,
   size = 'md',
   className,
 }: PosterProps) => {
@@ -32,7 +32,6 @@ const Poster = ({
       className={cn(
         'relative overflow-hidden',
         sizeClass,
-        'bg-gray-100',
         shadow && 'shadow-md',
         border && 'border border-gray-300',
         className
