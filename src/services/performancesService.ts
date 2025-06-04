@@ -1,13 +1,13 @@
-import axiosFetcher from '@/lib/axiosFetcher';
+import apiFetcher from '@/lib/apiFetcher';
 import { PerformancesResponse } from '@/types/performance';
 
 export const performancesApi = {
   getTopFavorites: async () =>
-    await axiosFetcher.get<PerformancesResponse>(
+    await apiFetcher.get<PerformancesResponse>(
       '/api/v1/performances/top-favorites'
     ),
   getTopByGroupCount: async () =>
-    await axiosFetcher.get<PerformancesResponse>(
+    await apiFetcher.get<PerformancesResponse>(
       '/api/v1/performances/top-groups'
     ),
 };

@@ -1,11 +1,10 @@
 import apiFetcher from '@/lib/apiFetcher';
-import axiosFetcher from '@/lib/axiosFetcher';
 import { ApiResponse } from '@/types/api';
 import { KakaoLoginResponse } from '@/types/auth';
 
 export const authApi = {
   loginWithKakaoCode: async (code: string) =>
-    await axiosFetcher.get<KakaoLoginResponse>('/api/v1/auth/callback/kakao', {
+    await apiFetcher.get<KakaoLoginResponse>('/api/v1/auth/callback/kakao', {
       params: { code },
     }),
 
