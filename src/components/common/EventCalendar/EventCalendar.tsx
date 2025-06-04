@@ -8,9 +8,10 @@ import {
   startOfWeek,
 } from 'date-fns';
 import { isSameMonth } from 'date-fns';
+import { isToday } from 'date-fns';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Performance } from '@/types/performance';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface EventCalendarProps {
   month: Date;
@@ -96,14 +97,16 @@ const EventCalendar = ({
         {days.map((day) => {
           const key = format(day, 'yyyy-MM-dd');
           const events = eventsByDate[key] ?? [];
-          const isCurrentMonth = isSameMonth(day, month);
+          const isCurrentMonth = isSameMonth(day, currentMonth);
+          const isTodayDate = isToday(day);
 
           return (
             <div
               key={key}
               className={cn(
                 'rounded border p-2 text-center',
-                !isCurrentMonth && 'text-gray-400'
+                !isCurrentMonth && 'text-gray-400',
+                isTodayDate && 'border-blue-500 bg-gray-100'
               )}
             >
               <button
