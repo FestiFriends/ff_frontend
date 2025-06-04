@@ -1,5 +1,4 @@
 import { setupWorker } from 'msw/browser';
-import { performancesHandlers } from './handlers/performanceHandlers';
 import { performancesHandlers } from './handlers/performancesHandlers';
 import { profileHandlers } from './handlers/profileHandlers';
 import { reviewsHandlers } from './handlers/reviewsHandlers';
