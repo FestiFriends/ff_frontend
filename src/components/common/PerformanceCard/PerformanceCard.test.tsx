@@ -24,12 +24,11 @@ jest.mock('next/image', () => ({
   ),
 }));
 
-// 현재 진행중인 공연으로 설정 (현재 날짜 포함)
 const today = new Date();
 const yesterday = new Date(today);
 yesterday.setDate(today.getDate() - 1);
 const futureDate = new Date(today);
-futureDate.setMonth(today.getMonth() + 2); // 2개월 후 종료
+futureDate.setMonth(today.getMonth() + 2);
 
 const mockPerformance: Performance = {
   id: '1',
