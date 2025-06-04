@@ -15,7 +15,6 @@ const PerformanceDetailContainer = ({
     data: performanceDetail,
     isLoading,
     isError,
-    error,
   } = useQuery<PerformanceDetailResponse>({
     queryKey: ['performanceDetail', performanceId],
     queryFn: () => performancesApi.getPerformanceDetail(performanceId),
@@ -23,10 +22,7 @@ const PerformanceDetailContainer = ({
   });
 
   if (isLoading) return <div>로딩중...</div>;
-  if (isError) {
-    console.error(error);
-    return <div>데이터를 불러오는 데 실패했습니다.</div>;
-  }
+  if (isError) return <div>데이터를 불러오는 데 실패했습니다.</div>;
 
   return (
     <div className='flex flex-col bg-blue-100'>
