@@ -1,5 +1,5 @@
 export const STYLES = {
-  root: 'relative cursor-pointer rounded-lg border bg-white p-4 transition-shadow hover:shadow-lg',
+  root: 'relative cursor-pointer rounded-lg border bg-white transition-shadow hover:shadow-lg',
 
   image: {
     container: 'relative aspect-[3/4] w-24 overflow-hidden rounded',
@@ -9,9 +9,7 @@ export const STYLES = {
   },
 
   content: {
-    title: 'mb-2 text-lg font-bold',
     dateRange: 'text-sm text-gray-600',
-    location: 'text-sm text-gray-600',
     cast: 'text-sm text-gray-600',
     price: 'font-semibold text-blue-600',
   },

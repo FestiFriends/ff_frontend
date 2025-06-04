@@ -2,12 +2,12 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 
 interface LikeIconProps {
-  active?: boolean;
+  type: 'empty' | 'emptyWhite' | 'active';
   className?: string;
 }
 
-const LikeIcon = ({ active = false, className }: LikeIconProps) => {
-  if (!active) {
+const LikeIcon = ({ type, className }: LikeIconProps) => {
+  if (type === 'empty') {
     return (
       <svg
         className={cn(className)}
@@ -83,7 +83,10 @@ const LikeIcon = ({ active = false, className }: LikeIconProps) => {
 
   return (
     <svg
-      className={cn('text-[#FF2727]', className)}
+      className={cn(
+        type === 'emptyWhite' ? 'text-white' : 'text-[#FF2727]',
+        className
+      )}
       width='24'
       height='24'
       viewBox='0 0 24 24'
