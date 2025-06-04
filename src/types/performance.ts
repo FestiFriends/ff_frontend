@@ -23,7 +23,7 @@ export interface Performance {
   time: string[]; // 요일별 공연 시간
   groupCount: number; // 해당 공연의 모임 개수
   favoriteCount: number; // 공연 찜 수
-  isLiked: boolean; // user가 해당 공연을 좋아 했는지
+  isLiked: boolean;
 }
 
 export type PerformancesResponse = ApiResponse<Performance[]>;
