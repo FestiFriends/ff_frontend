@@ -60,7 +60,7 @@ const formatPerformanceData = (performance: Performance, locale = ko) => {
     return `${cast.slice(0, CAST_MAX_NUM).join(', ')} 외 ${cast.length - CAST_MAX_NUM}명`;
   })(performance.cast);
 
-  const mainImage = performance.poster || performance.imgs?.[0]?.src;
+  const mainImage = performance.poster || performance.images?.[0]?.src;
 
   return {
     id: performance.id,
