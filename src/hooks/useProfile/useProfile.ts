@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getProfile } from '@/services/profileService';
 import { FullProfile } from '@/types/profiles';
 
 export const useProfile = (userId: string) => {
@@ -7,12 +8,8 @@ export const useProfile = (userId: string) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`/api/profiles/${userId}`)
-      .then((res) => {
-        if (!res.ok) throw new Error();
-        return res.json();
-      })
-      .then((resJson) => setProfile(resJson.data))
+    getProfile(userId)
+      .then(setProfile)
       .catch(() => setError('존재하지 않는 유저입니다.'))
       .finally(() => setIsLoading(false));
   }, [userId]);
