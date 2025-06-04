@@ -9,6 +9,13 @@ interface ReceivedReviewsProps {
 const ReceivedReviews = ({ profile }: ReceivedReviewsProps) => {
   const { reviewSummary, reviewCount, reviewList } = profile;
 
+  const noTag = Object.values(reviewSummary).every((count) => !count);
+  const noReview = !reviewList || reviewList.length === 0;
+
+  if (noTag && noReview) {
+    return <p className='text-sm text-gray-400'>아직 받은 리뷰가 없어요.</p>;
+  }
+
   return (
     <section className='space-y-6'>
       <ReviewTagSummary summary={reviewSummary} />

@@ -5,7 +5,9 @@ interface ReviewListProps {
 
 const ReviewList = ({ reviews, reviewCount }: ReviewListProps) => {
   if (!reviews || reviews.length === 0) {
-    return <p className='text-sm text-gray-400'>아직 받은 리뷰가 없어요.</p>;
+    return (
+      <p className='text-sm text-gray-400'>아직 받은 한 줄 리뷰가 없어요.</p>
+    );
   }
   return (
     <div>

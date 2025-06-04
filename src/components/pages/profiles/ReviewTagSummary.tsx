@@ -21,7 +21,9 @@ const ReviewTagSummary = ({ summary }: ReviewTagSummaryProps) => {
     .sort((a, b) => b[1] - a[1]) as [ReviewTagType, number][];
 
   if (sortedTags.length === 0) {
-    return <p className='text-sm text-gray-400'>아직 받은 태그가 없어요.</p>;
+    return (
+      <p className='text-sm text-gray-400'>아직 받은 리뷰 태그가 없어요.</p>
+    );
   }
 
   return (
