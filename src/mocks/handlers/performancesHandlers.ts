@@ -1,4 +1,4 @@
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse, delay } from 'msw';
 import { PerformancesResponse } from '@/types/performance';
 
 const TOP_FAVORITES_SAMPLE_DATA: PerformancesResponse = {
@@ -406,10 +406,15 @@ const TOP_GROUPS_SAMPLE_DATA: PerformancesResponse = {
 };
 
 export const performancesHandlers = [
-  http.get('http://localhost:3000/api/v1/performances/top-favorites', () =>
-    HttpResponse.json(TOP_FAVORITES_SAMPLE_DATA)
+  http.get(
+    'http://localhost:3000/api/v1/performances/top-favorites',
+    async () => {
+      await delay(3000);
+      return HttpResponse.json(TOP_FAVORITES_SAMPLE_DATA);
+    }
   ),
-  http.get('http://localhost:3000/api/v1/performances/top-groups', () =>
-    HttpResponse.json(TOP_GROUPS_SAMPLE_DATA)
-  ),
+  http.get('http://localhost:3000/api/v1/performances/top-groups', async () => {
+    await delay(3000);
+    return HttpResponse.json(TOP_GROUPS_SAMPLE_DATA);
+  }),
 ];
