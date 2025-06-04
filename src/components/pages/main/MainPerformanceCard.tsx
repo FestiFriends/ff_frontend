@@ -34,17 +34,17 @@ const MainPerformanceCard = ({ performance }: MainPerformanceCardProps) => {
             liked: (
               <LikeIcon
                 type='active'
-                className='h-[30px] w-[30px]'
+                className='h-[30px] w-[30px] hover:opacity-80'
               />
             ),
             unLiked: (
               <LikeIcon
                 type='emptyWhite'
-                className='h-[30px] w-[30px]'
+                className='h-[30px] w-[30px] hover:opacity-80'
               />
             ),
           }}
-          className='top-2.5 right-2.5 h-fit w-fit bg-transparent'
+          className='top-2.5 right-2.5 h-fit w-fit cursor-pointer bg-transparent hover:bg-transparent'
         />
         <Image className='h-[200px] w-[150px] rounded-[12px]' />
         <div className='flex flex-col gap-2'>
