@@ -88,12 +88,12 @@ const EventCalendar = ({
           <ChevronRight size={20} />
         </button>
       </div>
-      <div className='mb-1 grid grid-cols-7 text-center text-sm font-medium text-gray-600'>
+      <div className='mb-1 grid grid-cols-7 border-b border-gray-200 text-center text-sm font-medium text-gray-600'>
         {WEEKDAYS_KR.map((day) => (
           <div key={day}>{day}</div>
         ))}
       </div>
-      <div className='grid grid-cols-7 gap-1'>
+      <div className='grid grid-cols-7'>
         {days.map((day) => {
           const key = format(day, 'yyyy-MM-dd');
           const events = eventsByDate[key] ?? [];
@@ -104,9 +104,9 @@ const EventCalendar = ({
             <div
               key={key}
               className={cn(
-                'rounded border p-2 text-center',
+                'flex min-h-[80px] flex-col items-start justify-between rounded border-b border-gray-200 bg-white p-2',
                 !isCurrentMonth && 'text-gray-400',
-                isTodayDate && 'border-blue-500 bg-gray-100'
+                isTodayDate && 'border-gray-600 bg-gray-100'
               )}
             >
               <button
@@ -128,6 +128,7 @@ const EventCalendar = ({
                     </button>
                   ))}
                   {events.length > 2 && (
+                    // TODO: 검색 페이지(/search) 구현 후, 해당 날짜로 이동할 수 있도록 연결할 것
                     <div className='text-xs text-gray-400'>
                       +{events.length - 2}개 더 있음
                     </div>
