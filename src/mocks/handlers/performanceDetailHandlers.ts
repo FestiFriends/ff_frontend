@@ -1,6 +1,7 @@
+import { PerformanceDetailResponse } from '@/types/performance';
 import { http, HttpResponse } from 'msw';
 
-export const MOCK_PERFORMANCE_DETAIL = {
+export const MOCK_PERFORMANCE_DETAIL: PerformanceDetailResponse = {
   code: 200,
   message: '요청이 성공적으로 처리되었습니다.',
   data: {
