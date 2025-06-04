@@ -7,6 +7,8 @@ import {
   startOfMonth,
   startOfWeek,
 } from 'date-fns';
+import { isSameMonth } from 'date-fns';
+import { cn } from '@/lib/utils';
 import { Performance } from '@/types/performance';
 
 interface EventCalendarProps {
@@ -60,11 +62,15 @@ const EventCalendar = ({
         {days.map((day) => {
           const key = format(day, 'yyyy-MM-dd');
           const events = eventsByDate[key] ?? [];
+          const isCurrentMonth = isSameMonth(day, month);
 
           return (
             <div
               key={key}
-              className='rounded border p-2 text-center'
+              className={cn(
+                'rounded border p-2 text-center',
+                !isCurrentMonth && 'text-gray-400'
+              )}
             >
               <button
                 onClick={() => onDateClick?.(day, events)}
