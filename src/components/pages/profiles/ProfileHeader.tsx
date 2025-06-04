@@ -53,13 +53,21 @@ const ProfileHeader = ({ profile, onEditClick }: ProfileHeaderProps) => {
             </div>
 
             <div className='mt-1 flex items-center gap-2 text-gray-700'>
-              <Star
-                className='h-4 w-4 text-yellow-500'
-                fill='currentColor'
-              />
-              <span className='font-bold text-yellow-500'>
-                {rating.toFixed(1)}
-              </span>
+              {profile.reviewCount > 0 ? (
+                <>
+                  <Star
+                    className='h-4 w-4 text-yellow-500'
+                    fill='currentColor'
+                  />
+                  <span className='font-bold text-yellow-500'>
+                    {rating.toFixed(1)}
+                  </span>
+                </>
+              ) : (
+                <span className='text-sm text-gray-400'>
+                  아직 별점을 받은 적이 없어요.
+                </span>
+              )}
             </div>
           </div>
         </div>
