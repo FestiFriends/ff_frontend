@@ -14,29 +14,18 @@ interface Props {
 }
 
 const ProfilePage = ({ userId }: Props) => {
-  const { profile, isLoading, error } = useProfile(userId);
+  const { profile, error } = useProfile(userId);
 
-  const [skeletonVisible, setSkeletonVisible] = useState(false);
+  const [showSkeleton, setShowSkeleton] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (!error) setSkeletonVisible(true);
+      setShowSkeleton(true);
     }, 300);
     return () => clearTimeout(timer);
-  }, [error]);
+  }, []);
 
-  if (isLoading && skeletonVisible) {
-    return (
-      <ProfileWrapper>
-        <div className='opacity-100 transition-opacity duration-500'>
-          <ProfileHeaderSkeleton />
-          <ProfileBodySkeleton />
-        </div>
-      </ProfileWrapper>
-    );
-  }
-
-  if (error || !profile) {
+  if (error) {
     return (
       <ProfileWrapper>
         <ProfileNotFoundHeader />
@@ -46,8 +35,18 @@ const ProfilePage = ({ userId }: Props) => {
 
   return (
     <ProfileWrapper>
-      <ProfileHeader profile={profile} />
-      <ProfileBody profile={profile} />
+      {showSkeleton && !profile && (
+        <>
+          <ProfileHeaderSkeleton />
+          <ProfileBodySkeleton />
+        </>
+      )}
+      {profile && (
+        <>
+          <ProfileHeader profile={profile} />
+          <ProfileBody profile={profile} />
+        </>
+      )}
     </ProfileWrapper>
   );
 };
