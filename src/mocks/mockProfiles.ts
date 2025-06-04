@@ -37,7 +37,7 @@ export const mockProfiles: Record<string, FullProfile> = {
     name: '비트보이',
     age: 30,
     gender: 'MALE',
-    rating: 4.2,
+    rating: 0,
     description: ' ',
     sns: '',
     hashtag: ['서울 재즈 페스티벌', ' ', '조용한 편이에요'],
@@ -46,14 +46,12 @@ export const mockProfiles: Record<string, FullProfile> = {
     isMine: false,
     groupSummary: {
       joinedCount: 1,
-      totalJoinedCount: 4,
+      totalJoinedCount: 0,
       createdCount: 0,
     },
-    reviewSummary: {
-      CLEAN: 1,
-    },
-    reviewCount: 1,
-    reviewList: ['조용하고 깔끔했어요'],
+    reviewSummary: {},
+    reviewCount: 0,
+    reviewList: [],
   },
 
   guest2: {
