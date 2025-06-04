@@ -52,7 +52,7 @@ const ProfileHeader = ({ profile, onEditClick }: ProfileHeaderProps) => {
               )}
             </div>
 
-            <div className='mt-1 flex items-center gap-2 text-gray-700'>
+            <div className='mt-1 flex min-h-[1.5rem] items-center gap-2 text-gray-700'>
               {profile.reviewCount > 0 ? (
                 <>
                   <Star
