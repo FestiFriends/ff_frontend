@@ -21,13 +21,23 @@ export const MOCK_PERFORMANCE_DETAIL = {
   images: [
     {
       id: 'img-001',
-      src: 'https://picsum.photos/420/700',
-      alt: '페스티벌 메인 무대',
+      src: 'https://picsum.photos/700/1000',
+      alt: '소개이미지 1',
     },
     {
       id: 'img-002',
       src: 'https://picsum.photos/500',
-      alt: '야경 속 재즈 공연',
+      alt: '소개이미지 2',
+    },
+    {
+      id: 'img-003',
+      src: 'https://picsum.photos/500/700',
+      alt: '소개이미지 3',
+    },
+    {
+      id: 'img-004',
+      src: 'https://picsum.photos/420/700',
+      alt: '소개이미지 4',
     },
   ],
   time: [
