@@ -55,19 +55,19 @@ const EventCalendar = ({
         const events = eventsByDate[key] ?? [];
 
         return (
-          <div
+          <button
             key={key}
-            className='rounded border p-2 text-center'
+            className='cursor-pointer rounded border p-2 text-center hover:bg-gray-100'
+            onClick={() => onDateClick?.(day, events)}
           >
             <div>{format(day, 'd')}</div>
 
-            {/* 공연 제목 또는 개수 */}
             {events.length > 0 && (
               <div className='mt-1 inline-block rounded bg-blue-100 px-1 text-xs text-blue-600'>
                 공연 {events.length}개
               </div>
             )}
-          </div>
+          </button>
         );
       })}
     </div>
