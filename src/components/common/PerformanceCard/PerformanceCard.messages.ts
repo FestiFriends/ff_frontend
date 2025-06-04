@@ -1,4 +1,4 @@
-export const PERFORMANCE_CARD_MESSAGES = {
+export const MESSAGES = {
   // Context 에러 메시지
   CONTEXT_ERROR:
     'PerformanceCard 컴포넌트는 PerformanceCard.Root 내부에서 사용해야 합니다.',
@@ -41,4 +41,4 @@ export const PERFORMANCE_CARD_MESSAGES = {
 } as const;
 
 // 타입 안전성을 위한 타입 정의
-export type PerformanceCardMessages = typeof PERFORMANCE_CARD_MESSAGES;
+export type PerformanceCardMessages = typeof MESSAGES;

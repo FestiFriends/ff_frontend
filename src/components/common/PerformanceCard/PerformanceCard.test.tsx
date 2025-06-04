@@ -3,8 +3,8 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import { Performance } from '@/types/performance';
-import { PerformanceCard } from './PerformanceCard';
-import { PERFORMANCE_CARD_MESSAGES } from './PerformanceCard.messages';
+import * as PerformanceCard from './PerformanceCard';
+import { MESSAGES } from './PerformanceCard.messages';
 
 jest.mock('next/image', () => ({
   __esModule: true,
@@ -24,12 +24,11 @@ jest.mock('next/image', () => ({
   ),
 }));
 
-// 현재 진행중인 공연으로 설정 (현재 날짜 포함)
 const today = new Date();
 const yesterday = new Date(today);
 yesterday.setDate(today.getDate() - 1);
 const futureDate = new Date(today);
-futureDate.setMonth(today.getMonth() + 2); // 2개월 후 종료
+futureDate.setMonth(today.getMonth() + 2);
 
 const mockPerformance: Performance = {
   id: '1',
@@ -43,6 +42,8 @@ const mockPerformance: Performance = {
   state: 'available',
   visit: 'domestic',
   time: ['19:30', '14:00'],
+  groupCount: 0,
+  favoriteCount: 0,
 };
 
 describe('PerformanceCard', () => {
@@ -59,25 +60,21 @@ describe('PerformanceCard', () => {
 
     describe('Messages Integration', () => {
       it('메시지 객체가 export되어 접근 가능하다', () => {
-        expect(PERFORMANCE_CARD_MESSAGES).toBeDefined();
-        expect(PERFORMANCE_CARD_MESSAGES.CONTEXT_ERROR).toBe(
-          PERFORMANCE_CARD_MESSAGES.CONTEXT_ERROR
-        );
+        expect(MESSAGES).toBeDefined();
+        expect(MESSAGES.CONTEXT_ERROR).toBe(MESSAGES.CONTEXT_ERROR);
       });
 
       it('함수형 메시지가 올바르게 동작한다', () => {
         const title = '레미제라블';
-        expect(PERFORMANCE_CARD_MESSAGES.CARD_DETAIL_LABEL(title)).toBe(
+        expect(MESSAGES.CARD_DETAIL_LABEL(title)).toBe(
           `${title} 공연 상세 보기`
         );
-        expect(PERFORMANCE_CARD_MESSAGES.POSTER_ALT(title)).toBe(
-          `${title} 포스터`
-        );
+        expect(MESSAGES.POSTER_ALT(title)).toBe(`${title} 포스터`);
       });
 
       it('메시지를 외부에서 직접 참조할 수 있다', () => {
-        expect(typeof PERFORMANCE_CARD_MESSAGES.LIKE_TEXT).toBe('string');
-        expect(typeof PERFORMANCE_CARD_MESSAGES.UNLIKE_TEXT).toBe('string');
+        expect(typeof MESSAGES.LIKE_TEXT).toBe('string');
+        expect(typeof MESSAGES.UNLIKE_TEXT).toBe('string');
       });
     });
 
@@ -156,6 +153,14 @@ describe('PerformanceCard', () => {
       expect(screen.getByText('공연 중')).toBeInTheDocument();
     });
 
+    it('Status 컴포넌트가 올바른 스타일 클래스를 적용한다', () => {
+      renderWithContext(<PerformanceCard.Status />);
+      const statusElement = screen.getByText('공연 중');
+
+      // 진행중인 공연이므로 ongoing 스타일이 적용되어야 함
+      expect(statusElement).toHaveClass('bg-green-100', 'text-green-700');
+    });
+
     it('DateRange 컴포넌트가 날짜를 렌더링한다', () => {
       renderWithContext(<PerformanceCard.DateRange />);
       const currentYear = new Date().getFullYear();
@@ -180,9 +185,7 @@ describe('PerformanceCard', () => {
 
     it('Image 컴포넌트가 이미지를 렌더링한다', () => {
       renderWithContext(<PerformanceCard.Image />);
-      const image = screen.getByAltText(
-        PERFORMANCE_CARD_MESSAGES.POSTER_ALT('레미제라블')
-      );
+      const image = screen.getByAltText(MESSAGES.POSTER_ALT('레미제라블'));
       expect(image).toBeInTheDocument();
       expect(image.getAttribute('src')).toContain(
         '/images/les-miserables-poster.jpg'
@@ -196,9 +199,7 @@ describe('PerformanceCard', () => {
           <PerformanceCard.Image />
         </PerformanceCard.Root>
       );
-      expect(
-        screen.getByText(PERFORMANCE_CARD_MESSAGES.NO_IMAGE_FALLBACK)
-      ).toBeInTheDocument();
+      expect(screen.getByText(MESSAGES.NO_IMAGE_FALLBACK)).toBeInTheDocument();
     });
 
     it('Image 컴포넌트에 custom fallback을 전달할 수 있다', () => {
@@ -209,6 +210,37 @@ describe('PerformanceCard', () => {
         </PerformanceCard.Root>
       );
       expect(screen.getByText('커스텀 Fallback')).toBeInTheDocument();
+    });
+
+    it('각 컴포넌트에 custom className이 적용된다', () => {
+      renderWithContext(
+        <>
+          <PerformanceCard.Title className='custom-title' />
+          <PerformanceCard.Status className='custom-status' />
+          <PerformanceCard.Image className='custom-image' />
+        </>
+      );
+
+      expect(screen.getByText('레미제라블')).toHaveClass('custom-title');
+      expect(screen.getByText('공연 중')).toHaveClass('custom-status');
+    });
+
+    it('각 컴포넌트에 fallback이 올바르게 동작한다', () => {
+      const performanceWithMissingData = {
+        ...mockPerformance,
+        title: '',
+        location: '',
+      };
+
+      render(
+        <PerformanceCard.Root performance={performanceWithMissingData}>
+          <PerformanceCard.Title fallback='제목 없음' />
+          <PerformanceCard.Location fallback='장소 미정' />
+        </PerformanceCard.Root>
+      );
+
+      expect(screen.getByText('제목 없음')).toBeInTheDocument();
+      expect(screen.getByText('장소 미정')).toBeInTheDocument();
     });
   });
 
@@ -233,7 +265,7 @@ describe('PerformanceCard', () => {
     it('좋아요 버튼이 렌더링된다', () => {
       renderLikeButtonWithContext();
       const likeButton = screen.getByRole('button', {
-        name: PERFORMANCE_CARD_MESSAGES.LIKE_BUTTON_LABEL,
+        name: MESSAGES.LIKE_BUTTON_LABEL,
       });
       expect(likeButton).toBeInTheDocument();
     });
@@ -245,7 +277,7 @@ describe('PerformanceCard', () => {
       });
 
       const likeButton = screen.getByRole('button', {
-        name: PERFORMANCE_CARD_MESSAGES.LIKE_BUTTON_LABEL,
+        name: MESSAGES.LIKE_BUTTON_LABEL,
       });
       await user.click(likeButton);
 
@@ -259,7 +291,7 @@ describe('PerformanceCard', () => {
       });
 
       const likeButton = screen.getByRole('button', {
-        name: PERFORMANCE_CARD_MESSAGES.UNLIKE_BUTTON_LABEL,
+        name: MESSAGES.UNLIKE_BUTTON_LABEL,
       });
       await user.click(likeButton);
 
@@ -282,7 +314,7 @@ describe('PerformanceCard', () => {
       );
 
       const likeButton = screen.getByRole('button', {
-        name: PERFORMANCE_CARD_MESSAGES.LIKE_BUTTON_LABEL,
+        name: MESSAGES.LIKE_BUTTON_LABEL,
       });
       await user.click(likeButton);
 
@@ -302,69 +334,21 @@ describe('PerformanceCard', () => {
 
     it('showText가 true이면 텍스트가 표시된다', () => {
       renderLikeButtonWithContext({ showText: true });
-      expect(
-        screen.getByText(PERFORMANCE_CARD_MESSAGES.LIKE_TEXT)
-      ).toBeInTheDocument();
+      expect(screen.getByText(MESSAGES.LIKE_TEXT)).toBeInTheDocument();
     });
 
     it('커스텀 아이콘을 설정할 수 있다', () => {
       renderLikeButtonWithContext({
-        icon: { liked: '💖', unliked: '🖤' },
+        icon: { liked: '💖', unLiked: '🖤' },
         isLiked: false,
       });
       expect(screen.getByText('🖤')).toBeInTheDocument();
     });
-  });
 
-  describe('Preset Components', () => {
-    it('DefaultCard가 기본 스타일로 렌더링된다', () => {
-      render(
-        <PerformanceCard
-          type='default'
-          performance={mockPerformance}
-          onCardClick={jest.fn()}
-        />
-      );
-
-      expect(screen.getByText('레미제라블')).toBeInTheDocument();
-      expect(screen.getByText('공연 중')).toBeInTheDocument();
-      expect(screen.getByText('블루스퀘어 신한카드홀')).toBeInTheDocument();
-    });
-
-    it('CompactCard가 컴팩트 스타일로 렌더링된다', () => {
-      render(
-        <PerformanceCard
-          type='compact'
-          performance={mockPerformance}
-          onCardClick={jest.fn()}
-        />
-      );
-
-      expect(screen.getByText('레미제라블')).toBeInTheDocument();
-    });
-
-    it('VerticalCard가 세로 스타일로 렌더링된다', () => {
-      render(
-        <PerformanceCard
-          type='vertical'
-          performance={mockPerformance}
-          onCardClick={jest.fn()}
-        />
-      );
-
-      expect(screen.getByText('레미제라블')).toBeInTheDocument();
-    });
-
-    it('DetailedCard가 상세 스타일로 렌더링된다', () => {
-      render(
-        <PerformanceCard
-          type='detailed'
-          performance={mockPerformance}
-          onCardClick={jest.fn()}
-        />
-      );
-
-      expect(screen.getByText('레미제라블')).toBeInTheDocument();
+    it('LikeButton에 custom className이 적용된다', () => {
+      renderLikeButtonWithContext({ className: 'custom-like-btn' });
+      const likeButton = screen.getByRole('button');
+      expect(likeButton).toHaveClass('custom-like-btn');
     });
   });
 
@@ -374,7 +358,15 @@ describe('PerformanceCard', () => {
 
       expect(() => {
         render(<PerformanceCard.Title />);
-      }).toThrow(PERFORMANCE_CARD_MESSAGES.CONTEXT_ERROR);
+      }).toThrow(MESSAGES.CONTEXT_ERROR);
+
+      expect(() => {
+        render(<PerformanceCard.Status />);
+      }).toThrow(MESSAGES.CONTEXT_ERROR);
+
+      expect(() => {
+        render(<PerformanceCard.Image />);
+      }).toThrow(MESSAGES.CONTEXT_ERROR);
 
       consoleSpy.mockRestore();
     });
@@ -394,7 +386,7 @@ describe('PerformanceCard', () => {
       const button = screen.getByRole('button');
       expect(button).toHaveAttribute(
         'aria-label',
-        PERFORMANCE_CARD_MESSAGES.CARD_DETAIL_LABEL('레미제라블')
+        MESSAGES.CARD_DETAIL_LABEL('레미제라블')
       );
     });
 
@@ -411,13 +403,27 @@ describe('PerformanceCard', () => {
       const likeButton = screen.getByRole('button');
       expect(likeButton).toHaveAttribute(
         'aria-label',
-        PERFORMANCE_CARD_MESSAGES.LIKE_BUTTON_LABEL
+        MESSAGES.LIKE_BUTTON_LABEL
       );
+    });
+
+    it('키보드 접근성이 올바르게 동작한다', () => {
+      render(
+        <PerformanceCard.Root
+          performance={mockPerformance}
+          onCardClick={jest.fn()}
+        >
+          <div>Content</div>
+        </PerformanceCard.Root>
+      );
+
+      const button = screen.getByRole('button');
+      expect(button).toHaveAttribute('tabIndex', '0');
     });
   });
 
   describe('Custom Props', () => {
-    it('className이 적절히 적용된다', () => {
+    it('Root에 className이 적절히 적용된다', () => {
       const { container } = render(
         <PerformanceCard.Root
           performance={mockPerformance}
@@ -430,7 +436,7 @@ describe('PerformanceCard', () => {
       expect(container.firstChild).toHaveClass('custom-class');
     });
 
-    it('data-testid 같은 custom props가 전달된다', () => {
+    it('Root에 data-testid 같은 custom props가 전달된다', () => {
       render(
         <PerformanceCard.Root
           performance={mockPerformance}
@@ -441,6 +447,75 @@ describe('PerformanceCard', () => {
       );
 
       expect(screen.getByTestId('performance-card')).toBeInTheDocument();
+    });
+
+    it('Image에 priority prop이 전달된다', () => {
+      render(
+        <PerformanceCard.Root performance={mockPerformance}>
+          <PerformanceCard.Image priority={true} />
+        </PerformanceCard.Root>
+      );
+
+      // Image 컴포넌트가 렌더링되는지 확인
+      const image = screen.getByAltText(MESSAGES.POSTER_ALT('레미제라블'));
+      expect(image).toBeInTheDocument();
+    });
+
+    it('각 컴포넌트에 추가 HTML 속성들이 전달된다', () => {
+      render(
+        <PerformanceCard.Root performance={mockPerformance}>
+          <PerformanceCard.Title data-testid='title-component' />
+          <PerformanceCard.Status data-testid='status-component' />
+          <PerformanceCard.Price data-testid='price-component' />
+        </PerformanceCard.Root>
+      );
+
+      expect(screen.getByTestId('title-component')).toBeInTheDocument();
+      expect(screen.getByTestId('status-component')).toBeInTheDocument();
+      expect(screen.getByTestId('price-component')).toBeInTheDocument();
+    });
+  });
+
+  describe('Performance Status Variants', () => {
+    it('종료된 공연은 올바른 스타일을 적용한다', () => {
+      const pastDate = new Date();
+      pastDate.setMonth(pastDate.getMonth() - 1);
+
+      const endedPerformance = {
+        ...mockPerformance,
+        endDate: pastDate.toISOString(),
+      };
+
+      render(
+        <PerformanceCard.Root performance={endedPerformance}>
+          <PerformanceCard.Status />
+        </PerformanceCard.Root>
+      );
+
+      const statusElement = screen.getByText(/종료|완료/);
+      expect(statusElement).toHaveClass('bg-gray-100', 'text-gray-600');
+    });
+
+    it('예정된 공연은 올바른 스타일을 적용한다', () => {
+      const futureStartDate = new Date();
+      futureStartDate.setDate(futureStartDate.getDate() + 10);
+      const futureEndDate = new Date();
+      futureEndDate.setMonth(futureEndDate.getMonth() + 1);
+
+      const upcomingPerformance = {
+        ...mockPerformance,
+        startDate: futureStartDate.toISOString(),
+        endDate: futureEndDate.toISOString(),
+      };
+
+      render(
+        <PerformanceCard.Root performance={upcomingPerformance}>
+          <PerformanceCard.Status />
+        </PerformanceCard.Root>
+      );
+
+      const statusElement = screen.getByText(/예정|공연 예정/);
+      expect(statusElement).toHaveClass('bg-blue-100', 'text-blue-700');
     });
   });
 });
