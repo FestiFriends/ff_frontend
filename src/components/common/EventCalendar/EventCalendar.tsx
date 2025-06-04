@@ -55,19 +55,36 @@ const EventCalendar = ({
         const events = eventsByDate[key] ?? [];
 
         return (
-          <button
+          <div
             key={key}
-            className='cursor-pointer rounded border p-2 text-center hover:bg-gray-100'
-            onClick={() => onDateClick?.(day, events)}
+            className='rounded border p-2 text-center'
           >
-            <div>{format(day, 'd')}</div>
+            <button
+              onClick={() => onDateClick?.(day, events)}
+              className='w-full text-sm font-medium hover:underline'
+            >
+              {format(day, 'd')}
+            </button>
 
             {events.length > 0 && (
-              <div className='mt-1 inline-block rounded bg-blue-100 px-1 text-xs text-blue-600'>
-                공연 {events.length}개
+              <div className='mt-1 space-y-0.5'>
+                {events.slice(0, 2).map((perf) => (
+                  <button
+                    key={perf.id}
+                    onClick={() => onPerformanceClick?.(perf)}
+                    className='block w-full truncate rounded bg-blue-100 px-1 text-left text-xs text-blue-700 hover:underline'
+                  >
+                    {perf.title}
+                  </button>
+                ))}
+                {events.length > 2 && (
+                  <div className='text-xs text-gray-400'>
+                    +{events.length - 2}개 더 있음
+                  </div>
+                )}
               </div>
             )}
-          </button>
+          </div>
         );
       })}
     </div>
