@@ -1,11 +1,11 @@
 'use client';
 
-import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { GroupCategory } from '@/types/enums';
 import { Group } from '@/types/group';
 import { getGenderLabels } from '@/utils/genderEnumLabel';
 import { getGroupCategoryLabels } from '@/utils/groupEnumLabel';
+import Image from 'next/image';
 import Button from '../Button/Button';
 import HashtagBadge from '../Hashtag/HashtagBadge';
 
@@ -14,6 +14,7 @@ interface GroupCardProps {
   className?: string;
   buttonText: string;
   isHashtagClickable?: boolean;
+  imageUrl?: string;
   onButtonClick: () => void;
   onHashtagClick?: (hashtagText: string) => void;
 }
@@ -23,6 +24,7 @@ const GroupCard = ({
   className,
   buttonText,
   isHashtagClickable = false,
+  imageUrl,
   onButtonClick,
   onHashtagClick,
 }: GroupCardProps) => {
@@ -52,7 +54,7 @@ const GroupCard = ({
         {/* 포스터 이미지 */}
         <div className='relative h-32 w-24 flex-shrink-0 overflow-hidden'>
           <Image
-            src={groupData.performance.poster}
+            src={groupData.performance?.poster || imageUrl}
             alt='공연 포스터'
             fill
             className='object-cover'
