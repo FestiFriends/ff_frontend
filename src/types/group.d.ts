@@ -2,7 +2,7 @@ import { GroupCategory, Gender } from './enums';
 
 export interface Group {
   id: string;
-  performance: {
+  performance?: {
     id: string;
     poster: string;
   };
@@ -16,11 +16,14 @@ export interface Group {
   endDate: string;
   memberCount: number;
   maxMembers: number;
-  description: string;
+  description?: string;
   hashtag?: string[];
   host: {
     id: string;
     name: string;
     rating?: number;
   };
+  isHost: boolean;
 }
+
+export type GroupsResponse = ApiResponse<Group[]>;

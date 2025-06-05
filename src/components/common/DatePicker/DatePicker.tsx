@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useState } from 'react';
+import { DateRange } from '@/types/dateRange';
 import { addMonths, format, subMonths } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import {
@@ -8,7 +9,6 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
-import { DateRange } from '@/types/dateRange';
 import Calendar from '../Calendar/Calendar';
 import Popover from '../Popover/Popover';
 import PopoverContent from '../Popover/PopoverContent';
@@ -17,10 +17,16 @@ import PopoverTrigger from '../Popover/PopoverTrigger';
 interface DatePickerProps {
   startDate: Date | null;
   endDate: Date | null;
+  placeholder?: string;
   onChange: (range: DateRange) => void;
 }
 
-const DatePicker = ({ startDate, endDate, onChange }: DatePickerProps) => {
+const DatePicker = ({
+  startDate,
+  endDate,
+  placeholder,
+  onChange,
+}: DatePickerProps) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedRange, setSelectedRange] = useState<DateRange>({
     startDate,
@@ -57,7 +63,7 @@ const DatePicker = ({ startDate, endDate, onChange }: DatePickerProps) => {
         <button className='flex cursor-pointer items-center gap-1 rounded border'>
           <CalendarIcon />
           {!startDate && !endDate ? (
-            <span>날짜를 선택하세요</span>
+            <span>{placeholder || '날짜를 선택하세요'}</span>
           ) : (
             <div className='flex items-center gap-1'>
               {startDate && (
