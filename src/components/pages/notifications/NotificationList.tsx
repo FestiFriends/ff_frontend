@@ -1,10 +1,16 @@
 'use client';
 
+import { useEffect } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useInfiniteNotifications } from '@/hooks/notificationHooks/notificationHooks';
+import {
+  useInfiniteNotifications,
+  usePatchReadNotifications,
+} from '@/hooks/notificationHooks/notificationHooks';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
 
 const NotificationList = () => {
+  const { mutate } = usePatchReadNotifications();
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
     useInfiniteNotifications(10);
 
@@ -12,6 +18,10 @@ const NotificationList = () => {
     fetchNextPage,
     hasNextPage
   );
+
+  useEffect(() => {
+    mutate();
+  }, [mutate]);
 
   if (isPending) {
     return (
