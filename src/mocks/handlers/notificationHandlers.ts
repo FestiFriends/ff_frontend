@@ -231,4 +231,20 @@ export const notificationHandlers = [
       });
     }
   ),
+
+  http.get(
+    'http://localhost:3000/api/v1/notifications/unread-exists',
+    async () => {
+      await delay(0);
+
+      const hasUnread = Math.random() < 0.5; // 50% 확률로 true 또는 false
+      return HttpResponse.json({
+        code: 200,
+        message: '알림 상태를 확인했습니다.',
+        data: {
+          hasUnread,
+        },
+      });
+    }
+  ),
 ];

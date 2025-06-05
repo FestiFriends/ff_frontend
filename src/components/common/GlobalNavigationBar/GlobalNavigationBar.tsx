@@ -1,20 +1,11 @@
 'use client';
 
 import React from 'react';
-import { useMediaQuery } from 'react-responsive';
-import { BellIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import NotificationList from '@/components/pages/notifications/NotificationList';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { useLogin, useLogout } from '@/hooks/useAuth/useAuth';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import NavLink from '../NavLink/NavLink';
 import SearchInput from '../SearchInput/SearchInput';
+import Notification from './Notification';
 
 const NAV_ITEM = [
   { herf: '/calendar', name: '캘린더' },
@@ -23,8 +14,6 @@ const NAV_ITEM = [
 ];
 
 const GlobalNavigationBar = () => {
-  const isDesktop = useMediaQuery({ minWidth: 768 });
-  const router = useRouter();
   const isLoggedin = useAuthStore((state) => state.isLoggedin);
   const { onLogin } = useLogin();
   const { mutate: logoutMutate } = useLogout();
@@ -50,26 +39,11 @@ const GlobalNavigationBar = () => {
           </NavLink>
         ))}
       </div>
-
       <div className='justify-self-center'>
         <SearchInput onSubmit={() => {}}>검색</SearchInput>
       </div>
-
       <div className='justify-self-end'>
-        {isDesktop ? (
-          <Popover>
-            <PopoverTrigger>
-              <BellIcon />
-            </PopoverTrigger>
-            <PopoverContent>
-              <ScrollArea className='h-80'>
-                <NotificationList />
-              </ScrollArea>
-            </PopoverContent>
-          </Popover>
-        ) : (
-          <BellIcon onClick={() => router.push('/notifications')} />
-        )}
+        <Notification />
         {!isLoggedin ? (
           <button onClick={onLogin}>로그인</button>
         ) : (

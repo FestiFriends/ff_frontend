@@ -8,3 +8,7 @@ export interface NotificationData {
 
 export type GetNotificationsResponse = ApiResponse<NotificationData[]>
   & CursorResponse;
+
+export type GetNewNotificationsCheckResponse = ApiResponse<{
+  hasUnread: boolean;
+}>;
