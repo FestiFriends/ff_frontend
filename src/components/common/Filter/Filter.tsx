@@ -33,7 +33,7 @@ const Filter = ({ data, value, levelPlaceholders, onChange }: FilterProps) => {
   );
 
   return (
-    <div className='space-y-4'>
+    <>
       {optionsByLevel.map((options, i) => {
         const currentValue = selectedValues[i];
         const hasParentSelected =
@@ -54,7 +54,7 @@ const Filter = ({ data, value, levelPlaceholders, onChange }: FilterProps) => {
           />
         );
       })}
-    </div>
+    </>
   );
 };
 
