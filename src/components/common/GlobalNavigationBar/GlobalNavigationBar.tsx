@@ -4,11 +4,13 @@ import React from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { BellIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import NotificationList from '@/components/pages/notifications/NotificationList';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { useLogin, useLogout } from '@/hooks/useAuth/useAuth';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import NavLink from '../NavLink/NavLink';
@@ -60,7 +62,9 @@ const GlobalNavigationBar = () => {
               <BellIcon />
             </PopoverTrigger>
             <PopoverContent>
-              <div className='bg-blue-200'>팝오버 내용</div>
+              <ScrollArea className='h-80'>
+                <NotificationList />
+              </ScrollArea>
             </PopoverContent>
           </Popover>
         ) : (
