@@ -44,6 +44,7 @@ const mockPerformance: Performance = {
   time: ['19:30', '14:00'],
   groupCount: 0,
   favoriteCount: 0,
+  isLiked: false,
 };
 
 describe('PerformanceCard', () => {
