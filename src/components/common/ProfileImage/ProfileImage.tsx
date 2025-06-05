@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import defaultProfileImg from '@/assets/ico__profileDefault.png';
+import ProfileIcon from '@/components/icons/ProfileIcon';
 import { cn } from '@/lib/utils';
 
 interface ProfileImageProps {
@@ -12,7 +12,8 @@ interface ProfileImageProps {
 }
 
 const sizeMap = {
-  sm: 'w-8 h-8',
+  xs: 'w-8 h-8',
+  sm: 'w-10 h-10',
   md: 'w-12 h-12',
   lg: 'w-16 h-16',
 };
@@ -37,12 +38,16 @@ const ProfileImage = ({
         className
       )}
     >
-      <Image
-        src={src || defaultProfileImg}
-        alt={alt}
-        fill
-        className='object-cover'
-      />
+      {src ? (
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          className='object-cover'
+        />
+      ) : (
+        <ProfileIcon className='h-full w-full' />
+      )}
     </div>
   );
 };
