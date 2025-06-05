@@ -1,5 +1,5 @@
 import apiFetcher from '@/lib/apiFetcher';
-import { CursorRequest } from '@/types/api';
+import { ApiResponse, CursorRequest } from '@/types/api';
 import {
   GetNewNotificationsCheckResponse,
   GetNotificationsResponse,
@@ -15,4 +15,7 @@ export const notificationsApi = {
     await apiFetcher.get<GetNewNotificationsCheckResponse>(
       '/api/v1/notifications/unread-exists'
     ),
+
+  patchReadNotifications: async () =>
+    await apiFetcher.patch<ApiResponse>('/api/v1/notifications/read'),
 };
