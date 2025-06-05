@@ -25,7 +25,7 @@ const CalendarCell = ({
     <div
       key={key}
       className={cn(
-        'flex min-h-[80px] flex-col items-start justify-between rounded border-b border-gray-200 bg-white p-2',
+        'flex min-h-[80px] flex-col items-start justify-between overflow-hidden rounded border-b border-gray-200 bg-white p-2',
         !isCurrentMonth && 'text-gray-400',
         isTodayDate && 'border-gray-600 bg-gray-100'
       )}
