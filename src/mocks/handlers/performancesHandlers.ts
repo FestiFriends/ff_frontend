@@ -1,5 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import { PerformancesResponse, Performance } from '@/types/performance';
+import { PerformancesSearchParams } from '@/types/performancesSearchParams';
 
 const TOP_FAVORITES_SAMPLE_DATA: PerformancesResponse = {
   code: 200,
@@ -1047,21 +1048,9 @@ const FULL_PERFORMANCES_DATA: Performance[] = [
     favoriteCount: 0,
   },
 ];
-
-interface SearchParams {
-  keyword?: string;
-  category?: string;
-  date?: string;
-  location?: string;
-  sort?: string;
-
-  page?: number;
-  size?: number;
-}
-
 const filterPerformances = (
   performances: Performance[],
-  params: SearchParams
+  params: PerformancesSearchParams
 ) => {
   let filtered = [...performances];
 
@@ -1100,12 +1089,27 @@ const filterPerformances = (
     });
   }
 
-  if (params.date) {
-    const filterDate = new Date(params.date);
+  // 날짜 필터링
+  if (params.startDate || params.endDate) {
     filtered = filtered.filter((perf) => {
-      const startDate = new Date(perf.startDate);
-      const endDate = new Date(perf.endDate);
-      return filterDate >= startDate && filterDate <= endDate;
+      const perfStartDate = new Date(perf.startDate);
+      const perfEndDate = new Date(perf.endDate);
+
+      if (params.startDate) {
+        const filterStartDate = new Date(params.startDate);
+        if (perfEndDate < filterStartDate) {
+          return false;
+        }
+      }
+
+      if (params.endDate) {
+        const filterEndDate = new Date(params.endDate);
+        if (perfStartDate > filterEndDate) {
+          return false;
+        }
+      }
+
+      return true;
     });
   }
 
@@ -1166,7 +1170,8 @@ export const performancesHandlers = [
     const params = {
       keyword: url.searchParams.get('keyword') ?? undefined,
       category: url.searchParams.get('category') ?? undefined,
-      date: url.searchParams.get('date') ?? undefined,
+      startDate: url.searchParams.get('startDate') ?? undefined,
+      endDate: url.searchParams.get('endDate') ?? undefined,
       location: url.searchParams.get('location') ?? undefined,
       sort: url.searchParams.get('sort') ?? undefined,
       page: parseInt(url.searchParams.get('page') ?? '1'),
@@ -1206,7 +1211,11 @@ export const performancesHandlers = [
         page: result.page,
         size: result.size,
         totalPages: result.totalPages,
-      }); // 디버깅용
+        dateFilter:
+          params.startDate || params.endDate
+            ? `${params.startDate || 'N/A'} ~ ${params.endDate || 'N/A'}`
+            : 'N/A',
+      });
 
       // 검색 결과가 없을 때
       if (filteredPerformances.length === 0) {
