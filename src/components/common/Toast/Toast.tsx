@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
+import Portal from '../Portal';
 
 export interface ToastProps {
   message: string;
   type?: 'default' | 'success' | 'warning' | 'error' | 'info';
   onClose: () => void;
   className?: string;
+  blockBackgroundClick?: boolean;
 }
 
 const typeStyles: Record<NonNullable<ToastProps['type']>, string> = {
@@ -24,6 +26,7 @@ const Toast = ({
   type = 'default',
   onClose,
   className = 'top-4 left-1/2 -translate-x-1/2',
+  blockBackgroundClick = false,
 }: ToastProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -39,8 +42,10 @@ const Toast = ({
   }, [onClose]);
 
   return (
-    <>
-      <div className='fixed inset-0 z-40 select-none' />
+    <Portal>
+      {blockBackgroundClick && (
+        <div className='fixed inset-0 z-40 select-none' />
+      )}
       <div
         aria-live='assertive'
         role='alert'
@@ -53,7 +58,7 @@ const Toast = ({
       >
         {message}
       </div>
-    </>
+    </Portal>
   );
 };
 

@@ -1,19 +1,19 @@
+'use client';
+
 import React from 'react';
-import { nextFetcher } from '@/lib/nextFetcher';
-import { PerformancesResponse } from '@/types/performance';
+import { useGetTopFavoritesPerformances } from '@/hooks/performanceHooks/performanceHooks';
 import PerformanceWrapper from './PerformanceWrapper';
 
-const MainTopFavoritesPerformances = async () => {
-  const topFavoritesPerformances = await nextFetcher<PerformancesResponse>(
-    `/api/v1/performances/top-favorites`,
-    { method: 'GET', revalidate: 21600 }
-  );
+const MainTopFavoritesPerformances = () => {
+  const { data: topFavoritesPerformances, isPending } =
+    useGetTopFavoritesPerformances();
 
   return (
     <PerformanceWrapper
       href=''
       title='지금 핫한 공연'
-      performances={topFavoritesPerformances}
+      isPending={isPending}
+      performances={topFavoritesPerformances?.data}
     />
   );
 };
