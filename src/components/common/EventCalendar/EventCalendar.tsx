@@ -17,6 +17,7 @@ interface EventCalendarProps {
   performances: Performance[];
   onPerformanceClick?: (performance: Performance) => void;
   onDateClick?: (date: Date, performances: Performance[]) => void;
+  onMonthChange?: (month: Date) => void;
 }
 
 const EventCalendar = ({
@@ -24,6 +25,7 @@ const EventCalendar = ({
   performances,
   onPerformanceClick,
   onDateClick,
+  onMonthChange,
 }: EventCalendarProps) => {
   const [internalMonth, setInternalMonth] = useState(month);
   const currentMonth = internalMonth;
@@ -34,25 +36,35 @@ const EventCalendar = ({
     return eachDayOfInterval({ start, end });
   }, [currentMonth]);
 
-  const eventsByDate = useMemo(
-    () => getEventsByDate(performances),
-    [performances]
-  );
+  const eventsByDate = useMemo(() => {
+    const result = getEventsByDate(performances);
+    return result;
+  }, [performances]);
+
+  const handlePrevMonth = () => {
+    const newMonth = new Date(
+      internalMonth.getFullYear(),
+      internalMonth.getMonth() - 1
+    );
+    setInternalMonth(newMonth);
+    onMonthChange?.(newMonth);
+  };
+
+  const handleNextMonth = () => {
+    const newMonth = new Date(
+      internalMonth.getFullYear(),
+      internalMonth.getMonth() + 1
+    );
+    setInternalMonth(newMonth);
+    onMonthChange?.(newMonth);
+  };
 
   return (
     <div className='w-full'>
       <CalendarHeader
         currentMonth={currentMonth}
-        onPrev={() =>
-          setInternalMonth(
-            new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
-          )
-        }
-        onNext={() =>
-          setInternalMonth(
-            new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
-          )
-        }
+        onPrev={handlePrevMonth}
+        onNext={handleNextMonth}
       />
       <WeekdayHeader />
       <CalendarGrid
