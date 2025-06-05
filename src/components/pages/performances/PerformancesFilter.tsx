@@ -36,6 +36,7 @@ const PerformancesFilter = () => {
     <>
       <Filter
         data={festivalRegionFilter}
+        value={selectedValues}
         onChange={handleFilterChange}
         levelPlaceholders={['도시 선택', '구 선택']}
       />
