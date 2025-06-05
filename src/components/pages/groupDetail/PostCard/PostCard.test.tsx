@@ -129,35 +129,4 @@ describe('PostCard 테스트', () => {
 
     expect(imagesInCarousel).toHaveLength(3);
   });
-
-  // test('post1: isMine = true이면 삭제하기 버튼이 보인다', async () => {
-  //   render(<PostCard post={mockPost1}>반응, 댓글 버튼</PostCard>);
-
-  //   fireEvent.click(screen.getByLabelText('더보기 메뉴'));
-
-  //   const deleteButton = await screen.findByText('삭제하기');
-  //   expect(deleteButton).toBeInTheDocument();
-  // });
-
-  //   test('post2: 삭제하기 버튼 없음 (isMine=false)', () => {
-  //     render(<PostCard post={mockPost2}>반응, 댓글 버튼</PostCard>);
-  //     fireEvent.click(screen.getByRole('button'));
-  //     expect(screen.queryByText('삭제하기')).not.toBeInTheDocument();
-  //   });
-
-  //   test('post1: CheckIcon은 회색(미반응)', () => {
-  //     render(<PostCard post={mockPost1}>반응, 댓글 버튼</PostCard>);
-  //     const icon = screen
-  //       .getByRole('button', { name: /확인/ })
-  //       .querySelector('svg');
-  //     expect(icon?.className).toMatch(/text-gray-500/);
-  //   });
-
-  //   test('post2: CheckIcon은 빨강(반응됨)', () => {
-  //     render(<PostCard post={mockPost2}>반응, 댓글 버튼</PostCard>);
-  //     const icon = screen
-  //       .getByRole('button', { name: /확인/ })
-  //       .querySelector('svg');
-  //     expect(icon?.className).toMatch(/text-[#ED3639]/);
-  //   });
 });

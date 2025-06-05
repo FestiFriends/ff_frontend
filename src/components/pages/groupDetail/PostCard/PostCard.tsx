@@ -71,12 +71,26 @@ const PostCard = ({ post, children }: PostCardProps) => {
             </div>
             <MoreDropdown
               items={[
-                {
-                  label: '수정하기',
-                },
-                ...(isMine ? [{ label: '삭제하기' }] : []),
+                ...(isMine
+                  ? [
+                      {
+                        label: '수정하기',
+                        onClick: () => console.log('수정하기 클릭'),
+                      },
+                      {
+                        label: '삭제하기',
+                        onClick: () => console.log('삭제하기 클릭'),
+                      },
+                    ]
+                  : [
+                      {
+                        label: '신고하기',
+                        onClick: () => console.log('신고하기 클릭'),
+                      },
+                    ]),
                 {
                   label: '공지글 등록',
+                  onClick: () => console.log('공지글 등록'),
                 },
               ]}
             />
