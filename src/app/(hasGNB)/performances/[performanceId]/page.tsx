@@ -1,4 +1,4 @@
-import { performanceDetailApi } from '@/services/performanceDetailService';
+import { Container } from '@/components/pages/performanceDetail';
 
 type PerformanceDetailPageProps = {
   params: Promise<{ performanceId: string }>;
@@ -9,12 +9,9 @@ const PerformanceDetailPage = async ({
 }: PerformanceDetailPageProps) => {
   const { performanceId } = await params;
 
-  const performanceDetail =
-    await performanceDetailApi.getPerformanceDetail(performanceId);
-
   return (
     <div>
-      <h1>공연 상세 페이지</h1>
+      <Container performanceId={performanceId} />
     </div>
   );
 };

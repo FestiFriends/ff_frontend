@@ -3,6 +3,7 @@ import {
   PerformanceIsLikedData,
   PerformanceIsLikedResponse,
   PerformancesResponse,
+  PerformanceDetailResponse,
 } from '@/types/performance';
 
 export const performancesApi = {
@@ -15,10 +16,15 @@ export const performancesApi = {
     await apiFetcher.get<PerformancesResponse>(
       '/api/v1/performances/top-groups'
     ),
-
   patchLiked: async ({ performanceId, isLiked }: PerformanceIsLikedData) =>
     await apiFetcher.patch<PerformanceIsLikedResponse>(
       `/api/v1/performances/${performanceId}/favorites`,
       { isLiked }
     ),
+  getPerformanceDetail: async (id: string) => {
+    const res = await apiFetcher.get<PerformanceDetailResponse>(
+      `/api/v1/performances/${id}`
+    );
+    return res.data;
+  },
 };
