@@ -84,7 +84,7 @@ const LikeIcon = ({ type, className }: LikeIconProps) => {
   return (
     <svg
       className={cn(
-        type === 'emptyWhite' ? 'text-white' : 'text-[#FF2727]',
+        type === 'emptyWhite' ? 'text-white' : 'text-red-500',
         className
       )}
       width='24'

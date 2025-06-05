@@ -1,3 +1,4 @@
+import TabBar from '@/components/common/TabBar/TabBar';
 import { initMocks } from '@/mocks';
 import { AuthStoreProvider } from '@/providers/AuthStoreProvider';
 import { MSWComponent } from '@/providers/MSWComponent';
@@ -16,7 +17,9 @@ const RootLayout = ({
       <div id='portal' />
       <AuthStoreProvider>
         <MSWComponent>
-          <QueryProvider>{children}</QueryProvider>
+          <QueryProvider>
+            <TabBar>{children}</TabBar>
+          </QueryProvider>
         </MSWComponent>
       </AuthStoreProvider>
     </body>

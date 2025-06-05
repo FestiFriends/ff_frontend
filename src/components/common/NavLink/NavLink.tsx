@@ -33,7 +33,7 @@ const NavLink = ({
   return (
     <Link
       href={href}
-      className={cn(activePath && activeClassName, className)}
+      className={cn(className, activePath && activeClassName)}
       aria-current={activePath ? 'page' : undefined}
       {...props}
     >
