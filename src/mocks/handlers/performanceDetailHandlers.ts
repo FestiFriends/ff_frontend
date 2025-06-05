@@ -5,7 +5,7 @@ export const MOCK_PERFORMANCE_DETAIL: PerformanceDetailResponse = {
   code: 200,
   message: '요청이 성공적으로 처리되었습니다.',
   data: {
-    id: 'pf-20250809',
+    id: 'pf-20250522',
     title: '2025 인천 펜타포트 락 페스티벌',
     startDate: '2025-08-09T13:00:00Z',
     endDate: '2025-08-11T22:00:00Z',

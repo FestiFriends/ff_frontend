@@ -4,7 +4,7 @@ export const MOCK_GROUPS = {
   code: 200,
   message: '요청이 성공적으로 처리되었습니다.',
   data: {
-    performanceId: 'pf-20250809',
+    performanceId: 'pf-20250522',
     groupCount: 5,
     groups: [
       {
