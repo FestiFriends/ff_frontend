@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { fireEvent, render, renderHook, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import Dropdown from './Dropdown';
@@ -8,47 +7,26 @@ import DropdownItem from './DropdownItem';
 import DropdownTrigger from './DropdownTrigger';
 
 const renderDropdown = () => {
-  const Wrapper = () => {
-    const [selected, setSelected] = useState('');
-    return (
-      <div>
-        <Dropdown>
-          <DropdownTrigger
-            placeholder='선택하세요'
-            value={selected}
-          />
-          <DropdownContent>
-            <DropdownItem
-              value='option 1'
-              label='옵션 레이블 1'
-              onClick={() => setSelected('옵션 레이블 1')}
-            >
-              옵션 1
-            </DropdownItem>
-            <DropdownItem
-              value='option 2'
-              label='옵션 레이블 2'
-              onClick={() => setSelected('옵션 레이블 2')}
-            >
-              옵션 2
-            </DropdownItem>
-          </DropdownContent>
-        </Dropdown>
-        <div data-testid='outside'>외부</div>
-      </div>
-    );
-  };
-
-  render(<Wrapper />);
+  render(
+    <div>
+      <Dropdown>
+        <DropdownTrigger placeholder='선택하세요' />
+        <DropdownContent>
+          <DropdownItem label='옵션 레이블 1'>옵션 1</DropdownItem>
+          <DropdownItem label='옵션 레이블 2'>옵션 2</DropdownItem>
+        </DropdownContent>
+      </Dropdown>
+      <div data-testid='outside'>외부</div>
+    </div>
+  );
 };
 
 const getTrigger = () => screen.getByRole('button');
 
 describe('Dropdown 컴포넌트 테스트', () => {
-  beforeEach(() => renderDropdown());
-
   describe('기본 동작 테스트', () => {
     test('트리거 클릭 시 드롭다운 콘텐츠가 나타나고 사라진다', () => {
+      renderDropdown();
       const trigger = getTrigger();
 
       expect(screen.queryByText('옵션 1')).not.toBeInTheDocument();
@@ -61,6 +39,7 @@ describe('Dropdown 컴포넌트 테스트', () => {
     });
 
     test('드롭다운 아이템 클릭 시 선택한 아이템의 label값이 트리거에 표시된다', () => {
+      renderDropdown();
       fireEvent.click(getTrigger());
       fireEvent.click(screen.getByText('옵션 2'));
 
@@ -69,7 +48,63 @@ describe('Dropdown 컴포넌트 테스트', () => {
       ).toBeInTheDocument();
     });
 
-    test('드롭다운이 열릴 때 선택된 드롭다운 아잍템에 포커스가 간다', () => {
+    test('isStatic props가 있으면 label값이 트리거에 표시되지 않는다', () => {
+      render(
+        <div>
+          <Dropdown>
+            <DropdownTrigger
+              isStatic
+              placeholder='선택하세요'
+            >
+              스태틱
+            </DropdownTrigger>
+            <DropdownContent>
+              <DropdownItem label='옵션 레이블 1'>옵션 1</DropdownItem>
+              <DropdownItem label='옵션 레이블 2'>옵션 2</DropdownItem>
+            </DropdownContent>
+          </Dropdown>
+          <div data-testid='outside'>외부</div>
+        </div>
+      );
+
+      fireEvent.click(getTrigger());
+      fireEvent.click(screen.getByText('옵션 2'));
+      expect(
+        screen.getByRole('button', { name: '스태틱' })
+      ).toBeInTheDocument();
+    });
+
+    test('onClick 함수가 props로 있는 아이템 클릭 시 onClick 함수가 실행된다', () => {
+      const handleClick = jest.fn();
+      render(
+        <div>
+          <Dropdown>
+            <DropdownTrigger
+              isStatic
+              placeholder='선택하세요'
+            />
+            <DropdownContent>
+              <DropdownItem label='옵션 레이블 1'>옵션 1</DropdownItem>
+              <DropdownItem
+                label='옵션 레이블 2'
+                onClick={handleClick}
+              >
+                옵션 2
+              </DropdownItem>
+            </DropdownContent>
+          </Dropdown>
+          <div data-testid='outside'>외부</div>
+        </div>
+      );
+
+      fireEvent.click(getTrigger());
+      fireEvent.click(screen.getByText('옵션 2'));
+
+      expect(handleClick).toHaveBeenCalledTimes(1);
+    });
+
+    test('드롭다운이 열릴 때 선택된 드롭다운 아이템에 포커스가 간다', () => {
+      renderDropdown();
       fireEvent.click(getTrigger());
       fireEvent.click(screen.getByText('옵션 2'));
       fireEvent.click(getTrigger());
@@ -81,7 +116,10 @@ describe('Dropdown 컴포넌트 테스트', () => {
   describe('키보드 접근성 테스트', () => {
     let user: ReturnType<typeof userEvent.setup>;
 
-    beforeEach(() => (user = userEvent.setup()));
+    beforeEach(() => {
+      renderDropdown();
+      user = userEvent.setup();
+    });
 
     test('Tab으로 트리거에 포커스 후 Enter로 드롭다운을 열 수 있다', async () => {
       await user.tab();
@@ -116,7 +154,10 @@ describe('Dropdown 컴포넌트 테스트', () => {
   describe('Dropdown에서 useClickOutside 동작 테스트', () => {
     let user: ReturnType<typeof userEvent.setup>;
 
-    beforeEach(() => (user = userEvent.setup()));
+    beforeEach(() => {
+      renderDropdown();
+      user = userEvent.setup();
+    });
 
     test('외부 클릭 시 드롭다운이 닫힌다', async () => {
       await user.click(getTrigger());
@@ -142,7 +183,10 @@ describe('Dropdown 컴포넌트 테스트', () => {
       expect(screen.queryByText('옵션 2')).not.toBeInTheDocument();
     });
   });
+
   describe('useDropdownContext 예외 테스트', () => {
+    beforeEach(() => renderDropdown());
+
     test('DropdownContext.Provider 외부에서 호출 시 에러를 던진다', () => {
       expect(() => {
         renderHook(() => useDropdownContext());
