@@ -21,7 +21,7 @@ const PerformanceDetailSummary = ({
     </div>
 
     <div className='flex items-center justify-between'>
-      <h2>{performanceDetail.title}</h2>
+      <h2 className='text-lg font-bold'>{performanceDetail.title}</h2>
       <div>
         <button>
           <LikeIcon type='empty' />
@@ -55,7 +55,7 @@ const PerformanceDetailSummary = ({
         </div>
       </div>
 
-      <div className='grid grid-cols-2'>
+      {/* <div className='grid grid-cols-2'>
         <span>제작진</span>
         <div>
           {performanceDetail.crew?.map((crew: string) => (
@@ -86,7 +86,7 @@ const PerformanceDetailSummary = ({
       <div className='grid grid-cols-2'>
         <span>연령</span>
         <span>{performanceDetail.age}</span>
-      </div>
+      </div> */}
     </div>
   </div>
 );

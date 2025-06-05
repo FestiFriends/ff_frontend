@@ -1,4 +1,5 @@
 'use client';
+
 import { Summary, Tabs } from '@/components/pages/performanceDetail';
 import { performancesApi } from '@/services/performancesService';
 import { Performance, PerformanceDetailResponse } from '@/types/performance';
@@ -25,7 +26,7 @@ const PerformanceDetailContainer = ({
   if (isError) return <div>데이터를 불러오는 데 실패했습니다.</div>;
 
   return (
-    <div className='flex flex-col bg-blue-100'>
+    <div className='flex flex-col'>
       <Summary performanceDetail={performanceDetail?.data as Performance} />
       <Tabs performanceDetail={performanceDetail?.data as Performance} />
     </div>
