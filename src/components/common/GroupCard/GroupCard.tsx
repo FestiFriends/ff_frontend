@@ -14,7 +14,6 @@ interface GroupCardProps {
   className?: string;
   buttonText: string;
   isHashtagClickable?: boolean;
-  imageUrl?: string;
   onButtonClick: () => void;
   onHashtagClick?: (hashtagText: string) => void;
 }
@@ -24,7 +23,6 @@ const GroupCard = ({
   className,
   buttonText,
   isHashtagClickable = false,
-  imageUrl,
   onButtonClick,
   onHashtagClick,
 }: GroupCardProps) => {
@@ -52,14 +50,16 @@ const GroupCard = ({
     >
       <div className='flex flex-col gap-2'>
         {/* 포스터 이미지 */}
-        <div className='relative h-32 w-24 flex-shrink-0 overflow-hidden'>
-          <Image
-            src={groupData.performance?.poster || imageUrl}
-            alt='공연 포스터'
-            fill
-            className='object-cover'
-          />
-        </div>
+        {groupData.performance?.poster && (
+          <div className='relative h-32 w-24 flex-shrink-0 overflow-hidden'>
+            <Image
+              src={groupData.performance?.poster}
+              alt='공연 포스터'
+              fill
+              className='object-cover'
+            />
+          </div>
+        )}
         <Button
           size='lg'
           onClick={handleButtonClick}
