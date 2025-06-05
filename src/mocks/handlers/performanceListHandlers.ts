@@ -336,32 +336,29 @@ export const MOCK_PERFORMANCE_DETAILS = [
 ];
 
 export const performanceListHandlers = [
-  http.get(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/performances`,
-    (req) => {
-      const url = new URL(req.request.url);
-      const state = url.searchParams.get('state');
-      const location = url.searchParams.get('location');
-      const price = url.searchParams.get('price');
+  http.get('/api/v1/performances', async ({ request }) => {
+    const url = new URL(request.url);
+    const state = url.searchParams.get('state');
+    const location = url.searchParams.get('location');
+    const price = url.searchParams.get('price');
 
-      const filtered = MOCK_PERFORMANCE_DETAILS.filter(
-        (perf) =>
-          (!state || perf.state === state)
-          && (!location || perf.location.includes(location))
-          && (!price || perf.price.some((p) => p.includes(price)))
-      );
+    const filtered = MOCK_PERFORMANCE_DETAILS.filter(
+      (perf) =>
+        (!state || perf.state === state)
+        && (!location || perf.location.includes(location))
+        && (!price || perf.price.some((p) => p.includes(price)))
+    );
 
-      return HttpResponse.json({
-        code: 200,
-        message: '필터된 공연 목록',
-        data: filtered,
-        page: 1,
-        size: filtered.length,
-        totalElements: filtered.length,
-        totalPages: 1,
-        first: true,
-        last: true,
-      });
-    }
-  ),
+    return HttpResponse.json({
+      code: 200,
+      message: '필터된 공연 목록',
+      data: filtered,
+      page: 1,
+      size: filtered.length,
+      totalElements: filtered.length,
+      totalPages: 1,
+      first: true,
+      last: true,
+    });
+  }),
 ];
