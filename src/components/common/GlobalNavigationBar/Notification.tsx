@@ -11,14 +11,14 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { PERFORMANCES_QUERY_KEYS } from '@/constants/queryKeys';
-import { useGetTopFavoritesPerformances } from '@/hooks/notificationHooks/notificationHooks';
+import { NOTIFICATIONS_QUERY_KEYS } from '@/constants/queryKeys';
+import { useGetNewNotificationsCheck } from '@/hooks/notificationHooks/notificationHooks';
 
 const Notification = () => {
   const isDesktop = useMediaQuery({ minWidth: 768 });
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { data: hasNewNotificationData } = useGetTopFavoritesPerformances();
+  const { data: hasNewNotificationData } = useGetNewNotificationsCheck();
   const pathname = usePathname();
 
   const Icon = hasNewNotificationData?.data.data?.hasUnread
@@ -28,8 +28,8 @@ const Notification = () => {
   useEffect(() => {
     queryClient.invalidateQueries({
       queryKey: [
-        PERFORMANCES_QUERY_KEYS.notifications,
-        PERFORMANCES_QUERY_KEYS.newNotifications,
+        NOTIFICATIONS_QUERY_KEYS.notifications,
+        NOTIFICATIONS_QUERY_KEYS.newNotifications,
       ],
     });
   }, [pathname, queryClient]);
