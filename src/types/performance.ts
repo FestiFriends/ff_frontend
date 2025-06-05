@@ -1,5 +1,6 @@
 import { ApiResponse } from './api';
 import { Image } from './image';
+import { PaginationInfo } from './pagination';
 
 export interface Performance {
   id: string; // 공연 ID
@@ -27,3 +28,6 @@ export interface Performance {
 }
 
 export type PerformancesResponse = ApiResponse<Performance[]>;
+
+export type PerformancesResponsePagination = ApiResponse<Performance[]>
+  & PaginationInfo;
