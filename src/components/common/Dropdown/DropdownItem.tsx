@@ -5,14 +5,13 @@ import { cn } from '@/lib/utils';
 import { useDropdownContext } from './DropdownContext';
 
 interface DropdownItemProps {
-  label: string;
-  value: string;
+  label?: string;
   className?: string;
   onClick?: () => void;
 }
 
 const DropdownItem = ({
-  value,
+  label,
   className,
   children,
   onClick,
@@ -22,30 +21,30 @@ const DropdownItem = ({
   const itemRef = useRef<HTMLLIElement>(null);
 
   const handleClick = () => {
-    setSelectedItem(value);
-    closeDropdown();
+    setSelectedItem(label || '');
     onClick?.();
+    closeDropdown();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      setSelectedItem(value);
-      closeDropdown();
+      setSelectedItem(label || '');
       onClick?.();
+      closeDropdown();
     }
   };
 
   useEffect(() => {
-    if (isOpen && selectedItem === value) {
+    if (isOpen && selectedItem === label) {
       itemRef.current?.focus();
     }
-  }, [isOpen, selectedItem, value]);
+  }, [isOpen, selectedItem, label]);
 
   // TODO: 디자인 시안 나오면 스타일 수정 필요
   const dropdownItemClasses = cn(
     // default style
-    'cursor-pointer bg-white px-4 py-2 select-none',
+    'cursor-pointer bg-white select-none',
 
     // hover style
     'hover:bg-gray-200',

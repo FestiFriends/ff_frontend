@@ -6,21 +6,22 @@ import { useDropdownContext } from './DropdownContext';
 
 interface DropdownTriggerProps {
   placeholder?: string;
+  isStatic?: boolean;
   className?: string;
-  value?: string;
 }
 
 const DropdownTrigger = ({
   placeholder = '',
+  isStatic,
   className,
-  value,
+  children,
 }: PropsWithChildren<DropdownTriggerProps>) => {
-  const { toggleDropdown } = useDropdownContext();
+  const { toggleDropdown, selectedItem } = useDropdownContext();
 
   // TODO: 디자인 시안 나오면 스타일 수정 필요
   const dropdownTriggerClasses = cn(
     // default style
-    'inline-flex cursor-pointer items-center justify-between rounded-md border px-4 py-2',
+    'inline-flex cursor-pointer items-center justify-between',
 
     // hover style
     'hover:bg-gray-200',
@@ -37,7 +38,7 @@ const DropdownTrigger = ({
       onClick={toggleDropdown}
       className={dropdownTriggerClasses}
     >
-      {value || placeholder}
+      {isStatic ? children : selectedItem || placeholder || children}
     </button>
   );
 };
