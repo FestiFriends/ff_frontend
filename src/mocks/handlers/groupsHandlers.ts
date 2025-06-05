@@ -8,7 +8,7 @@ export const MOCK_GROUPS = {
     groupCount: 5,
     groups: [
       {
-        groupId: 'g101',
+        id: 'g101',
         title: '락페 처음 가는 사람들 모여요',
         category: '같이 동행',
         gender: 'ALL',
@@ -29,7 +29,7 @@ export const MOCK_GROUPS = {
         isHost: false,
       },
       {
-        groupId: 'g106',
+        id: 'g106',
         title: '홍대 → 인천 택시팟 구해요!',
         category: '같이 탑승',
         gender: 'ALL',
@@ -50,7 +50,7 @@ export const MOCK_GROUPS = {
         isHost: true,
       },
       {
-        groupId: 'g102',
+        id: 'g102',
         title: '자우림 같이 보는 락덕 모임',
         category: '같이 동행',
         gender: 'FEMALE',
@@ -71,7 +71,7 @@ export const MOCK_GROUPS = {
         isHost: false,
       },
       {
-        groupId: 'g103',
+        id: 'g103',
         title: '3일권 구매자 모여서 캠핑해요!',
         category: '같이 숙박',
         gender: 'ALL',
@@ -92,7 +92,7 @@ export const MOCK_GROUPS = {
         isHost: false,
       },
       {
-        groupId: 'g107',
+        id: 'g107',
         title: '일산 거주자 락페 카풀해요 🚗',
         category: '같이 탑승',
         gender: 'ALL',
