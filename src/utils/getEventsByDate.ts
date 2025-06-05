@@ -1,4 +1,4 @@
-import { eachDayOfInterval, format } from 'date-fns';
+import { eachDayOfInterval, format, parseISO } from 'date-fns';
 import { Performance } from '@/types/performance';
 
 const getEventsByDate = (
@@ -7,8 +7,8 @@ const getEventsByDate = (
   const map: Record<string, Performance[]> = {};
 
   performances.forEach((perf) => {
-    const start = new Date(perf.startDate);
-    const end = new Date(perf.endDate);
+    const start = parseISO(perf.startDate);
+    const end = parseISO(perf.endDate);
 
     const daysInRange = eachDayOfInterval({ start, end });
 
