@@ -8,6 +8,7 @@ import {
   usePatchReadNotifications,
 } from '@/hooks/notificationHooks/notificationHooks';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
+import NotificationCard from './NotificationCard';
 
 const NotificationList = () => {
   const { mutate: readMutate } = usePatchReadNotifications();
@@ -49,12 +50,10 @@ const NotificationList = () => {
           <>
             {data?.pages.map((page) =>
               page.data.data?.map((notification) => (
-                <div
+                <NotificationCard
                   key={notification.id}
-                  className='h-10 bg-gray-100'
-                >
-                  {notification.message}
-                </div>
+                  notification={notification}
+                />
               ))
             )}
           </>

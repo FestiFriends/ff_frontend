@@ -82,3 +82,18 @@ export const useDeleteAllNotifications = () => {
       }),
   });
 };
+
+export const useDeleteNotifications = () => {
+  const queryClient = useQueryClient();
+  return useMutation<ApiResponse, ApiResponse, string>({
+    mutationFn: async (id) => {
+      const response = await notificationsApi.deleteNotifications(id);
+      return response.data;
+    },
+
+    onSettled: () =>
+      queryClient.invalidateQueries({
+        queryKey: [NOTIFICATIONS_QUERY_KEYS.notifications],
+      }),
+  });
+};
