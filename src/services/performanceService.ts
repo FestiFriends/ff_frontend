@@ -31,9 +31,7 @@ export const performanceApi = {
       params as Record<string, string>
     ).toString();
 
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/performances?${query}`
-    );
+    const res = await fetch(`/api/v1/performances?${query}`);
 
     const json: PerformanceListResponse = await res.json();
 
