@@ -21,4 +21,7 @@ export const notificationsApi = {
 
   deleteAllNotifications: async () =>
     await apiFetcher.delete<ApiResponse>('/api/v1/notifications'),
+
+  deleteNotifications: async (id: string) =>
+    await apiFetcher.delete<ApiResponse>(`/api/v1/notifications/${id}`),
 };

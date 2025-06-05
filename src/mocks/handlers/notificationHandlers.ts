@@ -381,4 +381,31 @@ export const notificationHandlers = [
       message: '모든 알림을 삭제했습니다.',
     });
   }),
+
+  http.delete(
+    'http://localhost:3000/api/v1/notifications/:notificationId',
+    async ({ params }) => {
+      const { notificationId } = params;
+      await delay(2000);
+
+      // return HttpResponse.json(
+      //   {
+      //     code: 400,
+      //     message: '에러.',
+      //   },
+      //   { status: 400 }
+      // );
+
+      NOTIFICATIONS_SAMPLE_DATA.forEach((notification) => {
+        if (notification.id.toString() === notificationId) {
+          notification.isDelete = true;
+        }
+      });
+
+      return HttpResponse.json({
+        code: 200,
+        message: `${notificationId} 알림을 삭제했습니다.`,
+      });
+    }
+  ),
 ];
