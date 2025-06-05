@@ -49,10 +49,6 @@ export const usePatchReadNotifications = () => {
     },
 
     onMutate: async () => {
-      await queryClient.cancelQueries({
-        queryKey: [NOTIFICATIONS_QUERY_KEYS.notifications],
-      });
-
       queryClient.setQueryData(
         [
           NOTIFICATIONS_QUERY_KEYS.notifications,
@@ -63,6 +59,21 @@ export const usePatchReadNotifications = () => {
           data: { ...old.data, data: { hasUnread: false } },
         })
       );
+    },
+
+    onSettled: () =>
+      queryClient.invalidateQueries({
+        queryKey: [NOTIFICATIONS_QUERY_KEYS.notifications],
+      }),
+  });
+};
+
+export const useDeleteAllNotifications = () => {
+  const queryClient = useQueryClient();
+  return useMutation<ApiResponse, ApiResponse>({
+    mutationFn: async () => {
+      const response = await notificationsApi.deleteAllNotifications();
+      return response.data;
     },
 
     onSettled: () =>
