@@ -1,5 +1,8 @@
 import { http, HttpResponse, delay } from 'msw';
-import { PerformancesResponse } from '@/types/performance';
+import {
+  PerformanceIsLikedData,
+  PerformancesResponse,
+} from '@/types/performance';
 
 const TOP_FAVORITES_SAMPLE_DATA: PerformancesResponse = {
   code: 200,
@@ -46,32 +49,32 @@ const TOP_FAVORITES_SAMPLE_DATA: PerformancesResponse = {
     },
     {
       id: 'pf-20251001',
-      title: '고객 중심 차별화 전략',
-      startDate: '2025-07-01T18:00:00Z',
-      endDate: '2025-07-03T22:00:00Z',
-      location: '경기도 김정현동 748-24',
-      cast: ['이은우', '오승희', '박은우'],
-      crew: ['이한결', '박승민'],
-      runtime: '180분',
-      age: '만 7세 이상',
-      productionCompany: ['윤주 (주)'],
-      agency: ['이서준 (주)'],
-      host: ['정지윤 (유)'],
-      organizer: ['오주원 (유)'],
-      price: ['일반석 97907원', 'VIP석 148307원'],
+      title: 'Tempore Culpa 페스티벌',
+      startDate: '2025-06-07T10:26:44',
+      endDate: '2025-06-09T12:26:44',
+      location: '인천광역시 성북구 봉은사로 (도윤김김마을)',
+      cast: ['김재호', '김은서', '김지원'],
+      crew: ['이민지', '이미숙'],
+      runtime: '90분',
+      age: '만 12세 이상',
+      productionCompany: ['김홍'],
+      agency: ['송서'],
+      host: ['박우'],
+      organizer: ['이최'],
+      price: ['일반석 66049원', 'VIP석 124628원'],
       poster: 'https://picsum.photos/seed/perf1/400/600',
-      state: '공연중',
+      state: '예정',
       visit: '국내',
       images: [
         {
           id: 'img-11',
           src: 'https://picsum.photos/seed/perf11/800/600',
-          alt: '대한민국 불구하고 나타났다.',
+          alt: 'Nulla similique neque provident.',
         },
         {
           id: 'img-12',
           src: 'https://picsum.photos/seed/perf12/800/600',
-          alt: '예를 들어 강력한 의무가',
+          alt: 'Ut.',
         },
       ],
       time: [
@@ -79,12 +82,12 @@ const TOP_FAVORITES_SAMPLE_DATA: PerformancesResponse = {
         '토요일(16:00,19:00)',
         '일요일(15:00,18:00)',
       ],
-      groupCount: 18,
-      favoriteCount: 7160,
+      groupCount: 26,
+      favoriteCount: 9935,
       isLiked: true,
     },
     {
-      id: 'pf-20251002',
+      id: 'pf-20251012',
       title: '마케팅 구조 역량',
       startDate: '2025-07-01T18:00:00Z',
       endDate: '2025-07-03T22:00:00Z',
@@ -123,7 +126,7 @@ const TOP_FAVORITES_SAMPLE_DATA: PerformancesResponse = {
       isLiked: false,
     },
     {
-      id: 'pf-20251003',
+      id: 'pf-20251103',
       title: '혁신적 브랜드 정체성',
       startDate: '2025-07-01T18:00:00Z',
       endDate: '2025-07-03T22:00:00Z',
@@ -162,7 +165,7 @@ const TOP_FAVORITES_SAMPLE_DATA: PerformancesResponse = {
       isLiked: false,
     },
     {
-      id: 'pf-20251004',
+      id: 'pf-20251104',
       title: '글로벌 고객 확보 전략',
       startDate: '2025-07-01T18:00:00Z',
       endDate: '2025-07-03T22:00:00Z',
@@ -413,8 +416,49 @@ export const performancesHandlers = [
       return HttpResponse.json(TOP_FAVORITES_SAMPLE_DATA);
     }
   ),
+
   http.get('http://localhost:3000/api/v1/performances/top-groups', async () => {
     await delay(3000);
     return HttpResponse.json(TOP_GROUPS_SAMPLE_DATA);
   }),
+
+  http.patch(
+    'http://localhost:3000/api/v1/performances/:performanceId/favorites',
+    async ({ request, params }) => {
+      const { performanceId } = params;
+      const { isLiked } = (await request.json()) as PerformanceIsLikedData;
+      await delay(2000);
+      // return HttpResponse.json(
+      //   {
+      //     code: 404,
+      //     message: '존재하지 않는 공연입니다.',
+      //   },
+      //   { status: 404 }
+      // );
+      const target = TOP_FAVORITES_SAMPLE_DATA.data
+        ?.concat(TOP_GROUPS_SAMPLE_DATA.data ?? [])
+        .find((item) => item.id === performanceId);
+
+      if (!target) {
+        return HttpResponse.json(
+          {
+            code: 404,
+            message: '존재하지 않는 공연입니다.',
+          },
+          { status: 404 }
+        );
+      }
+
+      target.isLiked = isLiked;
+
+      return HttpResponse.json(
+        {
+          code: 200,
+          message: isLiked ? '공연을 찜했습니다.' : '공연을 찜 취소했습니다.',
+          data: { performanceId, isLiked },
+        },
+        { status: 200 }
+      );
+    }
+  ),
 ];
