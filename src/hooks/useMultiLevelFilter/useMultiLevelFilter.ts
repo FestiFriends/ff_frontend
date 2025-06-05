@@ -1,5 +1,5 @@
 'use client';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 
 export interface MultiLevelData {
   label: string;
@@ -21,6 +21,7 @@ export const useMultiLevelFilter = (data: MultiLevelData[]) => {
       if (!next || !next.children) break;
       currentData = next.children;
     }
+
     return result;
   }, [data, selectedValues]);
 
@@ -28,9 +29,14 @@ export const useMultiLevelFilter = (data: MultiLevelData[]) => {
     setSelectedValues((prev) => [...prev.slice(0, level), value]);
   };
 
+  const setInitialValues = useCallback((values: string[]) => {
+    setSelectedValues(values);
+  }, []);
+
   return {
     selectedValues,
     optionsByLevel,
     setValueAtLevel,
+    setInitialValues, // 추가
   };
 };
