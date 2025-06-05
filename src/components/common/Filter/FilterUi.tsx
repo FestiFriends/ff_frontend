@@ -23,14 +23,10 @@ interface FilterOption {
 
 const FilterUi = ({
   options,
-  value,
   onChange,
   placeholder = '선택',
   className,
 }: FilterProps) => {
-  const selectedOption = options.find((opt) => opt.value === value);
-  const displayLabel = selectedOption?.label;
-
   const handleClick = (value: string) => () => {
     onChange?.(value);
   };
@@ -38,15 +34,11 @@ const FilterUi = ({
   return (
     <div className={cn('inline-block', className)}>
       <Dropdown>
-        <DropdownTrigger
-          value={displayLabel}
-          placeholder={placeholder}
-        ></DropdownTrigger>
+        <DropdownTrigger placeholder={placeholder}></DropdownTrigger>
 
         <DropdownContent>
           {options.map((option) => (
             <DropdownItem
-              value={option.value}
               key={option.value}
               label={option.label}
               onClick={handleClick(option.value)}
