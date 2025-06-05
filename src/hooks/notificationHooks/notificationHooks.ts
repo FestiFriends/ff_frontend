@@ -1,4 +1,8 @@
-import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
+import {
+  InfiniteData,
+  useInfiniteQuery,
+  useQuery,
+} from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import { PERFORMANCES_QUERY_KEYS } from '@/constants/queryKeys';
 import { notificationsApi } from '@/services/notificationsService';
@@ -20,4 +24,13 @@ export const useInfiniteNotifications = (size: CursorRequest['size']) =>
     getNextPageParam: (lastPage) =>
       lastPage.data?.hasNext ? lastPage.data?.cursorId : undefined,
     initialPageParam: undefined,
+  });
+
+export const useGetTopFavoritesPerformances = () =>
+  useQuery({
+    queryKey: [
+      PERFORMANCES_QUERY_KEYS.notifications,
+      PERFORMANCES_QUERY_KEYS.newNotifications,
+    ],
+    queryFn: notificationsApi.getNewNotificationsCheck,
   });

@@ -3,4 +3,5 @@ export const PERFORMANCES_QUERY_KEYS = {
   topFavorites: 'topFavorites',
   topByGroupCount: 'topByGroupCount',
   notifications: 'notifications',
+  newNotifications: 'newNotifications',
 };
