@@ -18,4 +18,7 @@ export const notificationsApi = {
 
   patchReadNotifications: async () =>
     await apiFetcher.patch<ApiResponse>('/api/v1/notifications/read'),
+
+  deleteAllNotifications: async () =>
+    await apiFetcher.delete<ApiResponse>('/api/v1/notifications'),
 };
