@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   LikeButton,
@@ -8,8 +8,10 @@ import {
   Root,
   Title,
 } from '@/components/common/PerformanceCard/PerformanceCard';
+import Toast from '@/components/common/Toast/Toast';
 import LikeIcon from '@/components/icons/LikeIcon';
 import { usePatchPerformanceLiked } from '@/hooks/performanceHooks/performanceHooks';
+import { useAuthStore } from '@/providers/AuthStoreProvider';
 import { Performance } from '@/types/performance';
 
 interface MainPerformanceCardProps {
@@ -17,14 +19,28 @@ interface MainPerformanceCardProps {
 }
 
 const MainPerformanceCard = ({ performance }: MainPerformanceCardProps) => {
+  const isLoggedin = useAuthStore((state) => state.isLoggedin);
+  const [showToast, setShowToast] = useState(false);
   const { mutate } = usePatchPerformanceLiked();
 
   const toggleLike = () => {
+    if (!isLoggedin) {
+      setShowToast(true);
+      return;
+    }
     mutate({ performanceId: performance.id, isLiked: !performance.isLiked });
   };
 
   return (
     <>
+      {showToast && (
+        <Toast
+          message='로그인이 필요합니다!'
+          type='error'
+          onClose={() => setShowToast(false)}
+          className='bottom-4 left-1/2 -translate-x-1/2'
+        />
+      )}
       <Root
         onCardClick={() => {}}
         onLikeClick={toggleLike}
