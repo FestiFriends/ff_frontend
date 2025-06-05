@@ -1,6 +1,13 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { PERFORMANCES_QUERY_KEYS } from '@/constants/queryKeys';
 import { performancesApi } from '@/services/performancesService';
+import { ApiResponse } from '@/types/api';
+import {
+  Performance,
+  PerformanceIsLikedData,
+  PerformanceIsLikedResponse,
+  PerformancesResponse,
+} from '@/types/performance';
 
 export const useGetTopFavoritesPerformances = () =>
   useQuery({
@@ -19,3 +26,82 @@ export const useGetTopByGroupCountPerformances = () =>
     ],
     queryFn: performancesApi.getTopByGroupCount,
   });
+
+export const usePatchPerformanceLiked = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<
+    PerformanceIsLikedResponse,
+    ApiResponse,
+    PerformanceIsLikedData
+  >({
+    mutationFn: async ({ performanceId, isLiked }) => {
+      const response = await performancesApi.patchLiked({
+        performanceId,
+        isLiked,
+      });
+      return response.data;
+    },
+    onMutate: async ({ performanceId, isLiked }) => {
+      await queryClient.cancelQueries({
+        queryKey: [PERFORMANCES_QUERY_KEYS.performances],
+      });
+
+      const queries = queryClient.getQueriesData<{
+        data: PerformancesResponse | ApiResponse<Performance>;
+      }>({
+        queryKey: [PERFORMANCES_QUERY_KEYS.performances],
+      });
+
+      queries.forEach(([queryKey, queryData]) => {
+        if (!queryData?.data) return;
+
+        if (Array.isArray(queryData.data.data)) {
+          queryClient.setQueryData(
+            queryKey,
+            (oldData: { data: PerformancesResponse }) => ({
+              ...oldData,
+              data: {
+                ...oldData.data,
+                data: oldData.data.data?.map((p) =>
+                  p.id === performanceId
+                    ? {
+                        ...p,
+                        isLiked,
+                        favoriteCount: p.favoriteCount + (isLiked ? 1 : -1),
+                      }
+                    : p
+                ),
+              },
+            })
+          );
+        } else {
+          queryClient.setQueryData(
+            queryKey,
+            (oldData: { data: ApiResponse<Performance> }) => ({
+              ...oldData,
+              data: {
+                ...oldData.data,
+                data:
+                  oldData.data.data?.id === performanceId
+                    ? {
+                        ...oldData.data.data,
+                        isLiked,
+                        favoriteCount:
+                          oldData.data.data.favoriteCount + (isLiked ? 1 : -1),
+                      }
+                    : oldData.data.data,
+              },
+            })
+          );
+        }
+      });
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: [PERFORMANCES_QUERY_KEYS.performances],
+      });
+    },
+  });
+};

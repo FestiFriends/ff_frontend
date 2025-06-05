@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Image,
   LikeButton,
@@ -9,6 +9,7 @@ import {
   Title,
 } from '@/components/common/PerformanceCard/PerformanceCard';
 import LikeIcon from '@/components/icons/LikeIcon';
+import { usePatchPerformanceLiked } from '@/hooks/performanceHooks/performanceHooks';
 import { Performance } from '@/types/performance';
 
 interface MainPerformanceCardProps {
@@ -16,20 +17,22 @@ interface MainPerformanceCardProps {
 }
 
 const MainPerformanceCard = ({ performance }: MainPerformanceCardProps) => {
-  const [isLike, setIsLike] = useState(performance.isLiked);
+  const { mutate } = usePatchPerformanceLiked();
+
+  const toggleLike = () => {
+    mutate({ performanceId: performance.id, isLiked: !performance.isLiked });
+  };
+
   return (
     <>
       <Root
         onCardClick={() => {}}
-        onLikeClick={(p, l) => {
-          console.log(p, l);
-          setIsLike((pre) => !pre);
-        }}
+        onLikeClick={toggleLike}
         performance={performance}
         className='relative flex w-[150px] flex-col gap-3 border-0'
       >
         <LikeButton
-          isLiked={isLike}
+          isLiked={performance.isLiked}
           icon={{
             liked: (
               <LikeIcon
