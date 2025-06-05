@@ -27,3 +27,10 @@ export interface Performance {
 }
 
 export type PerformancesResponse = ApiResponse<Performance[]>;
+
+export interface PerformanceIsLikedData {
+  performanceId: string;
+  isLiked: boolean;
+}
+
+export type PerformanceIsLikedResponse = ApiResponse<PerformanceIsLikedData>;
