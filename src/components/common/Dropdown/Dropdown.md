@@ -31,8 +31,13 @@ export default function Example() {
     <Dropdown>
       <DropdownTrigger placeholder='옵션 선택' />
       <DropdownContent>
-        <DropdownItem label='option1'>옵션 1</DropdownItem>
-        <DropdownItem label='option2'>옵션 2</DropdownItem>
+        <DropdownItem
+          label='옵션 1'
+          onClick={handleClick}
+        >
+          옵션 1
+        </DropdownItem>
+        <DropdownItem label='옵션 2'>옵션 2</DropdownItem>
       </DropdownContent>
     </Dropdown>
   );
@@ -67,6 +72,7 @@ export default function Example() {
 - 드롭다운 토글 버튼
 - 클릭 시 드롭다운 열기/닫기 상태 변경
 - 선택된 아이템 혹은 `placeholder` 텍스트 표시
+- `isStatic` 이면 트리거 값이 선택한 아이템의 label로 변하지 않음
 - 기본 스타일 및 hover/focus 스타일 포함
 - `className`으로 스타일 추가 가능
 

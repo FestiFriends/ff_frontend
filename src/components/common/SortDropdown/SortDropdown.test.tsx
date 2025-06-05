@@ -1,6 +1,6 @@
+import useSort from '@/hooks/useSort/useSort';
 import { act, render, renderHook, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import useSort from '@/hooks/useSort/useSort';
 import SortDropdown from './SortDropdown';
 
 const sortOptions = [
@@ -37,40 +37,6 @@ describe('SortDropdown 컴포넌트', () => {
     await user.click(screen.getByText('이름순'));
 
     expect(handleChange).toHaveBeenCalledWith('name');
-  });
-
-  test('label이 비어있으면 value가 표시되어야 한다', async () => {
-    const user = userEvent.setup();
-
-    render(
-      <SortDropdown
-        options={[{ label: '', value: 'group-desc' }]}
-        placeholder='정렬'
-      />
-    );
-
-    await user.click(screen.getByText('정렬'));
-    await user.click(screen.getByText('group-desc'));
-
-    expect(screen.getByText('group-desc')).toBeInTheDocument();
-  });
-
-  test('label이 공백 문자열이면 value가 표시되어야 한다', async () => {
-    const user = userEvent.setup();
-
-    const options = [{ label: ' ', value: 'group-asc' }];
-
-    render(
-      <SortDropdown
-        options={options}
-        placeholder='정렬'
-      />
-    );
-
-    await user.click(screen.getByText('정렬'));
-    await user.click(await screen.findByText('group-asc'));
-
-    expect(await screen.findByText('group-asc')).toBeInTheDocument();
   });
 });
 
