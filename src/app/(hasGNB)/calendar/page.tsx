@@ -1,5 +1,5 @@
-import PerformanceCalender from '@/components/groups/calender/PerformanceCalender';
+import PerformanceCalendarPage from '@/components/groups/calender/PerformanceCalendarPage';
 
-const CalendarPage = () => <PerformanceCalender />;
+const CalendarPage = () => <PerformanceCalendarPage />;
 
 export default CalendarPage;

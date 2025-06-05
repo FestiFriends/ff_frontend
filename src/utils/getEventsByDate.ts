@@ -2,7 +2,7 @@ import { eachDayOfInterval, format, parseISO } from 'date-fns';
 import { Performance } from '@/types/performance';
 
 const getEventsByDate = (
-  performances: Performance[]
+  performances: Performance[] = []
 ): Record<string, Performance[]> => {
   const map: Record<string, Performance[]> = {};
 

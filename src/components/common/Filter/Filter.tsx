@@ -9,11 +9,17 @@ interface FilterProps {
   data: MultiLevelData[];
   levelPlaceholders?: string[];
   onChange?: (values: string[]) => void;
+  stopAtLevel?: number;
 }
 
-const Filter = ({ data, levelPlaceholders, onChange }: FilterProps) => {
+const Filter = ({
+  data,
+  levelPlaceholders,
+  onChange,
+  stopAtLevel,
+}: FilterProps) => {
   const { selectedValues, optionsByLevel, setValueAtLevel } =
-    useMultiLevelFilter(data);
+    useMultiLevelFilter(data, { stopAtLevel });
 
   const levelHandleChange = useCallback(
     (level: number) => (val: string) => {
