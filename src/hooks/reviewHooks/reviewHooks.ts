@@ -3,7 +3,10 @@ import { AxiosResponse } from 'axios';
 import { REVIEWS_QUERY_KEYS } from '@/constants/queryKeys';
 import { reviewsApi } from '@/services/reviewsService';
 import { ApiResponse, CursorRequest } from '@/types/api';
-import { WrittenReviewsResponse } from '@/types/reviews';
+import {
+  WritableReviewsResponse,
+  WrittenReviewsResponse,
+} from '@/types/reviews';
 
 export const useInfiniteWrittenReviews = (size?: CursorRequest['size']) =>
   useInfiniteQuery<
@@ -16,6 +19,23 @@ export const useInfiniteWrittenReviews = (size?: CursorRequest['size']) =>
     queryKey: [REVIEWS_QUERY_KEYS.reviews, REVIEWS_QUERY_KEYS.written],
     queryFn: ({ pageParam }) =>
       reviewsApi.getWrittenReviews({ cursorId: pageParam, size }),
+
+    getNextPageParam: (lastPage) =>
+      lastPage.data?.hasNext ? lastPage.data?.cursorId : undefined,
+    initialPageParam: undefined,
+  });
+
+export const useInfiniteWritableReviews = (size?: CursorRequest['size']) =>
+  useInfiniteQuery<
+    AxiosResponse<WritableReviewsResponse>,
+    ApiResponse,
+    InfiniteData<AxiosResponse<WritableReviewsResponse>>,
+    string[],
+    number | undefined
+  >({
+    queryKey: [REVIEWS_QUERY_KEYS.reviews, REVIEWS_QUERY_KEYS.writable],
+    queryFn: ({ pageParam }) =>
+      reviewsApi.getWritableReviews({ cursorId: pageParam, size }),
 
     getNextPageParam: (lastPage) =>
       lastPage.data?.hasNext ? lastPage.data?.cursorId : undefined,
