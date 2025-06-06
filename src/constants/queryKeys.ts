@@ -9,3 +9,7 @@ export const NOTIFICATIONS_QUERY_KEYS = {
   notifications: 'notifications',
   newNotifications: 'newNotifications',
 };
+
+export const GROUP_QUERY_KEYS = {
+  groups: 'groups',
+};

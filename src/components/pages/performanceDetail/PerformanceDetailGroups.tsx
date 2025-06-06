@@ -1,58 +1,44 @@
 'use client';
 
 import { useState } from 'react';
-import GroupCard from '@/components/common/GroupCard/GroupCard';
-import { groupsApi } from '@/services/groupsService';
+import { useGetGroups } from '@/hooks/groupHooks/groupHooks';
 import { DateRange } from '@/types/dateRange';
-import { Group, GroupsResponse } from '@/types/group';
-import { Performance } from '@/types/performance';
-import { useQuery } from '@tanstack/react-query';
-import { GroupsOptionTabs } from '.';
+import { GroupsList, GroupsOptionTabs, GroupsPagination } from '.';
 
 interface PerformanceDetailGroupsProps {
-  performanceDetail: Performance;
+  performanceId: string;
 }
 
 const PerformanceDetailGroups = ({
-  performanceDetail,
+  performanceId,
 }: PerformanceDetailGroupsProps) => {
+  const { data: groups, isPending } = useGetGroups(performanceId);
+
   const [dateRange, setDateRange] = useState<DateRange>({
     startDate: null,
     endDate: null,
   });
 
-  const {
-    data: groups,
-    isLoading,
-    isError,
-  } = useQuery<GroupsResponse>({
-    queryKey: ['groups', performanceDetail.id],
-    queryFn: () => groupsApi.getGroups(performanceDetail.id),
-    enabled: !!performanceDetail.id,
-  });
-
-  if (isLoading) return <div>로딩중...</div>;
-  if (isError) return <div>데이터를 불러오는 데 실패했습니다.</div>;
-
   return (
-    <div>
-      <GroupsOptionTabs
-        dateRange={dateRange}
-        setDateRange={setDateRange}
-      />
-
-      <div>
-        {groups.data?.groups.map((group: Group) => (
-          <GroupCard
-            key={group.id}
-            groupData={group}
-            buttonText='참가 신청'
-            onButtonClick={() => console.log(group)}
-            className=''
+    <>
+      {isPending ? (
+        <div>loading</div>
+      ) : (
+        <div>
+          <GroupsOptionTabs
+            dateRange={dateRange}
+            setDateRange={setDateRange}
           />
-        ))}
-      </div>
-    </div>
+
+          <GroupsList groups={groups?.data} />
+
+          <GroupsPagination
+            performanceId={performanceId}
+            groupsResponse={groups}
+          />
+        </div>
+      )}
+    </>
   );
 };
 export default PerformanceDetailGroups;
