@@ -1,13 +1,18 @@
 import { GROUP_QUERY_KEYS } from '@/constants/queryKeys';
 import { groupsApi } from '@/services/groupsService';
+import { GroupsResponse } from '@/types/group';
 import { useQuery } from '@tanstack/react-query';
 
 export const useGetGroups = (
   performanceId: string,
-  page: number = 1,
-  size: number = 20
+  page?: number,
+  size?: number
 ) =>
-  useQuery({
+  useQuery<GroupsResponse>({
     queryKey: [GROUP_QUERY_KEYS.groups, performanceId, page, size],
-    queryFn: () => groupsApi.getGroups(performanceId, page, size),
+    queryFn: async () => {
+      const res = await groupsApi.getGroups(performanceId, page, size);
+      return res.data;
+    },
+    placeholderData: (previousData: GroupsResponse | undefined) => previousData,
   });

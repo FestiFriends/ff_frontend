@@ -5,6 +5,7 @@ import { Groups, Info } from '@/components/pages/performanceDetail';
 import { PerformanceDetailResponse } from '@/types/performance';
 
 interface PerformanceDetailTabsProps {
+  performanceId: string;
   performanceDetail?: PerformanceDetailResponse;
   isPending: boolean;
 }
@@ -12,6 +13,7 @@ interface PerformanceDetailTabsProps {
 const tabs: string[] = ['공연 정보', '모임'];
 
 const PerformanceDetailTabs = ({
+  performanceId,
   performanceDetail,
   isPending,
 }: PerformanceDetailTabsProps) => {
@@ -31,9 +33,7 @@ const PerformanceDetailTabs = ({
             isPending={isPending}
           />
         )}
-        {selectedTab === '모임' && (
-          <Groups performanceDetail={performanceDetail?.data} />
-        )}
+        {selectedTab === '모임' && <Groups performanceId={performanceId} />}
       </div>
     </>
   );

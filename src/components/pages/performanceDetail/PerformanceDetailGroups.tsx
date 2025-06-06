@@ -12,12 +12,17 @@ interface PerformanceDetailGroupsProps {
 const PerformanceDetailGroups = ({
   performanceId,
 }: PerformanceDetailGroupsProps) => {
-  const { data: groups, isPending } = useGetGroups(performanceId);
-
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [dateRange, setDateRange] = useState<DateRange>({
     startDate: null,
     endDate: null,
   });
+
+  const { data: groups, isPending } = useGetGroups(
+    performanceId,
+    currentPage,
+    3
+  );
 
   return (
     <>
@@ -30,11 +35,12 @@ const PerformanceDetailGroups = ({
             setDateRange={setDateRange}
           />
 
-          <GroupsList groups={groups?.data} />
+          <GroupsList groups={groups.data.groups} />
 
           <GroupsPagination
-            performanceId={performanceId}
-            groupsResponse={groups}
+            groups={groups}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
           />
         </div>
       )}

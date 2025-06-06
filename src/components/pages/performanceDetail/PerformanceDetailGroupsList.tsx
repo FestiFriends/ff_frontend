@@ -1,15 +1,15 @@
 import GroupCard from '@/components/common/GroupCard/GroupCard';
-import { Group, GroupsResponse } from '@/types/group';
+import { Group } from '@/types/group';
 
 interface PerformanceDetailGroupsListProps {
-  groups?: GroupsResponse;
+  groups?: Group[];
 }
 
 const PerformanceDetailGroupsList = ({
   groups,
 }: PerformanceDetailGroupsListProps) => (
   <div>
-    {groups.data?.groups.map((group: Group) => (
+    {groups?.map((group: Group) => (
       <GroupCard
         key={group.id}
         groupData={group}

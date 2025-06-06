@@ -13,3 +13,17 @@ export interface CursorRequest {
   cursorId?: number; // 커서 id (default: 첫번째 요소)
   size?: number; // 한 페이지당 항목 수 (default: 20)
 }
+
+export interface PageRequest {
+  page?: number;
+  size?: number;
+}
+
+export interface PageResponse {
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  first: boolean;
+  last: boolean;
+}
