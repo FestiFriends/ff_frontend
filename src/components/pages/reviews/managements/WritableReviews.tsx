@@ -9,7 +9,7 @@ import WritableReviewsContent from './WritableReviewsContent';
 
 const WritableReviews = () => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
-    useInfiniteWritableReviews(2);
+    useInfiniteWritableReviews();
   const bottomRef = useInfiniteScroll<HTMLDivElement>(
     fetchNextPage,
     hasNextPage
