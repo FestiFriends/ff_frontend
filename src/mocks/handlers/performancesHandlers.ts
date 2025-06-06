@@ -1,5 +1,5 @@
-import { http, HttpResponse, delay } from 'msw';
 import { Performance, PerformanceIsLikedData } from '@/types/performance';
+import { http, HttpResponse, delay } from 'msw';
 
 const PERFORMANCES_SAMPLE_DATA: Performance[] = [
   {
