@@ -9,7 +9,7 @@ import {
 import { GroupsResponse } from '@/types/group';
 
 interface PerformanceDetailGroupsPaginationProps {
-  groups?: GroupsResponse;
+  groups: GroupsResponse;
   currentPage: number;
   setCurrentPage: (currentPage: number) => void;
 }

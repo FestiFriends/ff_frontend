@@ -2,7 +2,7 @@ import GroupCard from '@/components/common/GroupCard/GroupCard';
 import { Group } from '@/types/group';
 
 interface PerformanceDetailGroupsListProps {
-  groups?: Group[];
+  groups: Group[];
 }
 
 const PerformanceDetailGroupsList = ({

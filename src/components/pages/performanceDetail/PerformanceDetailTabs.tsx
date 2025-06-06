@@ -2,20 +2,16 @@
 import { useState } from 'react';
 import Tabs from '@/components/common/Tabs/Tabs';
 import { Groups, Info } from '@/components/pages/performanceDetail';
-import { PerformanceDetailResponse } from '@/types/performance';
+import { Performance } from '@/types/performance';
 
 interface PerformanceDetailTabsProps {
-  performanceId: string;
-  performanceDetail?: PerformanceDetailResponse;
-  isPending: boolean;
+  performanceDetail: Performance;
 }
 
 const tabs: string[] = ['공연 정보', '모임'];
 
 const PerformanceDetailTabs = ({
-  performanceId,
   performanceDetail,
-  isPending,
 }: PerformanceDetailTabsProps) => {
   const [selectedTab, setSelectedTab] = useState<string>(tabs[0]);
 
@@ -28,12 +24,11 @@ const PerformanceDetailTabs = ({
       />
       <div>
         {selectedTab === '공연 정보' && (
-          <Info
-            performanceDetail={performanceDetail?.data}
-            isPending={isPending}
-          />
+          <Info performanceDetail={performanceDetail} />
         )}
-        {selectedTab === '모임' && <Groups performanceId={performanceId} />}
+        {selectedTab === '모임' && (
+          <Groups performanceId={performanceDetail.id} />
+        )}
       </div>
     </>
   );

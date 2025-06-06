@@ -24,27 +24,23 @@ const PerformanceDetailGroups = ({
     3
   );
 
+  if (isPending || !groups?.data) return <div>loading...</div>;
+
   return (
-    <>
-      {isPending ? (
-        <div>loading</div>
-      ) : (
-        <div>
-          <GroupsOptionTabs
-            dateRange={dateRange}
-            setDateRange={setDateRange}
-          />
+    <div>
+      <GroupsOptionTabs
+        dateRange={dateRange}
+        setDateRange={setDateRange}
+      />
 
-          <GroupsList groups={groups.data.groups} />
+      <GroupsList groups={groups.data.groups} />
 
-          <GroupsPagination
-            groups={groups}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-        </div>
-      )}
-    </>
+      <GroupsPagination
+        groups={groups}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
+    </div>
   );
 };
 export default PerformanceDetailGroups;
