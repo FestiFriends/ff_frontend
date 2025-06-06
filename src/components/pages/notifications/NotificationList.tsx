@@ -1,10 +1,20 @@
 'use client';
 
+import { useEffect } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useInfiniteNotifications } from '@/hooks/notificationHooks/notificationHooks';
+import {
+  useDeleteAllNotifications,
+  useInfiniteNotifications,
+  usePatchReadNotifications,
+} from '@/hooks/notificationHooks/notificationHooks';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
+import NotificationCard from './NotificationCard';
 
 const NotificationList = () => {
+  const { mutate: readMutate } = usePatchReadNotifications();
+  const { mutate: deleteAllMutate, isPending: deleteAllIsPending } =
+    useDeleteAllNotifications();
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
     useInfiniteNotifications(10);
 
@@ -12,6 +22,16 @@ const NotificationList = () => {
     fetchNextPage,
     hasNextPage
   );
+
+  const handleDeleteAll = () => {
+    if (deleteAllIsPending) return;
+
+    deleteAllMutate();
+  };
+
+  useEffect(() => {
+    readMutate();
+  }, [readMutate]);
 
   if (isPending) {
     return (
@@ -25,19 +45,26 @@ const NotificationList = () => {
   return (
     <>
       <div className='flex flex-col gap-2'>
-        {data?.pages.map((page) =>
-          page.data.data?.map((notification) => (
-            <div
-              key={notification.id}
-              className='h-10 bg-gray-100'
-            >
-              {notification.message}
-            </div>
-          ))
+        <button onClick={handleDeleteAll}>삭제</button>
+        {!deleteAllIsPending && (
+          <>
+            {data?.pages.map((page) =>
+              page.data.data?.map((notification) => (
+                <NotificationCard
+                  key={notification.id}
+                  notification={notification}
+                />
+              ))
+            )}
+          </>
         )}
       </div>
-      <div ref={bottomRef} />
-      {isFetchingNextPage && <p>로딩 중...</p>}
+      {!deleteAllIsPending && (
+        <>
+          <div ref={bottomRef} />
+          {isFetchingNextPage && <p>로딩 중...</p>}
+        </>
+      )}
     </>
   );
 };
