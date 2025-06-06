@@ -1,4 +1,3 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { PERFORMANCES_QUERY_KEYS } from '@/constants/queryKeys';
 import { performancesApi } from '@/services/performancesService';
 import { ApiResponse } from '@/types/api';
@@ -8,6 +7,7 @@ import {
   PerformanceIsLikedResponse,
   PerformancesResponse,
 } from '@/types/performance';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const useGetTopFavoritesPerformances = () =>
   useQuery({
@@ -100,3 +100,9 @@ export const usePatchPerformanceLiked = () => {
     },
   });
 };
+
+export const useGetPerformanceDetail = (performanceId: string) =>
+  useQuery({
+    queryKey: [PERFORMANCES_QUERY_KEYS.performanceDetail, performanceId],
+    queryFn: () => performancesApi.getPerformanceDetail(performanceId),
+  });

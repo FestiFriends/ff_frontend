@@ -21,10 +21,8 @@ export const performancesApi = {
       `/api/v1/performances/${performanceId}/favorites`,
       { isLiked }
     ),
-  getPerformanceDetail: async (id: string) => {
-    const res = await apiFetcher.get<PerformanceDetailResponse>(
-      `/api/v1/performances/${id}`
-    );
-    return res.data;
-  },
+  getPerformanceDetail: async (performanceId: string) =>
+    await apiFetcher.get<PerformanceDetailResponse>(
+      `/api/v1/performances/${performanceId}`
+    ),
 };
