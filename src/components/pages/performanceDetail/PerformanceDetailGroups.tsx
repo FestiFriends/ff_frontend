@@ -13,6 +13,7 @@ const PerformanceDetailGroups = ({
   performanceId,
 }: PerformanceDetailGroupsProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [sortType, setSortType] = useState<string>('latest');
   const [dateRange, setDateRange] = useState<DateRange>({
     startDate: null,
     endDate: null,
@@ -21,7 +22,8 @@ const PerformanceDetailGroups = ({
   const { data: groups, isPending } = useGetGroups(
     performanceId,
     currentPage,
-    3
+    20,
+    sortType
   );
 
   if (isPending || !groups?.data) return <div>loading...</div>;
@@ -31,6 +33,7 @@ const PerformanceDetailGroups = ({
       <GroupsOptionTabs
         dateRange={dateRange}
         setDateRange={setDateRange}
+        setSortType={setSortType}
       />
 
       <GroupsList groups={groups.data.groups} />

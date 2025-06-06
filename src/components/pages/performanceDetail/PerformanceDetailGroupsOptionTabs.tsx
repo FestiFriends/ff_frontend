@@ -9,12 +9,12 @@ import { DateRange } from '@/types/dateRange';
 interface Props {
   dateRange: DateRange;
   setDateRange: (range: DateRange) => void;
+  setSortType: (sortType: string) => void;
 }
 
 const sortOptions = [
-  { label: '이름순', value: 'name' },
-  { label: '날짜순', value: 'date' },
-  { label: '조회수순', value: 'views' },
+  { label: '최신순', value: 'latest' },
+  { label: '오래된순', value: 'oldest' },
 ];
 
 const festivalRegionFilter: MultiLevelData[] = [
@@ -34,12 +34,14 @@ const festivalRegionFilter: MultiLevelData[] = [
 const PerformanceDetailGroupsOptionTabs = ({
   dateRange,
   setDateRange,
+  setSortType,
 }: Props) => (
   <div>
     <div className='flex items-center gap-1'>
       <SortDropdown
         placeholder='정렬'
         options={sortOptions}
+        onChange={setSortType}
       />
       <DatePicker
         startDate={dateRange.startDate}
