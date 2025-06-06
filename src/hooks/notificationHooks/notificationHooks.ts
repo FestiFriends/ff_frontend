@@ -1,13 +1,18 @@
 import {
   InfiniteData,
   useInfiniteQuery,
+  useMutation,
   useQuery,
+  useQueryClient,
 } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { PERFORMANCES_QUERY_KEYS } from '@/constants/queryKeys';
+import { NOTIFICATIONS_QUERY_KEYS } from '@/constants/queryKeys';
 import { notificationsApi } from '@/services/notificationsService';
 import { ApiResponse, CursorRequest } from '@/types/api';
-import { GetNotificationsResponse } from '@/types/notification';
+import {
+  GetNewNotificationsCheckResponse,
+  GetNotificationsResponse,
+} from '@/types/notification';
 
 export const useInfiniteNotifications = (size: CursorRequest['size']) =>
   useInfiniteQuery<
@@ -17,7 +22,7 @@ export const useInfiniteNotifications = (size: CursorRequest['size']) =>
     string[],
     number | undefined
   >({
-    queryKey: [PERFORMANCES_QUERY_KEYS.notifications],
+    queryKey: [NOTIFICATIONS_QUERY_KEYS.notifications],
     queryFn: ({ pageParam }) =>
       notificationsApi.getNotifications({ cursorId: pageParam, size }),
 
@@ -26,11 +31,69 @@ export const useInfiniteNotifications = (size: CursorRequest['size']) =>
     initialPageParam: undefined,
   });
 
-export const useGetTopFavoritesPerformances = () =>
+export const useGetNewNotificationsCheck = () =>
   useQuery({
     queryKey: [
-      PERFORMANCES_QUERY_KEYS.notifications,
-      PERFORMANCES_QUERY_KEYS.newNotifications,
+      NOTIFICATIONS_QUERY_KEYS.notifications,
+      NOTIFICATIONS_QUERY_KEYS.newNotifications,
     ],
     queryFn: notificationsApi.getNewNotificationsCheck,
   });
+
+export const usePatchReadNotifications = () => {
+  const queryClient = useQueryClient();
+  return useMutation<ApiResponse, ApiResponse>({
+    mutationFn: async () => {
+      const response = await notificationsApi.patchReadNotifications();
+      return response.data;
+    },
+
+    onMutate: async () => {
+      queryClient.setQueryData(
+        [
+          NOTIFICATIONS_QUERY_KEYS.notifications,
+          NOTIFICATIONS_QUERY_KEYS.newNotifications,
+        ],
+        (old: { data: GetNewNotificationsCheckResponse }) => ({
+          ...old,
+          data: { ...old.data, data: { hasUnread: false } },
+        })
+      );
+    },
+
+    onSettled: () =>
+      queryClient.invalidateQueries({
+        queryKey: [NOTIFICATIONS_QUERY_KEYS.notifications],
+      }),
+  });
+};
+
+export const useDeleteAllNotifications = () => {
+  const queryClient = useQueryClient();
+  return useMutation<ApiResponse, ApiResponse>({
+    mutationFn: async () => {
+      const response = await notificationsApi.deleteAllNotifications();
+      return response.data;
+    },
+
+    onSettled: () =>
+      queryClient.invalidateQueries({
+        queryKey: [NOTIFICATIONS_QUERY_KEYS.notifications],
+      }),
+  });
+};
+
+export const useDeleteNotifications = () => {
+  const queryClient = useQueryClient();
+  return useMutation<ApiResponse, ApiResponse, string>({
+    mutationFn: async (id) => {
+      const response = await notificationsApi.deleteNotifications(id);
+      return response.data;
+    },
+
+    onSettled: () =>
+      queryClient.invalidateQueries({
+        queryKey: [NOTIFICATIONS_QUERY_KEYS.notifications],
+      }),
+  });
+};
