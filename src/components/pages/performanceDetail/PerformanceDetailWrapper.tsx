@@ -3,13 +3,13 @@
 import { Summary, Tabs } from '@/components/pages/performanceDetail';
 import { useGetPerformanceDetail } from '@/hooks/performanceHooks/performanceHooks';
 
-type PerformanceDetailContainerProps = {
+type PerformanceDetailWrapperProps = {
   performanceId: string;
 };
 
-const PerformanceDetailContainer = ({
+const PerformanceDetailWrapper = ({
   performanceId,
-}: PerformanceDetailContainerProps) => {
+}: PerformanceDetailWrapperProps) => {
   const { data: performanceDetail, isPending } =
     useGetPerformanceDetail(performanceId);
 
@@ -20,6 +20,7 @@ const PerformanceDetailContainer = ({
         isPending={isPending}
       />
       <Tabs
+        performanceId={performanceId}
         performanceDetail={performanceDetail?.data}
         isPending={isPending}
       />
@@ -27,4 +28,4 @@ const PerformanceDetailContainer = ({
   );
 };
 
-export default PerformanceDetailContainer;
+export default PerformanceDetailWrapper;
