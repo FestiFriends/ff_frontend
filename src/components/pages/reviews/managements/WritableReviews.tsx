@@ -32,7 +32,12 @@ const WritableReviews = () => {
             key={item.groupId}
             groupInfo={item}
             reviewsCount={item.memberCount - item.reviews.length}
-            content={<WritableReviewsContent reviews={item.reviews} />}
+            content={
+              <WritableReviewsContent
+                reviews={item.reviews}
+                groupId={item.groupId}
+              />
+            }
           />
         ))
       )}

@@ -3,12 +3,17 @@
 import React from 'react';
 import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
 import { WritableReviewsData } from '@/types/reviews';
+import ReviewWriteModal from './ReviewWriteModal';
 
 interface WritableReviewsContentProps {
   reviews: WritableReviewsData['reviews'];
+  groupId: string;
 }
 
-const WritableReviewsContent = ({ reviews }: WritableReviewsContentProps) => (
+const WritableReviewsContent = ({
+  reviews,
+  groupId,
+}: WritableReviewsContentProps) => (
   <div className='flex w-full flex-col gap-4 bg-gray-25 p-4'>
     {reviews.map((review) => (
       <div
@@ -22,6 +27,11 @@ const WritableReviewsContent = ({ reviews }: WritableReviewsContentProps) => (
           />
           {review.targetUserName}
         </div>
+
+        <ReviewWriteModal
+          review={review}
+          groupId={groupId}
+        />
       </div>
     ))}
   </div>
