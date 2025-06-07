@@ -103,7 +103,7 @@ export const usePatchPerformanceLiked = () => {
 
 export const useGetPerformanceDetail = (performanceId: string) =>
   useQuery({
-    queryKey: [PERFORMANCES_QUERY_KEYS.performanceDetail, performanceId],
+    queryKey: [PERFORMANCES_QUERY_KEYS.performances, performanceId],
     queryFn: async () => {
       const res = await performancesApi.getPerformanceDetail(performanceId);
       return res.data;
