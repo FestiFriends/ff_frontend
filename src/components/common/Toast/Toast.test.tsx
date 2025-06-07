@@ -4,6 +4,19 @@ import Toast, { ToastProps } from './Toast';
 jest.useFakeTimers();
 
 describe('Toast 컴포넌트', () => {
+  beforeAll(() => {
+    const portal = document.createElement('div');
+    portal.setAttribute('id', 'portal');
+    document.body.appendChild(portal);
+  });
+
+  afterAll(() => {
+    const portal = document.getElementById('portal');
+    if (portal) {
+      document.body.removeChild(portal);
+    }
+  });
+
   const setup = (props: Partial<ToastProps> = {}) => {
     const onClose = jest.fn();
     render(
