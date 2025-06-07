@@ -2,6 +2,7 @@ import Poster from '@/components/common/poster/Poster';
 import LikeIcon from '@/components/icons/LikeIcon';
 import ShareIcon from '@/components/icons/ShareIcon';
 import { Performance } from '@/types/performance';
+import { formatLocation } from '@/utils/formatLocation';
 import { format } from 'date-fns';
 
 interface PerformanceDetailSummaryProps {
@@ -42,8 +43,15 @@ const PerformanceDetailSummary = ({
       </div>
 
       <div className='grid grid-cols-2'>
-        <span>장소</span>
-        <span>{performanceDetail.location}</span>
+        <span>지역</span>
+        <span>{formatLocation(performanceDetail.location).location}</span>
+      </div>
+
+      <div className='grid grid-cols-2'>
+        <span>공연장소</span>
+        <span>
+          {formatLocation(performanceDetail.location).performanceLocation}
+        </span>
       </div>
 
       <div className='grid grid-cols-2'>
