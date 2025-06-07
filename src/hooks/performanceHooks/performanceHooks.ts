@@ -78,19 +78,14 @@ export const usePatchPerformanceLiked = () => {
         } else {
           queryClient.setQueryData(
             queryKey,
-            (oldData: { data: ApiResponse<Performance> }) => ({
+            (oldData: ApiResponse<Performance>) => ({
               ...oldData,
               data: {
                 ...oldData.data,
-                data:
-                  oldData.data.data?.id === performanceId
-                    ? {
-                        ...oldData.data.data,
-                        isLiked,
-                        favoriteCount:
-                          oldData.data.data.favoriteCount + (isLiked ? 1 : -1),
-                      }
-                    : oldData.data.data,
+                isLiked,
+                favoriteCount: oldData.data?.favoriteCount
+                  ? oldData.data?.favoriteCount + (isLiked ? 1 : -1)
+                  : oldData.data?.favoriteCount,
               },
             })
           );
