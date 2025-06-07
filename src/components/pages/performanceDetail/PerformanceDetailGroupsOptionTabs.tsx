@@ -14,7 +14,7 @@ interface Props {
 
 const sortOptions = [
   { label: '최신순', value: 'latest' },
-  { label: '오래된순', value: 'oldest' },
+  { label: '오래된 순', value: 'oldest' },
 ];
 
 const festivalRegionFilter: MultiLevelData[] = [

@@ -1,13 +1,8 @@
 import apiFetcher from '@/lib/apiFetcher';
-import { GroupsResponse } from '@/types/group';
+import { GetGroupsParams, GroupsResponse } from '@/types/group';
 
 export const groupsApi = {
-  getGroups: async (
-    performanceId: string,
-    page: number = 1,
-    size: number = 20,
-    sortType: string = 'latest'
-  ) =>
+  getGroups: async ({ performanceId, page, size, sortType }: GetGroupsParams) =>
     await apiFetcher.get<GroupsResponse>(
       `/api/v1/performances/${performanceId}/groups`,
       { params: { page, size, sortType } }

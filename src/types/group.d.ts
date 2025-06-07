@@ -27,3 +27,10 @@ export interface Group {
 }
 
 export type GroupsResponse = ApiResponse<Group[]>;
+
+export interface GetGroupsParams {
+  performanceId: string;
+  page?: number;
+  size?: number;
+  sortType?: 'latest' | 'oldest' | string;
+}

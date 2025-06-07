@@ -19,12 +19,11 @@ const PerformanceDetailGroups = ({
     endDate: null,
   });
 
-  const { data: groups, isPending } = useGetGroups(
+  const { data: groups, isPending } = useGetGroups({
     performanceId,
-    currentPage,
-    20,
-    sortType
-  );
+    page: currentPage,
+    sortType,
+  });
 
   if (isPending || !groups?.data) return <div>loading...</div>;
 
