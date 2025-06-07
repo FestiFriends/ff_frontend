@@ -41,12 +41,15 @@ const PerformanceWrapper = ({
   }
 
   if (performances) {
-    content = performances.data?.map((performance) => (
+    content = performances.data?.map((performance, idx) => (
       <CarouselItem
         key={performance.id}
         className='basis-[150px] p-0'
       >
-        <MainPerformanceCard performance={performance} />
+        <MainPerformanceCard
+          ranking={idx + 1}
+          performance={performance}
+        />
       </CarouselItem>
     ));
   }
