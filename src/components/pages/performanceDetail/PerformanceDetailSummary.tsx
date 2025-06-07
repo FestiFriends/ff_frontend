@@ -18,8 +18,7 @@ interface PerformanceDetailSummaryProps {
 const PerformanceDetailSummary = ({
   performanceDetail,
 }: PerformanceDetailSummaryProps) => {
-  // const isLoggedIn = useAuthStore((state) => state.isLoggedin);
-  const isLoggedIn = true;
+  const isLoggedIn = useAuthStore((state) => state.isLoggedin);
   const [showToast, setShowToast] = useState(false);
   const { mutate } = usePatchPerformanceLiked();
 
@@ -44,6 +43,7 @@ const PerformanceDetailSummary = ({
           className='bottom-4 left-1/2 -translate-x-1/2'
         />
       )}
+
       <div>
         <div className='flex items-center justify-center'>
           <Poster
