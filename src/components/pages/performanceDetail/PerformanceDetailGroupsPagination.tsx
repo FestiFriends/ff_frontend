@@ -34,7 +34,7 @@ const PerformanceDetailGroupsPagination = ({
       <PaginationItem key={page}>
         <PaginationLink
           onClick={() => handlePaginationClick(page)}
-          isActive={groups.page === page}
+          isActive={currentPage === page}
         >
           {page}
         </PaginationLink>

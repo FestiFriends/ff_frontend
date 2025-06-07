@@ -14,24 +14,34 @@ interface PerformanceDetailGroupsProps {
 const PerformanceDetailGroups = ({
   performanceId,
 }: PerformanceDetailGroupsProps) => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [sortType, setSortType] = useState<string>('');
-  const [category, setCategory] = useState<string>('');
-  const [dateRange, setDateRange] = useState<DateRange>({
-    startDate: null,
-    endDate: null,
+  const [currentPage, setCurrentPage] = useState(1);
+  const [filters, setFilters] = useState({
+    sortType: '',
+    category: '',
+    dateRange: { startDate: null, endDate: null } as DateRange,
+    location: '',
+    gender: '',
   });
-  const [location, setLocation] = useState<string>('');
-  const [gender, setGender] = useState<string>('');
+
+  const updateFilter = (
+    key: keyof typeof filters,
+    value: (typeof filters)[keyof typeof filters]
+  ) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+    setCurrentPage(1);
+  };
 
   const filteredParams = cleanQueryParams({
     page: currentPage,
-    sortType,
-    category,
-    startDate: dateRange.startDate?.toISOString(),
-    endDate: dateRange.endDate?.toISOString(),
-    location,
-    gender,
+    sortType: filters.sortType,
+    category: filters.category,
+    startDate: filters.dateRange.startDate?.toISOString(),
+    endDate: filters.dateRange.endDate?.toISOString(),
+    location: filters.location,
+    gender: filters.gender,
   });
 
   const queryParams: GetGroupsParams = {
@@ -46,12 +56,12 @@ const PerformanceDetailGroups = ({
   return (
     <div>
       <GroupsOptionTabs
-        dateRange={dateRange}
-        setDateRange={setDateRange}
-        setSortType={setSortType}
-        setCategory={setCategory}
-        setLocation={setLocation}
-        setGender={setGender}
+        dateRange={filters.dateRange}
+        setDateRange={(range) => updateFilter('dateRange', range)}
+        setSortType={(sort) => updateFilter('sortType', sort)}
+        setCategory={(cat) => updateFilter('category', cat)}
+        setLocation={(loc) => updateFilter('location', loc)}
+        setGender={(gen) => updateFilter('gender', gen)}
       />
 
       <GroupsList groups={groups.data.groups} />
