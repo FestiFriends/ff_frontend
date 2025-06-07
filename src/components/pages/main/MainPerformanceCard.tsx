@@ -16,9 +16,13 @@ import { Performance } from '@/types/performance';
 
 interface MainPerformanceCardProps {
   performance: Performance;
+  ranking: number;
 }
 
-const MainPerformanceCard = ({ performance }: MainPerformanceCardProps) => {
+const MainPerformanceCard = ({
+  performance,
+  ranking,
+}: MainPerformanceCardProps) => {
   const isLoggedin = useAuthStore((state) => state.isLoggedin);
   const [showToast, setShowToast] = useState(false);
   const { mutate } = usePatchPerformanceLiked();
@@ -65,7 +69,12 @@ const MainPerformanceCard = ({ performance }: MainPerformanceCardProps) => {
           }}
           className='top-2.5 right-2.5 h-fit w-fit cursor-pointer bg-transparent hover:bg-transparent'
         />
-        <Image className='h-[200px] w-[150px] rounded-[12px]' />
+        <div className='relative'>
+          <Image className='h-[200px] w-[150px] rounded-[12px]' />
+          <span className='absolute bottom-[13px] left-[17px] flex h-[38px] items-center text-32_B text-white'>
+            {ranking}
+          </span>
+        </div>
         <div className='flex flex-col gap-2'>
           <Title className='mb-0 h-[19px] w-[150px] truncate !text-16_B text-gray-950' />
           <Location className='h-[17px] w-[150px] truncate to-gray-600 !text-14_M' />
