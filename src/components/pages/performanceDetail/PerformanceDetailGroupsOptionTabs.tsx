@@ -1,15 +1,20 @@
 'use client';
 
 import DatePicker from '@/components/common/DatePicker/DatePicker';
-import Filter from '@/components/common/Filter/Filter';
 import SortDropdown from '@/components/common/SortDropdown/SortDropdown';
-import { MultiLevelData } from '@/hooks/useMultiLevelFilter/useMultiLevelFilter';
+import { GenderLabels } from '@/constants/genderLabels';
+import { GroupCategoryLabels } from '@/constants/groupLabels';
+import { LocationLabels } from '@/constants/locationLabels';
 import { DateRange } from '@/types/dateRange';
+import { generateFilterOptions } from '@/utils/generateFilterOptions';
 
 interface Props {
   dateRange: DateRange;
   setDateRange: (range: DateRange) => void;
   setSortType: (sortType: string) => void;
+  setCategory: (category: string) => void;
+  setLocation: (location: string) => void;
+  setGender: (gender: string) => void;
 }
 
 const sortOptions = [
@@ -17,24 +22,17 @@ const sortOptions = [
   { label: '오래된 순', value: 'oldest' },
 ];
 
-const festivalRegionFilter: MultiLevelData[] = [
-  {
-    label: '서울',
-    value: 'seoul',
-    children: [
-      {
-        label: '마포구',
-        value: 'mapo',
-        children: [{ label: '합정동', value: 'hapjeong' }],
-      },
-    ],
-  },
-];
+const categoryOptions = generateFilterOptions(GroupCategoryLabels);
+const locationOptions = generateFilterOptions(LocationLabels);
+const genderOptions = generateFilterOptions(GenderLabels);
 
 const PerformanceDetailGroupsOptionTabs = ({
   dateRange,
   setDateRange,
   setSortType,
+  setCategory,
+  setLocation,
+  setGender,
 }: Props) => (
   <div>
     <div className='flex items-center gap-1'>
@@ -43,14 +41,27 @@ const PerformanceDetailGroupsOptionTabs = ({
         options={sortOptions}
         onChange={setSortType}
       />
+      <SortDropdown
+        placeholder='카테고리'
+        options={categoryOptions}
+        onChange={setCategory}
+      />
       <DatePicker
         startDate={dateRange.startDate}
         endDate={dateRange.endDate}
         placeholder='날짜'
         onChange={setDateRange}
       />
-      <Filter data={festivalRegionFilter} />
-      <Filter data={festivalRegionFilter} />
+      <SortDropdown
+        placeholder='지역'
+        options={locationOptions}
+        onChange={setLocation}
+      />
+      <SortDropdown
+        placeholder='성별'
+        options={genderOptions}
+        onChange={setGender}
+      />
     </div>
   </div>
 );

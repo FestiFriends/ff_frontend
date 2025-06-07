@@ -1,26 +1,20 @@
-import { PageResponse } from '@/types/api';
+import { GenderLabels } from '@/constants/genderLabels';
+import { GroupCategoryLabels } from '@/constants/groupLabels';
+import { LocationLabels } from '@/constants/locationLabels';
+import { isAfter, isBefore, parseISO } from 'date-fns';
 import { http, HttpResponse } from 'msw';
-
-const GROUP_PAGINATION_DATA: PageResponse = {
-  page: 1,
-  size: 20,
-  totalElements: 30,
-  totalPages: 2,
-  first: true,
-  last: false,
-};
 
 export const GROUPS_DATA = [
   {
     id: 'g101',
     title: '락페 처음 가는 사람들 모여요',
     category: '같이 동행',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 20,
     endAge: 35,
-    location: '서울 마포구',
-    startDate: '2025-08-09T10:00:00Z',
-    endDate: '2025-08-11T23:00:00Z',
+    location: '서울',
+    startDate: '2025-06-09T10:00:00Z',
+    endDate: '2025-06-11T23:00:00Z',
     memberCount: 7,
     maxMembers: 10,
     hashtag: ['락페입문', '인친구해요'],
@@ -36,12 +30,12 @@ export const GROUPS_DATA = [
     id: 'g102',
     title: '자우림 같이 보는 락덕 모임',
     category: '같이 동행',
-    gender: 'FEMALE',
+    gender: '여성',
     startAge: 25,
     endAge: 40,
-    location: '경기 부천시',
-    startDate: '2025-08-09T12:00:00Z',
-    endDate: '2025-08-10T22:30:00Z',
+    location: '경기',
+    startDate: '2025-06-10T12:00:00Z',
+    endDate: '2025-06-13T22:30:00Z',
     memberCount: 5,
     maxMembers: 8,
     hashtag: ['자우림', '여성모임', '페스티벌덕후'],
@@ -57,10 +51,10 @@ export const GROUPS_DATA = [
     id: 'g103',
     title: '3일권 구매자 모여서 캠핑해요!',
     category: '같이 숙박',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 23,
     endAge: 38,
-    location: '인천 연수구',
+    location: '인천',
     startDate: '2025-08-09T11:00:00Z',
     endDate: '2025-08-11T23:30:00Z',
     memberCount: 9,
@@ -78,10 +72,10 @@ export const GROUPS_DATA = [
     id: 'g106',
     title: '홍대 → 인천 택시팟 구해요!',
     category: '같이 탑승',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 20,
     endAge: 35,
-    location: '서울 마포구 홍대입구역',
+    location: '서울',
     startDate: '2025-08-09T09:30:00Z',
     endDate: '2025-08-09T11:30:00Z',
     memberCount: 3,
@@ -99,10 +93,10 @@ export const GROUPS_DATA = [
     id: 'g107',
     title: '일산 거주자 락페 카풀해요 🚗',
     category: '같이 탑승',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 25,
     endAge: 40,
-    location: '경기 고양시 일산서구',
+    location: '경기',
     startDate: '2025-08-09T10:00:00Z',
     endDate: '2025-08-09T12:00:00Z',
     memberCount: 2,
@@ -120,10 +114,10 @@ export const GROUPS_DATA = [
     id: 'g108',
     title: '인천에서 출발하는 카풀 구해요!',
     category: '같이 탑승',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 22,
     endAge: 37,
-    location: '인천 남동구',
+    location: '인천',
     startDate: '2025-08-09T09:00:00Z',
     endDate: '2025-08-09T11:00:00Z',
     memberCount: 2,
@@ -141,10 +135,10 @@ export const GROUPS_DATA = [
     id: 'g109',
     title: '소규모 락덕들 모여서 같이 즐겨요',
     category: '같이 동행',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 26,
     endAge: 35,
-    location: '서울 중구',
+    location: '충북',
     startDate: '2025-08-09T13:00:00Z',
     endDate: '2025-08-10T22:00:00Z',
     memberCount: 4,
@@ -162,10 +156,10 @@ export const GROUPS_DATA = [
     id: 'g110',
     title: '페스티벌 룩 같이 맞춰 입어요👕',
     category: '같이 동행',
-    gender: 'FEMALE',
+    gender: '여성',
     startAge: 20,
     endAge: 30,
-    location: '서울 강서구',
+    location: '강원',
     startDate: '2025-08-09T11:30:00Z',
     endDate: '2025-08-10T21:30:00Z',
     memberCount: 3,
@@ -183,10 +177,10 @@ export const GROUPS_DATA = [
     id: 'g111',
     title: '락페 끝나고 뒷풀이 갈 분!',
     category: '같이 동행',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 24,
     endAge: 36,
-    location: '인천 미추홀구',
+    location: '인천',
     startDate: '2025-08-11T21:30:00Z',
     endDate: '2025-08-12T01:00:00Z',
     memberCount: 6,
@@ -204,10 +198,10 @@ export const GROUPS_DATA = [
     id: 'g112',
     title: '텐트 같이 칠 사람! 장비 있어요',
     category: '같이 숙박',
-    gender: 'MALE',
+    gender: '남성',
     startAge: 21,
     endAge: 33,
-    location: '인천 연수구',
+    location: '인천',
     startDate: '2025-08-09T10:00:00Z',
     endDate: '2025-08-11T23:00:00Z',
     memberCount: 5,
@@ -225,10 +219,10 @@ export const GROUPS_DATA = [
     id: 'g201',
     title: '혼자보단 같이! 락페 첫 참석자 모임',
     category: '같이 동행',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 22,
     endAge: 34,
-    location: '서울 영등포구',
+    location: '부산',
     startDate: '2025-08-09T10:00:00Z',
     endDate: '2025-08-10T23:00:00Z',
     memberCount: 6,
@@ -246,10 +240,10 @@ export const GROUPS_DATA = [
     id: 'g202',
     title: '페스티벌 같이 놀 사람 (음주 환영)',
     category: '같이 동행',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 25,
     endAge: 35,
-    location: '경기 성남시',
+    location: '경기',
     startDate: '2025-08-09T14:00:00Z',
     endDate: '2025-08-10T23:00:00Z',
     memberCount: 5,
@@ -267,10 +261,10 @@ export const GROUPS_DATA = [
     id: 'g203',
     title: '택시 같이 타실 분 (신촌 출발)',
     category: '같이 탑승',
-    gender: 'MALE',
+    gender: '남성',
     startAge: 23,
     endAge: 33,
-    location: '서울 서대문구',
+    location: '서울',
     startDate: '2025-08-09T08:30:00Z',
     endDate: '2025-08-09T10:30:00Z',
     memberCount: 2,
@@ -288,10 +282,10 @@ export const GROUPS_DATA = [
     id: 'g204',
     title: '자취생 캠핑 모임🔥',
     category: '같이 숙박',
-    gender: 'MALE',
+    gender: '남성',
     startAge: 24,
     endAge: 36,
-    location: '인천 서구',
+    location: '전남',
     startDate: '2025-08-09T12:00:00Z',
     endDate: '2025-08-11T22:00:00Z',
     memberCount: 4,
@@ -309,10 +303,10 @@ export const GROUPS_DATA = [
     id: 'g205',
     title: '음악 이야기 나눌 사람🙌',
     category: '같이 동행',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 26,
     endAge: 38,
-    location: '서울 동작구',
+    location: '경기',
     startDate: '2025-08-09T13:00:00Z',
     endDate: '2025-08-10T21:00:00Z',
     memberCount: 5,
@@ -330,10 +324,10 @@ export const GROUPS_DATA = [
     id: 'g206',
     title: '부천 출발 카풀 팟🚗',
     category: '같이 탑승',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 25,
     endAge: 40,
-    location: '경기 부천시',
+    location: '경기',
     startDate: '2025-08-09T09:00:00Z',
     endDate: '2025-08-09T11:00:00Z',
     memberCount: 3,
@@ -351,10 +345,10 @@ export const GROUPS_DATA = [
     id: 'g207',
     title: '락페룩 맞춰입을 팀원 구해요💃',
     category: '같이 동행',
-    gender: 'FEMALE',
+    gender: '여성',
     startAge: 20,
     endAge: 30,
-    location: '서울 송파구',
+    location: '제주',
     startDate: '2025-08-09T11:00:00Z',
     endDate: '2025-08-10T22:00:00Z',
     memberCount: 4,
@@ -372,10 +366,10 @@ export const GROUPS_DATA = [
     id: 'g208',
     title: '퇴근하고 바로 락페 고!',
     category: '같이 동행',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 27,
     endAge: 39,
-    location: '서울 용산구',
+    location: '서울',
     startDate: '2025-08-09T18:00:00Z',
     endDate: '2025-08-10T23:00:00Z',
     memberCount: 6,
@@ -393,10 +387,10 @@ export const GROUPS_DATA = [
     id: 'g209',
     title: '음악덕후들만 모여요🎧',
     category: '같이 동행',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 22,
     endAge: 33,
-    location: '서울 종로구',
+    location: '강원',
     startDate: '2025-08-10T10:00:00Z',
     endDate: '2025-08-11T22:00:00Z',
     memberCount: 5,
@@ -414,10 +408,10 @@ export const GROUPS_DATA = [
     id: 'g210',
     title: '락페 뒷풀이까지 완벽하게🔥',
     category: '같이 동행',
-    gender: 'FEMALE',
+    gender: '여성',
     startAge: 24,
     endAge: 36,
-    location: '인천 남구',
+    location: '인천',
     startDate: '2025-08-11T22:00:00Z',
     endDate: '2025-08-12T02:00:00Z',
     memberCount: 4,
@@ -435,10 +429,10 @@ export const GROUPS_DATA = [
     id: 'g211',
     title: '헤드라이너 무대 앞자리에서 함께해요🔥',
     category: '같이 동행',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 23,
     endAge: 35,
-    location: '서울 마포구',
+    location: '세종',
     startDate: '2025-08-09T17:00:00Z',
     endDate: '2025-08-09T23:00:00Z',
     memberCount: 6,
@@ -456,10 +450,10 @@ export const GROUPS_DATA = [
     id: 'g212',
     title: '락페 올나잇 즐길 분 찾습니다🌙',
     category: '같이 숙박',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 24,
     endAge: 36,
-    location: '인천 연수구',
+    location: '인천',
     startDate: '2025-08-09T20:00:00Z',
     endDate: '2025-08-10T07:00:00Z',
     memberCount: 4,
@@ -477,10 +471,10 @@ export const GROUPS_DATA = [
     id: 'g213',
     title: '락페 셋리스트 미리 듣고 가실 분🎶',
     category: '같이 동행',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 21,
     endAge: 33,
-    location: '서울 강남구',
+    location: '서울',
     startDate: '2025-08-08T19:00:00Z',
     endDate: '2025-08-08T22:00:00Z',
     memberCount: 5,
@@ -498,12 +492,12 @@ export const GROUPS_DATA = [
     id: 'g214',
     title: '락페 브이로그 찍을 분📹',
     category: '같이 동행',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 20,
     endAge: 32,
-    location: '경기 고양시',
-    startDate: '2025-08-09T10:00:00Z',
-    endDate: '2025-08-10T23:00:00Z',
+    location: '경기',
+    startDate: '2025-08-02T10:00:00Z',
+    endDate: '2025-08-04T23:00:00Z',
     memberCount: 3,
     maxMembers: 5,
     hashtag: ['브이로그', '촬영', '기록남기기'],
@@ -519,12 +513,12 @@ export const GROUPS_DATA = [
     id: 'g215',
     title: '락페 메탈 존 매니아들 모여라🤘',
     category: '같이 동행',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 26,
     endAge: 40,
-    location: '서울 구로구',
-    startDate: '2025-08-09T12:00:00Z',
-    endDate: '2025-08-10T23:00:00Z',
+    location: '대전',
+    startDate: '2025-08-01T12:00:00Z',
+    endDate: '2025-08-03T23:00:00Z',
     memberCount: 6,
     maxMembers: 10,
     hashtag: ['메탈존', '헤드뱅잉', '락스피릿'],
@@ -540,12 +534,12 @@ export const GROUPS_DATA = [
     id: 'g216',
     title: '락페 입장 동선 같이 맞춰요🎟️',
     category: '같이 동행',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 23,
     endAge: 35,
-    location: '서울 성동구',
-    startDate: '2025-08-09T09:00:00Z',
-    endDate: '2025-08-09T10:00:00Z',
+    location: '광주',
+    startDate: '2025-08-01T09:00:00Z',
+    endDate: '2025-08-03T10:00:00Z',
     memberCount: 2,
     maxMembers: 5,
     hashtag: ['일찍입장', '줄서기', '자유석'],
@@ -561,10 +555,10 @@ export const GROUPS_DATA = [
     id: 'g217',
     title: '락페 포토스팟 탐방 모임📸',
     category: '같이 동행',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 22,
     endAge: 34,
-    location: '인천 연수구',
+    location: '인천',
     startDate: '2025-08-09T11:00:00Z',
     endDate: '2025-08-10T21:00:00Z',
     memberCount: 4,
@@ -582,12 +576,12 @@ export const GROUPS_DATA = [
     id: 'g218',
     title: '락페 공식 굿즈 같이 구매하실 분🎁',
     category: '같이 동행',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 24,
     endAge: 38,
-    location: '서울 강북구',
-    startDate: '2025-08-09T10:30:00Z',
-    endDate: '2025-08-09T12:00:00Z',
+    location: '전북',
+    startDate: '2025-08-01T10:30:00Z',
+    endDate: '2025-08-02T12:00:00Z',
     memberCount: 3,
     maxMembers: 6,
     hashtag: ['굿즈', '기념품', '같이줄서기'],
@@ -603,10 +597,10 @@ export const GROUPS_DATA = [
     id: 'g219',
     title: '락페 끝나고 음악 공유모임🎧',
     category: '같이 동행',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 25,
     endAge: 37,
-    location: '서울 은평구',
+    location: '경북',
     startDate: '2025-08-12T18:00:00Z',
     endDate: '2025-08-12T21:00:00Z',
     memberCount: 5,
@@ -624,10 +618,10 @@ export const GROUPS_DATA = [
     id: 'g220',
     title: '락페 캠핑존 사전답사 모임⛺',
     category: '같이 숙박',
-    gender: 'ALL',
+    gender: '혼성',
     startAge: 23,
     endAge: 35,
-    location: '인천 연수구',
+    location: '경기',
     startDate: '2025-08-08T15:00:00Z',
     endDate: '2025-08-08T18:00:00Z',
     memberCount: 3,
@@ -647,19 +641,54 @@ export const groupsHandlers = [
   http.get(
     'http://localhost:3000/api/v1/performances/:performanceId/groups',
     ({ request }) => {
-      let newGroup = GROUPS_DATA;
+      let newGroup = [...GROUPS_DATA];
       const url = new URL(request.url);
       const page = Number(url.searchParams.get('page'));
       const size = Number(url.searchParams.get('size'));
       const sortType = url.searchParams.get('sortType');
+      const category = url.searchParams.get('category');
+      const startDate = url.searchParams.get('startDate');
+      const endDate = url.searchParams.get('endDate');
+      const location = url.searchParams.get('location');
+      const gender = url.searchParams.get('gender');
 
-      if (sortType === 'latest') {
-        newGroup = newGroup.sort(
-          (x, y) => Date.parse(y.startDate) - Date.parse(x.startDate)
+      if (category) {
+        newGroup = newGroup.filter(
+          (group) => group.category === GroupCategoryLabels[category]
         );
-      } else {
-        newGroup = newGroup.sort(
-          (x, y) => Date.parse(x.startDate) - Date.parse(y.startDate)
+      }
+
+      if (startDate && endDate) {
+        const filterStart = parseISO(startDate);
+        const filterEnd = parseISO(endDate);
+
+        newGroup = newGroup.filter((group) => {
+          const groupStart = parseISO(group.startDate);
+          const groupEnd = parseISO(group.endDate);
+
+          return (
+            !isBefore(groupEnd, filterStart) && !isAfter(groupStart, filterEnd)
+          );
+        });
+      }
+
+      if (location) {
+        newGroup = newGroup.filter(
+          (group) => group.location === LocationLabels[location]
+        );
+      }
+
+      if (gender) {
+        newGroup = newGroup.filter(
+          (group) => group.gender === GenderLabels[gender]
+        );
+      }
+
+      if (sortType) {
+        newGroup = newGroup.sort((x, y) =>
+          sortType === 'latest'
+            ? Date.parse(y.startDate) - Date.parse(x.startDate)
+            : Date.parse(x.startDate) - Date.parse(y.startDate)
         );
       }
 
@@ -670,15 +699,15 @@ export const groupsHandlers = [
         message: '요청이 성공적으로 처리되었습니다.',
         data: {
           performanceId: 'pf-20250522',
-          groupCount: GROUPS_DATA.length,
+          groupCount: newGroup.length,
           groups: slicedGroup,
         },
         page: page,
         size: size,
-        totalElements: GROUP_PAGINATION_DATA.totalElements,
-        totalPages: GROUP_PAGINATION_DATA.totalPages,
+        totalElements: newGroup.length,
+        totalPages: Math.floor((newGroup.length - 1) / size) + 1,
         first: page === 1,
-        last: page === GROUP_PAGINATION_DATA.totalPages,
+        last: page === Math.floor((newGroup.length - 1) / size) + 1,
       });
     }
   ),
