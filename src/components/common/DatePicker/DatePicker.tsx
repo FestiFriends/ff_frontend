@@ -84,7 +84,7 @@ const DatePicker = ({
         </button>
       </PopoverTrigger>
 
-      <PopoverContent className='left-0 translate-0'>
+      <PopoverContent className='left-0 translate-0 bg-white'>
         <div className='flex items-center justify-center gap-1'>
           <button
             className='cursor-pointer'
