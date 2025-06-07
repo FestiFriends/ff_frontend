@@ -1,7 +1,8 @@
 /**
- * params 객체에서 null, '', undefined 값들을 필터링하고 Date는 ISO 문자열로 변환해 새로운 객체로 만드는 함수
- * @param params
- * @returns reducedParams
+ * 쿼리 파라미터 객체에서 null, 빈 문자열, undefined를 제거하고
+ * Date 객체는 ISO 문자열로 변환한 새 객체를 반환하는 함수
+ * @param params 필터링할 쿼리 파라미터 객체
+ * @returns 필터링 및 변환된 새 쿼리 파라미터 객체
  */
 export const cleanQueryParams = <T extends Record<string, unknown>>(
   params: T

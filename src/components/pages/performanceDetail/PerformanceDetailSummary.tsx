@@ -81,9 +81,7 @@ const PerformanceDetailSummary = ({
 
           <div className='grid grid-cols-2'>
             <span>공연장소</span>
-            <span>
-              {formatLocation(performanceDetail.location).performanceLocation}
-            </span>
+            <span>{formatLocation(performanceDetail.location).place}</span>
           </div>
 
           <div className='grid grid-cols-2'>
