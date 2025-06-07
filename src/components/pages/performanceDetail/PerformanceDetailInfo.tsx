@@ -10,7 +10,7 @@ const PerformanceDetailInfo = ({
   performanceDetail,
 }: PerformanceDetailInfoProps) => (
   <div className='w-full'>
-    {performanceDetail.images?.map((image: Image) => (
+    {performanceDetail?.images?.map((image: Image) => (
       <Poster
         key={image.id}
         src={image.src}
