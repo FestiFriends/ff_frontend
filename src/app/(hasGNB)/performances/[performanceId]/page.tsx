@@ -1,4 +1,4 @@
-import { Container } from '@/components/pages/performanceDetail';
+import { Wrapper } from '@/components/pages/performanceDetail';
 
 type PerformanceDetailPageProps = {
   params: Promise<{ performanceId: string }>;
@@ -11,7 +11,7 @@ const PerformanceDetailPage = async ({
 
   return (
     <div>
-      <Container performanceId={performanceId} />
+      <Wrapper performanceId={performanceId} />
     </div>
   );
 };

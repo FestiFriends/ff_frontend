@@ -1,57 +1,76 @@
 'use client';
 
 import { useState } from 'react';
-import GroupCard from '@/components/common/GroupCard/GroupCard';
-import { groupsApi } from '@/services/groupsService';
+import { useGetGroups } from '@/hooks/groupHooks/groupHooks';
 import { DateRange } from '@/types/dateRange';
-import { Group, GroupsResponse } from '@/types/group';
-import { Performance } from '@/types/performance';
-import { useQuery } from '@tanstack/react-query';
-import { GroupsOptionTabs } from '.';
+import { GetGroupsParams } from '@/types/group';
+import { cleanQueryParams } from '@/utils/cleanQueryParams';
+import { GroupsList, GroupsOptionTabs, GroupsPagination } from '.';
 
 interface PerformanceDetailGroupsProps {
-  performanceDetail: Performance;
+  performanceId: string;
 }
 
 const PerformanceDetailGroups = ({
-  performanceDetail,
+  performanceId,
 }: PerformanceDetailGroupsProps) => {
-  const [dateRange, setDateRange] = useState<DateRange>({
-    startDate: null,
-    endDate: null,
+  const [currentPage, setCurrentPage] = useState(1);
+  const [filters, setFilters] = useState({
+    sortType: '',
+    category: '',
+    dateRange: { startDate: null, endDate: null } as DateRange,
+    location: '',
+    gender: '',
   });
 
-  const {
-    data: groups,
-    isLoading,
-    isError,
-  } = useQuery<GroupsResponse>({
-    queryKey: ['groups', performanceDetail.id],
-    queryFn: () => groupsApi.getGroups(performanceDetail.id),
-    enabled: !!performanceDetail.id,
+  const updateFilter = (
+    key: keyof typeof filters,
+    value: (typeof filters)[keyof typeof filters]
+  ) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+    setCurrentPage(1);
+  };
+
+  const filteredParams = cleanQueryParams({
+    page: currentPage,
+    sortType: filters.sortType,
+    category: filters.category,
+    startDate: filters.dateRange.startDate?.toISOString(),
+    endDate: filters.dateRange.endDate?.toISOString(),
+    location: filters.location,
+    gender: filters.gender,
   });
 
-  if (isLoading) return <div>로딩중...</div>;
-  if (isError) return <div>데이터를 불러오는 데 실패했습니다.</div>;
+  const queryParams: GetGroupsParams = {
+    performanceId,
+    ...filteredParams,
+  };
+
+  const { data: groups, isPending } = useGetGroups(queryParams);
+
+  if (isPending || !groups?.data) return <div>loading...</div>;
 
   return (
     <div>
       <GroupsOptionTabs
-        dateRange={dateRange}
-        setDateRange={setDateRange}
+        dateRange={filters.dateRange}
+        setDateRange={(range) => updateFilter('dateRange', range)}
+        setSortType={(sort) => updateFilter('sortType', sort)}
+        setCategory={(cat) => updateFilter('category', cat)}
+        setLocation={(loc) => updateFilter('location', loc)}
+        setGender={(gen) => updateFilter('gender', gen)}
       />
 
-      <div>
-        {groups.data?.groups.map((group: Group) => (
-          <GroupCard
-            key={group.id}
-            groupData={group}
-            buttonText='참가 신청'
-            onButtonClick={() => console.log(group)}
-            className=''
-          />
-        ))}
-      </div>
+      <GroupsList groups={groups.data.groups} />
+
+      <GroupsPagination
+        groups={groups}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 };

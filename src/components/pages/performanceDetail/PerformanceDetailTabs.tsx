@@ -27,7 +27,7 @@ const PerformanceDetailTabs = ({
           <Info performanceDetail={performanceDetail} />
         )}
         {selectedTab === '모임' && (
-          <Groups performanceDetail={performanceDetail} />
+          <Groups performanceId={performanceDetail.id} />
         )}
       </div>
     </>

@@ -37,8 +37,12 @@ const DatePicker = ({
     (date: Date) => {
       const { startDate, endDate } = selectedRange;
 
-      if (!startDate || (startDate && endDate)) {
+      if (!startDate) {
         const newRange = { startDate: date, endDate: null };
+        setSelectedRange(newRange);
+        onChange(newRange);
+      } else if (startDate && endDate) {
+        const newRange = { startDate: null, endDate: null };
         setSelectedRange(newRange);
         onChange(newRange);
       } else {
@@ -84,7 +88,7 @@ const DatePicker = ({
         </button>
       </PopoverTrigger>
 
-      <PopoverContent className='left-0 translate-0'>
+      <PopoverContent className='left-0 translate-0 bg-white'>
         <div className='flex items-center justify-center gap-1'>
           <button
             className='cursor-pointer'
