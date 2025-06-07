@@ -1,11 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import Pagination from '@/components/common/Pagination/Pagination';
 import { useGetGroups } from '@/hooks/groupHooks/groupHooks';
 import { DateRange } from '@/types/dateRange';
 import { GetGroupsParams } from '@/types/group';
 import { cleanQueryParams } from '@/utils/cleanQueryParams';
-import { GroupsList, GroupsOptionTabs, GroupsPagination } from '.';
+import { GroupsList, GroupsOptionTabs } from '.';
 
 interface PerformanceDetailGroupsProps {
   performanceId: string;
@@ -66,11 +67,17 @@ const PerformanceDetailGroups = ({
 
       <GroupsList groups={groups.data.groups} />
 
-      <GroupsPagination
+      <Pagination
+        currentPage={currentPage}
+        totalPages={groups.totalPages}
+        onPageChange={setCurrentPage}
+        maxVisiblePages={5}
+      />
+      {/* <GroupsPagination
         groups={groups}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-      />
+      /> */}
     </div>
   );
 };
