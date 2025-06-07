@@ -643,7 +643,7 @@ export const groupsHandlers = [
     ({ request }) => {
       let newGroup = [...GROUPS_DATA];
       const url = new URL(request.url);
-      const page = Number(url.searchParams.get('page'));
+      let page = Number(url.searchParams.get('page'));
       const size = Number(url.searchParams.get('size'));
       const sortType = url.searchParams.get('sortType');
       const category = url.searchParams.get('category');
@@ -656,6 +656,7 @@ export const groupsHandlers = [
         newGroup = newGroup.filter(
           (group) => group.category === GroupCategoryLabels[category]
         );
+        page = 1;
       }
 
       if (startDate && endDate) {
@@ -670,18 +671,21 @@ export const groupsHandlers = [
             !isBefore(groupEnd, filterStart) && !isAfter(groupStart, filterEnd)
           );
         });
+        page = 1;
       }
 
       if (location) {
         newGroup = newGroup.filter(
           (group) => group.location === LocationLabels[location]
         );
+        page = 1;
       }
 
       if (gender) {
         newGroup = newGroup.filter(
           (group) => group.gender === GenderLabels[gender]
         );
+        page = 1;
       }
 
       if (sortType) {
@@ -690,6 +694,7 @@ export const groupsHandlers = [
             ? Date.parse(y.startDate) - Date.parse(x.startDate)
             : Date.parse(x.startDate) - Date.parse(y.startDate)
         );
+        page = 1;
       }
 
       const slicedGroup = newGroup.slice((page - 1) * size, page * size);
