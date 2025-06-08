@@ -42,6 +42,7 @@ const Pagination = ({
     <div className={cn('flex items-center justify-center gap-1', className)}>
       <button
         onClick={goToPrevPage}
+        aria-label='prev page button'
         className={cn(
           'flex aspect-square h-10 w-10 items-center justify-center px-2 py-1.5 text-gray-950 transition-all',
           currentPage === 1 && 'text-gray-300'
@@ -59,6 +60,7 @@ const Pagination = ({
               ? 'flex aspect-square h-10 w-10 flex-col items-center justify-center border-b-2 border-b-primary-red p-2 text-14_B text-gray-950 transition-all select-none'
               : 'flex aspect-square h-10 w-10 flex-col items-center justify-center p-2 text-14_M text-gray-300 transition-all select-none'
           }
+          aria-label={`${page} page button`}
           aria-current={page === currentPage ? 'page' : undefined}
         >
           {page}
@@ -67,6 +69,7 @@ const Pagination = ({
 
       <button
         onClick={goToNextPage}
+        aria-label='next page button'
         className={cn(
           'flex aspect-square h-10 w-10 items-center justify-center px-2 py-1.5 text-gray-950 transition-all',
           currentPage === totalPages && 'text-gray-300'
