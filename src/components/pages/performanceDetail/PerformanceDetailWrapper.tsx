@@ -16,7 +16,7 @@ const PerformanceDetailWrapper = ({
   if (isPending || !performanceDetail?.data) return <div>loading...</div>;
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col gap-3'>
       <Summary performanceDetail={performanceDetail?.data} />
       <Tabs performanceDetail={performanceDetail?.data} />
     </div>
