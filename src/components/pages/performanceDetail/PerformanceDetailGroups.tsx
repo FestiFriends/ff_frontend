@@ -73,11 +73,6 @@ const PerformanceDetailGroups = ({
         onPageChange={setCurrentPage}
         maxVisiblePages={5}
       />
-      {/* <GroupsPagination
-        groups={groups}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      /> */}
     </div>
   );
 };
