@@ -2,7 +2,13 @@ import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 import { cn } from '@/lib/utils';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'danger' | 'outlined';
+  variant?:
+    | 'normalPrimary'
+    | 'normalSecondary'
+    | 'labelPrimary'
+    | 'labelSecondary'
+    | 'disablePrimary'
+    | 'disableSecondary';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   className?: string;
@@ -10,7 +16,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Button = ({
-  variant = 'primary',
+  variant = 'normalPrimary',
   size = 'md',
   disabled,
   className,
@@ -18,28 +24,31 @@ const Button = ({
   children,
   ...props
 }: PropsWithChildren<ButtonProps>) => {
-  // Todo: 디자인 받은 후 스타일 변경 필요
   const buttonClasses = cn(
     // default style
-    'inline-flex cursor-pointer items-center justify-center rounded-sm text-center',
+    'inline-flex h-[42px] w-full cursor-pointer items-center justify-center rounded-12 text-center text-14_M',
 
     // variant style
     {
-      'bg-blue-500': variant === 'primary',
-      'bg-gray-500': variant === 'secondary',
-      'bg-red-500': variant === 'danger',
-      'border-2 border-gray-500': variant === 'outlined',
+      'bg-primary-red text-white': variant === 'normalPrimary',
+      'border border-primary-red text-primary-red':
+        variant === 'normalSecondary',
+      'bg-[#FFEEEF] text-primary-red': variant === 'labelPrimary',
+      'border border-primary-100 text-primary-red':
+        variant === 'labelSecondary',
+      'bg-gray-200 text-gray-100': variant === 'disablePrimary',
+      'border border-gray-200 text-gray-100': variant === 'disableSecondary',
     },
 
     // size style
     {
       'px-2 py-1': size === 'sm',
-      'px-5 py-1.5': size === 'md',
+      'px-5 py-2.5': size === 'md',
       'px-8 py-2': size === 'lg',
     },
 
     // disabled style
-    disabled && 'cursor-not-allowed bg-gray-200 text-gray-400',
+    disabled && 'cursor-not-allowed border-none bg-gray-200 text-white',
 
     // custom style
     className
