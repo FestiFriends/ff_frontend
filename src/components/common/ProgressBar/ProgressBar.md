@@ -1,7 +1,7 @@
 # 🏷️ ProgressBar 컴포넌트
 
 모집 인원 대비 현재 참여 인원의 비율을 시각적으로 보여주는 공용 UI 컴포넌트입니다.
-스크롤에 의해 화면에 등장할 때 애니메이션 효과로 진행률이 표시되며, 접근성 속성도 함께 적용됩니다.
+화면에 보이기 시작하면 애니메이션 효과와 함께 진행률이 표시되며, 접근성을 위한 속성도 포함됩니다.
 
 ---
 
@@ -17,41 +17,58 @@ import ProgressBar from '@/components/ProgressBar';
 
 ## ✨ Props
 
-| 이름            | 타입      | 필수 | 설명                                                        |
-| --------------- | --------- | ---- | ----------------------------------------------------------- |
-| `current`       | `number`  | ✅   | 현재 참여 인원                                              |
-| `total`         | `number`  | ✅   | 총 모집 인원                                                |
-| `shouldAnimate` | `boolean` | ❌   | 스크롤 진입 시 진행률 애니메이션 적용 여부 (기본값: `true`) |
-| `className`     | `string`  | ❌   | 컴포넌트 외부 스타일링을 위한 Tailwind CSS 클래스           |
+| 이름            | 타입      | 필수 | 설명                                                               |
+| --------------- | --------- | ---- | ------------------------------------------------------------------ |
+| `current`       | `number`  | ✅   | 현재 참여 인원                                                     |
+| `total`         | `number`  | ✅   | 총 모집 인원                                                       |
+| `shouldAnimate` | `boolean` | ❌   | 애니메이션 여부 (`true`일 경우 inView 시 진행률이 부드럽게 표시됨) |
+| `className`     | `string`  | ❌   | 외부에서 Tailwind로 스타일을 덮어쓸 수 있는 클래스명               |
 
 ## 🎨 스타일 가이드 (Tailwind CSS 기준)
 
-- 전체 progress container: w-full, rounded-full, bg-gray-200, overflow-hidden
+- Wrapper: flex w-full flex-col gap-2
 
-- 진행된 영역: bg-blue-500, transition-all duration-1000 ease-in-out (애니메이션 옵션일 때)
+- 진행 텍스트: text-12_M text-gray-700
 
-- 접근성: role="progressbar", aria-valuemin, aria-valuemax, aria-valuenow 등 설정
+- 기본 배경 바: h-1 w-full overflow-hidden rounded-md bg-gray-100
+
+- 진행률 바
+
+  - 기본: h-full rounded-md bg-primary-red
+
+  - 애니메이션: transition-all duration-1000 ease-in-out
+
+- 접근성 속성
+
+  - role="progressbar"
+
+  - aria-valuemin={0}
+
+  - aria-valuemax={100}
+
+  - aria-valuenow={Math.round(percent)}
+
+  - aria-label="모집 인원 진행률"
 
 ## ✅ 테스트 정보
 
 > 테스트 도구: jest, @testing-library/react, react-intersection-observer
 
-| 테스트 항목                 | 설명                                                                   |
-| --------------------------- | ---------------------------------------------------------------------- |
-| 애니메이션 작동 여부 테스트 | `shouldAnimate`이 true일 때 transition 클래스가 존재하는지 확인        |
-| 애니메이션 비활성화 테스트  | `shouldAnimate`이 false일 때 transition 클래스가 제거되는지 확인       |
-| 진행률 정확성 테스트        | `current / total` 비율이 `aria-valuenow` 속성에 정확히 반영되는지 확인 |
-| 최대/최소 경계값 테스트     | 0% 이하, 100% 이상으로 넘지 않도록 `Math.min`/`Math.max`로 제한 확인   |
-
-## 🧠 Todo
-
-- 디자인 확정 후 Tailwind 클래스 리팩토링 예정
+| 테스트 항목                  | 설명                                                                 |
+| ---------------------------- | -------------------------------------------------------------------- |
+| 애니메이션 작동 여부 테스트  | `shouldAnimate`이 `true`일 때 transition 클래스가 존재하는지 확인    |
+| 애니메이션 비활성화 테스트   | `false`일 때 transition 클래스가 없는지 확인                         |
+| 진행률 계산 테스트           | `current / total` 비율이 `aria-valuenow`에 정확히 반영되는지 확인    |
+| 음수 방지 테스트             | `current`가 음수일 때도 `aria-valuenow`가 0 이상으로 제한되는지 확인 |
+| 최대치 제한 테스트           | `current > total`이어도 `aria-valuenow`가 100을 넘지 않는지 확인     |
+| total이 0인 경우 테스트      | 분모가 0일 때 진행률을 100%로 간주하는지 확인                        |
+| 인원 수 텍스트 렌더링 테스트 | `({current}/{total}명)` 텍스트가 화면에 정확히 출력되는지 확인       |
 
 ## 📁 파일 구조
 
 ```
 /components/ProgressBar/
-  ├── ProgressBar.tsx
+  ├── ProgressBar.md
   ├── ProgressBar.test.tsx
-  └── ProgressBar.md
+  └── ProgressBar.tsx
 ```
