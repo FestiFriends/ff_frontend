@@ -1,4 +1,4 @@
-import { format, isSameMonth, isToday } from 'date-fns';
+import { format, isSameMonth, isToday, isSameDay } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Performance } from '@/types/performance';
 
@@ -6,6 +6,7 @@ interface CalendarCellProps {
   date: Date;
   events: Performance[];
   currentMonth: Date;
+  selectedDate?: Date;
   onDateClick?: (date: Date, performances: Performance[]) => void;
   onPerformanceClick?: (performance: Performance) => void;
 }
@@ -14,12 +15,14 @@ const CalendarCell = ({
   date,
   events,
   currentMonth,
+  selectedDate,
   onDateClick,
   onPerformanceClick,
 }: CalendarCellProps) => {
   const key = format(date, 'yyyy-MM-dd');
   const isCurrentMonth = isSameMonth(date, currentMonth);
   const isTodayDate = isToday(date);
+  const isSelected = selectedDate && isSameDay(date, selectedDate);
 
   return (
     <div
@@ -32,7 +35,10 @@ const CalendarCell = ({
     >
       <button
         onClick={() => onDateClick?.(date, events)}
-        className='w-full text-sm font-medium hover:underline'
+        className={cn(
+          'w-full rounded text-sm font-medium hover:underline',
+          isSelected && 'bg-blue-600 text-white'
+        )}
       >
         {format(date, 'd')}
       </button>
