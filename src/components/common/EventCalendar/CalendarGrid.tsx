@@ -6,6 +6,7 @@ interface CalendarGridProps {
   days: Date[];
   currentMonth: Date;
   eventsByDate: Record<string, Performance[]>;
+  selectedDate?: Date;
   onDateClick?: (date: Date, performances: Performance[]) => void;
   onPerformanceClick?: (performance: Performance) => void;
 }
@@ -14,6 +15,7 @@ const CalendarGrid = ({
   days,
   currentMonth,
   eventsByDate,
+  selectedDate,
   onDateClick,
   onPerformanceClick,
 }: CalendarGridProps) => (
@@ -30,6 +32,7 @@ const CalendarGrid = ({
           currentMonth={currentMonth}
           onDateClick={onDateClick}
           onPerformanceClick={onPerformanceClick}
+          selectedDate={selectedDate}
         />
       );
     })}
