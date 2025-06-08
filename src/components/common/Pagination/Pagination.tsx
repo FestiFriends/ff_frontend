@@ -57,8 +57,8 @@ const Pagination = ({
           onClick={() => onPageChange(page)}
           className={
             page === currentPage
-              ? 'flex aspect-square h-10 w-10 flex-col items-center justify-center border-b-2 border-b-primary-red p-2 text-14_B text-gray-950 transition-all select-none'
-              : 'flex aspect-square h-10 w-10 flex-col items-center justify-center p-2 text-14_M text-gray-300 transition-all select-none'
+              ? 'flex aspect-square h-10 w-10 flex-col items-center justify-center border-b-2 border-b-primary-red p-2 text-center text-14_B leading-[171.429%] tracking-[-0.35px] text-gray-950 transition-all select-none'
+              : 'flex aspect-square h-10 w-10 flex-col items-center justify-center p-2 text-center text-14_M leading-[171.429%] tracking-[-0.35px] text-gray-300 transition-all select-none'
           }
           aria-label={`${page} page button`}
           aria-current={page === currentPage ? 'page' : undefined}
