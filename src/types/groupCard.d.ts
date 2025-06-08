@@ -1,10 +1,11 @@
 import { GroupCategory, Gender } from './enums';
 
-export interface Group {
+export interface GroupCard {
   id: string;
   performance: {
     id: string;
-    poster: string;
+    title?: string;
+    poster?: string;
   };
   title: string;
   category: GroupCategory;
@@ -22,7 +23,7 @@ export interface Group {
     id: string;
     name: string;
     rating?: number;
+    profileImage?: string;
   };
   isHost: boolean;
-  createdAt: string;
 }
