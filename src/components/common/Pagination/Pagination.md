@@ -75,7 +75,7 @@ const MyPage = () => {
 ## 📁 파일 구조
 
 ```
-/components/common/
+/components/common/Pagination
   └── Pagination.md
   └── Pagination.test.tsx
   └── Pagination.tsx
