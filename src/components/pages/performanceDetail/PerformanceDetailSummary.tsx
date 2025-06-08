@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Poster from '@/components/common/poster/Poster';
 import Toast from '@/components/common/Toast/Toast';
 import LikeIcon from '@/components/icons/LikeIcon';
@@ -87,19 +87,19 @@ const PerformanceDetailSummary = ({
   );
 
   const renderPerformanceInfoList = () => (
-    <div className='table border-separate [border-spacing:0_16px]'>
+    <div
+      className='grid gap-y-3'
+      style={{ gridTemplateColumns: 'max-content 1fr' }}
+    >
       {performanceInfoList.map(({ label, value }) => (
-        <div
-          key={label}
-          className='table-row'
-        >
-          <span className='table-cell pr-3 align-top text-16_B leading-normal tracking-[-0.4px] whitespace-nowrap text-gray-700'>
+        <React.Fragment key={label}>
+          <span className='pr-7.5 text-16_B leading-normal tracking-[-0.4px] whitespace-nowrap text-gray-700'>
             {label}
           </span>
-          <span className='table-cell align-top text-16_M leading-normal tracking-[-0.4px] text-gray-700'>
+          <span className='text-16_M leading-normal tracking-[-0.4px] text-gray-700'>
             {value}
           </span>
-        </div>
+        </React.Fragment>
       ))}
     </div>
   );
