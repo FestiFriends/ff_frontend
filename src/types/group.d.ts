@@ -30,6 +30,7 @@ export interface Group {
     rating?: number;
   };
   isHost: boolean;
+  createdAt: string;
 }
 
 export type GroupsResponse = ApiResponse<Group[]>;

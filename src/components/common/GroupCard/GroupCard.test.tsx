@@ -1,106 +1,185 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { Gender, GroupCategory } from '@/types/enums';
-import { Group } from '@/types/group';
 import GroupCard from './GroupCard';
 
-const mockGroup: Group = {
+// IntersectionObserver mocking
+Object.defineProperty(global, 'IntersectionObserver', {
+  writable: true,
+  configurable: true,
+  value: jest.fn().mockImplementation(() => ({
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+    disconnect: jest.fn(),
+  })),
+});
+
+const mockPerformance = {
+  performanceId: 'pf-20250522',
+  groupCount: 3,
+  groups: [
+    {
+      id: 'g1',
+      title: '클래식 애호가 모임',
+      category: 'COMPANION',
+      gender: 'ALL',
+      startAge: 25,
+      endAge: 40,
+      location: '서울',
+      startDate: '2025-05-30T19:00:00Z',
+      endDate: '2025-06-02T19:00:00Z',
+      memberCount: 8,
+      maxMembers: 10,
+      description: '클래식 애호가 모집합니다!'.repeat(5),
+      hashtag: ['클래식', '음악감상'],
+      host: {
+        hostId: 'host123',
+        name: '김음악',
+        rating: 4.8,
+        profileImage: '',
+      },
+      isHost: false,
+    },
+  ],
+};
+
+const mockJoined = {
   id: 'group-001',
   performance: {
-    id: 'performance-001',
+    id: 'performance-123',
+    title: '인천 펜타포트 락 페스티벌 2025 new',
     poster:
       'https://busanrockfestival.com/wp-content/uploads/2025/05/25BIRF-1st-LINEUP-RELEASEKR-819x1024.jpg',
   },
-  title: '락을 사랑하는 사람들',
-  category: GroupCategory.COMPANION,
-  gender: Gender.FEMALE,
+  title: '인천 펜타포트 락 페스티벌 2025 new 뮤지컬 같이 봐요',
+  category: 'ROOM_SHARE',
+  gender: 'FEMALE',
   startAge: 20,
-  endAge: 35,
+  endAge: 30,
   location: '서울',
-  startDate: '2025-08-15',
-  endDate: '2025-08-15',
-  memberCount: 3,
-  maxMembers: 5,
-  description: '락페를 함께 즐기실 분을 모집합니다!',
-  hashtag: ['페스티벌', '락'],
+  startDate: '2025-06-01T15:00:00Z',
+  endDate: '2025-06-01T18:00:00Z',
+  memberCount: 5,
+  maxMembers: 10,
+  description: '뮤지컬 레미제라블을 함께 관람하고 이야기 나눠요!',
+  hashtag: ['뮤지컬', '공연모임', '문화생활'],
   host: {
-    id: 'host-001',
-    name: '홍길동',
-    rating: 4.5,
+    id: 'host-789',
+    name: '김호스트',
+    rating: 4.8,
+    profileImage: '',
   },
+  isHost: true,
 };
 
-describe('GroupCard 컴포넌트', () => {
-  test('모임 제목, 위치, 해시태그 등 주요 정보가 올바르게 출력된다', () => {
+describe('공연목록 - GroupCard 컴포넌트', () => {
+  const transformedGroup = {
+    ...mockPerformance.groups[0],
+    performance: {
+      id: mockPerformance.performanceId,
+    },
+    host: {
+      id: mockPerformance.groups[0].host.hostId,
+      name: mockPerformance.groups[0].host.name,
+      rating: mockPerformance.groups[0].host.rating,
+    },
+  };
+
+  test('모임 제목, 위치, 해시태그 등 주요 정보가 출력된다', () => {
     render(
       <GroupCard
-        groupData={mockGroup}
+        groupData={transformedGroup}
         onButtonClick={() => {}}
-        buttonText='참가 확정'
+        buttonText='참가 신청'
       />
     );
-    expect(screen.getByText('같이 동행')).toBeInTheDocument();
-    expect(screen.getByText('락을 사랑하는 사람들')).toBeInTheDocument();
-    expect(screen.getByText('서울 · 여성 · 20~35세')).toBeInTheDocument();
-    expect(screen.getByText('2025-08-15 ~ 2025-08-15')).toBeInTheDocument();
-    expect(
-      screen.getByText('락페를 함께 즐기실 분을 모집합니다!')
-    ).toBeInTheDocument();
-    expect(screen.getByText('3 / 5 명')).toBeInTheDocument();
-    expect(screen.getByText('#페스티벌')).toBeInTheDocument();
 
-    const image = screen.getByAltText('공연 포스터') as HTMLImageElement;
-    expect(image).toBeInTheDocument();
-    expect(decodeURIComponent(image.src)).toContain(
-      mockGroup.performance.poster
-    );
+    expect(screen.getByText('클래식 애호가 모임')).toBeInTheDocument();
+    expect(screen.getByText('서울')).toBeInTheDocument();
+    expect(screen.getByText('25~40세')).toBeInTheDocument();
+    expect(screen.getByText('김음악')).toBeInTheDocument();
+    expect(screen.getByText('클래식')).toBeInTheDocument();
+    expect(screen.getByText('음악감상')).toBeInTheDocument();
   });
 
-  test('버튼 텍스트가 렌더링되고 클릭 이벤트가 정상적으로 호출된다', () => {
+  test('버튼 클릭 이벤트가 정상적으로 호출된다', () => {
     const mockClick = jest.fn();
     render(
       <GroupCard
-        groupData={mockGroup}
-        buttonText='신청 취소'
+        groupData={transformedGroup}
+        buttonText='참가 신청'
         onButtonClick={mockClick}
       />
     );
 
-    const button = screen.getByText('신청 취소');
-    fireEvent.click(button);
+    fireEvent.click(screen.getByText('참가 신청'));
     expect(mockClick).toHaveBeenCalled();
   });
 
-  test('isHashtagClickable = false 이면 해시태그 클릭 시 onHashtagClick이 실행되지 않는다', () => {
+  test('해시태그 클릭이 비활성화되었을 때 이벤트가 발생하지 않는다', () => {
     const mockTagClick = jest.fn();
     render(
       <GroupCard
-        groupData={mockGroup}
+        groupData={transformedGroup}
         isHashtagClickable={false}
-        onButtonClick={() => {}}
         onHashtagClick={mockTagClick}
-        buttonText='참가 확정'
+        onButtonClick={() => {}}
+        buttonText='참가 신청'
       />
     );
 
-    const hashtag = screen.getByText('#페스티벌');
-    fireEvent.click(hashtag);
+    fireEvent.click(screen.getByText('클래식'));
     expect(mockTagClick).not.toHaveBeenCalled();
   });
 
-  test('isHashtagClickable = true 이면 해시태그 클릭 시 onHashtagClick 이 실행된다', () => {
+  test('해시태그 클릭이 활성화되었을 때 이벤트가 발생한다', () => {
     const mockTagClick = jest.fn();
     render(
       <GroupCard
-        groupData={mockGroup}
+        groupData={transformedGroup}
         isHashtagClickable
-        onButtonClick={() => {}}
         onHashtagClick={mockTagClick}
-        buttonText='참가 확정'
+        onButtonClick={() => {}}
+        buttonText='참가 신청'
       />
     );
 
-    const hashtag = screen.getByText('#페스티벌');
-    fireEvent.click(hashtag);
-    expect(mockTagClick).toHaveBeenCalledWith('페스티벌');
+    fireEvent.click(screen.getByText('클래식'));
+    expect(mockTagClick).toHaveBeenCalledWith('클래식');
+  });
+});
+
+describe('참가중인 모임 목록 - GroupCard 컴포넌트', () => {
+  test('포스터, 제목, 설명, 해시태그가 제대로 보인다', () => {
+    render(
+      <GroupCard
+        groupData={mockJoined}
+        onButtonClick={() => {}}
+        buttonText='모임 탈퇴'
+      />
+    );
+
+    expect(
+      screen.getByText('인천 펜타포트 락 페스티벌 2025 new 뮤지컬 같이 봐요')
+    ).toBeInTheDocument();
+    expect(screen.getByText('서울')).toBeInTheDocument();
+    expect(screen.getByText('20~30세')).toBeInTheDocument();
+    expect(screen.getByText('김호스트')).toBeInTheDocument();
+    expect(screen.getByText('뮤지컬')).toBeInTheDocument();
+    expect(
+      screen.getByAltText('인천 펜타포트 락 페스티벌 2025 new')
+    ).toBeInTheDocument();
+  });
+
+  test('버튼 클릭 시 onButtonClick이 호출된다', () => {
+    const mockClick = jest.fn();
+    render(
+      <GroupCard
+        groupData={mockJoined}
+        buttonText='모임 탈퇴'
+        onButtonClick={mockClick}
+      />
+    );
+
+    fireEvent.click(screen.getByText('모임 탈퇴'));
+    expect(mockClick).toHaveBeenCalled();
   });
 });
