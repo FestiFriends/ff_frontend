@@ -115,7 +115,7 @@ const PerformanceDetailSummary = ({
         />
       )}
 
-      <div className='flex flex-col gap-5 px-4 pt-5 pb-7.5'>
+      <div className='flex flex-col gap-5 bg-white px-4 pt-5 pb-7.5'>
         {/* 공연 포스터 */}
         <Poster
           src={performanceDetail.poster || ''}
