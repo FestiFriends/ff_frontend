@@ -15,6 +15,7 @@ import WeekdayHeader from './WeekdayHeader';
 interface EventCalendarProps {
   month: Date;
   performances: Performance[];
+  selectedDate?: Date;
   onPerformanceClick?: (performance: Performance) => void;
   onDateClick?: (date: Date, performances: Performance[]) => void;
   onMonthChange?: (month: Date) => void;
@@ -23,6 +24,7 @@ interface EventCalendarProps {
 const EventCalendar = ({
   month,
   performances,
+  selectedDate,
   onPerformanceClick,
   onDateClick,
   onMonthChange,
@@ -71,6 +73,7 @@ const EventCalendar = ({
         days={days}
         currentMonth={currentMonth}
         eventsByDate={eventsByDate}
+        selectedDate={selectedDate}
         onDateClick={onDateClick}
         onPerformanceClick={onPerformanceClick}
       />
