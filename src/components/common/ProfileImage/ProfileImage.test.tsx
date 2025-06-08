@@ -1,15 +1,11 @@
 import { render } from '@testing-library/react';
-import defaultProfileImg from '@/assets/ico__profileDefault.png';
 import ProfileImage from './ProfileImage';
 
 describe('ProfileImage 컴포넌트', () => {
-  test('기본 이미지가 렌더링되어야 한다', () => {
-    const { getByAltText } = render(<ProfileImage />);
-    const image = getByAltText('프로필 이미지') as HTMLImageElement;
-
-    const renderedUrl = new URL(image.src).searchParams.get('url');
-    // @ts-expect-error 타입 오류로 인해 무시 처리
-    expect(renderedUrl).toBe(defaultProfileImg.src);
+  test('기본 이미지가 없을 경우 ProfileIcon이 렌더링된다', () => {
+    const { container } = render(<ProfileImage />);
+    const icon = container.querySelector('svg');
+    expect(icon).toBeInTheDocument();
   });
 
   test('커스텀 이미지 src가 적용되어야 한다', () => {
