@@ -9,14 +9,17 @@ import { Performance } from '@/types/performance';
 interface PerformanceCalendarProps {
   performances: Performance[];
   onPerformancesFetched?: (data: Performance[]) => void;
+  onDateClick?: (date: Date) => void;
 }
 
 const PerformanceCalendar = ({
   performances,
   onPerformancesFetched,
+  onDateClick,
 }: PerformanceCalendarProps) => {
   const [currentMonth, setCurrentMonth] = useState(() => new Date());
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   useEffect(() => {
     const startDate = format(startOfMonth(currentMonth), 'yyyy-MM-dd');
@@ -38,7 +41,11 @@ const PerformanceCalendar = ({
       month={currentMonth}
       performances={performances}
       onMonthChange={setCurrentMonth}
-      onDateClick={(date, events) => console.log(date, events)}
+      selectedDate={selectedDate ?? undefined}
+      onDateClick={(date) => {
+        setSelectedDate(date);
+        onDateClick?.(date);
+      }}
       onPerformanceClick={(perf) => console.log(perf)}
     />
   );
