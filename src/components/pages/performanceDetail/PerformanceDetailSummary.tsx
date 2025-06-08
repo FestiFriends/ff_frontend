@@ -24,6 +24,7 @@ const PerformanceDetailSummary = ({
 }: PerformanceDetailSummaryProps) => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedin);
   const [showToast, setShowToast] = useState(false);
+  const [isLiked, setIsLiked] = useState(performanceDetail.isLiked);
   const { mutate } = usePatchPerformanceLiked();
   const { location, place } = formatLocation(performanceDetail.location);
 
@@ -32,6 +33,7 @@ const PerformanceDetailSummary = ({
       setShowToast(true);
       return;
     }
+    setIsLiked((prev) => !prev);
     mutate({
       performanceId: performanceDetail.id,
       isLiked: !performanceDetail.isLiked,
@@ -133,9 +135,7 @@ const PerformanceDetailSummary = ({
                 aria-label='찜 버튼'
                 className='flex h-7.5 w-7.5 items-center justify-center rounded-full bg-gray-25'
               >
-                <LikeIcon
-                  type={performanceDetail.isLiked ? 'active' : 'empty'}
-                />
+                <LikeIcon type={isLiked ? 'active' : 'empty'} />
               </button>
               <button
                 aria-label='공유 버튼'
