@@ -6,7 +6,7 @@ import { usersHandlers } from './handlers/usersHandlers';
 
 export const server = setupServer(
   ...usersHandlers,
-  ...reviewsHandlers,
   ...performancesHandlers,
+  ...reviewsHandlers,
   ...groupsHandlers
 );
