@@ -10,7 +10,7 @@ import SelectedDatePerformances from './SelectedDatePerformances';
 const PerformanceCalendarPage = () => {
   const [allPerformances, setAllPerformances] = useState<Performance[]>([]);
   const [filterValues, setFilterValues] = useState<{ visit?: string }>({});
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date>(() => new Date());
   const detailRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const [myLikeList, setMyLikeList] = useState<string[]>([]); // TODO: API 연동 시 초기값 변경
