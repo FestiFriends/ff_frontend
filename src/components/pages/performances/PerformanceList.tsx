@@ -1,4 +1,4 @@
-import { PerformanceCard } from '@/components/pages/performances';
+import PerformanceCard from '@/components/common/PerformanceCard';
 import { Performance } from '@/types/performance';
 
 interface Props {

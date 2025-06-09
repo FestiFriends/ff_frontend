@@ -3,8 +3,8 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Performance } from '@/types/performance';
 import formatPerformanceData from '@/utils/formatPerformanceData';
-import { MESSAGES } from './PerformanceCard.messages';
-import { STYLES } from './PerformanceCard.styles';
+import { MESSAGES } from './PerformanceCardHeadless.messages';
+import { STYLES } from './PerformanceCardHeadless.styles';
 
 /* Context */
 interface PerformanceCardContextValue {

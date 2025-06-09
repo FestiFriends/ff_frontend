@@ -3,8 +3,8 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import { Performance } from '@/types/performance';
-import * as PerformanceCard from './PerformanceCard';
-import { MESSAGES } from './PerformanceCard.messages';
+import * as PerformanceCard from './PerformanceCardHeadless';
+import { MESSAGES } from './PerformanceCardHeadless.messages';
 
 jest.mock('next/image', () => ({
   __esModule: true,
