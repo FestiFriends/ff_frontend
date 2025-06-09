@@ -20,6 +20,7 @@ const RootLayout = ({
           <QueryProvider>
             <TabBar>{children}</TabBar>
           </QueryProvider>
+          <div id='hover-card-root' />
         </MSWComponent>
       </AuthStoreProvider>
     </body>

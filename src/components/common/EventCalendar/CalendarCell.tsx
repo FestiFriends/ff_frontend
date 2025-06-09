@@ -1,6 +1,7 @@
 import { format, isSameMonth, isToday, isSameDay } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Performance } from '@/types/performance';
+import PerformanceHoverCard from './PerformanceHoverCard';
 
 interface CalendarCellProps {
   date: Date;
@@ -52,17 +53,21 @@ const CalendarCell = ({
       {events.length > 0 && (
         <div className='mt-1 space-y-0.5'>
           {events.slice(0, 2).map((perf) => (
-            <button
+            <PerformanceHoverCard
               key={perf.id}
-              title={perf.title}
-              onClick={() => onPerformanceClick?.(perf)}
-              className={cn(
-                'block w-full truncate rounded px-1 text-left text-xs hover:underline',
-                visitStyles[perf.visit] || 'bg-gray-100 text-gray-700'
-              )}
+              performance={perf}
             >
-              {perf.title}
-            </button>
+              <button
+                key={perf.id}
+                onClick={() => onPerformanceClick?.(perf)}
+                className={cn(
+                  'block w-full truncate rounded px-1 text-left text-xs hover:underline',
+                  visitStyles[perf.visit] || 'bg-gray-100 text-gray-700'
+                )}
+              >
+                {perf.title}
+              </button>
+            </PerformanceHoverCard>
           ))}
           {events.length > 2 && (
             <div className='text-xs text-gray-400'>+{events.length - 2}개</div>
