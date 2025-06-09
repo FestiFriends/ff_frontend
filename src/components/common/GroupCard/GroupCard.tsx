@@ -20,6 +20,7 @@ interface GroupCardProps {
   className?: string;
   buttonText: string;
   isHashtagClickable?: boolean;
+  onCardClick: () => void;
   onButtonClick: () => void;
   onHashtagClick?: (hashtagText: string) => void;
 }
@@ -31,18 +32,45 @@ const GroupCard = ({
   className,
   buttonText,
   isHashtagClickable = false,
+  onCardClick,
   onButtonClick,
   onHashtagClick,
 }: GroupCardProps) => {
   const genderLabel = getGenderLabels(groupData.gender);
+
+  const handleCardClick = (
+    e: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>
+  ) => {
+    if ('target' in e && (e.target as HTMLElement).closest('button')) return;
+    onCardClick();
+  };
+
+  const handleHashtagClick = (
+    tag: string,
+    e?: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e?.stopPropagation();
+    onHashtagClick?.(tag);
+  };
+
   const handleButtonClick = () => {
-    onButtonClick?.();
+    const syntheticEvent = {
+      stopPropagation: () => {},
+    } as unknown as React.MouseEvent<HTMLButtonElement>;
+    syntheticEvent.stopPropagation();
+    onButtonClick();
   };
-  const handleHashtagClick = (hashtagText: string) => {
-    onHashtagClick?.(hashtagText);
-  };
+
   return (
     <div
+      role='button'
+      tabIndex={0}
+      onClick={handleCardClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          handleCardClick(e);
+        }
+      }}
       className={cn(
         'flex w-[347px] flex-col items-start justify-center gap-3 rounded-2xl bg-gray-25 p-5',
         className
@@ -133,7 +161,6 @@ const GroupCard = ({
           onClick={handleHashtagClick}
         />
       )}
-
       <div className='flex w-full gap-2'>
         <Button
           variant='normalPrimary'

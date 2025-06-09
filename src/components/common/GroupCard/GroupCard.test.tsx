@@ -87,6 +87,7 @@ describe('공연목록 - GroupCard 컴포넌트', () => {
     render(
       <GroupCard
         groupData={transformedGroup}
+        onCardClick={jest.fn()}
         onButtonClick={() => {}}
         buttonText='참가 신청'
       />
@@ -106,6 +107,7 @@ describe('공연목록 - GroupCard 컴포넌트', () => {
       <GroupCard
         groupData={transformedGroup}
         buttonText='참가 신청'
+        onCardClick={jest.fn()}
         onButtonClick={mockClick}
       />
     );
@@ -119,8 +121,8 @@ describe('공연목록 - GroupCard 컴포넌트', () => {
     render(
       <GroupCard
         groupData={transformedGroup}
-        isHashtagClickable={false}
         onHashtagClick={mockTagClick}
+        onCardClick={jest.fn()}
         onButtonClick={() => {}}
         buttonText='참가 신청'
       />
@@ -135,6 +137,7 @@ describe('공연목록 - GroupCard 컴포넌트', () => {
     render(
       <GroupCard
         groupData={transformedGroup}
+        onCardClick={jest.fn()}
         isHashtagClickable
         onHashtagClick={mockTagClick}
         onButtonClick={() => {}}
@@ -145,6 +148,28 @@ describe('공연목록 - GroupCard 컴포넌트', () => {
     fireEvent.click(screen.getByText('클래식'));
     expect(mockTagClick).toHaveBeenCalledWith('클래식');
   });
+
+  test('카드 전체 클릭 시 onCardClick만 호출되고 onButtonClick은 호출되지 않음', () => {
+    const mockCardClick = jest.fn();
+    const mockButtonClick = jest.fn();
+
+    const { container } = render(
+      <GroupCard
+        groupData={transformedGroup}
+        onCardClick={mockCardClick}
+        isHashtagClickable
+        onHashtagClick={jest.fn()}
+        onButtonClick={mockButtonClick}
+        buttonText='참가 신청'
+      />
+    );
+
+    const cardElement = container.querySelector('[role="button"]')!;
+    fireEvent.click(cardElement);
+
+    expect(mockCardClick).toHaveBeenCalled();
+    expect(mockButtonClick).not.toHaveBeenCalled();
+  });
 });
 
 describe('참가중인 모임 목록 - GroupCard 컴포넌트', () => {
@@ -152,6 +177,7 @@ describe('참가중인 모임 목록 - GroupCard 컴포넌트', () => {
     render(
       <GroupCard
         groupData={mockJoined}
+        onCardClick={jest.fn()}
         onButtonClick={() => {}}
         buttonText='모임 탈퇴'
       />
@@ -169,11 +195,27 @@ describe('참가중인 모임 목록 - GroupCard 컴포넌트', () => {
     ).toBeInTheDocument();
   });
 
+  test('해시태그 클릭이 비활성화되었을 때 이벤트가 발생하지 않는다', () => {
+    const mockTagClick = jest.fn();
+    render(
+      <GroupCard
+        groupData={mockJoined}
+        onHashtagClick={mockTagClick}
+        onCardClick={jest.fn()}
+        onButtonClick={() => {}}
+        buttonText='모임 탈퇴'
+      />
+    );
+
+    expect(mockTagClick).not.toHaveBeenCalled();
+  });
+
   test('버튼 클릭 시 onButtonClick이 호출된다', () => {
     const mockClick = jest.fn();
     render(
       <GroupCard
         groupData={mockJoined}
+        onCardClick={jest.fn()}
         buttonText='모임 탈퇴'
         onButtonClick={mockClick}
       />
@@ -181,5 +223,25 @@ describe('참가중인 모임 목록 - GroupCard 컴포넌트', () => {
 
     fireEvent.click(screen.getByText('모임 탈퇴'));
     expect(mockClick).toHaveBeenCalled();
+  });
+
+  test('카드 전체 클릭 시 onCardClick만 호출되고 onButtonClick은 호출되지 않음', () => {
+    const mockCardClick = jest.fn();
+    const mockButtonClick = jest.fn();
+
+    const { container } = render(
+      <GroupCard
+        groupData={mockJoined}
+        buttonText='모임 탈퇴'
+        onCardClick={mockCardClick}
+        onButtonClick={mockButtonClick}
+      />
+    );
+
+    const cardElement = container.querySelector('[role="button"]')!;
+    fireEvent.click(cardElement);
+
+    expect(mockCardClick).toHaveBeenCalled();
+    expect(mockButtonClick).not.toHaveBeenCalled();
   });
 });
