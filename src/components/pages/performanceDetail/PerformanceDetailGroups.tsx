@@ -56,9 +56,9 @@ const PerformanceDetailGroups = () => {
         dateRange={filters.dateRange}
         setDateRange={(range) => updateFilter('dateRange', range)}
         setSortType={(sort) => updateFilter('sortType', sort)}
-        setCategory={(cat) => updateFilter('category', cat)}
-        setLocation={(loc) => updateFilter('location', loc)}
-        setGender={(gen) => updateFilter('gender', gen)}
+        setCategory={(category) => updateFilter('category', category)}
+        setLocation={(location) => updateFilter('location', location)}
+        setGender={(gender) => updateFilter('gender', gender)}
       />
 
       <GroupsList
