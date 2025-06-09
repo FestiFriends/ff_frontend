@@ -51,7 +51,7 @@ const CalendarCell = ({
       </button>
 
       {events.length > 0 && (
-        <div className='mt-1 space-y-0.5'>
+        <div className='mt-1 flex flex-col space-y-0.5'>
           {events.slice(0, 2).map((perf) => (
             <PerformanceHoverCard
               key={perf.id}
@@ -61,7 +61,7 @@ const CalendarCell = ({
                 key={perf.id}
                 onClick={() => onPerformanceClick?.(perf)}
                 className={cn(
-                  'block w-full truncate rounded px-1 text-left text-xs hover:underline',
+                  'block w-full truncate overflow-hidden rounded px-1 text-left text-xs text-ellipsis whitespace-nowrap hover:underline',
                   visitStyles[perf.visit] || 'bg-gray-100 text-gray-700'
                 )}
               >
