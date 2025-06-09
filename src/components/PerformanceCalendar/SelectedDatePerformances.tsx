@@ -4,7 +4,7 @@ import { Performance } from '@/types/performance';
 import { isPerformanceOnDate } from '@/utils/isPerformanceOnDate';
 
 interface Props {
-  date: Date | null;
+  date: Date;
   performances: Performance[];
   onCardClick?: (perf: Performance) => void;
   onLikeClick?: (perf: Performance) => void;
@@ -18,8 +18,6 @@ const SelectedDatePerformances = ({
   onLikeClick,
   isLiked,
 }: Props) => {
-  if (!date) return null;
-
   const filtered = performances.filter((perf) =>
     isPerformanceOnDate(perf, date)
   );
