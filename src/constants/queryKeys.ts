@@ -12,3 +12,9 @@ export const NOTIFICATIONS_QUERY_KEYS = {
 export const GROUP_QUERY_KEYS = {
   groups: 'groups',
 };
+
+export const REVIEWS_QUERY_KEYS = {
+  reviews: 'reviews',
+  written: 'written',
+  writable: 'writable',
+};

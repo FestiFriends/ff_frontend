@@ -19,7 +19,7 @@ const Tabs = ({ tabs, activeTab, onTabChange }: TabsProps) => {
   }, [activeTab, tabs]);
 
   return (
-    <div className='relative border-b border-gray-200'>
+    <div className='relative overflow-hidden border-b border-gray-200'>
       <div className='flex justify-between'>
         {tabs.map((tab, i) => (
           <button
