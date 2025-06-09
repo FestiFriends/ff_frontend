@@ -13,20 +13,8 @@ const PerformanceCalendarPage = () => {
   const [filterValues, setFilterValues] = useState<{ visit?: string }>({});
   const [selectedDate, setSelectedDate] = useState<Date>(() => new Date());
   const [showScrollToTop, setShowScrollToTop] = useState(false);
-  const [myLikeList, setMyLikeList] = useState<string[]>([]); // TODO: API 연동 시 초기값 변경
   const detailRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-
-  // TODO: 좋아요 상태 변경 로직을 API 연동으로 교체 예정
-  const handleLikeClick = (perf: Performance) => {
-    setMyLikeList((prev) => {
-      const updated = prev.includes(perf.id)
-        ? prev.filter((id) => id !== perf.id)
-        : [...prev, perf.id];
-      localStorage.setItem('likedPerformanceIds', JSON.stringify(updated));
-      return updated;
-    });
-  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -77,8 +65,6 @@ const PerformanceCalendarPage = () => {
           onCardClick={(perf) => {
             router.push(`/performances/${perf.id}`);
           }}
-          onLikeClick={handleLikeClick}
-          isLiked={(perf) => myLikeList.includes(perf.id)}
         />
       </div>
       {showScrollToTop && (
