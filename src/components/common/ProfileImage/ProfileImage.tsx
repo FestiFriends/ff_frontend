@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 interface ProfileImageProps {
   src?: string;
   alt?: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
   rounded?: boolean;
   border?: boolean;
   className?: string;

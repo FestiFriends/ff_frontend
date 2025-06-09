@@ -27,7 +27,7 @@ const ProgressBar = ({
   const [hasAnimated, setHasAnimated] = useState(false);
 
   const percent = useMemo(
-    () => Math.min((current / total) * 100, 100),
+    () => Math.max(0, Math.min((current / total) * 100, 100)),
     [current, total]
   );
 
@@ -38,9 +38,15 @@ const ProgressBar = ({
   return (
     <div
       ref={ref}
-      className={cn('w-full', className)}
+      className={cn('flex w-full flex-col gap-2', className)}
     >
-      <div className='relative h-4 w-full overflow-hidden rounded-full bg-gray-200'>
+      <div className='flex justify-between text-12_M text-gray-700'>
+        <span>모집 인원</span>
+        <span>
+          ({current}/{total}명)
+        </span>
+      </div>
+      <div className='relative h-1 w-full overflow-hidden rounded-md bg-gray-100'>
         <div
           role='progressbar'
           aria-valuemin={0}
@@ -48,7 +54,7 @@ const ProgressBar = ({
           aria-valuenow={Math.round(percent)}
           aria-label='모집 인원 진행률'
           className={cn(
-            'h-full rounded-full bg-blue-500',
+            'h-full rounded-md bg-primary-red',
             shouldAnimate && 'transition-all duration-1000 ease-in-out'
           )}
           style={{ width: hasAnimated ? `${percent}%` : '0%' }}
