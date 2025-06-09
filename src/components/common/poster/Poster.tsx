@@ -1,8 +1,9 @@
-import { cn } from '@/lib/utils';
+import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
 interface PosterProps {
-  src: string;
+  src: string | StaticImport;
   alt?: string;
   shadow?: boolean;
   border?: boolean;

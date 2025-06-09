@@ -1,8 +1,8 @@
+import { isAfter, isBefore, parseISO } from 'date-fns';
+import { http, HttpResponse } from 'msw';
 import { GenderLabels } from '@/constants/genderLabels';
 import { GroupCategoryLabels } from '@/constants/groupLabels';
 import { LocationLabels } from '@/constants/locationLabels';
-import { isAfter, isBefore, parseISO } from 'date-fns';
-import { http, HttpResponse } from 'msw';
 
 export const GROUPS_DATA = [
   {

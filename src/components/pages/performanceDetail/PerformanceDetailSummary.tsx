@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { format } from 'date-fns';
 import Poster from '@/components/common/poster/Poster';
 import Toast from '@/components/common/Toast/Toast';
 import LikeIcon from '@/components/icons/LikeIcon';
@@ -9,7 +10,6 @@ import { usePatchPerformanceLiked } from '@/hooks/performanceHooks/performanceHo
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import { Performance } from '@/types/performance';
 import { formatLocation } from '@/utils/formatLocation';
-import { format } from 'date-fns';
 
 interface PerformanceDetailSummaryProps {
   performanceDetail: Performance;

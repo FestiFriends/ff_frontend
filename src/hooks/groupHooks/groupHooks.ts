@@ -1,7 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
 import { GROUP_QUERY_KEYS } from '@/constants/queryKeys';
 import { groupsApi } from '@/services/groupsService';
 import { GetGroupsParams, GroupsResponse } from '@/types/group';
-import { useQuery } from '@tanstack/react-query';
 
 export const useGetGroups = ({
   performanceId,
