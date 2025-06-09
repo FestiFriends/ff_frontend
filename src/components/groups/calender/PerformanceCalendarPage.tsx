@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { Performance } from '@/types/performance';
 import CalendarFilter from './CalendarFilter';
 import PerformanceCalendar from './PerformanceCalendar';
@@ -11,6 +12,19 @@ const PerformanceCalendarPage = () => {
   const [filterValues, setFilterValues] = useState<{ visit?: string }>({});
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const detailRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const [myLikeList, setMyLikeList] = useState<string[]>([
+    'perf-001',
+    'perf-002',
+  ]);
+
+  const handleLikeClick = (perf: Performance) => {
+    setMyLikeList((prev) =>
+      prev.includes(perf.id)
+        ? prev.filter((id) => id !== perf.id)
+        : [...prev, perf.id]
+    );
+  };
 
   const filteredPerformances = useMemo(() => {
     const { visit } = filterValues;
@@ -46,6 +60,11 @@ const PerformanceCalendarPage = () => {
         <SelectedDatePerformances
           date={selectedDate}
           performances={filteredPerformances}
+          onCardClick={(perf) => {
+            router.push(`/performances/${perf.id}`);
+          }}
+          onLikeClick={handleLikeClick}
+          isLiked={(perf) => myLikeList.includes(perf.id)}
         />
       </div>
     </div>
