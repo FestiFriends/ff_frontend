@@ -3,11 +3,22 @@ import React, { useMemo, Suspense } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import QueryPagination from '@/components/common/QueryPagination/QueryPagination';
 import { PerformanceList } from '@/components/pages/performances';
+import { useGetPerformances } from '@/hooks/performanceHooks/performanceHooks';
 import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
-import { nextFetcher } from '@/lib/nextFetcher';
-import { PerformancesResponsePagination } from '@/types/performance';
 
-const usePerformanceQuery = () => {
+const LoadingFallback = () => (
+  <div className='flex items-center justify-center py-8'>
+    <span>로딩 중...</span>
+  </div>
+);
+
+const errorFallback = (error: Error) => (
+  <div className='flex items-center justify-center py-8'>
+    <span className='text-red-500'>{error.message}</span>
+  </div>
+);
+
+const PerformanceListContainer = () => {
   const { getQueryParam, setQueryParam } = useQueryParam();
   const queryString = useMemo(() => {
     const params = new URLSearchParams();
@@ -33,7 +44,6 @@ const usePerformanceQuery = () => {
 
   const {
     data: searchResult,
-    isLoading,
     error,
   } = useQuery<PerformancesResponsePagination>({
     queryKey: ['performances', queryString],
@@ -64,6 +74,8 @@ const PerformanceListContainer = () => {
 
   if (error) return errorFallback(error);
 
+  if (isPending) return <LoadingFallback />;
+
   if (!searchResult || !searchResult.data)
     return (
       <div>
@@ -81,9 +93,7 @@ const PerformanceListContainer = () => {
         총 {totalItems}개의 공연이 있습니다. (페이지 {currentPage} /{' '}
         {totalPages})
       </div>
-      <Suspense fallback={<LoadingFallback />}>
-        <PerformanceList performances={searchResult.data} />
-      </Suspense>
+      <PerformanceList performances={searchResult.data} />
       {totalPages > 1 && (
         <QueryPagination
           totalPages={totalPages}
