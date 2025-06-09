@@ -4,7 +4,7 @@ import {
   Dropdown,
   DropdownContent,
   DropdownItem,
-  DropdownTrigger,
+  DropdownTriggerWithIcon,
 } from '../Dropdown';
 
 interface SortOption {
@@ -25,7 +25,7 @@ const SortDropdownUi = ({
   placeholder = '정렬',
 }: SortDropdownUiProps) => (
   <Dropdown>
-    <DropdownTrigger placeholder={placeholder} />
+    <DropdownTriggerWithIcon placeholder={placeholder} />
     <DropdownContent>
       {options.map((option) => (
         <DropdownItem
