@@ -1,4 +1,5 @@
-import { useCallback } from 'react';
+'use client';
+import { useCallback, useEffect } from 'react';
 import {
   MultiLevelData,
   useMultiLevelFilter,
@@ -7,18 +8,24 @@ import FilterUi from './FilterUi';
 
 interface FilterProps {
   data: MultiLevelData[];
+  value?: string[];
   levelPlaceholders?: string[];
   onChange?: (values: string[]) => void;
 }
 
-const Filter = ({ data, levelPlaceholders, onChange }: FilterProps) => {
-  const { selectedValues, optionsByLevel, setValueAtLevel } =
+const Filter = ({ data, value, levelPlaceholders, onChange }: FilterProps) => {
+  const { selectedValues, optionsByLevel, setValueAtLevel, setInitialValues } =
     useMultiLevelFilter(data);
+
+  useEffect(() => {
+    if (value && JSON.stringify(value) !== JSON.stringify(selectedValues)) {
+      setInitialValues(value);
+    }
+  }, [value, selectedValues, setInitialValues]);
 
   const levelHandleChange = useCallback(
     (level: number) => (val: string) => {
       setValueAtLevel(level, val);
-
       const updated = [...selectedValues.slice(0, level), val];
       onChange?.(updated);
     },
@@ -26,9 +33,9 @@ const Filter = ({ data, levelPlaceholders, onChange }: FilterProps) => {
   );
 
   return (
-    <div className='space-y-4'>
+    <>
       {optionsByLevel.map((options, i) => {
-        const value = selectedValues[i];
+        const currentValue = selectedValues[i];
         const hasParentSelected =
           i === 0 || selectedValues[i - 1] !== undefined;
 
@@ -38,7 +45,7 @@ const Filter = ({ data, levelPlaceholders, onChange }: FilterProps) => {
           <FilterUi
             key={i}
             placeholder={levelPlaceholders?.[i] ?? `단계 ${i + 1} 선택`}
-            value={value}
+            value={currentValue}
             options={options.map((opt) => ({
               label: opt.label,
               value: opt.value,
@@ -47,7 +54,7 @@ const Filter = ({ data, levelPlaceholders, onChange }: FilterProps) => {
           />
         );
       })}
-    </div>
+    </>
   );
 };
 
