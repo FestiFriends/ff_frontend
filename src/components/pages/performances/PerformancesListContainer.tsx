@@ -1,7 +1,7 @@
 'use client';
 import React, { useMemo, Suspense } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import Pagination from '@/components/common/PaginationButton/PaginationButton';
+import QueryPagination from '@/components/common/QueryPagination/QueryPagination';
 import { PerformanceList } from '@/components/pages/performances';
 import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
 import { nextFetcher } from '@/lib/nextFetcher';
@@ -60,12 +60,7 @@ const errorFallback = (error: Error) => (
 );
 
 const PerformanceListContainer = () => {
-  const { searchResult, error, setQueryParam, getQueryParam } =
-    usePerformanceQuery();
-
-  const handlePageChange = (page: number) => {
-    setQueryParam('page', page.toString());
-  };
+  const { searchResult, error, getQueryParam } = usePerformanceQuery();
 
   if (error) return errorFallback(error);
 
@@ -90,10 +85,10 @@ const PerformanceListContainer = () => {
         <PerformanceList performances={searchResult.data} />
       </Suspense>
       {totalPages > 1 && (
-        <Pagination
-          currentPage={currentPage}
+        <QueryPagination
           totalPages={totalPages}
-          onPageChange={handlePageChange}
+          maxVisiblePages={5}
+          className='mt-4'
         />
       )}
     </div>
