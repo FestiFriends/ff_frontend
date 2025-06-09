@@ -8,17 +8,14 @@ import { usePatchPerformanceLiked } from '@/hooks/performanceHooks/performanceHo
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import { Performance } from '@/types/performance';
 
-interface MainPerformanceCardProps {
+interface PerformanceCardProps {
   performance: Performance;
-  ranking: number;
+  ranking?: number;
 }
 
 const { Image, LikeButton, Location, Root, Title } = PerformanceCardHeadless;
 
-const MainPerformanceCard = ({
-  performance,
-  ranking,
-}: MainPerformanceCardProps) => {
+const PerformanceCard = ({ performance, ranking }: PerformanceCardProps) => {
   const isLoggedin = useAuthStore((state) => state.isLoggedin);
   const [showToast, setShowToast] = useState(false);
   const { mutate } = usePatchPerformanceLiked();
@@ -80,4 +77,4 @@ const MainPerformanceCard = ({
   );
 };
 
-export default MainPerformanceCard;
+export default PerformanceCard;

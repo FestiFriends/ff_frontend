@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import PerformanceCard from '@/components/common/PerformanceCard';
+// import MainPerformanceCard from './MainPerformanceCard';
 import {
   Carousel,
   CarouselContent,
@@ -6,7 +8,6 @@ import {
 } from '@/components/ui/carousel';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PerformancesResponse } from '@/types/performance';
-import MainPerformanceCard from './MainPerformanceCard';
 
 interface PerformanceWrapperProps {
   title: string;
@@ -46,7 +47,7 @@ const PerformanceWrapper = ({
         key={performance.id}
         className='basis-[150px] p-0'
       >
-        <MainPerformanceCard
+        <PerformanceCard
           ranking={idx + 1}
           performance={performance}
         />
