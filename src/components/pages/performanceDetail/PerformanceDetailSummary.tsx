@@ -4,7 +4,6 @@ import React, { useMemo, useState } from 'react';
 import Poster from '@/components/common/poster/Poster';
 import Toast from '@/components/common/Toast/Toast';
 import LikeIcon from '@/components/icons/LikeIcon';
-import ShareIcon from '@/components/icons/ShareIcon';
 import { Skeleton } from '@/components/ui/skeleton';
 import { usePatchPerformanceLiked } from '@/hooks/performanceHooks/performanceHooks';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
@@ -161,12 +160,6 @@ const PerformanceDetailSummary = ({
                   {performanceDetail?.favoriteCount}
                 </span>
               </button>
-              {/* <button
-                aria-label='공유 버튼'
-                className='flex h-7.5 w-7.5 items-center justify-center rounded-full bg-gray-25'
-              >
-                <ShareIcon />
-              </button> */}
             </div>
           </div>
 
