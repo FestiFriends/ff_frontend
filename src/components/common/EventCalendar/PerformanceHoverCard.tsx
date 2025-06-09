@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import useIsMobile from '@/hooks/useIsMobile/useIsMobile';
 import { Performance } from '@/types/performance';
 
 interface Props {
@@ -13,31 +14,41 @@ const PerformanceHoverCard = ({ performance, children }: Props) => {
   const triggerRef = useRef<HTMLDivElement | null>(null);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
 
+  const isMobile = useIsMobile();
+
   useEffect(() => {
     const existing = document.getElementById('hover-card-root');
     if (existing) setHoverCardRoot(existing);
   }, []);
 
+  const updateCoords = () => {
+    if (!triggerRef.current) return;
+    const rect = triggerRef.current.getBoundingClientRect();
+    setCoords({
+      top: rect.bottom + window.scrollY,
+      left: rect.left + window.scrollX,
+    });
+  };
+
   const handleEnter = () => {
-    if (triggerRef.current) {
-      const rect = triggerRef.current.getBoundingClientRect();
-      setCoords({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
-      });
+    if (!isMobile) {
+      updateCoords();
+      setShow(true);
     }
-    setShow(true);
   };
 
-  const handleTrigger = () => {
+  const handleLeave = () => {
+    if (!isMobile) {
+      setShow(false);
+    }
+  };
+
+  const handleClick = () => {
     if (isMobile) {
-      setShow(!show);
-    } else {
-      handleEnter();
+      updateCoords();
+      setShow((prev) => !prev);
     }
   };
-
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   return (
     <>
@@ -47,11 +58,11 @@ const PerformanceHoverCard = ({ performance, children }: Props) => {
         role='button'
         tabIndex={0}
         onMouseEnter={handleEnter}
-        onMouseLeave={() => setShow(false)}
-        onClick={isMobile ? handleTrigger : undefined}
+        onMouseLeave={handleLeave}
+        onClick={handleClick}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
-            handleTrigger();
+            handleClick();
           }
         }}
       >
