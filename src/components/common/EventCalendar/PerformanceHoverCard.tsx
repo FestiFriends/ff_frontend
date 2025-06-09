@@ -29,6 +29,8 @@ const PerformanceHoverCard = ({ performance, children }: Props) => {
     setShow(true);
   };
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   return (
     <>
       <div
@@ -45,7 +47,11 @@ const PerformanceHoverCard = ({ performance, children }: Props) => {
         && createPortal(
           <div
             className='fixed z-50 w-64 rounded border bg-white p-3 shadow-lg'
-            style={{ top: coords.top, left: coords.left }}
+            style={{
+              top: isMobile ? '2rem' : coords.top,
+              left: isMobile ? '50%' : coords.left,
+              transform: isMobile ? 'translateX(-50%)' : 'none',
+            }}
           >
             <p className='text-sm font-bold'>{performance.title}</p>
             <p className='text-xs text-gray-600'>{performance.location}</p>
