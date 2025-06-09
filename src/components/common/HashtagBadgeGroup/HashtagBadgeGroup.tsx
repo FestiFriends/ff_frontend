@@ -6,7 +6,7 @@ import HashtagBadge from '../HashtagBadge/HashtagBadge';
 interface HashtagGroupProps {
   hashtags: string[];
   isClickable?: boolean;
-  onClick?: (tag: string) => void;
+  onClick?: (tag: string, e?: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
 }
 
@@ -43,6 +43,13 @@ const HashtagBadgeGroup = ({
     setVisibleCount(hashtags.length);
   }, [hashtags]);
 
+  const handleClick = (
+    tag: string,
+    e?: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    onClick?.(tag, e);
+  };
+
   // 아직 측정 전이면 전체 렌더링해서 측정
   if (visibleCount === null) {
     return (
@@ -55,7 +62,7 @@ const HashtagBadgeGroup = ({
             key={tag}
             text={tag}
             isClickable={isClickable}
-            onClick={() => onClick?.(tag)}
+            onClick={handleClick}
             className={className}
           />
         ))}
@@ -73,7 +80,7 @@ const HashtagBadgeGroup = ({
           key={tag}
           text={tag}
           isClickable={isClickable}
-          onClick={() => onClick?.(tag)}
+          onClick={handleClick}
           className={className}
         />
       ))}

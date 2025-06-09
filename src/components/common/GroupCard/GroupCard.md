@@ -14,14 +14,56 @@
 ```tsx
 import GroupCard from '@/components/GroupCard/GroupCard';
 
-<GroupCard
-  groupData={group}
-  buttonText='참가 신청' // 또는 '모임 탈퇴'
-  onCardClick={handleCardClick}
-  onButtonClick={handleButtonClick}
-  isHashtagClickable
-  onHashtagClick={(tag) => console.log(tag)}
-/>;
+// 공연에서의 모임 목록 조회에서 사용할 때는 데이터 구조가 상이해서 데이터 구조를 변환 필수
+{
+  groups.groups.map((group) => {
+    const transformedGroup = {
+      ...group,
+      performance: {
+        id: groups.performanceId,
+      },
+      host: {
+        id: group.host.hostId,
+        name: group.host.name,
+        rating: group.host.rating,
+      },
+    };
+
+    return (
+      <GroupCard
+        key={group.id}
+        groupData={transformedGroup}
+        buttonText='참가 신청'
+        onButtonClick={() => {
+          alert('참가 신청 버튼 클릭');
+        }}
+        onCardClick={() => {
+          alert('카드 클릭');
+        }}
+        isHashtagClickable
+        onHashtagClick={(tag) => {
+          alert(`${tag} 클릭`);
+        }}
+      />
+    );
+  });
+}
+// 참가중인 모임에서 사용할 때
+{
+  joined.map((group) => (
+    <GroupCard
+      key={group.id}
+      groupData={group}
+      buttonText='모임 탈퇴'
+      onCardClick={() => {
+        alert('카드 클릭');
+      }}
+      onButtonClick={() => {
+        alert('모임 탈퇴 버튼 클릭');
+      }}
+    />
+  ));
+}
 ```
 
 ## ✨ Props
