@@ -17,6 +17,7 @@ const RootLayout = ({
       <AuthStoreProvider>
         <MSWComponent>
           <QueryProvider>{children}</QueryProvider>
+          <div id='hover-card-root' />
         </MSWComponent>
       </AuthStoreProvider>
     </body>
