@@ -8,7 +8,11 @@ interface CalendarCellProps {
   events: Performance[];
   currentMonth: Date;
   selectedDate?: Date;
-  onDateClick?: (date: Date, performances: Performance[]) => void;
+  onDateClick?: (
+    date: Date,
+    performances: Performance[],
+    scroll?: boolean
+  ) => void;
   onPerformanceClick?: (performance: Performance) => void;
 }
 
@@ -33,10 +37,10 @@ const CalendarCell = ({
     <div
       role='button'
       tabIndex={0}
-      onClick={() => onDateClick?.(date, events)}
+      onClick={() => onDateClick?.(date, events, false)}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
-          onDateClick?.(date, events);
+          onDateClick?.(date, events, false);
         }
       }}
       className={cn(
@@ -70,7 +74,15 @@ const CalendarCell = ({
             </PerformanceHoverCard>
           ))}
           {events.length > 2 && (
-            <div className='text-xs text-gray-400'>+{events.length - 2}개</div>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onDateClick?.(date, events, true);
+              }}
+              className='w-fit text-xs text-gray-400 hover:underline'
+            >
+              +{events.length - 2}개
+            </button>
           )}
         </div>
       )}

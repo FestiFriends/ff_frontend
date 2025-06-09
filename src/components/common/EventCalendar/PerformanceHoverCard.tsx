@@ -10,7 +10,7 @@ interface Props {
 const PerformanceHoverCard = ({ performance, children }: Props) => {
   const [show, setShow] = useState(false);
   const [hoverCardRoot, setHoverCardRoot] = useState<HTMLElement | null>(null);
-  const triggerRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
@@ -29,18 +29,27 @@ const PerformanceHoverCard = ({ performance, children }: Props) => {
     setShow(true);
   };
 
+  const handleTrigger = () => {
+    if (isMobile) {
+      setShow(!show);
+    } else {
+      handleEnter();
+    }
+  };
+
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   return (
     <>
-      <div
+      <button
         ref={triggerRef}
         className='inline-block'
         onMouseEnter={handleEnter}
         onMouseLeave={() => setShow(false)}
+        onClick={isMobile ? handleTrigger : undefined}
       >
         {children}
-      </div>
+      </button>
 
       {show
         && hoverCardRoot

@@ -1,15 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { startOfMonth, endOfMonth, format } from 'date-fns';
 import EventCalendar from '@/components/common/EventCalendar/EventCalendar';
 import { performanceApi } from '@/services/performanceService';
 import { Performance } from '@/types/performance';
+import { isPerformanceOnDate } from '@/utils/isPerformanceOnDate';
 
 interface PerformanceCalendarProps {
   performances: Performance[];
   onPerformancesFetched?: (data: Performance[]) => void;
-  onDateClick?: (date: Date) => void;
+  onDateClick?: (date: Date, events: Performance[], scroll?: boolean) => void;
 }
 
 const PerformanceCalendar = ({
@@ -34,6 +35,17 @@ const PerformanceCalendar = ({
       .finally(() => setIsLoading(false));
   }, [currentMonth, onPerformancesFetched]);
 
+  const handleDateClick = useCallback(
+    (date: Date, _events: Performance[], scroll?: boolean) => {
+      setSelectedDate(date);
+      const performancesOnThatDate = performances.filter((perf) =>
+        isPerformanceOnDate(perf, date)
+      );
+      onDateClick?.(date, performancesOnThatDate, scroll);
+    },
+    [performances, onDateClick]
+  );
+
   if (isLoading) return <p>공연 정보를 불러오는 중...</p>;
 
   return (
@@ -42,10 +54,7 @@ const PerformanceCalendar = ({
       performances={performances}
       onMonthChange={setCurrentMonth}
       selectedDate={selectedDate ?? undefined}
-      onDateClick={(date) => {
-        setSelectedDate(date);
-        onDateClick?.(date);
-      }}
+      onDateClick={handleDateClick}
       onPerformanceClick={(perf) => console.log(perf)}
     />
   );
