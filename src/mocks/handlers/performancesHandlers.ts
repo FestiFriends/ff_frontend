@@ -136,9 +136,49 @@ export const performancesHandlers = [
   }),
 
   http.get(
+    'http://localhost:3000/api/v1/performances/favorites',
+    ({ request }) => {
+      const url = new URL(request.url);
+      const cursorId = url.searchParams.get('cursorId');
+      const size = Number(url.searchParams.get('size')) || 20;
+
+      const favoritePerformances = FULL_PERFORMANCES_DATA.filter(
+        (performance) => performance.isLiked
+      );
+
+      const startIndex = cursorId
+        ? favoritePerformances.findIndex((p) => p.id === cursorId) + 1
+        : 0;
+      const endIndex = startIndex + size;
+      const paginatedPerformances = favoritePerformances.slice(
+        startIndex,
+        endIndex
+      );
+
+      const hasNext = endIndex < favoritePerformances.length;
+      const nextCursorId = hasNext
+        ? paginatedPerformances[paginatedPerformances.length - 1]?.id
+        : undefined;
+
+      return HttpResponse.json({
+        code: 200,
+        message: '요청이 성공적으로 처리되었습니다.',
+        data: paginatedPerformances,
+        cursorId: nextCursorId,
+        hasNext,
+      });
+    }
+  ),
+
+  http.get(
     'http://localhost:3000/api/v1/performances/:performanceId',
     async ({ params }) => {
       const { performanceId } = params;
+
+      if (performanceId === 'favorites') {
+        return;
+      }
+
       const data = PERFORMANCES_SAMPLE_DATA?.find(
         (item) => item.id === performanceId
       );
