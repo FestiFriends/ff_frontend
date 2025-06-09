@@ -1,24 +1,16 @@
 'use client';
-
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, Suspense } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import Pagination from '@/components/common/PaginationButton/PaginationButton';
 import { PerformanceList } from '@/components/pages/performances';
 import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
 import { nextFetcher } from '@/lib/nextFetcher';
 import { PerformancesResponsePagination } from '@/types/performance';
 
-// api를 불러와서 데이터만 주입하는 컴포넌트
-// PerformancesListContainer =|Performance[]|=> PerformanceList =|Performance|=> PerformancesPerformanceCard
-
-const PerformanceListContainer = () => {
-  const { getQueryParam } = useQueryParam();
-  const [searchResult, setSearchResult] =
-    useState<PerformancesResponsePagination | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
+const usePerformanceQuery = () => {
+  const { getQueryParam, setQueryParam } = useQueryParam();
   const queryString = useMemo(() => {
     const params = new URLSearchParams();
-
     const validParams = {
       keyword: getQueryParam('keyword'),
       category: getQueryParam('category'),
@@ -39,45 +31,73 @@ const PerformanceListContainer = () => {
     return params.toString();
   }, [getQueryParam]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
+  const {
+    data: searchResult,
+    isLoading,
+    error,
+  } = useQuery<PerformancesResponsePagination>({
+    queryKey: ['performances', queryString],
+    queryFn: () =>
+      nextFetcher<PerformancesResponsePagination>(
+        `/api/v1/performances?${queryString}`,
+        { method: 'GET', revalidate: 21600 }
+      ),
+  });
 
-      try {
-        const result = await nextFetcher<PerformancesResponsePagination>(
-          `/api/v1/performances?${queryString}`,
-          { method: 'GET', revalidate: 21600 }
-        );
-        setSearchResult(result);
-      } catch (error) {
-        if (error && typeof error === 'object' && 'message' in error) {
-          setError((error as { message: string }).message);
-        } else if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          setError('데이터를 불러올 수 없습니다.');
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
+  return { searchResult, isLoading, error, setQueryParam, getQueryParam };
+};
 
-    fetchData();
-  }, [queryString]);
+const LoadingFallback = () => (
+  <div className='flex items-center justify-center py-8'>
+    <span>로딩 중...</span>
+  </div>
+);
 
-  console.log('loading', loading);
-  console.log('error', error);
+const errorFallback = (error: Error) => (
+  <div className='flex items-center justify-center py-8'>
+    <span className='text-red-500'>{error.message}</span>
+  </div>
+);
 
-  const Fallback = (
+const PerformanceListContainer = () => {
+  const { searchResult, error, setQueryParam, getQueryParam } =
+    usePerformanceQuery();
+
+  const handlePageChange = (page: number) => {
+    setQueryParam('page', page.toString());
+  };
+
+  if (error) return errorFallback(error);
+
+  if (!searchResult || !searchResult.data)
+    return (
+      <div>
+        <span>데이터를 불러 올수 없습니다.</span>
+      </div>
+    );
+
+  const totalPages = searchResult?.totalPages || 0;
+  const totalItems = searchResult?.totalElements || 0;
+  const currentPage = parseInt(getQueryParam('page') || '1', 10);
+
+  return (
     <div>
-      <span>데이터를 불러 올수 없습니다.</span>
+      <div className='mb-4 text-sm text-gray-600'>
+        총 {totalItems}개의 공연이 있습니다. (페이지 {currentPage} /{' '}
+        {totalPages})
+      </div>
+      <Suspense fallback={<LoadingFallback />}>
+        <PerformanceList performances={searchResult.data} />
+      </Suspense>
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
   );
-
-  if (!searchResult || !searchResult.data) return Fallback;
-
-  return <PerformanceList performances={searchResult.data} />;
 };
 
 export default PerformanceListContainer;
