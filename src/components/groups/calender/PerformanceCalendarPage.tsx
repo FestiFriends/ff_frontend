@@ -14,8 +14,8 @@ const PerformanceCalendarPage = () => {
   const detailRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const [myLikeList, setMyLikeList] = useState<string[]>([
-    'perf-001',
-    'perf-002',
+    'pf-20250612-01',
+    'pf-20250612-02',
   ]);
 
   const handleLikeClick = (perf: Performance) => {
