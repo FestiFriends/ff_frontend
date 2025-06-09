@@ -1,13 +1,23 @@
 import { format } from 'date-fns';
+import PerformanceCard from '@/components/common/PerformanceCard/PerformanceCard';
 import { Performance } from '@/types/performance';
 import { isPerformanceOnDate } from '@/utils/isPerformanceOnDate';
 
 interface Props {
   date: Date | null;
   performances: Performance[];
+  onCardClick?: (perf: Performance) => void;
+  onLikeClick?: (perf: Performance) => void;
+  isLiked?: (perf: Performance) => boolean;
 }
 
-const SelectedDatePerformances = ({ date, performances }: Props) => {
+const SelectedDatePerformances = ({
+  date,
+  performances,
+  onCardClick,
+  onLikeClick,
+  isLiked,
+}: Props) => {
   if (!date) return null;
 
   const filtered = performances.filter((perf) =>
@@ -29,15 +39,14 @@ const SelectedDatePerformances = ({ date, performances }: Props) => {
       </h2>
       <ul className='space-y-2'>
         {filtered.map((perf) => (
-          <li
+          <PerformanceCard
             key={perf.id}
-            className='rounded border p-4 shadow-sm'
-          >
-            <p className='font-bold'>{perf.title}</p>
-            <p className='text-sm text-gray-600'>
-              {perf.location} | {perf.time.join(', ')}
-            </p>
-          </li>
+            performance={perf}
+            type='default'
+            onCardClick={() => onCardClick?.(perf)}
+            onLikeClick={() => onLikeClick?.(perf)}
+            isLiked={isLiked?.(perf) ?? false}
+          />
         ))}
       </ul>
     </div>
