@@ -1,13 +1,13 @@
 'use client';
 
+import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { GroupCategory } from '@/types/enums';
 import { Group } from '@/types/group';
 import { getGenderLabels } from '@/utils/genderEnumLabel';
 import { getGroupCategoryLabels } from '@/utils/groupEnumLabel';
-import Image from 'next/image';
 import Button from '../Button/Button';
-import HashtagBadge from '../Hashtag/HashtagBadge';
+import HashtagBadge from '../HashtagBadge/HashtagBadge';
 
 interface GroupCardProps {
   groupData: Group;
