@@ -35,7 +35,7 @@ const PerformanceCalendarPage = () => {
   };
 
   return (
-    <div className='"max-w-screen-lg mx-auto px-4 py-8'>
+    <div className='mx-auto max-w-2xl px-4 py-8'>
       <CalendarFilter onChange={setFilterValues} />
       <PerformanceCalendar
         performances={filteredPerformances}
