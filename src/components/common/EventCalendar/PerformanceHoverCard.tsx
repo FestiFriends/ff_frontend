@@ -49,9 +49,14 @@ const PerformanceHoverCard = ({ performance, children }: Props) => {
           >
             <p className='text-sm font-bold'>{performance.title}</p>
             <p className='text-xs text-gray-600'>{performance.location}</p>
-            <p className='text-xs text-gray-600'>
-              {performance.startDate} ~ {performance.endDate}
-            </p>
+            <div className='mt-1'>
+              <p className='text-xs text-gray-600'>
+                시작: {performance.startDate}
+              </p>
+              <p className='text-xs text-gray-600'>
+                종료: {performance.endDate}
+              </p>
+            </div>
             <p className='mt-1 line-clamp-3 text-xs text-gray-500'>
               출연진: {performance.cast.join(', ')}
             </p>
