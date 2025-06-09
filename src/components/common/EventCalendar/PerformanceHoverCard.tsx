@@ -21,6 +21,26 @@ const PerformanceHoverCard = ({ performance, children }: Props) => {
     if (existing) setHoverCardRoot(existing);
   }, []);
 
+  useEffect(() => {
+    if (!isMobile || !show) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (
+        triggerRef.current?.contains(target)
+        || hoverCardRoot?.contains(target)
+      ) {
+        return;
+      }
+      setShow(false);
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isMobile, show, hoverCardRoot]);
+
   const updateCoords = () => {
     if (!triggerRef.current) return;
     const rect = triggerRef.current.getBoundingClientRect();
