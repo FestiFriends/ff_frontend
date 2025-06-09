@@ -11,6 +11,11 @@ interface CalendarCellProps {
   onPerformanceClick?: (performance: Performance) => void;
 }
 
+const visitStyles: Record<string, string> = {
+  내한: 'bg-green-100 text-green-700',
+  국내: 'bg-red-100 text-red-700',
+};
+
 const CalendarCell = ({
   date,
   events,
@@ -37,12 +42,10 @@ const CalendarCell = ({
         'flex min-h-[90px] flex-col items-start justify-start overflow-hidden rounded border-b border-gray-200 bg-white p-2',
         !isCurrentMonth && 'text-gray-400',
         isTodayDate && 'border-gray-600 bg-gray-50',
-        isSelected && 'bg-blue-600 text-white'
+        isSelected && 'border-red-400 bg-red-50'
       )}
     >
-      <button
-        className={cn('w-full rounded text-sm font-medium hover:underline')}
-      >
+      <button className='w-full rounded text-sm font-medium'>
         {format(date, 'd')}
       </button>
 
@@ -53,7 +56,10 @@ const CalendarCell = ({
               key={perf.id}
               title={perf.title}
               onClick={() => onPerformanceClick?.(perf)}
-              className='block w-full truncate rounded bg-blue-100 px-1 text-left text-xs text-blue-700 hover:underline'
+              className={cn(
+                'block w-full truncate rounded px-1 text-left text-xs hover:underline',
+                visitStyles[perf.visit] || 'bg-gray-100 text-gray-700'
+              )}
             >
               {perf.title}
             </button>
