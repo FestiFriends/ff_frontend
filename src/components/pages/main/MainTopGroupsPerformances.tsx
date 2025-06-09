@@ -4,14 +4,20 @@ import { useGetTopByGroupCountPerformances } from '@/hooks/performanceHooks/perf
 import PerformanceWrapper from './PerformanceWrapper';
 
 const MainTopGroupsPerformances = () => {
-  const { data: topByGroupCountPerformances, isPending } =
-    useGetTopByGroupCountPerformances();
+  const {
+    data: topByGroupCountPerformances,
+    isPending,
+    isError,
+    error,
+  } = useGetTopByGroupCountPerformances();
 
   return (
     <PerformanceWrapper
-      href=''
+      href='/performances'
       title='모임 많은 공연'
       isPending={isPending}
+      isError={isError}
+      error={error}
       performances={topByGroupCountPerformances?.data}
     />
   );
