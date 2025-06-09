@@ -147,16 +147,19 @@ const PerformanceDetailSummary = ({
         <div className='flex flex-col gap-5'>
           {/* 공연명, 찜, 공유 */}
           <div className='flex items-center justify-between'>
-            <h2 className='text-18_B tracking-[-0.45px] text-gray-800'>
+            <h2 className='text-18_B leading-normal tracking-[-0.45px] text-gray-950'>
               {performanceDetail?.title}
             </h2>
             <div className='flex items-center gap-3'>
               <button
                 onClick={toggleLike}
                 aria-label='찜 버튼'
-                className='flex h-7.5 w-7.5 items-center justify-center rounded-full bg-gray-25'
+                className='flex h-7.5 items-center justify-center gap-1 rounded-full bg-gray-25 p-3'
               >
                 <LikeIcon type={isLiked ? 'active' : 'empty'} />
+                <span className='text-14_M leading-normal tracking-[-0.35px] text-gray-950 select-none'>
+                  {performanceDetail?.favoriteCount}
+                </span>
               </button>
               {/* <button
                 aria-label='공유 버튼'

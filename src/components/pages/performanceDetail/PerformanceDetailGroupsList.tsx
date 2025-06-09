@@ -8,7 +8,7 @@ interface PerformanceDetailGroupsListProps {
 const PerformanceDetailGroupsList = ({
   groups,
 }: PerformanceDetailGroupsListProps) => (
-  <div>
+  <div className='flex flex-col gap-5'>
     {groups?.map((group) => (
       <GroupCard
         onCardClick={() => {}}

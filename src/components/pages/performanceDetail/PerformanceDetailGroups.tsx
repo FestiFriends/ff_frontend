@@ -6,15 +6,11 @@ import { useGetGroups } from '@/hooks/groupHooks/groupHooks';
 import { DateRange } from '@/types/dateRange';
 import { GetGroupsParams } from '@/types/group';
 import { cleanQueryParams } from '@/utils/cleanQueryParams';
-import { GroupsList, GroupsOptionTabs } from '.';
+import { useParams } from 'next/navigation';
+import { GroupsList, GroupsOptionTabs, GroupsPagination } from '.';
 
-interface PerformanceDetailGroupsProps {
-  performanceId: string;
-}
-
-const PerformanceDetailGroups = ({
-  performanceId,
-}: PerformanceDetailGroupsProps) => {
+const PerformanceDetailGroups = () => {
+  const { performanceId } = useParams<{ performanceId: string }>();
   const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState({
     sortType: '',
@@ -55,7 +51,7 @@ const PerformanceDetailGroups = ({
   if (isPending || !groups?.data) return <div>loading...</div>;
 
   return (
-    <div>
+    <div className='flex flex-col gap-5 px-4'>
       <GroupsOptionTabs
         dateRange={filters.dateRange}
         setDateRange={(range) => updateFilter('dateRange', range)}

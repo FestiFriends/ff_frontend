@@ -12,7 +12,7 @@ const PerformanceDetailInfo = ({
   isPending,
   performanceDetail,
 }: PerformanceDetailInfoProps) => (
-  <div className='flex w-full flex-col gap-5 px-4 pb-5'>
+  <div className='flex w-full flex-col px-4 pb-5'>
     {isPending ? (
       <Skeleton className='h-[60vh] w-full' />
     ) : (
