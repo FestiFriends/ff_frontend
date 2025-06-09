@@ -17,7 +17,7 @@ const Tabs = ({ tabs, activeTab, onTabChange, className }: TabsProps) => {
     const activeTabEl = tabRefs.current[activeIndex];
     if (activeTabEl) {
       const fullWidth = activeTabEl.offsetWidth;
-      const underlineWidth = fullWidth * 0.7;
+      const underlineWidth = fullWidth * 0.6;
       const underlineLeft =
         activeTabEl.offsetLeft + (fullWidth - underlineWidth) / 2;
 
