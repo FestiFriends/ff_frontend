@@ -11,23 +11,24 @@
 import HashtagBadge from '@/components/HashtagBadge';
 
 <HashtagBadge
-  isClickable={true}
-  onClick={(tag) => {
+  text='모임카드'
+  isClickable
+  onClick={(tag, e) => {
+    e?.preventDefault();
     console.log(`${tag} 배지를 클릭했어요`);
   }}
-  text='모임카드'
   className='bg-blue-100 text-blue-600'
 />;
 ```
 
 ## ✨ Props
 
-| 이름          | 타입                     | 기본값       | 설명                                                             |
-| ------------- | ------------------------ | ------------ | ---------------------------------------------------------------- |
-| `text`        | `string`                 | (필수)       | 배지 내부에 표시될 텍스트 (`#` 포함 여부는 호출부에서 조정)      |
-| `isClickable` | `boolean`                | `false`      | 클릭 가능한 배지인지 여부                                        |
-| `onClick`     | `(text: string) => void` | `undefined`  | 클릭 시 호출되는 함수 (`isClickable`가 `true`일 때만 실행됨)     |
-| `className`   | `string`                 | `'bg-white'` | 사용자 정의 Tailwind 클래스 (기본 스타일 확장 또는 오버라이드용) |
+| 이름          | 타입                                                              | 기본값       | 설명                                                          |
+| ------------- | ----------------------------------------------------------------- | ------------ | ------------------------------------------------------------- |
+| `text`        | `string`                                                          | (필수)       | 배지에 표시될 텍스트. `#` 포함 여부는 호출부에서 제어         |
+| `isClickable` | `boolean`                                                         | `false`      | 클릭 가능한 배지인지 여부                                     |
+| `onClick`     | `(text: string, e?: React.MouseEvent<HTMLButtonElement>) => void` | `undefined`  | 클릭 시 실행될 핸들러. `isClickable=true`일 때만 동작         |
+| `className`   | `string`                                                          | `'bg-white'` | 사용자 정의 Tailwind CSS 클래스 (기본 스타일 확장/덮어쓰기용) |
 
 ## 🎨 스타일 가이드 (Tailwind CSS 기준)
 
@@ -37,27 +38,26 @@ import HashtagBadge from '@/components/HashtagBadge';
 - 사용자 정의 클래스는 className을 통해 추가적으로 적용 가능
   예: bg-blue-100, font-bold, text-purple-600 등
 
+- 클릭 가능한 경우 <button>으로, 클릭 불가능한 경우 <span>으로 렌더링됩니다.
+
 ## ✅ 테스트 정보
 
 > 테스트 도구: jest, @testing-library/react
 
-| 테스트 항목                | 설명                                                                 |
-| -------------------------- | -------------------------------------------------------------------- |
-| 렌더링 테스트              | `text`가 화면에 정상적으로 표시되는지 확인                           |
-| 스타일 클래스 적용 테스트  | `className`으로 전달한 클래스가 제대로 적용되는지 확인               |
-| onClick 호출 테스트        | `isClickable=true` 상태에서 클릭 시 `text`가 인자로 전달되는지 확인  |
-| 클릭 무효화 테스트         | `isClickable=false`일 경우 클릭해도 `onClick`이 실행되지 않는지 확인 |
-| 핸들러 미전달 시 정상 동작 | `onClick`이 없어도 에러 없이 정상 동작하는지 확인                    |
-
-## 🧠 Todo
-
-- 디자인 확정 후 Tailwind 클래스 리팩토링 예정
+| 테스트 항목                    | 설명                                                                 |
+| ------------------------------ | -------------------------------------------------------------------- |
+| 텍스트 렌더링 테스트           | `text`가 화면에 정상적으로 표시되는지 확인                           |
+| 스타일 클래스 적용 테스트      | `className`으로 전달한 클래스가 적용되는지 확인                      |
+| onClick 핸들러 실행 테스트     | `isClickable=true`일 때 클릭 시 `onClick(text, e)`가 호출되는지 확인 |
+| 클릭 비활성화 테스트           | `isClickable=false`일 때 클릭해도 `onClick`이 호출되지 않는지 확인   |
+| 핸들러 미지정 시 안정성 테스트 | `onClick`이 없더라도 클릭 시 에러 없이 동작하는지 확인               |
+| 버튼/스팬 태그 조건부 렌더링   | `isClickable` 여부에 따라 button 또는 span 태그로 렌더링되는지 확인  |
 
 ## 📁 파일 구조
 
 ```
 /components/HashtagBadge
   ├── HashtagBadge.md
-  ├── HashtagBadge.tsx
-  └── HashtagBadge.test.tsx
+  ├── HashtagBadge.test.tsx
+  └── HashtagBadge.tsx
 ```

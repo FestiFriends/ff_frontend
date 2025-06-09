@@ -8,7 +8,6 @@ describe('HashtagBadge 컴포넌트 테스트', () => {
     expect(badge).toBeInTheDocument();
   });
 
-  //   Todo: 스타일 변경에 따른 리팩토링 필요
   test('className props를 할당했을 때 올바른 클래스가 적용된다', () => {
     render(
       <HashtagBadge
@@ -17,11 +16,10 @@ describe('HashtagBadge 컴포넌트 테스트', () => {
       />
     );
     const badge = screen.getByText('펜타포트');
-    expect(badge).toBeInTheDocument();
     expect(badge).toHaveClass('font-extrabold');
   });
 
-  test('배지 클릭 시 onClick 핸들러가 호출된다', () => {
+  test('isClickable = true일 때 버튼으로 렌더링되고 클릭 시 onClick 호출된다', () => {
     const handleClick = jest.fn();
     render(
       <HashtagBadge
@@ -30,13 +28,13 @@ describe('HashtagBadge 컴포넌트 테스트', () => {
         onClick={handleClick}
       />
     );
-    const badge = screen.getByText('클릭');
+    const badge = screen.getByRole('button');
     fireEvent.click(badge);
     expect(handleClick).toHaveBeenCalledTimes(1);
-    expect(handleClick).toHaveBeenCalledWith('클릭');
+    expect(handleClick).toHaveBeenCalledWith('클릭', expect.any(Object)); // 이벤트 객체까지 전달 확인
   });
 
-  test('isClickable = false일 때 onClick이 실행되지 않는다', () => {
+  test('isClickable=false일 때 span으로 렌더링되고 클릭해도 onClick 호출되지 않는다', () => {
     const handleClick = jest.fn();
     render(
       <HashtagBadge
@@ -55,11 +53,24 @@ describe('HashtagBadge 컴포넌트 테스트', () => {
     render(
       <HashtagBadge
         text='클릭'
-        isClickable={true}
+        isClickable={false}
+        onClick={handleClick}
       />
     );
     const badge = screen.getByText('클릭');
+    expect(badge.tagName.toLowerCase()).toBe('span');
     fireEvent.click(badge);
-    expect(handleClick).toHaveBeenCalledTimes(0);
+    expect(handleClick).not.toHaveBeenCalled();
+  });
+
+  test('isClickable=true이지만 onClick이 undefined일 때 클릭해도 오류 없이 무시된다', () => {
+    render(
+      <HashtagBadge
+        text='클릭'
+        isClickable={true}
+      />
+    );
+    const badge = screen.getByRole('button');
+    expect(() => fireEvent.click(badge)).not.toThrow();
   });
 });
