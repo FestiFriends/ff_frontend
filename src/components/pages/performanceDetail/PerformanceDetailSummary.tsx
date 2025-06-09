@@ -11,7 +11,7 @@ import { Performance } from '@/types/performance';
 import { formatLocation } from '@/utils/formatLocation';
 
 interface PerformanceDetailSummaryProps {
-  performanceDetail: Performance;
+  performanceDetail?: Performance;
 }
 
 type InfoItem = {
@@ -24,15 +24,16 @@ const PerformanceDetailSummary = ({
 }: PerformanceDetailSummaryProps) => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedin);
   const [showToast, setShowToast] = useState(false);
-  const [isLiked, setIsLiked] = useState(performanceDetail.isLiked);
+  const [isLiked, setIsLiked] = useState(performanceDetail?.isLiked);
   const { mutate } = usePatchPerformanceLiked();
-  const { location, place } = formatLocation(performanceDetail.location);
+  const { location, place } = formatLocation(performanceDetail?.location);
 
   const toggleLike = () => {
     if (!isLoggedIn) {
       setShowToast(true);
       return;
     }
+    if (!performanceDetail) return;
     setIsLiked((prev) => !prev);
     mutate({
       performanceId: performanceDetail.id,
@@ -40,8 +41,10 @@ const PerformanceDetailSummary = ({
     });
   };
 
-  const performanceInfoList: InfoItem[] = useMemo(
-    () => [
+  const performanceInfoList: InfoItem[] = useMemo(() => {
+    if (!performanceDetail) return [];
+
+    return [
       {
         label: '기간',
         value: `${format(performanceDetail.startDate, 'yy.MM.dd')} ~ ${format(performanceDetail.endDate, 'yy.MM.dd')}`,
@@ -82,9 +85,8 @@ const PerformanceDetailSummary = ({
         )),
       },
       { label: '연령', value: performanceDetail.age },
-    ],
-    [performanceDetail, location, place]
-  );
+    ];
+  }, [performanceDetail, location, place]);
 
   const renderPerformanceInfoList = () => (
     <div
@@ -117,9 +119,10 @@ const PerformanceDetailSummary = ({
 
       <div className='flex flex-col gap-5 bg-white px-4 pt-5 pb-7.5'>
         {/* 공연 포스터 */}
+
         <Poster
-          src={performanceDetail.poster || ''}
-          alt={performanceDetail.title}
+          src={performanceDetail?.poster || ''}
+          alt={performanceDetail?.title}
           className='aspect-[2/3] h-auto max-h-[60vh] w-full'
         />
 
@@ -127,7 +130,7 @@ const PerformanceDetailSummary = ({
           {/* 공연명, 찜, 공유 */}
           <div className='flex items-center justify-between'>
             <h2 className='text-18_B tracking-[-0.45px] text-gray-800'>
-              {performanceDetail.title}
+              {performanceDetail?.title}
             </h2>
             <div className='flex items-center gap-3'>
               <button
@@ -137,12 +140,12 @@ const PerformanceDetailSummary = ({
               >
                 <LikeIcon type={isLiked ? 'active' : 'empty'} />
               </button>
-              <button
+              {/* <button
                 aria-label='공유 버튼'
                 className='flex h-7.5 w-7.5 items-center justify-center rounded-full bg-gray-25'
               >
                 <ShareIcon />
-              </button>
+              </button> */}
             </div>
           </div>
 

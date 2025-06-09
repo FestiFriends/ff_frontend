@@ -778,6 +778,7 @@ export const performancesHandlers = [
   http.get(
     'http://localhost:3000/api/v1/performances/:performanceId',
     async ({ params }) => {
+      await delay(3000);
       const { performanceId } = params;
       const data = PERFORMANCES_SAMPLE_DATA?.find(
         (item) => item.id === performanceId
