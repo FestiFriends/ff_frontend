@@ -26,9 +26,14 @@ const SelectedDatePerformances = ({
 
   if (filtered.length === 0) {
     return (
-      <p className='mt-6 text-sm text-gray-500'>
-        선택한 날짜에 공연이 없습니다.
-      </p>
+      <div className='mt-6 space-y-2'>
+        <h2 className='text-lg font-semibold'>
+          {format(date, 'M월 d일')} 공연 목록
+        </h2>
+        <p className='text-sm text-gray-500'>
+          선택한 날짜에 예정된 공연이 없습니다.
+        </p>
+      </div>
     );
   }
 
