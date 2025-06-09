@@ -70,6 +70,8 @@ const PerformanceHoverCard = ({ performance, children }: Props) => {
     }
   };
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   return (
     <>
       <div
