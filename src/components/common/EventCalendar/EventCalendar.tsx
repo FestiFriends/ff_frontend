@@ -62,7 +62,7 @@ const EventCalendar = ({
   };
 
   return (
-    <div className='mx-auto w-full max-w-md p-4'>
+    <div className='mx-auto w-full p-4'>
       <CalendarHeader
         currentMonth={currentMonth}
         onPrev={handlePrevMonth}
