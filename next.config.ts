@@ -2,7 +2,23 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['cdn.imweb.me', 'picsum.photos'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.imweb.me',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'www.kopis.or.kr',
+        pathname: '/upload/**',
+      },
+    ],
   },
   async rewrites() {
     return [
