@@ -1,5 +1,6 @@
-import { format, isWithinInterval, parseISO, startOfDay } from 'date-fns';
+import { format } from 'date-fns';
 import { Performance } from '@/types/performance';
+import { isPerformanceOnDate } from '@/utils/isPerformanceOnDate';
 
 interface Props {
   date: Date | null;
@@ -9,23 +10,9 @@ interface Props {
 const SelectedDatePerformances = ({ date, performances }: Props) => {
   if (!date) return null;
 
-  const normalizedDate = startOfDay(date);
-
-  const filtered = performances.filter((perf) => {
-    const start = startOfDay(parseISO(perf.startDate));
-    const end = startOfDay(parseISO(perf.endDate));
-    const within = isWithinInterval(normalizedDate, { start, end });
-
-    console.log({
-      title: perf.title,
-      selectedDate: normalizedDate,
-      start: parseISO(perf.startDate),
-      end: parseISO(perf.endDate),
-      within,
-    });
-
-    return within;
-  });
+  const filtered = performances.filter((perf) =>
+    isPerformanceOnDate(perf, date)
+  );
 
   if (filtered.length === 0) {
     return (
