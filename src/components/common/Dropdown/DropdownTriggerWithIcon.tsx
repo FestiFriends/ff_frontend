@@ -21,7 +21,7 @@ const DropdownTriggerWithIcon = ({
 
   const dropdownTriggerClasses = cn(
     // default style
-    'inline-flex cursor-pointer items-center justify-center rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5',
+    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 text-gray-950 transition-all',
 
     // opened, selected style
     (isOpen || selectedItem) && 'border-gray-950 bg-gray-950 text-white',
@@ -35,7 +35,9 @@ const DropdownTriggerWithIcon = ({
       onClick={toggleDropdown}
       className={dropdownTriggerClasses}
     >
-      <span>{selectedItem || placeholder || children}</span>
+      <span className='text-14_M leading-normal tracking-[-0.35px]'>
+        {selectedItem || placeholder || children}
+      </span>
       {isOpen ? (
         <AltArrowUpIcon className='aspect-square h-4 w-4 text-white' />
       ) : selectedItem ? (
