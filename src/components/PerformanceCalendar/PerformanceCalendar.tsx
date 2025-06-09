@@ -10,18 +10,21 @@ import LoadingOverlay from '../common/LoadingOverlay/LoadingOverlay';
 
 interface PerformanceCalendarProps {
   performances: Performance[];
+  selectedDate?: Date | null;
+  onSelectedDateChange?: (date: Date) => void;
   onPerformancesFetched?: (data: Performance[]) => void;
   onDateClick?: (date: Date, events: Performance[], scroll?: boolean) => void;
 }
 
 const PerformanceCalendar = ({
   performances,
+  selectedDate,
+  onSelectedDateChange,
   onPerformancesFetched,
   onDateClick,
 }: PerformanceCalendarProps) => {
   const [currentMonth, setCurrentMonth] = useState(() => new Date());
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   useEffect(() => {
     const startDate = format(startOfMonth(currentMonth), 'yyyy-MM-dd');
@@ -38,13 +41,13 @@ const PerformanceCalendar = ({
 
   const handleDateClick = useCallback(
     (date: Date, _events: Performance[], scroll?: boolean) => {
-      setSelectedDate(date);
+      onSelectedDateChange?.(date);
       const performancesOnThatDate = performances.filter((perf) =>
         isPerformanceOnDate(perf, date)
       );
       onDateClick?.(date, performancesOnThatDate, scroll);
     },
-    [performances, onDateClick]
+    [performances, onDateClick, onSelectedDateChange]
   );
 
   return (
