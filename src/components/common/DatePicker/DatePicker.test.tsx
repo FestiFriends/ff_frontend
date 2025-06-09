@@ -7,7 +7,7 @@ describe('DatePicker 컴포넌트 테스트', () => {
   const mockStart = new Date('2025-06-01');
   const mockEnd = new Date('2025-06-10');
 
-  test('처음 렌더링되었을 때 startDate, endDate값이 없으면 "날짜를 선택하세요" 문구가 나타난다', () => {
+  test('처음 렌더링되었을 때 startDate, endDate값이 없으면 "날짜" 문구가 나타난다', () => {
     render(
       <DatePicker
         startDate={null}
@@ -16,7 +16,7 @@ describe('DatePicker 컴포넌트 테스트', () => {
       />
     );
 
-    expect(screen.getByText('날짜를 선택하세요')).toBeInTheDocument();
+    expect(screen.getByText('날짜')).toBeInTheDocument();
   });
 
   test('startDate, endDate값이 있을 경우 올바르게 표시된다', () => {
@@ -28,14 +28,14 @@ describe('DatePicker 컴포넌트 테스트', () => {
       />
     );
 
-    const startDateText = format(mockStart, 'yyyy년 M월 d일', { locale: ko });
-    const endDateText = format(mockEnd, 'yyyy년 M월 d일', { locale: ko });
+    const startDateText = format(mockStart, 'MM/dd', { locale: ko });
+    const endDateText = format(mockEnd, 'MM/dd', { locale: ko });
 
     expect(screen.getByText(startDateText)).toBeInTheDocument();
     expect(screen.getByText(endDateText)).toBeInTheDocument();
   });
 
-  test('처음 Popover를 열면 현재 연도와 달이 표시된다', () => {
+  test('처음 DatePicker를 열면 현재 연도와 달이 표시된다', () => {
     render(
       <DatePicker
         startDate={null}
@@ -44,14 +44,14 @@ describe('DatePicker 컴포넌트 테스트', () => {
       />
     );
 
-    fireEvent.click(screen.getByLabelText('popover open'));
+    fireEvent.click(screen.getByLabelText('datepicker open'));
 
     expect(
       screen.getByText(format(new Date(), 'yyyy년 M월', { locale: ko }))
     ).toBeInTheDocument();
   });
 
-  test('Popover를 열고 날짜를 클릭하면 날짜 선택이 동작한다', () => {
+  test('DatePicker를 열고 날짜를 클릭하면 날짜 선택이 동작한다', () => {
     const handleChange = jest.fn();
     render(
       <DatePicker
@@ -61,7 +61,7 @@ describe('DatePicker 컴포넌트 테스트', () => {
       />
     );
 
-    fireEvent.click(screen.getByLabelText('popover open'));
+    fireEvent.click(screen.getByLabelText('datepicker open'));
 
     const firstClick = screen.getByText('10');
     fireEvent.click(firstClick);
@@ -84,7 +84,7 @@ describe('DatePicker 컴포넌트 테스트', () => {
       />
     );
 
-    fireEvent.click(screen.getByLabelText('popover open'));
+    fireEvent.click(screen.getByLabelText('datepicker open'));
 
     const monthLabel = screen.getByText(/2025년 6월/);
     expect(monthLabel).toBeInTheDocument();
