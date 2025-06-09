@@ -1,6 +1,6 @@
-import useSort from '@/hooks/useSort/useSort';
 import { act, render, renderHook, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import useSort from '@/hooks/useSort/useSort';
 import SortDropdown from './SortDropdown';
 
 const sortOptions = [

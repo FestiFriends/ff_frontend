@@ -1,3 +1,4 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { PERFORMANCES_QUERY_KEYS } from '@/constants/queryKeys';
 import { performancesApi } from '@/services/performancesService';
 import { ApiResponse } from '@/types/api';
@@ -7,7 +8,6 @@ import {
   PerformanceIsLikedResponse,
   PerformancesResponse,
 } from '@/types/performance';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const useGetTopFavoritesPerformances = () =>
   useQuery({
