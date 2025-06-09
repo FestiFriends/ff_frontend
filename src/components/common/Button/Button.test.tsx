@@ -8,19 +8,20 @@ describe('Button 컴포넌트 테스트', () => {
     expect(button).toBeInTheDocument();
   });
 
-  // Todo: 스타일 변경에 따른 리팩토링 필요
   test('variant와 size props값에 따라 올바른 클래스가 적용된다', () => {
     render(
       <Button
-        variant='danger'
+        variant='disablePrimary'
         size='lg'
       >
         삭제
       </Button>
     );
     const button = screen.getByRole('button', { name: '삭제' });
-    expect(button).toBeInTheDocument();
-    expect(button).toHaveClass('bg-red-500');
+
+    expect(button).toHaveClass('bg-gray-200');
+    expect(button).toHaveClass('text-gray-100');
+
     expect(button).toHaveClass('px-8');
     expect(button).toHaveClass('py-2');
   });
@@ -48,12 +49,11 @@ describe('Button 컴포넌트 테스트', () => {
     expect(handleClick).not.toHaveBeenCalled();
   });
 
-  // Todo: 스타일 변경에 따른 리팩토링 필요
   test('disabled 상태일 때 적절한 스타일 클래스가 적용된다', () => {
     render(<Button disabled>비활성화</Button>);
     const button = screen.getByRole('button', { name: '비활성화' });
     expect(button).toHaveClass('cursor-not-allowed');
     expect(button).toHaveClass('bg-gray-200');
-    expect(button).toHaveClass('text-gray-400');
+    expect(button).toHaveClass('text-white');
   });
 });

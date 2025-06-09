@@ -233,3 +233,7 @@ html {
 @utility text-20_body_B {
   @apply text-[20px] leading-[160%] font-bold tracking-[-2.5%];
 }
+
+@utility rounded-12 {
+  @apply rounded-[12px];
+}
