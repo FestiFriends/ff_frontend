@@ -61,7 +61,10 @@ const PerformanceDetailGroups = () => {
         setGender={(gen) => updateFilter('gender', gen)}
       />
 
-      <GroupsList groups={groups.data.groups} />
+      <GroupsList
+        groupCount={groups.data.groupCount}
+        groups={groups.data.groups}
+      />
 
       <Pagination
         currentPage={currentPage}
