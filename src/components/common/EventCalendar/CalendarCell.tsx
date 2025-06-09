@@ -19,26 +19,29 @@ const CalendarCell = ({
   onDateClick,
   onPerformanceClick,
 }: CalendarCellProps) => {
-  const key = format(date, 'yyyy-MM-dd');
   const isCurrentMonth = isSameMonth(date, currentMonth);
   const isTodayDate = isToday(date);
   const isSelected = selectedDate && isSameDay(date, selectedDate);
 
   return (
     <div
-      key={key}
+      role='button'
+      tabIndex={0}
+      onClick={() => onDateClick?.(date, events)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          onDateClick?.(date, events);
+        }
+      }}
       className={cn(
-        'flex min-h-[80px] flex-col items-start justify-between overflow-hidden rounded border-b border-gray-200 bg-white p-2',
+        'flex min-h-[90px] flex-col items-start justify-start overflow-hidden rounded border-b border-gray-200 bg-white p-2',
         !isCurrentMonth && 'text-gray-400',
-        isTodayDate && 'border-gray-600 bg-gray-100'
+        isTodayDate && 'border-gray-600 bg-gray-50',
+        isSelected && 'bg-blue-600 text-white'
       )}
     >
       <button
-        onClick={() => onDateClick?.(date, events)}
-        className={cn(
-          'w-full rounded text-sm font-medium hover:underline',
-          isSelected && 'bg-blue-600 text-white'
-        )}
+        className={cn('w-full rounded text-sm font-medium hover:underline')}
       >
         {format(date, 'd')}
       </button>
@@ -56,9 +59,7 @@ const CalendarCell = ({
             </button>
           ))}
           {events.length > 2 && (
-            <div className='text-xs text-gray-400'>
-              +{events.length - 2}개 더 있음
-            </div>
+            <div className='text-xs text-gray-400'>+{events.length - 2}개</div>
           )}
         </div>
       )}
