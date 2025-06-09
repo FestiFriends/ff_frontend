@@ -31,6 +31,19 @@ const PerformanceDetailSummary = ({
   const { mutate } = usePatchPerformanceLiked();
   const { location, place } = formatLocation(performanceDetail?.location);
 
+  const toggleLike = () => {
+    if (!isLoggedIn) {
+      setShowToast(true);
+      return;
+    }
+    if (!performanceDetail) return;
+    setIsLiked((prev) => !prev);
+    mutate({
+      performanceId: performanceDetail.id,
+      isLiked: !performanceDetail.isLiked,
+    });
+  };
+
   const performanceInfoList: InfoItem[] = useMemo(() => {
     if (!performanceDetail) return [];
 
@@ -78,34 +91,6 @@ const PerformanceDetailSummary = ({
     ];
   }, [performanceDetail, location, place]);
 
-  if (isPending)
-    return (
-      <div className='flex flex-col gap-5 bg-white px-4 pt-5 pb-7.5'>
-        <Skeleton className='h-[60vh] w-full' />
-        <div className='flex flex-col gap-5'>
-          <Skeleton className='h-6 w-full' />
-          <div className='flex flex-col gap-3'>
-            <Skeleton className='h-4 w-[60vw]' />
-            <Skeleton className='h-4 w-[45vw]' />
-            <Skeleton className='h-4 w-[70vw]' />
-          </div>
-        </div>
-      </div>
-    );
-
-  const toggleLike = () => {
-    if (!isLoggedIn) {
-      setShowToast(true);
-      return;
-    }
-    if (!performanceDetail) return;
-    setIsLiked((prev) => !prev);
-    mutate({
-      performanceId: performanceDetail.id,
-      isLiked: !performanceDetail.isLiked,
-    });
-  };
-
   const renderPerformanceInfoList = () => (
     <div
       className='grid gap-y-3'
@@ -123,6 +108,21 @@ const PerformanceDetailSummary = ({
       ))}
     </div>
   );
+
+  if (isPending)
+    return (
+      <div className='flex flex-col gap-5 bg-white px-4 pt-5 pb-7.5'>
+        <Skeleton className='h-[60vh] w-full' />
+        <div className='flex flex-col gap-5'>
+          <Skeleton className='h-6 w-full' />
+          <div className='flex flex-col gap-3'>
+            <Skeleton className='h-4 w-[60vw]' />
+            <Skeleton className='h-4 w-[45vw]' />
+            <Skeleton className='h-4 w-[70vw]' />
+          </div>
+        </div>
+      </div>
+    );
 
   return (
     <>
