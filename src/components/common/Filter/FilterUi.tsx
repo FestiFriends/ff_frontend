@@ -32,7 +32,7 @@ const FilterUi = ({
   };
 
   return (
-    <div className={cn('inline-block', className)}>
+    <div className={cn('inline', className)}>
       <Dropdown>
         <DropdownTrigger placeholder={placeholder}></DropdownTrigger>
 
