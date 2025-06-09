@@ -13,17 +13,17 @@ const PerformanceCalendarPage = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const detailRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const [myLikeList, setMyLikeList] = useState<string[]>([
-    'pf-20250612-01',
-    'pf-20250612-02',
-  ]);
+  const [myLikeList, setMyLikeList] = useState<string[]>([]); // TODO: API 연동 시 초기값 변경
 
+  // TODO: 좋아요 상태 변경 로직을 API 연동으로 교체 예정
   const handleLikeClick = (perf: Performance) => {
-    setMyLikeList((prev) =>
-      prev.includes(perf.id)
+    setMyLikeList((prev) => {
+      const updated = prev.includes(perf.id)
         ? prev.filter((id) => id !== perf.id)
-        : [...prev, perf.id]
-    );
+        : [...prev, perf.id];
+      localStorage.setItem('likedPerformanceIds', JSON.stringify(updated));
+      return updated;
+    });
   };
 
   const filteredPerformances = useMemo(() => {
