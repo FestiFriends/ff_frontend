@@ -39,7 +39,7 @@ const CalendarCell = ({
         }
       }}
       className={cn(
-        'flex min-h-[90px] flex-col items-start justify-start overflow-hidden rounded border-b border-gray-200 bg-white p-2',
+        'flex min-h-[100px] flex-col items-start justify-start overflow-hidden rounded border-b border-gray-200 bg-white p-2',
         !isCurrentMonth && 'text-gray-400',
         isTodayDate && 'border-gray-600 bg-gray-50',
         isSelected && 'border-red-400 bg-red-50'
