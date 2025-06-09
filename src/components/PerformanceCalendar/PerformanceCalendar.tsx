@@ -6,6 +6,7 @@ import EventCalendar from '@/components/common/EventCalendar/EventCalendar';
 import { performanceApi } from '@/services/performanceService';
 import { Performance } from '@/types/performance';
 import { isPerformanceOnDate } from '@/utils/isPerformanceOnDate';
+import LoadingOverlay from '../common/LoadingOverlay/LoadingOverlay';
 
 interface PerformanceCalendarProps {
   performances: Performance[];
@@ -46,17 +47,18 @@ const PerformanceCalendar = ({
     [performances, onDateClick]
   );
 
-  if (isLoading) return <p>공연 정보를 불러오는 중...</p>;
-
   return (
-    <EventCalendar
-      month={currentMonth}
-      performances={performances}
-      onMonthChange={setCurrentMonth}
-      selectedDate={selectedDate ?? undefined}
-      onDateClick={handleDateClick}
-      onPerformanceClick={(perf) => console.log(perf)}
-    />
+    <div className='relative'>
+      <EventCalendar
+        month={currentMonth}
+        performances={performances}
+        onMonthChange={setCurrentMonth}
+        selectedDate={selectedDate ?? undefined}
+        onDateClick={handleDateClick}
+        onPerformanceClick={(perf) => console.log(perf)}
+      />
+      {isLoading && <LoadingOverlay />}
+    </div>
   );
 };
 

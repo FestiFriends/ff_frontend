@@ -1,4 +1,4 @@
-import PerformanceCalendarPage from '@/components/groups/calender/PerformanceCalendarPage';
+import PerformanceCalendarPage from '@/components/PerformanceCalendar/PerformanceCalendarPage';
 
 const CalendarPage = () => <PerformanceCalendarPage />;
 
