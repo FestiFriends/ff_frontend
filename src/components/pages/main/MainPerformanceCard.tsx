@@ -1,13 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  Image,
-  LikeButton,
-  Location,
-  Root,
-  Title,
-} from '@/components/common/PerformanceCard/PerformanceCard';
+import PerformanceCardHeadless from '@/components/common/PerformanceCardHeadless';
 import Toast from '@/components/common/Toast/Toast';
 import LikeIcon from '@/components/icons/LikeIcon';
 import { usePatchPerformanceLiked } from '@/hooks/performanceHooks/performanceHooks';
@@ -18,6 +12,8 @@ interface MainPerformanceCardProps {
   performance: Performance;
   ranking: number;
 }
+
+const { Image, LikeButton, Location, Root, Title } = PerformanceCardHeadless;
 
 const MainPerformanceCard = ({
   performance,
