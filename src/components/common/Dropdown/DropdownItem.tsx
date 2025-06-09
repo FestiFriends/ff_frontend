@@ -21,7 +21,11 @@ const DropdownItem = ({
   const itemRef = useRef<HTMLLIElement>(null);
 
   const handleClick = () => {
-    setSelectedItem(label || '');
+    if (label === selectedItem) {
+      setSelectedItem('');
+    } else {
+      setSelectedItem(label || '');
+    }
     onClick?.();
     closeDropdown();
   };
