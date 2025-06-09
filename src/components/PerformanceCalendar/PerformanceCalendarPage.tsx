@@ -53,6 +53,8 @@ const PerformanceCalendarPage = () => {
       <CalendarFilter onChange={setFilterValues} />
       <PerformanceCalendar
         performances={filteredPerformances}
+        selectedDate={selectedDate}
+        onSelectedDateChange={setSelectedDate}
         onPerformancesFetched={setAllPerformances}
         onDateClick={handleDateClick}
       />
