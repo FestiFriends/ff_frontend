@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import { format, isSameMonth, isToday, isSameDay } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Performance } from '@/types/performance';
@@ -22,7 +22,7 @@ const visitStyles: Record<string, string> = {
   국내: 'bg-red-100 text-red-700',
 };
 
-const CalendarCell = ({
+const CalendarCell: React.FC<CalendarCellProps> = ({
   date,
   events,
   currentMonth,
@@ -106,4 +106,21 @@ const CalendarCell = ({
   );
 };
 
-export default CalendarCell;
+const areEqual = (
+  prev: Readonly<CalendarCellProps>,
+  next: Readonly<CalendarCellProps>
+): boolean => {
+  const sameDate = isSameDay(prev.date, next.date);
+  const sameMonth = isSameMonth(prev.currentMonth, next.currentMonth);
+  const sameSelected = Boolean(
+    (!prev.selectedDate && !next.selectedDate)
+      || (prev.selectedDate
+        && next.selectedDate
+        && isSameDay(prev.selectedDate, next.selectedDate))
+  );
+  const sameEvents = prev.events.length === next.events.length;
+
+  return sameDate && sameMonth && sameSelected && sameEvents;
+};
+
+export default memo(CalendarCell, areEqual);
