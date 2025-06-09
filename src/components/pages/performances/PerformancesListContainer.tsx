@@ -1,10 +1,12 @@
 'use client';
-import React, { useMemo, Suspense } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React, { useMemo } from 'react';
 import QueryPagination from '@/components/common/QueryPagination/QueryPagination';
 import { PerformanceList } from '@/components/pages/performances';
 import { useGetPerformances } from '@/hooks/performanceHooks/performanceHooks';
 import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
+
+const DEFAULT_PAGE = '1';
+const DEFAULT_SIZE = '20';
 
 const LoadingFallback = () => (
   <div className='flex items-center justify-center py-8'>
@@ -19,73 +21,51 @@ const errorFallback = (error: Error) => (
 );
 
 const PerformanceListContainer = () => {
-  const { getQueryParam, setQueryParam } = useQueryParam();
+  const { getQueryParam } = useQueryParam();
+
   const queryString = useMemo(() => {
     const params = new URLSearchParams();
-    const validParams = {
+    const queryParams = {
       keyword: getQueryParam('keyword'),
       category: getQueryParam('category'),
       startDate: getQueryParam('startDate'),
       endDate: getQueryParam('endDate'),
       location: getQueryParam('location'),
       sort: getQueryParam('sort'),
-      page: getQueryParam('page') || '1',
-      size: getQueryParam('size') || '20',
+      page: getQueryParam('page') || DEFAULT_PAGE,
+      size: getQueryParam('size') || DEFAULT_SIZE,
     };
 
-    Object.entries(validParams).forEach(([key, value]) => {
-      if (value && value.toString().trim()) {
-        params.set(key, value.toString());
-      }
-    });
-
-    return params.toString();
+    return Object.entries(queryParams)
+      .filter(([, value]) => Boolean(value?.toString().trim()))
+      .reduce((params, [key, value]) => {
+        if (value) {
+          params.set(key, value.toString());
+        }
+        return params;
+      }, params)
+      .toString();
   }, [getQueryParam]);
 
   const {
     data: searchResult,
     error,
-  } = useQuery<PerformancesResponsePagination>({
-    queryKey: ['performances', queryString],
-    queryFn: () =>
-      nextFetcher<PerformancesResponsePagination>(
-        `/api/v1/performances?${queryString}`,
-        { method: 'GET', revalidate: 21600 }
-      ),
-  });
-
-  return { searchResult, isLoading, error, setQueryParam, getQueryParam };
-};
-
-const LoadingFallback = () => (
-  <div className='flex items-center justify-center py-8'>
-    <span>로딩 중...</span>
-  </div>
-);
-
-const errorFallback = (error: Error) => (
-  <div className='flex items-center justify-center py-8'>
-    <span className='text-red-500'>{error.message}</span>
-  </div>
-);
-
-const PerformanceListContainer = () => {
-  const { searchResult, error, getQueryParam } = usePerformanceQuery();
+    isPending,
+  } = useGetPerformances(queryString);
 
   if (error) return errorFallback(error);
 
   if (isPending) return <LoadingFallback />;
 
-  if (!searchResult || !searchResult.data)
+  if (!searchResult?.data)
     return (
       <div>
         <span>데이터를 불러 올수 없습니다.</span>
       </div>
     );
 
-  const totalPages = searchResult?.totalPages || 0;
-  const totalItems = searchResult?.totalElements || 0;
-  const currentPage = parseInt(getQueryParam('page') || '1', 10);
+  const { totalPages = 0, totalElements: totalItems = 0 } = searchResult;
+  const currentPage = parseInt(getQueryParam('page') || DEFAULT_PAGE, 10);
 
   return (
     <div>
