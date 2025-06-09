@@ -42,9 +42,9 @@ const PerformanceCalendarPage = () => {
   ) => {
     setSelectedDate(date);
     if (scroll) {
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         detailRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }, 0);
+      });
     }
   };
 
