@@ -10,6 +10,7 @@ import ModalAction from '@/components/common/Modal/ModalAction';
 import ModalCancel from '@/components/common/Modal/ModalCancel';
 import ModalContent from '@/components/common/Modal/ModalContent';
 import ModalTrigger from '@/components/common/Modal/ModalTrigger';
+import { ReviewTagLabels } from '@/constants/reviewLabels';
 import { usePostWriteReview } from '@/hooks/reviewHooks/reviewHooks';
 import { ReviewTag, ReviewTagType } from '@/types/enums';
 import { PostReviewRequest, WritableReviewsData } from '@/types/reviews';
@@ -77,7 +78,7 @@ const ReviewWriteModal = ({ review, groupId }: ReviewWriteModalProps) => {
                   value={tag}
                   className='rounded-full border px-2 py-1 text-12_M hover:bg-gray-100 data-[selected=true]:bg-gray-400 data-[selected=true]:text-white'
                 >
-                  {ReviewTag[tag]}
+                  {ReviewTagLabels[tag]}
                 </ButtonGroupItem>
               ))}
             </div>

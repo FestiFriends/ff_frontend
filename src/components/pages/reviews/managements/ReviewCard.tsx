@@ -5,8 +5,8 @@ import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { ArrowDownIcon, ArrowUpIcon } from 'lucide-react';
 import Image from 'next/image';
+import { GroupCategoryLabels } from '@/constants/groupLabels';
 import { cn } from '@/lib/utils';
-import { GroupCategory } from '@/types/enums';
 import { ReviewGroupInfo } from '@/types/reviews';
 
 interface ReviewCardProps {
@@ -36,7 +36,7 @@ const ReviewCard = ({ groupInfo, reviewsCount, content }: ReviewCardProps) => {
 
         <div className='flex w-[204px] flex-col gap-2 py-1.5'>
           <span className='text-14_M text-gray-600'>
-            {GroupCategory[groupInfo.category]}
+            {GroupCategoryLabels[groupInfo.category]}
           </span>
           <h2 className='truncate text-14_B text-gray-700'>
             {groupInfo.performance.title}
