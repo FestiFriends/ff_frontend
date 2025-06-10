@@ -1,11 +1,12 @@
 'use client';
 
+import { useEffect } from 'react';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import Image from 'next/image';
 import StarIcon from '@/components/icons/StarIcon';
-import { GroupCategoryLabels } from '@/constants/groupLabels';
 import { cn } from '@/lib/utils';
+import { GroupCategory, GroupCategoryType } from '@/types/enums';
 import { GroupCard as GroupCardData } from '@/types/groupCard';
 import { getGenderLabels } from '@/utils/genderEnumLabel';
 import Badge from '../Badge/Badge';
@@ -21,7 +22,7 @@ interface GroupCardProps {
   buttonText: string;
   isHashtagClickable?: boolean;
   onCardClick: () => void;
-  onButtonClick: () => void;
+  onButtonClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onHashtagClick?: (hashtagText: string) => void;
 }
 
@@ -38,10 +39,14 @@ const GroupCard = ({
 }: GroupCardProps) => {
   const genderLabel = getGenderLabels(groupData.gender);
 
+  useEffect(() => {
+    console.log('DATA: ', groupData);
+  }, [groupData]);
   const handleCardClick = (
     e: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>
   ) => {
-    if ('target' in e && (e.target as HTMLElement).closest('button')) return;
+    if ('key' in e && !(e.key === 'Enter' || e.key === ' ')) return;
+
     onCardClick();
   };
 
@@ -53,12 +58,9 @@ const GroupCard = ({
     onHashtagClick?.(tag);
   };
 
-  const handleButtonClick = () => {
-    const syntheticEvent = {
-      stopPropagation: () => {},
-    } as unknown as React.MouseEvent<HTMLButtonElement>;
-    syntheticEvent.stopPropagation();
-    onButtonClick();
+  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    onButtonClick(e);
   };
 
   return (
@@ -66,11 +68,7 @@ const GroupCard = ({
       role='button'
       tabIndex={0}
       onClick={handleCardClick}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          handleCardClick(e);
-        }
-      }}
+      onKeyDown={handleCardClick}
       className={cn(
         'flex w-[347px] flex-col items-start justify-center gap-3 rounded-2xl bg-gray-25 p-5',
         className
@@ -80,8 +78,12 @@ const GroupCard = ({
       <div className='flex w-full items-center justify-between'>
         <div className='flex gap-0.5'>
           <Badge
-            label={GroupCategoryLabels[groupData.category]}
-            className={badgeStyles.category[groupData.category]}
+            label={GroupCategory[groupData.category as GroupCategoryType]}
+            className={
+              badgeStyles.category[
+                GroupCategory[groupData.category as GroupCategoryType]
+              ]
+            }
           />
           {groupData.isHost && <span>👑</span>}
         </div>
