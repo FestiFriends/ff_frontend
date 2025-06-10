@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import PerformanceCard from '@/components/common/PerformanceCard/PerformanceCard';
+import PerformanceCard from '@/components/common/PerformanceCard';
 import { Performance } from '@/types/performance';
 import { isPerformanceOnDate } from '@/utils/isPerformanceOnDate';
 
@@ -11,13 +11,7 @@ interface Props {
   isLiked?: (perf: Performance) => boolean;
 }
 
-const SelectedDatePerformances = ({
-  date,
-  performances,
-  onCardClick,
-  onLikeClick,
-  isLiked,
-}: Props) => {
+const SelectedDatePerformances = ({ date, performances }: Props) => {
   const filtered = performances.filter((perf) =>
     isPerformanceOnDate(perf, date)
   );
@@ -41,14 +35,11 @@ const SelectedDatePerformances = ({
         {format(date, 'M월 d일')} 공연 목록
       </h2>
       <ul className='space-y-2'>
-        {filtered.map((perf) => (
+        {filtered.map((perf, index) => (
           <PerformanceCard
             key={perf.id}
             performance={perf}
-            type='default'
-            onCardClick={() => onCardClick?.(perf)}
-            onLikeClick={() => onLikeClick?.(perf)}
-            isLiked={isLiked?.(perf) ?? false}
+            ranking={index + 1}
           />
         ))}
       </ul>
