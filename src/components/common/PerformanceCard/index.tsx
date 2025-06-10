@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import PerformanceCardHeadless from '@/components/common/PerformanceCardHeadless';
 import Toast from '@/components/common/Toast/Toast';
 import LikeIcon from '@/components/icons/LikeIcon';
@@ -19,6 +20,7 @@ const PerformanceCard = ({ performance, ranking }: PerformanceCardProps) => {
   const isLoggedin = useAuthStore((state) => state.isLoggedin);
   const [showToast, setShowToast] = useState(false);
   const { mutate } = usePatchPerformanceLiked();
+  const router = useRouter();
 
   const toggleLike = () => {
     if (!isLoggedin) {
@@ -39,7 +41,7 @@ const PerformanceCard = ({ performance, ranking }: PerformanceCardProps) => {
         />
       )}
       <Root
-        onCardClick={() => {}}
+        onCardClick={() => router.push(`/performances/${performance.id}`)}
         onLikeClick={toggleLike}
         performance={performance}
         className='relative flex w-[150px] flex-col gap-3 border-0'

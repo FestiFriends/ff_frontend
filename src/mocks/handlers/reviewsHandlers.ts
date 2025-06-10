@@ -316,8 +316,16 @@ const WRITABLE_REVIEWS_SAMPLE_DATA: WritableReviewsData[] = [
 ];
 
 export const reviewsHandlers = [
-  http.get('http://localhost:3000/api/v1/performances/recent-reviews', () =>
-    HttpResponse.json(RECENT_REVIEWS_SAMPLE_DATA)
+  http.get(
+    'http://localhost:3000/api/v1/performances/recent-reviews',
+    () => HttpResponse.json(RECENT_REVIEWS_SAMPLE_DATA)
+    // return HttpResponse.json({ code: 200, message: '성공', data: [] })
+    // HttpResponse.json(
+    //   {
+    //     code: 400,
+    //   },
+    //   { status: 400 }
+    // )
   ),
 
   // 1. 작성한 리뷰 조회

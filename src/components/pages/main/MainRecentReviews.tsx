@@ -10,10 +10,50 @@ import { RecentReviewsResponse } from '@/types/reviews';
 import MainReviewCard from './MainReviewCard';
 
 const MainRecentReviews = async () => {
-  const recentReviews = await nextFetcher<RecentReviewsResponse>(
-    '/api/v1/performances/recent-reviews',
-    { method: 'GET', revalidate: 21600 }
-  );
+  let content;
+
+  try {
+    const recentReviews = await nextFetcher<RecentReviewsResponse>(
+      '/api/v1/performances/recent-reviews',
+      { method: 'GET', revalidate: 21600 }
+    );
+
+    if (!recentReviews.data || recentReviews.data.length === 0) {
+      content = <p>데이터가 존재하지 않습니다.</p>;
+    }
+
+    if (recentReviews.data && recentReviews.data.length > 0) {
+      content = recentReviews.data?.map((group) =>
+        group.reviews.map((review) => (
+          <CarouselItem
+            key={review.reviewId}
+            className='basis-[233px] p-0'
+          >
+            <MainReviewCard
+              groupTitle={group.groupTitle}
+              nickname={'blur'}
+              ratings={review.rating}
+              content={
+                review.content
+                ?? review.defaultTag.map((tag) => ReviewTag[tag]).join(', ')
+              }
+              imgSrc={group.performance.poster}
+            />
+          </CarouselItem>
+        ))
+      );
+    }
+  } catch (error) {
+    let errorMessage;
+
+    if (typeof error === 'object' && error !== null && 'message' in error) {
+      errorMessage = error.message as string;
+    } else {
+      errorMessage = '알 수 없는 에러가 발생했습니다.';
+    }
+
+    content = <p>{errorMessage}</p>;
+  }
 
   return (
     <section className='flex flex-col gap-2.5 bg-white px-4 py-5'>
@@ -27,27 +67,7 @@ const MainRecentReviews = async () => {
         }}
         className='w-full'
       >
-        <CarouselContent className='m-0 gap-5'>
-          {recentReviews.data?.map((group) =>
-            group.reviews.map((review) => (
-              <CarouselItem
-                key={review.reviewId}
-                className='basis-[233px] p-0'
-              >
-                <MainReviewCard
-                  groupTitle={group.groupTitle}
-                  nickname={'blur'}
-                  ratings={review.rating}
-                  content={
-                    review.content
-                    ?? review.defaultTag.map((tag) => ReviewTag[tag]).join(', ')
-                  }
-                  imgSrc={group.performance.poster}
-                />
-              </CarouselItem>
-            ))
-          )}
-        </CarouselContent>
+        <CarouselContent className='m-0 gap-5'>{content}</CarouselContent>
       </Carousel>
     </section>
   );
