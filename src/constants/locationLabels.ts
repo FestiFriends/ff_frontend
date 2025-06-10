@@ -1,6 +1,6 @@
-import { Location } from '@/types/enums';
+import { Location, LocationType } from '@/types/enums';
 
-export const LocationLabels: Record<string, string> = {
+export const LocationLabels: Record<LocationType, string> = {
   [Location.SEOUL]: '서울',
   [Location.BUSAN]: '부산',
   [Location.DAEGU]: '대구',
