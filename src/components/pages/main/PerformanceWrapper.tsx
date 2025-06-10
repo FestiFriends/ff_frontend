@@ -7,12 +7,15 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ApiResponse } from '@/types/api';
 import { PerformancesResponse } from '@/types/performance';
 
 interface PerformanceWrapperProps {
   title: string;
   href: string;
   isPending: boolean;
+  isError: boolean;
+  error: ApiResponse | null;
   performances?: PerformancesResponse;
 }
 
@@ -20,6 +23,8 @@ const PerformanceWrapper = ({
   title,
   href,
   isPending,
+  isError,
+  error,
   performances,
 }: PerformanceWrapperProps) => {
   let content;
@@ -41,8 +46,16 @@ const PerformanceWrapper = ({
     ));
   }
 
-  if (performances) {
-    content = performances.data?.map((performance, idx) => (
+  if (isError) {
+    content = <p>{error?.message}</p>;
+  }
+
+  if (performances?.data?.length === 0) {
+    content = <p>데이터가 존재하지 않습니다.</p>;
+  }
+
+  if (performances?.data && performances.data.length > 0) {
+    content = performances.data.map((performance, idx) => (
       <CarouselItem
         key={performance.id}
         className='basis-[150px] p-0'

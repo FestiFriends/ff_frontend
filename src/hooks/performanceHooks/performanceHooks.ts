@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
 import { PERFORMANCES_QUERY_KEYS } from '@/constants/queryKeys';
 import { performancesApi } from '@/services/performancesService';
 import { ApiResponse } from '@/types/api';
@@ -10,7 +11,7 @@ import {
 } from '@/types/performance';
 
 export const useGetTopFavoritesPerformances = () =>
-  useQuery({
+  useQuery<AxiosResponse<PerformancesResponse>, ApiResponse>({
     queryKey: [
       PERFORMANCES_QUERY_KEYS.performances,
       PERFORMANCES_QUERY_KEYS.topFavorites,
@@ -19,7 +20,7 @@ export const useGetTopFavoritesPerformances = () =>
   });
 
 export const useGetTopByGroupCountPerformances = () =>
-  useQuery({
+  useQuery<AxiosResponse<PerformancesResponse>, ApiResponse>({
     queryKey: [
       PERFORMANCES_QUERY_KEYS.performances,
       PERFORMANCES_QUERY_KEYS.topByGroupCount,
