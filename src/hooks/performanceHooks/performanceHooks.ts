@@ -8,6 +8,7 @@ import {
   PerformanceIsLikedData,
   PerformanceIsLikedResponse,
   PerformancesResponse,
+  PerformancesResponsePagination,
 } from '@/types/performance';
 
 export const useGetTopFavoritesPerformances = () =>
@@ -108,5 +109,17 @@ export const useGetPerformanceDetail = (performanceId: string) =>
     queryFn: async () => {
       const res = await performancesApi.getPerformanceDetail(performanceId);
       return res.data;
+    },
+  });
+
+export const useGetPerformances = (queryString: string) =>
+  useQuery<PerformancesResponsePagination>({
+    queryKey: [PERFORMANCES_QUERY_KEYS.performances, queryString],
+    queryFn: async () => {
+      const response = await fetch(`/api/v1/performances?${queryString}`);
+      if (!response.ok) {
+        throw new Error('공연 목록을 불러오는데 실패했습니다.');
+      }
+      return response.json();
     },
   });
