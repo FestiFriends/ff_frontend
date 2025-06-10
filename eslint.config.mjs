@@ -186,6 +186,7 @@ const eslintConfig = [
               group: 'external',
               position: 'before',
             },
+            { pattern: '@/**', group: 'internal', position: 'before' },
             {
               pattern: './routes/**',
               group: 'internal',
