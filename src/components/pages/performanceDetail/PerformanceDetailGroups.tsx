@@ -1,13 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import { useParams } from 'next/navigation';
 import Pagination from '@/components/common/Pagination/Pagination';
 import { useGetGroups } from '@/hooks/groupHooks/groupHooks';
 import { DateRange } from '@/types/dateRange';
 import { GetGroupsParams } from '@/types/group';
 import { cleanQueryParams } from '@/utils/cleanQueryParams';
-import { useParams } from 'next/navigation';
-import { GroupsList, GroupsOptionTabs, GroupsPagination } from '.';
+import { GroupsList, GroupsOptionTabs } from '.';
 
 const PerformanceDetailGroups = () => {
   const { performanceId } = useParams<{ performanceId: string }>();
