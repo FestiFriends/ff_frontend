@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
+import { ArrowUp } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Performance } from '@/types/performance';
 import CalendarFilter from './CalendarFilter';
@@ -11,9 +12,10 @@ const PerformanceCalendarPage = () => {
   const [allPerformances, setAllPerformances] = useState<Performance[]>([]);
   const [filterValues, setFilterValues] = useState<{ visit?: string }>({});
   const [selectedDate, setSelectedDate] = useState<Date>(() => new Date());
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const [myLikeList, setMyLikeList] = useState<string[]>([]); // TODO: API 연동 시 초기값 변경
   const detailRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const [myLikeList, setMyLikeList] = useState<string[]>([]); // TODO: API 연동 시 초기값 변경
 
   // TODO: 좋아요 상태 변경 로직을 API 연동으로 교체 예정
   const handleLikeClick = (perf: Performance) => {
@@ -25,6 +27,16 @@ const PerformanceCalendarPage = () => {
       return updated;
     });
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setShowScrollToTop(scrollY > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const filteredPerformances = useMemo(() => {
     const { visit } = filterValues;
@@ -69,6 +81,15 @@ const PerformanceCalendarPage = () => {
           isLiked={(perf) => myLikeList.includes(perf.id)}
         />
       </div>
+      {showScrollToTop && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className='fixed right-6 bottom-6 z-50 rounded-full bg-red-500 p-3 text-white shadow-lg hover:bg-red-600'
+          aria-label='맨 위로'
+        >
+          <ArrowUp className='h-6 w-6' />
+        </button>
+      )}
     </div>
   );
 };
