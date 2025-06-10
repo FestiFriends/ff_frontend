@@ -57,10 +57,10 @@ const useQueryParam = () => {
   );
 
   const setMultipleQueryParams = useCallback(
-    (params: Record<string, string>) => {
+    (params: Record<string, string | null>) => {
       const newParams = new URLSearchParams(searchParams.toString());
       Object.entries(params).forEach(([key, value]) => {
-        newParams.set(key, value);
+        newParams.set(key, value ?? '');
       });
       router.replace(`${window.location.pathname}?${newParams.toString()}`);
     },
