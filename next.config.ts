@@ -18,6 +18,11 @@ const nextConfig: NextConfig = {
         hostname: 'www.kopis.or.kr',
         pathname: '/upload/**',
       },
+      {
+        protocol: 'http',
+        hostname: 'example.com',
+        pathname: '/**',
+      },
     ],
   },
   async rewrites() {
