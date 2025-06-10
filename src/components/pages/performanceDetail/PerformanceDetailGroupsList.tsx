@@ -1,16 +1,17 @@
 import GroupCard from '@/components/common/GroupCard/GroupCard';
-import { Group } from '@/types/group';
+import { GroupCard as GroupCardType } from '@/types/groupCard';
 
 interface PerformanceDetailGroupsListProps {
-  groups: Group[];
+  groups: GroupCardType[];
 }
 
 const PerformanceDetailGroupsList = ({
   groups,
 }: PerformanceDetailGroupsListProps) => (
   <div>
-    {groups?.map((group: Group) => (
+    {groups?.map((group) => (
       <GroupCard
+        onCardClick={() => {}}
         key={group.id}
         groupData={group}
         buttonText='참가 신청'

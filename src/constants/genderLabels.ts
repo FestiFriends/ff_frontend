@@ -1,6 +1,6 @@
-import { Gender } from '@/types/enums';
+import { Gender, GenderType } from '@/types/enums';
 
-export const GenderLabels: Record<string, string> = {
+export const GenderLabels: Record<GenderType, string> = {
   [Gender.MALE]: '남성',
   [Gender.FEMALE]: '여성',
   [Gender.ALL]: '혼성',
