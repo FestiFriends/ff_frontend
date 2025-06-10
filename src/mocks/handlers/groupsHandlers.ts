@@ -3,6 +3,7 @@ import { http, HttpResponse } from 'msw';
 import { GenderLabels } from '@/constants/genderLabels';
 import { GroupCategoryLabels } from '@/constants/groupLabels';
 import { LocationLabels } from '@/constants/locationLabels';
+import { GenderType, GroupCategoryType } from '@/types/enums';
 
 export const GROUPS_DATA = [
   {
@@ -646,11 +647,11 @@ export const groupsHandlers = [
       const page = Number(url.searchParams.get('page'));
       const size = Number(url.searchParams.get('size'));
       const sortType = url.searchParams.get('sortType');
-      const category = url.searchParams.get('category');
+      const category = url.searchParams.get('category') as GroupCategoryType;
       const startDate = url.searchParams.get('startDate');
       const endDate = url.searchParams.get('endDate');
       const location = url.searchParams.get('location');
-      const gender = url.searchParams.get('gender');
+      const gender = url.searchParams.get('gender') as GenderType;
 
       if (category) {
         newGroup = newGroup.filter(

@@ -1,10 +1,11 @@
 export const GroupCategory = {
-  COMPANION: '같이 동행',
-  RIDE_SHARE: '같이 탑승',
-  ROOM_SHARE: '같이 숙박',
+  COMPANION: 'COMPANION',
+  RIDE_SHARE: 'RIDE_SHARE',
+  ROOM_SHARE: 'ROOM_SHARE',
 } as const;
 
-export type GroupCategoryType = keyof typeof GroupCategory;
+export type GroupCategoryType =
+  (typeof GroupCategory)[keyof typeof GroupCategory];
 
 export const Gender = {
   FEMALE: 'FEMALE',
@@ -26,16 +27,16 @@ export const ReportReason = {
 export type ReportReasonType = (typeof ReportReason)[keyof typeof ReportReason];
 
 export const ReviewTag = {
-  COMMUNICATIVE: '대화가 잘 통했어요', // 대화가 잘 통했어요
-  RECOMMEND: '다음에도 함께하고 싶어요', // 다음에도 함께하고 싶어요
-  POLITE: '친절하고 매너가 좋아요', // 친절하고 매너가 좋아요
-  PUNCTUAL: '시간 약속을 잘 지켜요', // 시간 약속을 잘 지켜요
-  CLEAN: '청결하고 깔끔했어요', // 청결하고 깔끔했어요
-  COMFORTABLE: '편안한 분위기였어요', // 편안한 분위기였어요
-  RESPONSIVE: '소통이 잘 되고 응답이 빨라요', // 소통이 잘 되고 응답이 빨라요
+  COMMUNICATIVE: 'COMMUNICATIVE', // 대화가 잘 통했어요
+  RECOMMEND: 'RECOMMEND', // 다음에도 함께하고 싶어요
+  POLITE: 'POLITE', // 친절하고 매너가 좋아요
+  PUNCTUAL: 'PUNCTUAL', // 시간 약속을 잘 지켜요
+  CLEAN: 'CLEAN', // 청결하고 깔끔했어요
+  COMFORTABLE: 'COMFORTABLE', // 편안한 분위기였어요
+  RESPONSIVE: 'RESPONSIVE', // 소통이 잘 되고 응답이 빨라요
 } as const;
 
-export type ReviewTagType = keyof typeof ReviewTag;
+export type ReviewTagType = (typeof ReviewTag)[keyof typeof ReviewTag];
 
 export const Location = {
   SEOUL: '서울특별시',
@@ -58,3 +59,13 @@ export const Location = {
 };
 
 export type LocationType = keyof typeof Location;
+
+export const ApplicationStatus = {
+  PENDING: 'PENDING', // 대기(신청했을 때 default)
+  ACCEPTED: 'ACCEPTED', // 수락(대기 -> 모임 방장이 수락)
+  REJECTED: 'REJECTED', // 거절(신청 -> 모임 방장이 거절 또는 대기/수락 -> 신청자가 가입 거절)
+  CONFIRMED: 'CONFIRMED', // 확정(수락 -> 신청자가 확정)
+} as const;
+
+export type ApplicationStatusType =
+  (typeof ApplicationStatus)[keyof typeof ApplicationStatus];

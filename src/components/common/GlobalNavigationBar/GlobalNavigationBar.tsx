@@ -43,11 +43,13 @@ const GlobalNavigationBar = () => {
         <SearchInput onSubmit={() => {}}>검색</SearchInput>
       </div>
       <div className='justify-self-end'>
-        <Notification />
         {!isLoggedin ? (
           <button onClick={onLogin}>로그인</button>
         ) : (
-          <button onClick={() => logoutMutate()}>로그아웃</button>
+          <>
+            <Notification />
+            <button onClick={() => logoutMutate()}>로그아웃</button>
+          </>
         )}
       </div>
     </nav>

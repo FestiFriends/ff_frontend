@@ -4,8 +4,8 @@ import {
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel';
+import { ReviewTagLabels } from '@/constants/reviewLabels';
 import { nextFetcher } from '@/lib/nextFetcher';
-import { ReviewTag } from '@/types/enums';
 import { RecentReviewsResponse } from '@/types/reviews';
 import MainReviewCard from './MainReviewCard';
 
@@ -35,7 +35,9 @@ const MainRecentReviews = async () => {
               ratings={review.rating}
               content={
                 review.content
-                ?? review.defaultTag.map((tag) => ReviewTag[tag]).join(', ')
+                ?? review.defaultTag
+                  .map((tag) => ReviewTagLabels[tag])
+                  .join(', ')
               }
               imgSrc={group.performance.poster}
             />

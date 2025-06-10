@@ -1,4 +1,4 @@
-import { GroupCategory, Gender } from './enums';
+import { Gender, GroupCategoryType } from './enums';
 
 export interface GroupCard {
   id: string;
@@ -8,7 +8,7 @@ export interface GroupCard {
     poster?: string;
   };
   title: string;
-  category: GroupCategory;
+  category: GroupCategoryType;
   gender: Gender;
   startAge: number;
   endAge: number;

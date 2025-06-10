@@ -1,6 +1,6 @@
-import { ReportReason } from '@/types/enums';
+import { ReportReason, ReportReasonType } from '@/types/enums';
 
-export const ReportReasonLabels: Record<string, string> = {
+export const ReportReasonLabels: Record<ReportReasonType, string> = {
   [ReportReason.PROFANITY]: '욕설, 비방, 차별, 혐오',
   [ReportReason.ADVERTISEMENT]: '홍보, 영리목적',
   [ReportReason.ILLEGAL]: '불법 정보',

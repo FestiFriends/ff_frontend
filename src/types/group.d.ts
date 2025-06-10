@@ -1,10 +1,4 @@
-import {
-  GroupCategory,
-  Gender,
-  GroupCategoryType,
-  GenderType,
-  LocationType,
-} from './enums';
+import { Gender, GroupCategoryType, GenderType, LocationType } from './enums';
 
 export interface Group {
   id: string;
@@ -13,7 +7,7 @@ export interface Group {
     poster: string;
   };
   title: string;
-  category: GroupCategory;
+  category: GroupCategoryType;
   gender: Gender;
   startAge: number;
   endAge: number;
@@ -33,7 +27,10 @@ export interface Group {
   createdAt: string;
 }
 
-export type GroupsResponse = ApiResponse<Group[]>;
+export type GroupsResponse = ApiResponse<Group[]> & {
+  performanceId: string;
+  groupCount: number;
+};
 
 export interface GetGroupsParams {
   performanceId: string;

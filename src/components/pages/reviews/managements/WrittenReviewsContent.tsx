@@ -1,6 +1,6 @@
 import React from 'react';
 import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
-import { ReviewTag } from '@/types/enums';
+import { ReviewTagLabels } from '@/constants/reviewLabels';
 import { WrittenReviewsData } from '@/types/reviews';
 import ReviewRating from '../../main/ReviewRating';
 
@@ -31,7 +31,7 @@ const WrittenReviewsContent = ({ reviews }: WrittenReviewsContentProps) => (
                 key={tag}
                 className='w-fit rounded-full bg-gray-100 p-2 text-12_M'
               >
-                {ReviewTag[tag]}
+                {ReviewTagLabels[tag]}
               </span>
             ))}
           </div>
