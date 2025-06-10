@@ -40,14 +40,16 @@ export const useMultiLevelFilter = (
     setSelectedValues((prev) => [...prev.slice(0, level), value]);
   };
 
-  const setInitialValues = useCallback((values: string[]) => {
-    setSelectedValues(values);
-  }, []);
+  //TODO: 필터 리셋기능 추가
+  const reset = () => setSelectedValues([]);
+
+  const removeAtLevel = (level: number) => {
+    setSelectedValues((prev) => prev.slice(0, level));
+  };
 
   return {
     selectedValues,
     optionsByLevel,
     setValueAtLevel,
-    setInitialValues, // 추가
   };
 };
