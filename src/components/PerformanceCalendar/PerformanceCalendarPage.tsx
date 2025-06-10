@@ -2,7 +2,6 @@
 
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { Performance } from '@/types/performance';
 import CalendarFilter from './CalendarFilter';
 import PerformanceCalendar from './PerformanceCalendar';
@@ -14,7 +13,6 @@ const PerformanceCalendarPage = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(() => new Date());
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const detailRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -72,9 +70,6 @@ const PerformanceCalendarPage = () => {
         <SelectedDatePerformances
           date={selectedDate}
           performances={filteredPerformances}
-          onCardClick={(perf) => {
-            router.push(`/performances/${perf.id}`);
-          }}
         />
       </div>
       {showScrollToTop && (
