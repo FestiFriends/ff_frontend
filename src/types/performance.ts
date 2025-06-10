@@ -39,3 +39,17 @@ export type PerformanceDetailResponse = ApiResponse<Performance>;
 
 export type PerformancesResponsePagination = ApiResponse<Performance[]>
   & PaginationInfo;
+
+export interface GetPerformancesParams {
+  keyword?: string;
+  category?: string;
+  startDate?: string;
+  endDate?: string;
+  location?: string;
+  sort?: string;
+  page?: number;
+  size?: number;
+}
+
+export type PerformanceListResponse = ApiResponse<Performance[]>
+  & PaginationInfo;
