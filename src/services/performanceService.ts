@@ -1,40 +1,15 @@
-import { Performance } from '@/types/performance';
+// export const performanceApi = {
+//   getPerformances: async (
+//     params: GetPerformancesParams = {}
+//   ): Promise<Performance[]> => {
+//     const query = new URLSearchParams(
+//       params as Record<string, string>
+//     ).toString();
 
-interface GetPerformancesParams {
-  keyword?: string;
-  category?: string;
-  startDate?: string;
-  endDate?: string;
-  location?: string;
-  sort?: string;
-  page?: number;
-  size?: number;
-}
+//     const res = await fetch(`/api/v1/performances?${query}`);
 
-interface PerformanceListResponse {
-  code: number;
-  message: string;
-  data?: Performance[];
-  page: number;
-  size: number;
-  totalElements: number;
-  totalPages: number;
-  first: boolean;
-  last: boolean;
-}
+//     const json: PerformanceListResponse = await res.json();
 
-export const performanceApi = {
-  getPerformances: async (
-    params: GetPerformancesParams = {}
-  ): Promise<Performance[]> => {
-    const query = new URLSearchParams(
-      params as Record<string, string>
-    ).toString();
-
-    const res = await fetch(`/api/v1/performances?${query}`);
-
-    const json: PerformanceListResponse = await res.json();
-
-    return json.data ?? [];
-  },
-};
+//     return json.data ?? [];
+//   },
+// };
