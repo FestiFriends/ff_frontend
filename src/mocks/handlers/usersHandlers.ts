@@ -26,7 +26,7 @@ const FAVORITE_USERS_SAMPLE_DATA: UserResponse[] = [
     gender: Gender.MALE,
     profileImage: {
       id: 'profile301003',
-      src: 'https://example.com/profiles/user-123456.jpg',
+      src: '',
       alt: '홍길동 프로필 이미지',
     },
     description: '나락도 락이다...🤘',
@@ -42,7 +42,7 @@ const FAVORITE_USERS_SAMPLE_DATA: UserResponse[] = [
     gender: Gender.MALE,
     profileImage: {
       id: 'profile301004',
-      src: 'https://example.com/profiles/user-123457.jpg',
+      src: '',
       alt: '김철수 프로필 이미지',
     },
     description: '음악과 여행을 사랑하는 사람입니다',
@@ -58,7 +58,7 @@ const FAVORITE_USERS_SAMPLE_DATA: UserResponse[] = [
     gender: Gender.FEMALE,
     profileImage: {
       id: 'profile301005',
-      src: 'https://example.com/profiles/user-123458.jpg',
+      src: '',
       alt: '이영희 프로필 이미지',
     },
     description: '페스티벌 마니아입니다',
