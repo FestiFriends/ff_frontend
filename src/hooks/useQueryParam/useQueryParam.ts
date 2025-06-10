@@ -60,7 +60,11 @@ const useQueryParam = () => {
     (params: Record<string, string | null>) => {
       const newParams = new URLSearchParams(searchParams.toString());
       Object.entries(params).forEach(([key, value]) => {
-        newParams.set(key, value ?? '');
+        if (value === null || value === '') {
+          newParams.delete(key);
+        } else {
+          newParams.set(key, value);
+        }
       });
       router.replace(`${window.location.pathname}?${newParams.toString()}`);
     },
