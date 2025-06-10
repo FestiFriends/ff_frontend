@@ -51,5 +51,7 @@ export const useMultiLevelFilter = (
     selectedValues,
     optionsByLevel,
     setValueAtLevel,
+    reset,
+    removeAtLevel,
   };
 };
