@@ -1,22 +1,22 @@
 import React from 'react';
 import PerformanceCard from '@/components/common/PerformanceCard';
 import { Performance } from '@/types/performance';
-import TabContentWrapper from './FavoriteTabPanelWrapper';
+import FavoriteTabPanelWrapper from './FavoriteTabPanelWrapper';
 
-interface FavoritePerformanceTabContentProps {
-  performances: Performance[];
-}
-
-const EMPTY_MESSAGE = '즐겨찾기한 공연이 없습니다.';
+const EMPTY_MESSAGE = '찜한 공연이 없습니다.';
 
 const EmptyState = ({ message }: { message: string }) => (
   <div className='col-span-2 py-8 text-center text-gray-500'>{message}</div>
 );
 
-export const FavoritePerformanceTabContent: React.FC<
+interface FavoritePerformanceTabContentProps {
+  performances: Performance[];
+}
+
+const FavoritePerformanceTabContent: React.FC<
   FavoritePerformanceTabContentProps
 > = ({ performances }) => (
-  <TabContentWrapper>
+  <FavoriteTabPanelWrapper>
     {performances.map((performance) => (
       <PerformanceCard
         key={performance.id}
@@ -24,5 +24,7 @@ export const FavoritePerformanceTabContent: React.FC<
       />
     ))}
     {performances.length === 0 && <EmptyState message={EMPTY_MESSAGE} />}
-  </TabContentWrapper>
+  </FavoriteTabPanelWrapper>
 );
+
+export default FavoritePerformanceTabContent;
