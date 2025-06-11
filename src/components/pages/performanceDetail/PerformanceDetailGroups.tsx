@@ -63,7 +63,7 @@ const PerformanceDetailGroups = () => {
       <GroupsList
         isPending={isPending}
         groupCount={groups?.data?.groupCount}
-        groups={groups?.data?.groups}
+        groups={groups}
       />
 
       {isPending ? (
@@ -76,7 +76,7 @@ const PerformanceDetailGroups = () => {
       ) : (
         <Pagination
           currentPage={currentPage}
-          totalPages={groups?.totalPages || 1}
+          totalPages={groups?.data.totalPages || 1}
           onPageChange={setCurrentPage}
           maxVisiblePages={5}
         />

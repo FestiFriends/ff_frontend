@@ -1,11 +1,14 @@
 import GroupCard from '@/components/common/GroupCard/GroupCard';
 import { Skeleton } from '@/components/ui/skeleton';
-import { GroupCard as GroupCardType } from '@/types/groupCard';
+import {
+  formatPerformanceGroups,
+  PerformanceGroupsApiResponse,
+} from '@/utils/formatGroupCardData';
 
 interface PerformanceDetailGroupsListProps {
   isPending: boolean;
   groupCount?: number;
-  groups?: GroupCardType[];
+  groups?: PerformanceGroupsApiResponse;
 }
 
 const PerformanceDetailGroupsList = ({
@@ -39,15 +42,16 @@ const PerformanceDetailGroupsList = ({
       </span>
 
       <div className='flex flex-col gap-5'>
-        {groups?.map((group) => (
-          <GroupCard
-            onCardClick={() => {}}
-            key={group.id}
-            groupData={group}
-            buttonText='참가 신청'
-            onButtonClick={() => console.log(group)}
-          />
-        ))}
+        {groups
+          && formatPerformanceGroups(groups).map((group) => (
+            <GroupCard
+              onCardClick={() => {}}
+              key={group.id}
+              groupData={group}
+              buttonText='참가 신청'
+              onButtonClick={() => console.log(group)}
+            />
+          ))}
       </div>
     </div>
   );

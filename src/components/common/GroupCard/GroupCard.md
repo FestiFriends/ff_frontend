@@ -3,67 +3,44 @@
 공연 및 모임 정보를 카드 형태로 보여주는 공통 UI 컴포넌트입니다.
 모임 카테고리, 포스터, 소개글, 인원 수, 해시태그 및 버튼 등의 정보를 시각적으로 전달합니다.
 
-- 공연 목록에서는 '참가 신청' 버튼을 입력해 주세요.
+- 공연 목록에서 사용할 때는 '참가 신청' 버튼을 입력해 주세요.
 
-- 참가중인 모임 목록에서는 '모임 탈퇴' 버튼을 입력해 주세요.
+- 참가중인 모임 목록에서 사용할 때는 '모임 탈퇴' 버튼을 입력해 주세요.
 
 ---
 
 ## 📦 사용법
 
 ```tsx
+// 공연에서의 모임 목록 조회에서 사용할 때 : formatperformanceGroups 사용해서 데이터 타입 변환 필수
 import GroupCard from '@/components/GroupCard/GroupCard';
+import { formatPerformanceGroups } from '@/utils/formatGroupCardData';
 
-// 공연에서의 모임 목록 조회에서 사용할 때는 데이터 구조가 상이해서 데이터 구조를 변환 필수
-{
-  groups.groups.map((group) => {
-    const transformedGroup = {
-      ...group,
-      performance: {
-        id: groups.performanceId,
-      },
-      host: {
-        id: group.host.hostId,
-        name: group.host.name,
-        rating: group.host.rating,
-      },
-    };
+formatPerformanceGroups(data).map((group) => (
+  <GroupCard
+    key={group.id}
+    groupData={group}
+    buttonText='참가 신청'
+    onCardClick={() => alert('카드 클릭')}
+    onButtonClick={() => alert('모임 관리 클릭')}
+    isHashtagClickable={true}
+    onHashtagClick={(tag) => alert(`해시태그 ${tag} 클릭`)}
+  />
+));
 
-    return (
-      <GroupCard
-        key={group.id}
-        groupData={transformedGroup}
-        buttonText='참가 신청'
-        onButtonClick={() => {
-          alert('참가 신청 버튼 클릭');
-        }}
-        onCardClick={() => {
-          alert('카드 클릭');
-        }}
-        isHashtagClickable
-        onHashtagClick={(tag) => {
-          alert(`${tag} 클릭`);
-        }}
-      />
-    );
-  });
-}
-// 참가중인 모임에서 사용할 때
-{
-  joined.map((group) => (
-    <GroupCard
-      key={group.id}
-      groupData={group}
-      buttonText='모임 탈퇴'
-      onCardClick={() => {
-        alert('카드 클릭');
-      }}
-      onButtonClick={() => {
-        alert('모임 탈퇴 버튼 클릭');
-      }}
-    />
-  ));
-}
+// 참가중인 모임 목록에서 사용할 때 : formatJoinedGroups 사용해서 데이터 타입 변환 필수
+import GroupCard from '@/components/GroupCard/GroupCard';
+import { formatJoinedGroups } from '@/utils/formatGroupCardData';
+
+formatJoinedGroups(data).map((group) => (
+  <GroupCard
+    key={group.id}
+    groupData={group}
+    buttonText='모임 탈퇴'
+    onCardClick={() => alert('카드 클릭')}
+    onButtonClick={() => alert('모임 탈퇴 버튼 클릭')}
+  />
+));
 ```
 
 ## ✨ Props

@@ -1,12 +1,12 @@
 import { ApiResponse, PageResponse } from './api';
 import { GroupCategoryType, GenderType, LocationType } from './enums';
-import { GroupCard } from './groupCard';
 
 export interface Group {
   id: string;
   performance?: {
     id: string;
-    poster: string;
+    title?: string;
+    poster?: string;
   };
   title: string;
   category: GroupCategoryType;
@@ -21,18 +21,19 @@ export interface Group {
   description?: string;
   hashtag?: string[];
   host: {
-    id: string;
+    hostId: string;
     name: string;
     rating?: number;
+    profileImage?: string;
   };
   isHost: boolean;
-  createdAt: string;
+  createdAt?: string;
 }
 
 export type GroupsResponse = ApiResponse<{
   performanceId: string;
   groupCount: number;
-  groups: GroupCard[];
+  groups: Group[];
 }>
   & PageResponse;
 

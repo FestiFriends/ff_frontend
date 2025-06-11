@@ -1,5 +1,6 @@
 import apiFetcher from '@/lib/apiFetcher';
-import { GetGroupsParams, GroupsResponse } from '@/types/group';
+import { GetGroupsParams } from '@/types/group';
+import { PerformanceGroupsApiResponse } from '@/utils/formatGroupCardData';
 
 export const groupsApi = {
   getGroups: async ({
@@ -13,7 +14,7 @@ export const groupsApi = {
     location,
     gender,
   }: GetGroupsParams) =>
-    await apiFetcher.get<GroupsResponse>(
+    await apiFetcher.get<PerformanceGroupsApiResponse>(
       `/api/v1/performances/${performanceId}/groups`,
       {
         params: {
