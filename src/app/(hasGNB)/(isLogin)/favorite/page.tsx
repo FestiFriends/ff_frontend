@@ -1,14 +1,10 @@
 import React from 'react';
-import WishlistTabContainer from '@/components/pages/favorite/FavoriteTabContainer';
+import { FavoriteTabContainer } from '@/components/pages/favorite';
 
-const FavoritePage = () => {
-  const foo = 'bar';
-  console.log('foo', foo);
-  return (
-    <>
-      <WishlistTabContainer />
-    </>
-  );
-};
+const FavoritePage = () => (
+  <>
+    <FavoriteTabContainer />
+  </>
+);
 
 export default FavoritePage;
