@@ -22,11 +22,14 @@ const useQueryParam = () => {
 
   const getQueryParam = (key: string) => searchParams.get(key);
 
-  const setQueryParam = (key: string, value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set(key, value);
-    return params.toString();
-  };
+  const setQueryParam = useCallback(
+    (key: string, value: string | null) => {
+      const params = new URLSearchParams(searchParams.toString());
+      (() => (value ? params.set(key, value) : params.delete(key)))();
+      router.replace(`${window.location.pathname}?${params.toString()}`);
+    },
+    [router, searchParams]
+  );
 
   const getPerformanceQueryString = useCallback(
     (params: Partial<PerformanceQueryParams> = {}) => {
