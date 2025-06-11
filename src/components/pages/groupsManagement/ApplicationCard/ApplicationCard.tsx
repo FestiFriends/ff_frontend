@@ -149,12 +149,14 @@ const ApplicationCard = ({
         {secondaryButtonText && (
           <Button
             variant='secondary'
+            color='normal'
             onClick={handleSecondaryClick}
           >
             {secondaryButtonText}
           </Button>
         )}
         <Button
+          variant='primary'
           color={applicationData.status === 'REJECTED' ? 'disable' : 'normal'}
           disabled={applicationData.status === 'REJECTED'}
           onClick={handlePrimaryClick}
