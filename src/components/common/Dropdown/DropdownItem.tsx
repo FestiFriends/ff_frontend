@@ -21,7 +21,11 @@ const DropdownItem = ({
   const itemRef = useRef<HTMLLIElement>(null);
 
   const handleClick = () => {
-    setSelectedItem(label || '');
+    if (label === selectedItem) {
+      setSelectedItem('');
+    } else {
+      setSelectedItem(label || '');
+    }
     onClick?.();
     closeDropdown();
   };
@@ -47,10 +51,10 @@ const DropdownItem = ({
     'cursor-pointer bg-white select-none',
 
     // hover style
-    'hover:bg-gray-200',
+    'hover:bg-gray-50',
 
     // focus style
-    'focus:bg-gray-300 focus:outline-none',
+    'focus:border-gray-950 focus:bg-gray-950 focus:text-white',
 
     // custom style
     className

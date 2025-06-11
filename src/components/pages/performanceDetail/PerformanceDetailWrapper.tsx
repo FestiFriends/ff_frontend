@@ -13,12 +13,17 @@ const PerformanceDetailWrapper = ({
   const { data: performanceDetail, isPending } =
     useGetPerformanceDetail(performanceId);
 
-  if (isPending || !performanceDetail?.data) return <div>loading...</div>;
-
   return (
-    <div className='flex flex-col'>
-      <Summary performanceDetail={performanceDetail?.data} />
-      <Tabs performanceDetail={performanceDetail?.data} />
+    <div className='flex flex-col gap-3 bg-gray-25'>
+      <Summary
+        isPending={isPending}
+        performanceDetail={performanceDetail?.data}
+      />
+
+      <Tabs
+        isPending={isPending}
+        performanceDetail={performanceDetail?.data}
+      />
     </div>
   );
 };

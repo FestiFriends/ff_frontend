@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useParams } from 'next/navigation';
 import Pagination from '@/components/common/Pagination/Pagination';
 import { useGetGroups } from '@/hooks/groupHooks/groupHooks';
 import { DateRange } from '@/types/dateRange';
@@ -8,13 +9,8 @@ import { GetGroupsParams } from '@/types/group';
 import { cleanQueryParams } from '@/utils/cleanQueryParams';
 import { GroupsList, GroupsOptionTabs } from '.';
 
-interface PerformanceDetailGroupsProps {
-  performanceId: string;
-}
-
-const PerformanceDetailGroups = ({
-  performanceId,
-}: PerformanceDetailGroupsProps) => {
+const PerformanceDetailGroups = () => {
+  const { performanceId } = useParams<{ performanceId: string }>();
   const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState({
     sortType: '',
@@ -52,27 +48,39 @@ const PerformanceDetailGroups = ({
 
   const { data: groups, isPending } = useGetGroups(queryParams);
 
-  if (isPending || !groups?.data) return <div>loading...</div>;
-
   return (
-    <div>
+    <div className='flex flex-col gap-5 px-4 py-5'>
       <GroupsOptionTabs
+        isPending={isPending}
         dateRange={filters.dateRange}
         setDateRange={(range) => updateFilter('dateRange', range)}
         setSortType={(sort) => updateFilter('sortType', sort)}
-        setCategory={(cat) => updateFilter('category', cat)}
-        setLocation={(loc) => updateFilter('location', loc)}
-        setGender={(gen) => updateFilter('gender', gen)}
+        setCategory={(category) => updateFilter('category', category)}
+        setLocation={(location) => updateFilter('location', location)}
+        setGender={(gender) => updateFilter('gender', gender)}
       />
 
-      <GroupsList groups={groups.data.groups} />
-
-      <Pagination
-        currentPage={currentPage}
-        totalPages={groups.totalPages}
-        onPageChange={setCurrentPage}
-        maxVisiblePages={5}
+      <GroupsList
+        isPending={isPending}
+        groupCount={groups?.data?.groupCount}
+        groups={groups?.data?.groups}
       />
+
+      {isPending ? (
+        <Pagination
+          currentPage={1}
+          totalPages={1}
+          onPageChange={() => {}}
+          maxVisiblePages={5}
+        />
+      ) : (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={groups?.totalPages || 1}
+          onPageChange={setCurrentPage}
+          maxVisiblePages={5}
+        />
+      )}
     </div>
   );
 };

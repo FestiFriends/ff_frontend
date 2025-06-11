@@ -1,33 +1,45 @@
 import { useEffect, useRef, useState } from 'react';
+import { cn } from '@/lib/utils';
 
 interface TabsProps {
   tabs: string[];
   activeTab: string;
   onTabChange: (tab: string) => void;
+  className?: string;
 }
 
-const Tabs = ({ tabs, activeTab, onTabChange }: TabsProps) => {
-  const [underline, setunderline] = useState(0);
+const Tabs = ({ tabs, activeTab, onTabChange, className }: TabsProps) => {
+  const [underline, setUnderline] = useState({ left: 0, width: 0 });
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
     const activeIndex = tabs.findIndex((t) => t === activeTab);
     const activeTabEl = tabRefs.current[activeIndex];
     if (activeTabEl) {
-      setunderline(activeTabEl.offsetLeft);
+      const fullWidth = activeTabEl.offsetWidth;
+      const underlineWidth = fullWidth * 0.6;
+      const underlineLeft =
+        activeTabEl.offsetLeft + (fullWidth - underlineWidth) / 2;
+
+      setUnderline({
+        left: underlineLeft,
+        width: underlineWidth,
+      });
     }
   }, [activeTab, tabs]);
 
   return (
-    <div className='relative overflow-hidden border-b border-gray-200'>
-      <div className='flex justify-between'>
+    <div className={cn('relative border-b border-gray-100', className)}>
+      <div className='flex h-full justify-between'>
         {tabs.map((tab, i) => (
           <button
             key={tab}
             ref={(el) => void (tabRefs.current[i] = el)}
             onClick={() => onTabChange(tab)}
-            className={`flex-1 py-2 text-center font-semibold transition-colors ${
-              activeTab === tab ? 'text-black' : 'text-gray-500'
+            className={`flex-[1_0_0] items-center justify-center px-2 py-3.5 leading-normal tracking-[-0.35px] transition-all ${
+              activeTab === tab
+                ? 'text-14_B text-black'
+                : 'text-14_M text-gray-500'
             }`}
           >
             {tab}
@@ -36,10 +48,10 @@ const Tabs = ({ tabs, activeTab, onTabChange }: TabsProps) => {
       </div>
 
       <div
-        className='absolute bottom-0 left-0 h-0.5 bg-black transition-transform duration-300 ease-in-out'
+        className='absolute bottom-0 h-[3px] bg-black transition-all duration-300 ease-in-out'
         style={{
-          width: `calc(100% / ${tabs.length})`,
-          transform: `translateX(${underline}px)`,
+          width: underline.width,
+          transform: `translateX(${underline.left}px)`,
         }}
       />
     </div>
