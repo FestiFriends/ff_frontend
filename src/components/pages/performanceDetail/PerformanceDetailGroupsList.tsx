@@ -1,35 +1,56 @@
 import GroupCard from '@/components/common/GroupCard/GroupCard';
+import { Skeleton } from '@/components/ui/skeleton';
 import { GroupCard as GroupCardType } from '@/types/groupCard';
 
 interface PerformanceDetailGroupsListProps {
-  groupCount: number;
-  groups: GroupCardType[];
+  isPending: boolean;
+  groupCount?: number;
+  groups?: GroupCardType[];
 }
 
 const PerformanceDetailGroupsList = ({
+  isPending,
   groupCount,
   groups,
-}: PerformanceDetailGroupsListProps) => (
-  <div className='flex flex-col gap-4'>
-    <span className='text-14_M leading-normal tracking-[-0.35px] text-black'>
-      총 모임{' '}
-      <span className='text-14_B leading-normal tracking-[-0.35px] text-black'>
-        {groupCount}개
-      </span>
-    </span>
+}: PerformanceDetailGroupsListProps) => {
+  if (isPending)
+    return (
+      <div className='flex flex-col gap-4'>
+        <span className='text-14_M leading-normal tracking-[-0.35px] text-black'>
+          총 모임{' '}
+          <span className='text-14_B leading-normal tracking-[-0.35px] text-black'>
+            0개
+          </span>
+        </span>
+        <div className='flex flex-col gap-5'>
+          <Skeleton className='h-[20vh] w-full' />
+          <Skeleton className='h-[20vh] w-full' />
+        </div>
+      </div>
+    );
 
-    <div className='flex flex-col gap-5'>
-      {groups?.map((group) => (
-        <GroupCard
-          onCardClick={() => {}}
-          key={group.id}
-          groupData={group}
-          buttonText='참가 신청'
-          onButtonClick={() => console.log(group)}
-        />
-      ))}
+  return (
+    <div className='flex flex-col gap-4'>
+      <span className='text-14_M leading-normal tracking-[-0.35px] text-black'>
+        총 모임{' '}
+        <span className='text-14_B leading-normal tracking-[-0.35px] text-black'>
+          {groupCount}개
+        </span>
+      </span>
+
+      <div className='flex flex-col gap-5'>
+        {groups?.map((group) => (
+          <GroupCard
+            onCardClick={() => {}}
+            key={group.id}
+            groupData={group}
+            buttonText='참가 신청'
+            onButtonClick={() => console.log(group)}
+          />
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default PerformanceDetailGroupsList;

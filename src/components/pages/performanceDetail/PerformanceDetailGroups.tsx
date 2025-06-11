@@ -48,11 +48,10 @@ const PerformanceDetailGroups = () => {
 
   const { data: groups, isPending } = useGetGroups(queryParams);
 
-  if (isPending || !groups?.data) return <div>loading...</div>;
-
   return (
-    <div className='flex flex-col gap-5 px-4'>
+    <div className='flex flex-col gap-5 px-4 py-5'>
       <GroupsOptionTabs
+        isPending={isPending}
         dateRange={filters.dateRange}
         setDateRange={(range) => updateFilter('dateRange', range)}
         setSortType={(sort) => updateFilter('sortType', sort)}
@@ -62,16 +61,26 @@ const PerformanceDetailGroups = () => {
       />
 
       <GroupsList
-        groupCount={groups.data.groupCount}
-        groups={groups.data.groups}
+        isPending={isPending}
+        groupCount={groups?.data.groupCount}
+        groups={groups?.data.groups}
       />
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={groups.totalPages}
-        onPageChange={setCurrentPage}
-        maxVisiblePages={5}
-      />
+      {isPending ? (
+        <Pagination
+          currentPage={1}
+          totalPages={1}
+          onPageChange={() => {}}
+          maxVisiblePages={5}
+        />
+      ) : (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={groups.totalPages}
+          onPageChange={setCurrentPage}
+          maxVisiblePages={5}
+        />
+      )}
     </div>
   );
 };

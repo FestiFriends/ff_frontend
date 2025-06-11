@@ -125,13 +125,13 @@ const PerformanceDetailInfo = ({
 
   if (isPending)
     return (
-      <div className='flex flex-col items-center px-4 pb-5'>
+      <div className='flex flex-col items-center px-4 pt-2.5 pb-5'>
         <Skeleton className='h-[60vh] w-full' />
       </div>
     );
 
   return (
-    <div className='flex flex-col gap-2.5 px-4 pb-5'>
+    <div className='flex flex-col gap-2.5 px-4 pt-2.5 pb-5'>
       {/* 공연 상세 정보 */}
       <div
         className='grid'
