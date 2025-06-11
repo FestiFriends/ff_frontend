@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { format, parse, isValid } from 'date-fns';
 import DatePicker from '@/components/common/DatePicker/DatePicker';
 import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
@@ -62,14 +62,35 @@ const PerformanceDatePicker = ({
 
   useEffect(() => {
     loadDateParams();
-  }, [getQueryParam, startDateKey, endDateKey, dateFormat]);
+  }, [startDateKey, endDateKey, dateFormat]);
 
-  const handleDateChange = (range: DateRange) => {
-    setDateRange(range);
+  const handleDateChange = useCallback(
+    (range: DateRange) => {
+      setDateRange(range);
+
+      const queryParams: Record<string, string | null> = {
+        [startDateKey]: formatDate(range.startDate, dateFormat),
+        [endDateKey]: formatDate(range.endDate, dateFormat),
+      };
+
+      if (resetPage) {
+        queryParams.page = '1';
+      }
+
+      setMultipleQueryParams(queryParams);
+    },
+    [startDateKey, endDateKey, dateFormat, resetPage, setMultipleQueryParams]
+  );
+
+  const handleReset = useCallback(() => {
+    setDateRange({
+      startDate: null,
+      endDate: null,
+    });
 
     const queryParams: Record<string, string | null> = {
-      [startDateKey]: formatDate(range.startDate, dateFormat),
-      [endDateKey]: formatDate(range.endDate, dateFormat),
+      [startDateKey]: null,
+      [endDateKey]: null,
     };
 
     if (resetPage) {
@@ -77,14 +98,20 @@ const PerformanceDatePicker = ({
     }
 
     setMultipleQueryParams(queryParams);
-  };
+  }, [startDateKey, endDateKey, resetPage, setMultipleQueryParams]);
+
+  const isDateSelected =
+    dateRange.startDate !== null || dateRange.endDate !== null;
 
   return (
-    <DatePicker
-      startDate={dateRange.startDate}
-      endDate={dateRange.endDate}
-      onChange={handleDateChange}
-    />
+    <>
+      <DatePicker
+        startDate={dateRange.startDate}
+        endDate={dateRange.endDate}
+        onChange={handleDateChange}
+      />
+      {isDateSelected && <button onClick={handleReset}>초기화</button>}
+    </>
   );
 };
 
