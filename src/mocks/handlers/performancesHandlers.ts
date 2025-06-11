@@ -631,7 +631,6 @@ const PERFORMANCES_SAMPLE_DATA: Performance[] = [
     age: '전체 관람가',
     productionCompany: ['어도어'],
     state: '예정',
-
     agency: ['하이브'],
     host: ['어도어'],
     organizer: ['어도어'],
@@ -639,9 +638,72 @@ const PERFORMANCES_SAMPLE_DATA: Performance[] = [
     poster: '',
     isLiked: false,
     visit: '',
+    images: [
+      {
+        id: 'img-110801',
+        src: 'https://picsum.photos/seed/newjeans1/800/600',
+        alt: 'NewJeans 팬미팅',
+      },
+    ],
     time: [],
     groupCount: 0,
     favoriteCount: 0,
+  },
+  {
+    id: '36',
+    title: 'Road to BU-ROCK 로드 투 부락, SPYAIR ASIA TOUR: BUDDY [서울]',
+    startDate: '2025-06-21 00:00:00.000000',
+    endDate: '2025-06-22 00:00:00.000000',
+    location: '서울특별시/예스24 라이브홀 (구. 악스코리아)',
+    cast: [],
+    crew: [],
+    runtime: '1시간 30분',
+    age: '전체 관람가',
+    productionCompany: ['', '(사)부산문화관광축제조직위원회'],
+    agency: ['부산광역시', '(사)부산문화관광축제조직위원회'],
+    host: ['부산광역시'],
+    organizer: ['(사)부산문화관광축제조직위원회'],
+    price: ['스탠딩 130,000원'],
+    poster:
+      'http://www.kopis.or.kr/upload/pfmPoster/PF_PF262382_250403_132803.jpg',
+    state: '예매중',
+    visit: '내한',
+    images: [
+      {
+        id: 'img-3601',
+        src: 'http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF262382_250403_0128034.jpg',
+        alt: '공연소개이미지',
+      },
+      {
+        id: 'img-3602',
+        src: 'http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF262382_250403_0128033.jpg',
+        alt: '공연소개이미지',
+      },
+      {
+        id: 'img-110801',
+        src: 'https://picsum.photos/seed/newjeans1/800/600',
+        alt: 'NewJeans 팬미팅',
+      },
+      {
+        id: 'img-3603',
+        src: 'http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF262382_250403_0128032.jpg',
+        alt: '공연소개이미지',
+      },
+      {
+        id: 'img-3604',
+        src: 'http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF262382_250403_0128031.jpg',
+        alt: '공연소개이미지',
+      },
+      {
+        id: 'img-3605',
+        src: 'http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF262382_250403_0128030.jpg',
+        alt: '공연소개이미지',
+      },
+    ],
+    time: ['토요일 ~ 일요일(18:00)'],
+    groupCount: 95,
+    favoriteCount: 32070,
+    isLiked: false,
   },
 ];
 const filterPerformances = (
