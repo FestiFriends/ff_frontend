@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Pagination from '@/components/common/Pagination/Pagination';
 import { useGetGroups } from '@/hooks/groupHooks/groupHooks';
 import { DateRange } from '@/types/dateRange';
@@ -51,9 +51,6 @@ const PerformanceDetailGroups = ({
   };
 
   const { data: groups, isPending } = useGetGroups(queryParams);
-  useEffect(() => {
-    console.log(groups);
-  }, [groups]);
 
   if (isPending || !groups) return <div>loading...</div>;
 
