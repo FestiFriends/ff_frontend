@@ -1,36 +1,47 @@
 'use client';
+import React from 'react';
+import { QueryTabs } from '@/components/common';
+import {
+  FavoritePerformanceTabContent,
+  FavoriteUserTabContent,
+} from '@/components/pages/favorite';
+import {
+  useFavoritePerformances,
+  useFavoriteUsers,
+} from '@/hooks/favoriteHooks/useFavorite';
+import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
 
-import React, { useState } from 'react';
-import Tabs from '@/components/common/Tabs/Tabs';
-import { useFavorite } from '@/hooks/favoriteHooks/useFavorite';
-import { FavoritePerformanceTabContent } from './FavoritePerformanceTab';
-import { FavoriteUserTabContent } from './FavoriteUserTab';
-
-// 상수 정의
 const TABS = ['공연', '사용자'];
 
 const FavoriteTabContainer: React.FC = () => {
-  const [selectedTab, setSelectedTab] = useState<string>(TABS[0]);
-  const { favoritePerformances, favoriteUsers, isLoading } = useFavorite();
+  const { getQueryParam } = useQueryParam();
 
-  if (isLoading) {
+  const currentTab = getQueryParam('tab') || TABS[0];
+  const selectedTab = TABS.includes(currentTab) ? currentTab : TABS[0];
+
+  const { data: performancesResponse, isLoading: isPerformancesLoading } =
+    useFavoritePerformances();
+  const { data: usersResponse, isLoading: isUsersLoading } = useFavoriteUsers();
+
+  if (isPerformancesLoading || isUsersLoading) {
     return <div>로딩 중...</div>;
   }
 
+  const performances = performancesResponse?.data?.data ?? [];
+  const users = usersResponse?.data?.data ?? [];
+
   return (
     <>
-      <Tabs
+      <QueryTabs
         tabs={TABS}
-        activeTab={selectedTab}
-        onTabChange={setSelectedTab}
+        defaultTab={TABS[0]}
+        queryParamKey='tab'
       />
       <div className='p-4'>
         {selectedTab === '공연' && (
-          <FavoritePerformanceTabContent performances={favoritePerformances} />
+          <FavoritePerformanceTabContent performances={performances} />
         )}
-        {selectedTab === '사용자' && (
-          <FavoriteUserTabContent users={favoriteUsers} />
-        )}
+        {selectedTab === '사용자' && <FavoriteUserTabContent users={users} />}
       </div>
     </>
   );

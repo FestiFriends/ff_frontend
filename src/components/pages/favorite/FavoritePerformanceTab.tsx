@@ -13,7 +13,7 @@ interface FavoritePerformanceTabContentProps {
   performances: Performance[];
 }
 
-export const FavoritePerformanceTabContent: React.FC<
+const FavoritePerformanceTabContent: React.FC<
   FavoritePerformanceTabContentProps
 > = ({ performances }) => (
   <FavoriteTabPanelWrapper>
@@ -26,3 +26,5 @@ export const FavoritePerformanceTabContent: React.FC<
     {performances.length === 0 && <EmptyState message={EMPTY_MESSAGE} />}
   </FavoriteTabPanelWrapper>
 );
+
+export default FavoritePerformanceTabContent;

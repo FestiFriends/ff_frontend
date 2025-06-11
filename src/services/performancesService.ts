@@ -23,12 +23,10 @@ export const performancesApi = {
     ).data,
 
 
-  getFavoritePerformances: async () => {
-    const res = await apiFetcher.get<PerformancesResponse>(
-      '/api/v1/performances/favorites'
-    );
-    return res.data;
-  },
+  getFavoritePerformances: async (cursorId?: string, size: number = 10) =>
+    await apiFetcher.get<PerformancesResponsePagination>(
+      `/api/v1/performances/favorites?${cursorId ? `cursorId=${cursorId}&` : ''}size=${size}`
+    ),
 
   patchLiked: async ({ performanceId, isLiked }: PerformanceIsLikedData) =>
     (
