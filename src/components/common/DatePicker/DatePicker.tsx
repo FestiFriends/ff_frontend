@@ -3,8 +3,9 @@
 import { useCallback, useRef, useState } from 'react';
 import { addMonths, format, subMonths } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import AltArrowDownIcon from '@/components/icons/AltArrowDownIcon';
+import AltArrowLeftIcon from '@/components/icons/AltArrowLeftIcon';
+import AltArrowRightIcon from '@/components/icons/AltArrowRightIcon';
 import AltArrowUpIcon from '@/components/icons/AltArrowUpIcon';
 import DeleteIcon from '@/components/icons/DeleteIcon';
 import useClickOutside from '@/hooks/useClickOutside/useClickOutside';
@@ -51,7 +52,6 @@ const DatePicker = ({
         const newRange = { startDate: null, endDate: null };
         setSelectedRange(newRange);
         onChange(newRange);
-        setIsOpen(false);
       } else {
         const earlier = date < startDate ? date : startDate;
         const later = date < startDate ? startDate : date;
@@ -69,7 +69,7 @@ const DatePicker = ({
 
   const datePickerTriggerClasses = cn(
     // default style
-    'inline-flex cursor-pointer items-center justify-center rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5',
+    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 transition-all',
 
     // opened, selected style
     (isOpen || startDate || endDate) && 'border-gray-950 bg-gray-950 text-white'
@@ -86,16 +86,24 @@ const DatePicker = ({
         className={datePickerTriggerClasses}
       >
         {!startDate && !endDate ? (
-          <span>{placeholder}</span>
+          <span className='text-14_M leading-normal tracking-[-0.35px]'>
+            {placeholder}
+          </span>
         ) : (
           <div className='flex w-full items-center gap-1'>
             {startDate && (
-              <span>{format(startDate, 'MM/dd', { locale: ko })}</span>
+              <span className='text-14_M leading-normal tracking-[-0.35px]'>
+                {format(startDate, 'MM/dd', { locale: ko })}
+              </span>
             )}
             {endDate && (
               <>
-                <span>-</span>
-                <span>{format(endDate, 'MM/dd', { locale: ko })}</span>
+                <span className='text-14_M leading-normal tracking-[-0.35px]'>
+                  -
+                </span>
+                <span className='text-14_M leading-normal tracking-[-0.35px]'>
+                  {format(endDate, 'MM/dd', { locale: ko })}
+                </span>
               </>
             )}
           </div>
@@ -110,22 +118,24 @@ const DatePicker = ({
       </button>
 
       {isOpen && (
-        <div className='absolute z-10 w-48 overflow-hidden bg-white'>
-          <div className='flex items-center justify-center gap-1'>
+        <div className='fixed top-1/2 left-1/2 z-10 inline-flex w-[calc(100vw-1rem)] max-w-[400px] -translate-x-1/2 -translate-y-1/2 flex-col gap-5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white px-2 py-5'>
+          <div className='flex items-center justify-center gap-2'>
             <button
               className='cursor-pointer'
               aria-label='prev month'
               onClick={() => setCurrentMonth(prevMonth)}
             >
-              <ChevronLeft />
+              <AltArrowLeftIcon className='aspect-square h-6 w-6 text-gray-950' />
             </button>
-            <span>{format(currentMonth, 'yyyy년 M월', { locale: ko })}</span>
+            <span className='text-20_B leading-normal tracking-[-0.5px] text-gray-950'>
+              {format(currentMonth, 'yyyy년 M월', { locale: ko })}
+            </span>
             <button
               className='cursor-pointer'
               aria-label='next month'
               onClick={() => setCurrentMonth(nextMonth)}
             >
-              <ChevronRight />
+              <AltArrowRightIcon className='aspect-square h-6 w-6 text-gray-950' />
             </button>
           </div>
           <Calendar
@@ -133,6 +143,7 @@ const DatePicker = ({
             startDate={selectedRange.startDate}
             endDate={selectedRange.endDate}
             onDateClick={handleDateClick}
+            className='flex flex-col gap-1'
           />
         </div>
       )}
@@ -141,3 +152,34 @@ const DatePicker = ({
 };
 
 export default DatePicker;
+
+{
+  /* <div className='absolute left-1/2 z-10 mt-2 inline-flex w-[calc(100vw-1rem)] max-w-[480px] -translate-x-1/2 flex-col gap-5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white px-2 py-5'>
+          <div className='flex items-center justify-center gap-2'>
+            <button
+              className='cursor-pointer'
+              aria-label='prev month'
+              onClick={() => setCurrentMonth(prevMonth)}
+            >
+              <AltArrowLeftIcon className='aspect-square h-6 w-6 text-gray-950' />
+            </button>
+            <span className='text-20_B leading-normal tracking-[-0.5px] text-gray-950'>
+              {format(currentMonth, 'yyyy년 M월', { locale: ko })}
+            </span>
+            <button
+              className='cursor-pointer'
+              aria-label='next month'
+              onClick={() => setCurrentMonth(nextMonth)}
+            >
+              <AltArrowRightIcon className='aspect-square h-6 w-6 text-gray-950' />
+            </button>
+          </div>
+          <Calendar
+            month={currentMonth}
+            startDate={selectedRange.startDate}
+            endDate={selectedRange.endDate}
+            onDateClick={handleDateClick}
+            className='flex flex-col gap-1'
+          />
+        </div> */
+}
