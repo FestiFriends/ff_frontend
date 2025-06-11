@@ -152,34 +152,3 @@ const DatePicker = ({
 };
 
 export default DatePicker;
-
-{
-  /* <div className='absolute left-1/2 z-10 mt-2 inline-flex w-[calc(100vw-1rem)] max-w-[480px] -translate-x-1/2 flex-col gap-5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white px-2 py-5'>
-          <div className='flex items-center justify-center gap-2'>
-            <button
-              className='cursor-pointer'
-              aria-label='prev month'
-              onClick={() => setCurrentMonth(prevMonth)}
-            >
-              <AltArrowLeftIcon className='aspect-square h-6 w-6 text-gray-950' />
-            </button>
-            <span className='text-20_B leading-normal tracking-[-0.5px] text-gray-950'>
-              {format(currentMonth, 'yyyy년 M월', { locale: ko })}
-            </span>
-            <button
-              className='cursor-pointer'
-              aria-label='next month'
-              onClick={() => setCurrentMonth(nextMonth)}
-            >
-              <AltArrowRightIcon className='aspect-square h-6 w-6 text-gray-950' />
-            </button>
-          </div>
-          <Calendar
-            month={currentMonth}
-            startDate={selectedRange.startDate}
-            endDate={selectedRange.endDate}
-            onDateClick={handleDateClick}
-            className='flex flex-col gap-1'
-          />
-        </div> */
-}
