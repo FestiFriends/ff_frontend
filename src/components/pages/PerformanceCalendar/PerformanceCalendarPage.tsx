@@ -44,6 +44,7 @@ const PerformanceCalendarPage = () => {
     const queryParams = {
       startDate,
       endDate,
+      size: '100',
     };
     setMultipleQueryParams(queryParams);
   }, [startDate, endDate, setMultipleQueryParams]);
