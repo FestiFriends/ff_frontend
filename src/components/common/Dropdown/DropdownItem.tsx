@@ -54,7 +54,7 @@ const DropdownItem = ({
     'hover:bg-gray-50',
 
     // focus style
-    'focus:bg-gray-50 focus:outline-none',
+    'focus:border-gray-950 focus:bg-gray-950 focus:text-white',
 
     // custom style
     className

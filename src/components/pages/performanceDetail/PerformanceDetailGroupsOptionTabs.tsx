@@ -82,7 +82,7 @@ const PerformanceDetailGroupsOptionTabs = ({
                   key={option.value}
                   label={option.label}
                   onClick={() => setLocation(option.value)}
-                  className='flex items-center justify-center gap-2 rounded-[80px] border-1 border-gray-100 px-5 py-3 text-14_M leading-normal tracking-[-0.35px] whitespace-nowrap hover:border-gray-950 hover:bg-gray-950 hover:text-white focus:border-gray-950 focus:bg-gray-950 focus:text-white'
+                  className='flex items-center justify-center gap-2 rounded-[80px] border-1 border-gray-100 px-5 py-3 text-14_M leading-normal tracking-[-0.35px] whitespace-nowrap'
                 >
                   {option.label}
                 </DropdownItem>
