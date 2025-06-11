@@ -5,6 +5,7 @@ import SortDropdown, {
 } from '@/components/common/SortDropdown/SortDropdown';
 import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
 import useSortWithQuery from '@/hooks/useSortWithQuery/useSortWithQuery';
+import { cn } from '@/lib/utils';
 
 interface PerformanceSortDropdownProps {
   options?: SortOption[];
@@ -12,6 +13,8 @@ interface PerformanceSortDropdownProps {
   placeholder?: string;
   defaultValue?: string;
   data?: unknown[];
+  width?: 'full' | 'auto';
+  className?: string;
 }
 
 const PerformanceSortDropdown = ({
@@ -20,6 +23,8 @@ const PerformanceSortDropdown = ({
   placeholder = '정렬',
   defaultValue = '',
   data = [],
+  width = 'auto',
+  className,
 }: PerformanceSortDropdownProps) => {
   const sortOptions = options || [];
   const { getQueryParam } = useQueryParam();
@@ -38,14 +43,18 @@ const PerformanceSortDropdown = ({
     setSortKey(value);
   };
 
+  const widthClass = width === 'full' ? 'w-full' : 'w-auto';
+
   return (
-    <SortDropdown
-      options={sortOptions}
-      defaultValue={sortKey}
-      onChange={handleSortChange}
-      placeholder={placeholder}
-      initialValue={initialValue}
-    />
+    <div className={cn(widthClass, className)}>
+      <SortDropdown
+        options={sortOptions}
+        defaultValue={sortKey}
+        onChange={handleSortChange}
+        placeholder={placeholder}
+        initialValue={initialValue}
+      />
+    </div>
   );
 };
 
