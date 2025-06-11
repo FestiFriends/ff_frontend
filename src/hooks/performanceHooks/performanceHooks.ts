@@ -51,7 +51,6 @@ export const usePatchPerformanceLiked = () => {
       >({
         queryKey: [PERFORMANCES_QUERY_KEYS.performances],
       });
-      console.log(queries);
 
       queries.forEach(([queryKey, queryData]) => {
         if (!queryData?.data) return;
@@ -75,41 +74,19 @@ export const usePatchPerformanceLiked = () => {
         } else {
           queryClient.setQueryData(
             queryKey,
-            (oldData: PerformanceDetailResponse) => {
-              console.log('전', oldData);
-              console.log('후', {
-                ...oldData,
-                data: {
-                  ...oldData.data,
-                  isLiked,
-                  favoriteCount: oldData.data?.favoriteCount
-                    ? oldData.data?.favoriteCount + (isLiked ? 1 : -1)
-                    : oldData.data?.favoriteCount,
-                },
-              });
-              return {
-                ...oldData,
-                data: {
-                  ...oldData.data,
-                  isLiked,
-                  favoriteCount: oldData.data?.favoriteCount
-                    ? oldData.data?.favoriteCount + (isLiked ? 1 : -1)
-                    : oldData.data?.favoriteCount,
-                },
-              };
-            }
+            (oldData: PerformanceDetailResponse) => ({
+              ...oldData,
+              data: {
+                ...oldData.data,
+                isLiked,
+                favoriteCount: oldData.data?.favoriteCount
+                  ? oldData.data?.favoriteCount + (isLiked ? 1 : -1)
+                  : oldData.data?.favoriteCount,
+              },
+            })
           );
         }
       });
-
-      console.log(
-        'ㅇㅇㅇㅇ',
-        queryClient.getQueriesData<
-          PerformancesResponse | PerformanceDetailResponse
-        >({
-          queryKey: [PERFORMANCES_QUERY_KEYS.performances],
-        })
-      );
     },
 
     onSettled: () => {
