@@ -26,7 +26,7 @@ const PerformanceCalendarPage = () => {
     queryFn: () =>
       performancesApi.getPerformances({ startDate, endDate, size: 100 }),
     select: (res) => res.data.data ?? [],
-    staleTime: 1000 * 60 * 60,
+    staleTime: 1000 * 60 * 5,
   });
 
   useEffect(() => {
