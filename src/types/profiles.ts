@@ -1,4 +1,5 @@
 import { GenderType, ReviewTagType } from './enums';
+import { Group } from './group';
 
 export interface Image {
   id?: string;
@@ -35,4 +36,7 @@ export interface FullProfile extends Profile {
   reviewSummary: ReviewSummary;
   reviewCount: number;
   reviewList?: string[];
+  joinedGroups?: Group[];
+  cursorId?: number | null;
+  hasNext?: boolean;
 }
