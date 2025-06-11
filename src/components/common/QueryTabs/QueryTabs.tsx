@@ -14,19 +14,14 @@ const QueryTabs = ({
   queryParamKey = 'tab',
   onTabChange,
 }: QueryTabsProps) => {
-  const { getQueryParam, setMultipleQueryParams } = useQueryParam();
+  const { getQueryParam, setQueryParam } = useQueryParam();
 
-  // URL에서 현재 탭 값을 가져오거나 기본값 사용
   const currentTab = getQueryParam(queryParamKey) || defaultTab;
 
-  // 유효하지 않은 탭이면 기본값으로 설정
   const activeTab = tabs.includes(currentTab) ? currentTab : defaultTab;
 
   const handleTabChange = (tab: string) => {
-    // URL 쿼리 파라미터 업데이트
-    setMultipleQueryParams({ [queryParamKey]: tab });
-
-    // 부모 컴포넌트의 콜백 실행
+    setQueryParam(queryParamKey, tab);
     onTabChange?.(tab);
   };
 
