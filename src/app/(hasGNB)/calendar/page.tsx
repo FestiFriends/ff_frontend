@@ -1,3 +1,3 @@
-const CalendarPage = () => <div>캘린더 페이지</div>;
-
+import PerformanceCalendarPage from '@/components/pages/PerformanceCalendar/PerformanceCalendarPage';
+const CalendarPage = () => <PerformanceCalendarPage />;
 export default CalendarPage;

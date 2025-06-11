@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { useDropdownContext } from './DropdownContext';
 
 interface DropdownItemProps {
-  label: string;
+  label?: string;
   className?: string;
   onClick?: () => void;
 }

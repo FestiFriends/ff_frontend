@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import {
   MultiLevelData,
   useMultiLevelFilter,
@@ -11,17 +11,17 @@ interface FilterProps {
   value?: string[];
   levelPlaceholders?: string[];
   onChange?: (values: string[]) => void;
+  stopAtLevel?: number;
 }
 
-const Filter = ({ data, value, levelPlaceholders, onChange }: FilterProps) => {
-  const { selectedValues, optionsByLevel, setValueAtLevel, setInitialValues } =
-    useMultiLevelFilter(data);
-
-  useEffect(() => {
-    if (value && JSON.stringify(value) !== JSON.stringify(selectedValues)) {
-      setInitialValues(value);
-    }
-  }, [value, selectedValues, setInitialValues]);
+const Filter = ({
+  data,
+  levelPlaceholders,
+  onChange,
+  stopAtLevel,
+}: FilterProps) => {
+  const { selectedValues, optionsByLevel, setValueAtLevel } =
+    useMultiLevelFilter(data, { stopAtLevel });
 
   const levelHandleChange = useCallback(
     (level: number) => (val: string) => {
