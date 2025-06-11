@@ -16,20 +16,22 @@ const ProfileBody = ({ profile }: ProfileBodyProps) => {
   const [selectedTab, setSelectedTab] = useState(TABS[0]);
 
   return (
-    <div className='w-full'>
-      <ProfileSummaryBox groupSummary={profile.groupSummary} />
-      <div className='mt-2 mb-4'>
-        <Tabs
-          tabs={TABS}
-          activeTab={selectedTab}
-          onTabChange={setSelectedTab}
-        />
+    <section className='mt-4 flex flex-col items-center rounded-xl bg-white p-2 shadow'>
+      <div className='w-full max-w-xl'>
+        <ProfileSummaryBox groupSummary={profile.groupSummary} />
+        <div className='mt-2 mb-4'>
+          <Tabs
+            tabs={TABS}
+            activeTab={selectedTab}
+            onTabChange={setSelectedTab}
+          />
+        </div>
+        <div className='mb-4'>
+          {selectedTab === '참여 모임' && <div>참여 중인 모임 목록</div>}
+          {selectedTab === '리뷰 목록' && <ReceivedReviews profile={profile} />}
+        </div>
       </div>
-      <div className='mb-4'>
-        {selectedTab === '참여 모임' && <div>참여 중인 모임 목록</div>}
-        {selectedTab === '리뷰 목록' && <ReceivedReviews profile={profile} />}
-      </div>
-    </div>
+    </section>
   );
 };
 
