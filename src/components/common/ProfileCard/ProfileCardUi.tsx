@@ -5,35 +5,35 @@ import { Gender } from '@/types/enums';
 import { ProfileData } from '@/types/profile';
 import ProfileImage from '../ProfileImage/ProfileImage';
 
-interface ProfileCardUiProps extends ProfileData {
+type ProfileCardUiProps = Omit<ProfileData, 'id' | 'age' | 'isLiked'> & {
   onEditClick?: () => void;
-}
+};
 
 const ProfileCardUi = ({
-  profileImageUrl,
-  nickname,
+  name,
   gender,
-  rating,
+  profileImage,
   description,
+  hashtag,
   sns,
-  tags,
-  onEditClick,
+  rating,
   isMyProfile,
+  onEditClick,
 }: ProfileCardUiProps) => {
-  const filteredTags = tags?.filter((tag) => tag.trim().length > 0) ?? [];
+  const filteredTags = hashtag?.filter((tag) => tag.trim().length > 0) ?? [];
 
   return (
     <div className='w-full max-w-md rounded-lg bg-gray-200 p-4'>
       <div className='flex items-start justify-between'>
         <div className='flex items-center gap-4'>
           <ProfileImage
-            src={profileImageUrl}
+            src={profileImage?.src?.toString()}
             size='lg'
           />
 
           <div className='flex items-end gap-3'>
             <p className='flex items-center text-lg font-bold text-black'>
-              {nickname}
+              {name}
               {gender === Gender.FEMALE && (
                 <span className='ml-1 text-sm text-pink-500'>♀</span>
               )}
