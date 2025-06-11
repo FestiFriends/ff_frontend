@@ -49,4 +49,5 @@ const SortDropdownUi = ({
     </DropdownContent>
   </Dropdown>
 );
+
 export default SortDropdownUi;

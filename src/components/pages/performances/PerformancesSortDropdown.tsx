@@ -1,25 +1,20 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import SortDropdown from '@/components/common/SortDropdown/SortDropdown';
+import React from 'react';
+import SortDropdown, {
+  SortOption,
+} from '@/components/common/SortDropdown/SortDropdown';
 import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
-
-export interface SortOption {
-  label: string;
-  value: string;
-}
-
-const DEFAULT_SORT_OPTIONS: SortOption[] = [
-  { label: '최신순', value: 'latest' },
-  { label: '인기순', value: 'popular' },
-  { label: '이름순', value: 'name' },
-];
+import useSortWithQuery from '@/hooks/useSortWithQuery/useSortWithQuery';
+import { cn } from '@/lib/utils';
 
 interface PerformanceSortDropdownProps {
   options?: SortOption[];
   queryKey: string;
   placeholder?: string;
   defaultValue?: string;
-  resetPage?: boolean;
+  data?: unknown[];
+  width?: 'full' | 'auto';
+  className?: string;
 }
 
 const PerformanceSortDropdown = ({
@@ -27,51 +22,39 @@ const PerformanceSortDropdown = ({
   queryKey,
   placeholder = '정렬',
   defaultValue = '',
-  resetPage = true,
+  data = [],
+  width = 'auto',
+  className,
 }: PerformanceSortDropdownProps) => {
-  const { getQueryParam, setMultipleQueryParams } = useQueryParam();
-  const [selectedValue, setSelectedValue] = useState<string>(defaultValue);
+  const sortOptions = options || [];
+  const { getQueryParam } = useQueryParam();
+  const initialValue = getQueryParam(queryKey) || '';
 
-  const sortOptions = options || DEFAULT_SORT_OPTIONS;
-
-  useEffect(() => {
-    const paramValue = getQueryParam(queryKey);
-    if (paramValue && paramValue !== 'undefined') {
-      setSelectedValue(paramValue);
-    } else if (defaultValue) {
-      setSelectedValue(defaultValue);
-    }
-  }, [getQueryParam, queryKey, defaultValue]);
+  const { sortKey, setSortKey } = useSortWithQuery(data, {
+    defaultKey: defaultValue,
+    paramKey: queryKey,
+  });
 
   const handleSortChange = (value: string) => {
-    setSelectedValue(value);
-
     if (!value || value === 'undefined') {
-      setMultipleQueryParams({
-        [queryKey]: null,
-        ...(resetPage && { page: '1' }),
-      });
+      setSortKey('');
       return;
     }
-
-    const queryParams: Record<string, string | null> = {
-      [queryKey]: value,
-    };
-
-    if (resetPage) {
-      queryParams.page = '1';
-    }
-
-    setMultipleQueryParams(queryParams);
+    setSortKey(value);
   };
 
+  const widthClass = width === 'full' ? 'w-full' : 'w-auto';
+
   return (
-    <SortDropdown
-      options={sortOptions}
-      defaultValue={selectedValue}
-      onChange={handleSortChange}
-      placeholder={placeholder}
-    />
+    <div className={cn(widthClass, className)}>
+      <SortDropdown
+        options={sortOptions}
+        defaultValue={sortKey}
+        onChange={handleSortChange}
+        placeholder={placeholder}
+        initialValue={initialValue}
+      />
+    </div>
   );
 };
 

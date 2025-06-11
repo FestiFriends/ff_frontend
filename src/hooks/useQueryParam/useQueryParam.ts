@@ -22,12 +22,14 @@ const useQueryParam = () => {
 
   const getQueryParam = (key: string) => searchParams.get(key);
 
-  const setQueryParam = (key: string, value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set(key, value);
-    router.replace(`${window.location.pathname}?${params.toString()}`);
-    return params.toString();
-  };
+  const setQueryParam = useCallback(
+    (key: string, value: string | null) => {
+      const params = new URLSearchParams(searchParams.toString());
+      (() => (value ? params.set(key, value) : params.delete(key)))();
+      router.replace(`${window.location.pathname}?${params.toString()}`);
+    },
+    [router, searchParams]
+  );
 
   const getPerformanceQueryString = useCallback(
     (params: Partial<PerformanceQueryParams> = {}) => {
@@ -61,7 +63,11 @@ const useQueryParam = () => {
     (params: Record<string, string | null>) => {
       const newParams = new URLSearchParams(searchParams.toString());
       Object.entries(params).forEach(([key, value]) => {
-        newParams.set(key, value ?? '');
+        if (value === null || value === '') {
+          newParams.delete(key);
+        } else {
+          newParams.set(key, value);
+        }
       });
       router.replace(`${window.location.pathname}?${newParams.toString()}`);
     },
