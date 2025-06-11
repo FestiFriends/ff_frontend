@@ -1,18 +1,17 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { addMonths, format, subMonths } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import {
-  Calendar as CalendarIcon,
-  ChevronLeft,
-  ChevronRight,
-} from 'lucide-react';
+import AltArrowDownIcon from '@/components/icons/AltArrowDownIcon';
+import AltArrowLeftIcon from '@/components/icons/AltArrowLeftIcon';
+import AltArrowRightIcon from '@/components/icons/AltArrowRightIcon';
+import AltArrowUpIcon from '@/components/icons/AltArrowUpIcon';
+import DeleteIcon from '@/components/icons/DeleteIcon';
+import useClickOutside from '@/hooks/useClickOutside/useClickOutside';
+import { cn } from '@/lib/utils';
 import { DateRange } from '@/types/dateRange';
 import Calendar from '../Calendar/Calendar';
-import Popover from '../Popover/Popover';
-import PopoverContent from '../Popover/PopoverContent';
-import PopoverTrigger from '../Popover/PopoverTrigger';
 
 interface DatePickerProps {
   startDate: Date | null;
@@ -24,14 +23,22 @@ interface DatePickerProps {
 const DatePicker = ({
   startDate,
   endDate,
-  placeholder,
+  placeholder = '날짜',
   onChange,
 }: DatePickerProps) => {
+  const datePickerRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedRange, setSelectedRange] = useState<DateRange>({
     startDate,
     endDate,
   });
+
+  useClickOutside({ ref: datePickerRef, onClose: () => setIsOpen(false) });
+
+  const toggleDatePicker = () => {
+    setIsOpen((prev) => !prev);
+  };
 
   const handleDateClick = useCallback(
     (date: Date) => {
@@ -60,60 +67,87 @@ const DatePicker = ({
   const prevMonth = subMonths(currentMonth, 1);
   const nextMonth = addMonths(currentMonth, 1);
 
-  // TODO: 디자인 시안 나오면 스타일 수정 필요
-  return (
-    <Popover>
-      <PopoverTrigger>
-        <button className='flex cursor-pointer items-center gap-1 rounded border'>
-          <CalendarIcon />
-          {!startDate && !endDate ? (
-            <span>{placeholder || '날짜를 선택하세요'}</span>
-          ) : (
-            <div className='flex items-center gap-1'>
-              {startDate && (
-                <span>
-                  {format(startDate, 'yyyy년 M월 d일', { locale: ko })}
-                </span>
-              )}
-              {endDate && (
-                <>
-                  <span>-</span>
-                  <span>
-                    {format(endDate, 'yyyy년 M월 d일', { locale: ko })}
-                  </span>
-                </>
-              )}
-            </div>
-          )}
-        </button>
-      </PopoverTrigger>
+  const datePickerTriggerClasses = cn(
+    // default style
+    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 transition-all',
 
-      <PopoverContent className='left-0 translate-0 bg-white'>
-        <div className='flex items-center justify-center gap-1'>
-          <button
-            className='cursor-pointer'
-            aria-label='prev month'
-            onClick={() => setCurrentMonth(prevMonth)}
-          >
-            <ChevronLeft />
-          </button>
-          <span>{format(currentMonth, 'yyyy년 M월', { locale: ko })}</span>
-          <button
-            className='cursor-pointer'
-            aria-label='next month'
-            onClick={() => setCurrentMonth(nextMonth)}
-          >
-            <ChevronRight />
-          </button>
+    // opened, selected style
+    (isOpen || startDate || endDate) && 'border-gray-950 bg-gray-950 text-white'
+  );
+
+  return (
+    <div
+      ref={datePickerRef}
+      className='relative inline-block'
+    >
+      <button
+        aria-label='datepicker open'
+        onClick={toggleDatePicker}
+        className={datePickerTriggerClasses}
+      >
+        {!startDate && !endDate ? (
+          <span className='text-14_M leading-normal tracking-[-0.35px]'>
+            {placeholder}
+          </span>
+        ) : (
+          <div className='flex w-full items-center gap-1'>
+            {startDate && (
+              <span className='text-14_M leading-normal tracking-[-0.35px]'>
+                {format(startDate, 'MM/dd', { locale: ko })}
+              </span>
+            )}
+            {endDate && (
+              <>
+                <span className='text-14_M leading-normal tracking-[-0.35px]'>
+                  -
+                </span>
+                <span className='text-14_M leading-normal tracking-[-0.35px]'>
+                  {format(endDate, 'MM/dd', { locale: ko })}
+                </span>
+              </>
+            )}
+          </div>
+        )}
+        {isOpen ? (
+          <AltArrowUpIcon className='aspect-square h-4 w-4 text-white' />
+        ) : startDate || endDate ? (
+          <DeleteIcon className='aspect-square h-4 w-4 text-white' />
+        ) : (
+          <AltArrowDownIcon className='aspect-square h-4 w-4 text-gray-950' />
+        )}
+      </button>
+
+      {isOpen && (
+        <div className='fixed top-1/2 left-1/2 z-10 inline-flex w-[calc(100vw-1rem)] max-w-[350px] -translate-x-1/2 -translate-y-1/2 flex-col gap-5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white px-2 py-5'>
+          <div className='flex items-center justify-center gap-2'>
+            <button
+              className='cursor-pointer'
+              aria-label='prev month'
+              onClick={() => setCurrentMonth(prevMonth)}
+            >
+              <AltArrowLeftIcon className='aspect-square h-6 w-6 text-gray-950' />
+            </button>
+            <span className='text-20_B leading-normal tracking-[-0.5px] text-gray-950'>
+              {format(currentMonth, 'yyyy년 M월', { locale: ko })}
+            </span>
+            <button
+              className='cursor-pointer'
+              aria-label='next month'
+              onClick={() => setCurrentMonth(nextMonth)}
+            >
+              <AltArrowRightIcon className='aspect-square h-6 w-6 text-gray-950' />
+            </button>
+          </div>
+          <Calendar
+            month={currentMonth}
+            startDate={selectedRange.startDate}
+            endDate={selectedRange.endDate}
+            onDateClick={handleDateClick}
+            className='flex flex-col gap-1'
+          />
         </div>
-        <Calendar
-          month={currentMonth}
-          startDate={selectedRange.startDate}
-          endDate={selectedRange.endDate}
-          onDateClick={handleDateClick}
-        />
-      </PopoverContent>
-    </Popover>
+      )}
+    </div>
   );
 };
 

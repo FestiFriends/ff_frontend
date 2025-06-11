@@ -24,8 +24,13 @@ const SortDropdown = ({
   const [selectedValue, setSelectedValue] = useState(defaultValue);
 
   const handleChange = (value: string) => {
-    setSelectedValue(value);
-    onChange?.(value);
+    if (value !== selectedValue) {
+      setSelectedValue(value);
+      onChange?.(value);
+    } else {
+      setSelectedValue('');
+      onChange?.('');
+    }
   };
 
   return (
