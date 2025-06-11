@@ -29,7 +29,7 @@ const ProfileHeader = ({ profile, onEditClick }: ProfileHeaderProps) => {
         {isMine && (
           <Button
             size='sm'
-            className='absolute top-0 right-0 rounded-md bg-blue-500 px-4 py-2 text-xs text-white'
+            className='absolute top-0 right-0 w-24 rounded-md bg-blue-500 px-2 py-1 text-xs text-white hover:bg-blue-600'
             onClick={onEditClick}
           >
             프로필 수정
