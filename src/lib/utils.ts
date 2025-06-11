@@ -18,3 +18,13 @@ export const sortRangeValues = (value: [number, number]): [number, number] => [
   Math.min(value[0], value[1]),
   Math.max(value[0], value[1]),
 ];
+
+export const scrollToTop = () => {
+  console.log('scrollToTop');
+  if (typeof window !== 'undefined') {
+    window.scrollTo({
+      top: 0,
+      behavior: 'instant',
+    });
+  }
+};
