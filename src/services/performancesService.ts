@@ -22,6 +22,14 @@ export const performancesApi = {
       )
     ).data,
 
+
+  getFavoritePerformances: async () => {
+    const res = await apiFetcher.get<PerformancesResponse>(
+      '/api/v1/performances/favorites'
+    );
+    return res.data;
+  },
+
   patchLiked: async ({ performanceId, isLiked }: PerformanceIsLikedData) =>
     (
       await apiFetcher.patch<PerformanceIsLikedResponse>(
