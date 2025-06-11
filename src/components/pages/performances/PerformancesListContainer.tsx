@@ -18,7 +18,7 @@ const errorFallback = (error: Error) => (
 );
 
 const PerformanceListContainer = () => {
-  const { getQueryParam, getPerformanceQueryString } = useQueryParam();
+  const { getPerformanceQueryString } = useQueryParam();
   const queryString = getPerformanceQueryString();
 
   const {
@@ -36,15 +36,10 @@ const PerformanceListContainer = () => {
       </div>
     );
 
-  const { totalPages = 0, totalElements: totalItems = 0 } = searchResult;
-  const currentPage = parseInt(getQueryParam('page') || '1', 10);
+  const { totalPages = 0 } = searchResult;
 
   return (
     <div>
-      <div className='mb-4 text-sm text-gray-600'>
-        총 {totalItems}개의 공연이 있습니다. (페이지 {currentPage} /{' '}
-        {totalPages})
-      </div>
       <PerformanceList performances={searchResult.data} />
       {totalPages > 1 && (
         <QueryPagination
