@@ -51,10 +51,10 @@ const DropdownItem = ({
     'cursor-pointer bg-white select-none',
 
     // hover style
-    'hover:bg-gray-200',
+    'hover:bg-gray-50',
 
     // focus style
-    'focus:bg-gray-300 focus:outline-none',
+    'focus:bg-gray-50 focus:outline-none',
 
     // custom style
     className

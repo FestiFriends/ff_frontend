@@ -25,8 +25,11 @@ const SortDropdownUi = ({
   placeholder = '정렬',
 }: SortDropdownUiProps) => (
   <Dropdown>
-    <DropdownTriggerWithIcon placeholder={placeholder} />
-    <DropdownContent className='mt-2 flex min-w-full flex-col rounded-[12px] border-1 border-gray-50 bg-white whitespace-nowrap'>
+    <DropdownTriggerWithIcon
+      placeholder={placeholder}
+      className='whitespace-nowrap'
+    />
+    <DropdownContent className='mt-2 flex w-full flex-col rounded-[12px] border-1 border-gray-50 bg-white whitespace-nowrap'>
       {options.map((option, index) => (
         <DropdownItem
           key={option.value}
