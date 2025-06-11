@@ -13,6 +13,7 @@ interface SortDropdownProps {
   defaultValue?: string;
   onChange?: (value: string) => void;
   placeholder?: string;
+  initialValue?: string;
 }
 
 const SortDropdown = ({
@@ -20,8 +21,11 @@ const SortDropdown = ({
   defaultValue = '',
   onChange,
   placeholder,
+  initialValue = '',
 }: SortDropdownProps) => {
-  const [selectedValue, setSelectedValue] = useState(defaultValue);
+  const [selectedValue, setSelectedValue] = useState(
+    initialValue || defaultValue
+  );
 
   const handleChange = (value: string) => {
     if (value !== selectedValue) {
