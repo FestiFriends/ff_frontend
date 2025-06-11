@@ -1,9 +1,11 @@
 import TabBar from '@/components/common/TabBar/TabBar';
+import NotificationToast from '@/components/pages/NotificationToast';
 import { initMocks } from '@/mocks';
 import { AuthStoreProvider } from '@/providers/AuthStoreProvider';
 import { MSWComponent } from '@/providers/MSWComponent';
 import QueryProvider from '@/providers/QueryProviders';
 import './globals.css';
+import { SseStoreProvider } from '@/providers/SseStoreProvider';
 
 initMocks();
 
@@ -16,11 +18,14 @@ const RootLayout = ({
     <body className='touch-manipulation'>
       <div id='portal' />
       <AuthStoreProvider>
-        <MSWComponent>
-          <QueryProvider>
-            <TabBar>{children}</TabBar>
-          </QueryProvider>
-        </MSWComponent>
+        <SseStoreProvider>
+          <MSWComponent>
+            <QueryProvider>
+              <TabBar>{children}</TabBar>
+              <NotificationToast />
+            </QueryProvider>
+          </MSWComponent>
+        </SseStoreProvider>
       </AuthStoreProvider>
     </body>
   </html>
