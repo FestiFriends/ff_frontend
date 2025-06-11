@@ -3,14 +3,20 @@ import { Gender } from '@/types/enums';
 import ProfileCard from './ProfileCard';
 
 const dummyProfile = {
-  profileImageUrl: '/profile.jpg',
-  nickname: '홍길동',
+  id: '1',
+  name: '홍길동',
+  age: 25,
   gender: Gender.MALE,
-  rating: 4.5,
+  profileImage: {
+    id: '1',
+    src: '/profile.jpg',
+    alt: '프로필 이미지',
+  },
   description: '안녕하세요',
+  hashtag: ['친절함', '시간 약속'],
   sns: 'https://example.com',
-  tags: ['친절함', '시간 약속'],
-  isMyProfile: true,
+  rating: 4.5,
+  isLiked: false,
 };
 
 afterEach(() => {
@@ -37,7 +43,7 @@ test('정상 데이터일 때 프로필 정보 렌더링', () => {
   expect(screen.getByText('홍길동')).toBeInTheDocument();
   expect(screen.getByText('안녕하세요')).toBeInTheDocument();
   expect(screen.getByText('친절함')).toBeInTheDocument();
-  expect(screen.getByText('프로필 수정')).toBeInTheDocument();
+  expect(screen.getByText('시간 약속')).toBeInTheDocument();
 });
 
 test('자기소개가 없으면 기본 안내 문구가 출력된다', () => {
@@ -47,23 +53,23 @@ test('자기소개가 없으면 기본 안내 문구가 출력된다', () => {
   ).toBeInTheDocument();
 });
 
-test('tags가 undefined이면 아무 태그도 렌더링되지 않는다', () => {
-  render(<ProfileCard profile={{ ...dummyProfile, tags: undefined }} />);
+test('hashtag가 undefined이면 아무 태그도 렌더링되지 않는다', () => {
+  render(<ProfileCard profile={{ ...dummyProfile, hashtag: undefined }} />);
 
-  dummyProfile.tags?.forEach((tag) => {
+  dummyProfile.hashtag?.forEach((tag) => {
     expect(screen.queryByText(tag)).not.toBeInTheDocument();
   });
 });
 
 test('태그가 빈 배열일 때 렌더링되지 않는다', () => {
-  render(<ProfileCard profile={{ ...dummyProfile, tags: [] }} />);
+  render(<ProfileCard profile={{ ...dummyProfile, hashtag: [] }} />);
   expect(screen.queryByText(/친절함/)).not.toBeInTheDocument();
 });
 
 test('태그가 공백 문자열만 있을 때 렌더링되지 않는다', () => {
-  render(<ProfileCard profile={{ ...dummyProfile, tags: ['  ', ''] }} />);
+  render(<ProfileCard profile={{ ...dummyProfile, hashtag: ['  ', ''] }} />);
 
-  dummyProfile.tags?.forEach((tag) => {
+  dummyProfile.hashtag?.forEach((tag) => {
     const tagElement = screen.queryByText(tag.trim());
     expect(tagElement).not.toBeInTheDocument();
   });
