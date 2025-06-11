@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, act } from '@testing-library/react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
+import { SseStoreProvider } from '@/providers/SseStoreProvider';
 import { authApi } from '@/services/authService';
 import { useKakaoLogin, useLogin, useLogout } from './useAuth';
 
@@ -26,7 +27,9 @@ const createWrapper = () => {
   const queryClient = new QueryClient();
 
   const Wrapper = ({ children }: { children: ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <SseStoreProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </SseStoreProvider>
   );
 
   return Wrapper;
