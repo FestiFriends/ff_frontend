@@ -1,6 +1,6 @@
 import { Star } from 'lucide-react';
-import Button from '@/components/Button/Button';
-import ProfileImage from '@/components/ProfileImage/ProfileImage';
+import Button from '@/components/common/Button/Button';
+import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
 import { Gender } from '@/types/enums';
 import { FullProfile } from '@/types/profiles';
 

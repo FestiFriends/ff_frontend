@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Tabs from '@/components/Tabs/Tabs';
+import Tabs from '@/components/common/Tabs/Tabs';
 import { FullProfile } from '@/types/profiles';
 import ProfileSummaryBox from './ProfileSummaryBox';
 import ReceivedReviews from './ReceivedReviews';

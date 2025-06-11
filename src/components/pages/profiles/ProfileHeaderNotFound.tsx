@@ -1,5 +1,5 @@
 import { Star } from 'lucide-react';
-import ProfileImage from '@/components/ProfileImage/ProfileImage';
+import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
 
 const ProfileNotFoundHeader = () => (
   <section className='flex flex-col items-center rounded-xl bg-white p-2 shadow'>
