@@ -104,8 +104,9 @@ export const useGetPerformanceDetail = (performanceId: string) =>
       await performancesApi.getPerformanceDetail(performanceId),
   });
 
-export const useGetPerformances = (queryString: string) =>
+export const useGetPerformances = (queryString: string, enabled?: boolean) =>
   useQuery<PerformancesResponsePagination>({
     queryKey: [PERFORMANCES_QUERY_KEYS.performances, queryString],
     queryFn: async () => await performancesApi.getPerformances(queryString),
+    enabled,
   });
