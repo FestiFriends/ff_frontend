@@ -1,6 +1,7 @@
 import { http, HttpResponse, delay } from 'msw';
 import { Performance, PerformanceIsLikedData } from '@/types/performance';
 import { PerformancesSearchParams } from '@/types/performancesSearchParams';
+import { FULL_PERFORMANCES_DATA } from './performancesHandlers.data';
 
 const PERFORMANCES_SAMPLE_DATA: Performance[] = [
   {
