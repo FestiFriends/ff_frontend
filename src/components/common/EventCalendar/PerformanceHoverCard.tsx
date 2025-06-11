@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import useIsMobile from '@/hooks/useIsMobile/useIsMobile';
+import { useMediaQuery } from 'react-responsive';
 import { Performance } from '@/types/performance';
 
 interface Props {
@@ -10,25 +10,29 @@ interface Props {
 
 const PerformanceHoverCard = ({ performance, children }: Props) => {
   const [show, setShow] = useState(false);
-  const [hoverCardRoot, setHoverCardRoot] = useState<HTMLElement | null>(null);
-  const triggerRef = useRef<HTMLDivElement | null>(null);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
+  const triggerRef = useRef<HTMLDivElement | null>(null);
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
-  const isMobile = useIsMobile();
+  const portalElement =
+    typeof window !== 'undefined' ? document.getElementById('portal') : null;
 
-  useEffect(() => {
-    const existing = document.getElementById('hover-card-root');
-    if (existing) setHoverCardRoot(existing);
-  }, []);
+  const updateCoords = () => {
+    if (!triggerRef.current) return;
+    const rect = triggerRef.current.getBoundingClientRect();
+    setCoords({
+      top: rect.bottom + window.scrollY,
+      left: rect.left + window.scrollX,
+    });
+  };
 
   useEffect(() => {
     if (!isMobile || !show) return;
-
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
       if (
         triggerRef.current?.contains(target)
-        || hoverCardRoot?.contains(target)
+        || portalElement?.contains(target)
       ) {
         return;
       }
@@ -39,15 +43,13 @@ const PerformanceHoverCard = ({ performance, children }: Props) => {
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, [isMobile, show, hoverCardRoot]);
+  }, [isMobile, show, portalElement]);
 
-  const updateCoords = () => {
-    if (!triggerRef.current) return;
-    const rect = triggerRef.current.getBoundingClientRect();
-    setCoords({
-      top: rect.bottom + window.scrollY,
-      left: rect.left + window.scrollX,
-    });
+  const handleClick = () => {
+    if (isMobile) {
+      updateCoords();
+      setShow((prev) => !prev);
+    }
   };
 
   const handleEnter = () => {
@@ -63,34 +65,27 @@ const PerformanceHoverCard = ({ performance, children }: Props) => {
     }
   };
 
-  const handleClick = () => {
-    if (isMobile) {
-      updateCoords();
-      setShow((prev) => !prev);
-    }
-  };
-
   return (
     <>
       <div
         ref={triggerRef}
-        className='inline-block'
         role='button'
         tabIndex={0}
+        onClick={handleClick}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
-        onClick={handleClick}
         onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             handleClick();
           }
         }}
+        className='inline-block'
       >
         {children}
       </div>
 
       {show
-        && hoverCardRoot
+        && portalElement
         && createPortal(
           <div
             className='fixed z-50 w-64 rounded border bg-white p-3 shadow-lg'
@@ -114,7 +109,7 @@ const PerformanceHoverCard = ({ performance, children }: Props) => {
               출연진: {performance.cast.join(', ')}
             </p>
           </div>,
-          hoverCardRoot
+          portalElement
         )}
     </>
   );
