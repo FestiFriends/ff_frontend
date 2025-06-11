@@ -1,10 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
 import { PERFORMANCES_QUERY_KEYS } from '@/constants/queryKeys';
 import { performancesApi } from '@/services/performancesService';
 import { ApiResponse } from '@/types/api';
 import {
-  Performance,
+  PerformanceDetailResponse,
   PerformanceIsLikedData,
   PerformanceIsLikedResponse,
   PerformancesResponse,
@@ -12,7 +11,7 @@ import {
 } from '@/types/performance';
 
 export const useGetTopFavoritesPerformances = () =>
-  useQuery<AxiosResponse<PerformancesResponse>, ApiResponse>({
+  useQuery<PerformancesResponse, ApiResponse>({
     queryKey: [
       PERFORMANCES_QUERY_KEYS.performances,
       PERFORMANCES_QUERY_KEYS.topFavorites,
@@ -21,7 +20,7 @@ export const useGetTopFavoritesPerformances = () =>
   });
 
 export const useGetTopByGroupCountPerformances = () =>
-  useQuery<AxiosResponse<PerformancesResponse>, ApiResponse>({
+  useQuery<PerformancesResponse, ApiResponse>({
     queryKey: [
       PERFORMANCES_QUERY_KEYS.performances,
       PERFORMANCES_QUERY_KEYS.topByGroupCount,
@@ -37,50 +36,45 @@ export const usePatchPerformanceLiked = () => {
     ApiResponse,
     PerformanceIsLikedData
   >({
-    mutationFn: async ({ performanceId, isLiked }) => {
-      const response = await performancesApi.patchLiked({
+    mutationFn: async ({ performanceId, isLiked }) =>
+      await performancesApi.patchLiked({
         performanceId,
         isLiked,
-      });
-      return response.data;
-    },
+      }),
     onMutate: async ({ performanceId, isLiked }) => {
       await queryClient.cancelQueries({
         queryKey: [PERFORMANCES_QUERY_KEYS.performances],
       });
 
-      const queries = queryClient.getQueriesData<{
-        data: PerformancesResponse | ApiResponse<Performance>;
-      }>({
+      const queries = queryClient.getQueriesData<
+        PerformancesResponse | PerformanceDetailResponse
+      >({
         queryKey: [PERFORMANCES_QUERY_KEYS.performances],
       });
 
       queries.forEach(([queryKey, queryData]) => {
         if (!queryData?.data) return;
 
-        if (Array.isArray(queryData.data.data)) {
+        if (Array.isArray(queryData.data)) {
           queryClient.setQueryData(
             queryKey,
-            (oldData: { data: PerformancesResponse }) => ({
+            (oldData: PerformancesResponse) => ({
               ...oldData,
-              data: {
-                ...oldData.data,
-                data: oldData.data.data?.map((p) =>
-                  p.id === performanceId
-                    ? {
-                        ...p,
-                        isLiked,
-                        favoriteCount: p.favoriteCount + (isLiked ? 1 : -1),
-                      }
-                    : p
-                ),
-              },
+              data: oldData.data?.map((p) =>
+                p.id === performanceId
+                  ? {
+                      ...p,
+                      isLiked,
+                      favoriteCount: p.favoriteCount + (isLiked ? 1 : -1),
+                    }
+                  : p
+              ),
             })
           );
         } else {
           queryClient.setQueryData(
             queryKey,
-            (oldData: ApiResponse<Performance>) => ({
+            (oldData: PerformanceDetailResponse) => ({
               ...oldData,
               data: {
                 ...oldData.data,
@@ -106,20 +100,12 @@ export const usePatchPerformanceLiked = () => {
 export const useGetPerformanceDetail = (performanceId: string) =>
   useQuery({
     queryKey: [PERFORMANCES_QUERY_KEYS.performances, performanceId],
-    queryFn: async () => {
-      const res = await performancesApi.getPerformanceDetail(performanceId);
-      return res.data;
-    },
+    queryFn: async () =>
+      await performancesApi.getPerformanceDetail(performanceId),
   });
 
 export const useGetPerformances = (queryString: string) =>
   useQuery<PerformancesResponsePagination>({
     queryKey: [PERFORMANCES_QUERY_KEYS.performances, queryString],
-    queryFn: async () => {
-      const response = await fetch(`/api/v1/performances?${queryString}`);
-      if (!response.ok) {
-        throw new Error('공연 목록을 불러오는데 실패했습니다.');
-      }
-      return response.json();
-    },
+    queryFn: async () => await performancesApi.getPerformances(queryString),
   });

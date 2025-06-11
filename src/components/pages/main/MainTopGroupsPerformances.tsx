@@ -18,7 +18,7 @@ const MainTopGroupsPerformances = () => {
       isPending={isPending}
       isError={isError}
       error={error}
-      performances={topByGroupCountPerformances?.data}
+      performances={topByGroupCountPerformances}
     />
   );
 };

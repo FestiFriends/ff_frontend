@@ -19,7 +19,7 @@ const MainTopFavoritesPerformances = () => {
       isPending={isPending}
       isError={isError}
       error={error}
-      performances={topFavoritesPerformances?.data}
+      performances={topFavoritesPerformances}
     />
   );
 };
