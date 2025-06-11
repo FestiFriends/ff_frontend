@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { startOfMonth, endOfMonth, format } from 'date-fns';
 import EventCalendar from '@/components/common/EventCalendar/EventCalendar';
 import LoadingOverlay from '@/components/common/LoadingOverlay/LoadingOverlay';
@@ -17,28 +18,33 @@ interface PerformanceCalendarProps {
 }
 
 const PerformanceCalendar = ({
-  performances,
   selectedDate,
   onSelectedDateChange,
   onPerformancesFetched,
   onDateClick,
 }: PerformanceCalendarProps) => {
   const [currentMonth, setCurrentMonth] = useState(() => new Date());
-  const [isLoading, setIsLoading] = useState(true);
+
+  const startDate = format(startOfMonth(currentMonth), 'yyyy-MM-dd');
+  const endDate = format(endOfMonth(currentMonth), 'yyyy-MM-dd');
+
+  const { data: performances = [], isLoading } = useQuery({
+    queryKey: ['performances', startDate, endDate],
+    queryFn: () =>
+      performancesApi.getPerformances({
+        startDate,
+        endDate,
+        size: 100,
+      }),
+    select: (res) => res.data.data ?? [],
+    staleTime: 1000 * 60 * 60,
+  });
 
   useEffect(() => {
-    const startDate = format(startOfMonth(currentMonth), 'yyyy-MM-dd');
-    const endDate = format(endOfMonth(currentMonth), 'yyyy-MM-dd');
-
-    performancesApi
-      .getPerformances({ startDate, endDate, size: 100 })
-      .then((res) => {
-        const performances = res.data.data ?? [];
-        onPerformancesFetched?.(performances);
-      })
-      .catch((err) => console.error('공연 로딩 오류:', err))
-      .finally(() => setIsLoading(false));
-  }, [currentMonth, onPerformancesFetched]);
+    if (performances.length > 0) {
+      onPerformancesFetched?.(performances);
+    }
+  }, [performances, onPerformancesFetched]);
 
   const handleDateClick = useCallback(
     (date: Date, _events: Performance[], scroll?: boolean) => {
