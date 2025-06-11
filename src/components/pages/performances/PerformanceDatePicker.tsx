@@ -62,7 +62,7 @@ const PerformanceDatePicker = ({
 
   useEffect(() => {
     loadDateParams();
-  }, [getQueryParam, startDateKey, endDateKey, dateFormat]);
+  }, [startDateKey, endDateKey, dateFormat]);
 
   const handleDateChange = (range: DateRange) => {
     setDateRange(range);

@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect } from 'react';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import Image from 'next/image';
 import StarIcon from '@/components/icons/StarIcon';
+import { GroupCategoryLabels } from '@/constants/groupLabels';
 import { cn } from '@/lib/utils';
-import { GroupCategory, GroupCategoryType } from '@/types/enums';
-import { GroupCard as GroupCardData } from '@/types/groupCard';
+import { GroupCategoryType } from '@/types/enums';
+import { Group } from '@/types/group';
 import { getGenderLabels } from '@/utils/genderEnumLabel';
 import Badge from '../Badge/Badge';
 import { badgeStyles } from '../Badge/Badge.styles';
@@ -17,7 +17,7 @@ import ProfileImage from '../ProfileImage/ProfileImage';
 import ProgressBar from '../ProgressBar/ProgressBar';
 
 interface GroupCardProps {
-  groupData: GroupCardData;
+  groupData: Group;
   className?: string;
   buttonText: string;
   isHashtagClickable?: boolean;
@@ -39,9 +39,6 @@ const GroupCard = ({
 }: GroupCardProps) => {
   const genderLabel = getGenderLabels(groupData.gender);
 
-  useEffect(() => {
-    console.log('DATA: ', groupData);
-  }, [groupData]);
   const handleCardClick = (
     e: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>
   ) => {
@@ -78,11 +75,9 @@ const GroupCard = ({
       <div className='flex w-full items-center justify-between'>
         <div className='flex gap-0.5'>
           <Badge
-            label={GroupCategory[groupData.category as GroupCategoryType]}
+            label={GroupCategoryLabels[groupData.category as GroupCategoryType]}
             className={
-              badgeStyles.category[
-                GroupCategory[groupData.category as GroupCategoryType]
-              ]
+              badgeStyles.category[groupData.category as GroupCategoryType]
             }
           />
           {groupData.isHost && <span>👑</span>}
@@ -165,7 +160,8 @@ const GroupCard = ({
       )}
       <div className='flex w-full gap-2'>
         <Button
-          variant='normalPrimary'
+          variant='primary'
+          color='normal'
           onClick={handleButtonClick}
         >
           {buttonText}

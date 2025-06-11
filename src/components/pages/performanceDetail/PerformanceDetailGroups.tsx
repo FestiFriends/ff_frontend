@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Pagination from '@/components/common/Pagination/Pagination';
 import { useGetGroups } from '@/hooks/groupHooks/groupHooks';
 import { DateRange } from '@/types/dateRange';
@@ -51,8 +51,11 @@ const PerformanceDetailGroups = ({
   };
 
   const { data: groups, isPending } = useGetGroups(queryParams);
+  useEffect(() => {
+    console.log(groups);
+  }, [groups]);
 
-  if (isPending || !groups?.data) return <div>loading...</div>;
+  if (isPending || !groups) return <div>loading...</div>;
 
   return (
     <div>
@@ -64,12 +67,10 @@ const PerformanceDetailGroups = ({
         setLocation={(loc) => updateFilter('location', loc)}
         setGender={(gen) => updateFilter('gender', gen)}
       />
-
-      <GroupsList groups={groups.data.groups} />
-
+      <GroupsList groups={groups} />
       <Pagination
         currentPage={currentPage}
-        totalPages={groups.totalPages}
+        totalPages={groups.data.totalPages}
         onPageChange={setCurrentPage}
         maxVisiblePages={5}
       />
