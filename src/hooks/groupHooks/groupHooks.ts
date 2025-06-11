@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { GROUP_QUERY_KEYS } from '@/constants/queryKeys';
 import { groupsApi } from '@/services/groupsService';
-import { GetGroupsParams, GroupsResponse } from '@/types/group';
+import { GetGroupsParams } from '@/types/group';
+import { PerformanceGroupsApiResponse } from '@/utils/formatGroupCardData';
 
 export const useGetGroups = ({
   performanceId,
@@ -14,7 +15,7 @@ export const useGetGroups = ({
   location,
   gender,
 }: GetGroupsParams) =>
-  useQuery<GroupsResponse>({
+  useQuery<PerformanceGroupsApiResponse>({
     queryKey: [
       GROUP_QUERY_KEYS.groups,
       performanceId,
@@ -40,5 +41,6 @@ export const useGetGroups = ({
       });
       return res.data;
     },
-    placeholderData: (previousData: GroupsResponse | undefined) => previousData,
+    placeholderData: (previousData: PerformanceGroupsApiResponse | undefined) =>
+      previousData,
   });

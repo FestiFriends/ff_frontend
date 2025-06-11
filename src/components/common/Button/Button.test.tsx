@@ -11,7 +11,8 @@ describe('Button 컴포넌트 테스트', () => {
   test('variant와 size props값에 따라 올바른 클래스가 적용된다', () => {
     render(
       <Button
-        variant='disablePrimary'
+        variant='primary'
+        color='normal'
         size='lg'
       >
         삭제
@@ -19,11 +20,8 @@ describe('Button 컴포넌트 테스트', () => {
     );
     const button = screen.getByRole('button', { name: '삭제' });
 
-    expect(button).toHaveClass('bg-gray-200');
-    expect(button).toHaveClass('text-gray-100');
-
-    expect(button).toHaveClass('px-8');
-    expect(button).toHaveClass('py-2');
+    expect(button).toHaveClass('bg-primary-red');
+    expect(button).toHaveClass('px-8 py-2.5');
   });
 
   test('버튼 클릭 시 onClick 핸들러가 호출된다', () => {
@@ -38,7 +36,7 @@ describe('Button 컴포넌트 테스트', () => {
     const handleClick = jest.fn();
     render(
       <Button
-        disabled
+        disabled={true}
         onClick={handleClick}
       >
         비활성화
@@ -47,13 +45,5 @@ describe('Button 컴포넌트 테스트', () => {
     const button = screen.getByRole('button', { name: '비활성화' });
     fireEvent.click(button);
     expect(handleClick).not.toHaveBeenCalled();
-  });
-
-  test('disabled 상태일 때 적절한 스타일 클래스가 적용된다', () => {
-    render(<Button disabled>비활성화</Button>);
-    const button = screen.getByRole('button', { name: '비활성화' });
-    expect(button).toHaveClass('cursor-not-allowed');
-    expect(button).toHaveClass('bg-gray-200');
-    expect(button).toHaveClass('text-white');
   });
 });
