@@ -12,7 +12,8 @@ import {
   startOfWeek,
 } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import AltArrowLeftIcon from '@/components/icons/AltArrowLeftIcon';
+import AltArrowRightIcon from '@/components/icons/AltArrowRightIcon';
 import { cn } from '@/lib/utils';
 
 interface CalendarProps {
@@ -71,68 +72,92 @@ const Calendar = ({
     const isRange =
       startDate && endDate && isAfter(day, startDate) && isBefore(day, endDate);
 
-    // TODO: 디자인 시안 나오면 스타일 수정 필요
     const dayClasses = cn(
       // default style
-      'flex items-center justify-center rounded-full',
+      'flex aspect-square h-12.5 w-12.5 items-center justify-center bg-white',
+      'text-base font-medium tracking-[-0.4px] text-gray-800',
+
+      // prevMonthDate, nextMonthDate style
+      !isCurrentMonth && 'text-gray-300',
+
+      isStart
+        && endDate
+        && 'rounded-tl-[100px] rounded-bl-[100px] bg-primary-100',
+
+      isEnd
+        && startDate
+        && 'rounded-tr-[100px] rounded-br-[100px] bg-primary-100',
+
+      // rangeDate style
+      isRange && 'bg-primary-100'
+    );
+
+    const dayButtonClasses = cn(
+      'h-full w-full',
 
       // clickable style
       onDateClick && 'cursor-pointer',
 
-      // prevMonthDate, nextMonthDate style
-      !isCurrentMonth && 'text-gray-400',
-
-      // rangeDate style
-      isRange && 'bg-blue-100 text-blue-700',
-
       // startDate style
-      isStart && 'bg-blue-500 text-white',
+      isStart && 'z-10 rounded-[100px] bg-primary-red font-bold text-white',
 
       // endDate style
-      isEnd && 'bg-blue-500 text-white'
+      isEnd && 'z-10 rounded-[100px] bg-primary-red font-bold text-white'
     );
 
     return (
-      <button
+      <div
         key={day.toISOString()}
-        onClick={() => onDateClick?.(day)}
         className={dayClasses}
       >
-        <span>{format(day, 'd')}</span>
-      </button>
+        <button
+          onClick={() => onDateClick?.(day)}
+          className={dayButtonClasses}
+        >
+          <span>{format(day, 'd')}</span>
+        </button>
+      </div>
     );
   };
 
   const calendarClasses = cn('w-full', className);
 
-  // TODO: 디자인 시안 나오면 스타일 수정 필요
   return (
     <div className={calendarClasses}>
       {isControllable && (
-        <div className='flex items-center justify-between text-center'>
+        <div className='flex items-center justify-center gap-2'>
           <button
             className='cursor-pointer'
             aria-label='prev month'
             onClick={handlePrevMonth}
           >
-            <ChevronLeft />
+            <AltArrowLeftIcon className='aspect-square h-6 w-6 text-gray-950' />
           </button>
-          <span>{format(currentMonth, 'yyyy년 M월', { locale: ko })}</span>
+          <span className='text-20_B leading-normal tracking-[-0.5px] text-gray-950'>
+            {format(currentMonth, 'yyyy년 M월', { locale: ko })}
+          </span>
           <button
             className='cursor-pointer'
             aria-label='next month'
             onClick={handleNextMonth}
           >
-            <ChevronRight />
+            <AltArrowRightIcon className='aspect-square h-6 w-6 text-gray-950' />
           </button>
         </div>
       )}
-      <div className='grid grid-cols-7 place-items-center gap-1 text-center'>
+      <div className='grid grid-cols-7 place-items-center text-center'>
         {WEEKDAYS_KR.map((d) => (
-          <div key={d}>{d}</div>
+          <div
+            key={d}
+            className='flex aspect-square h-12.5 w-12.5 items-center justify-center bg-white p-2.5'
+          >
+            <span className='text-base leading-[26px] font-semibold tracking-[-0.4px] text-gray-800'>
+              {d}
+            </span>
+          </div>
         ))}
       </div>
-      <div className='grid grid-cols-7 place-items-center gap-1 text-center'>
+      <div className='grid grid-cols-7 place-items-center gap-y-2 text-center'>
         {days.map((day, index) => renderDay(day, index))}
       </div>
     </div>
