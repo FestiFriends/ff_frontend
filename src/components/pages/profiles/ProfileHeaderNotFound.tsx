@@ -28,7 +28,7 @@ const ProfileNotFoundHeader = () => (
       주소가 잘못되었거나, 탈퇴한 사용자일 수 있어요.
     </p>
 
-    <div className='mt-4 flex w-full max-w-xl flex-wrap gap-2'>
+    <div className='mt-4 mb-2 flex w-full max-w-xl flex-wrap gap-2'>
       <span className='rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-500'>
         NOT FOUND
       </span>

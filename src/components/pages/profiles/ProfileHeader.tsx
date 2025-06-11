@@ -90,7 +90,7 @@ const ProfileHeader = ({ profile, onEditClick }: ProfileHeaderProps) => {
         </div>
       )}
 
-      <div className='mt-4 flex w-full max-w-xl flex-wrap gap-2'>
+      <div className='mt-4 mb-2 flex w-full max-w-xl flex-wrap gap-2'>
         {filteredTags.map((tag, i) => (
           <span
             key={i}

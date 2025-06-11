@@ -1,20 +1,13 @@
+import apiFetcher from '@/lib/apiFetcher';
+import { ApiResponse } from '@/types/api';
 import { FullProfile } from '@/types/profiles';
 
-export const getProfile = async (userId: string): Promise<FullProfile> => {
-  const res = await fetch(`/api/profiles/${userId}`);
-  if (!res.ok) throw new Error('유저 정보를 불러올 수 없습니다.');
+export const profilesApi = {
+  getProfile: async (userId: string) =>
+    await apiFetcher
+      .get<{ data: FullProfile }>(`/api/profiles/${userId}`)
+      .then((res) => res.data),
 
-  const json = await res.json();
-  return json.data;
-};
-
-export const updateProfile = async (data: Partial<FullProfile>) => {
-  const res = await fetch(`/api/profiles/me`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  });
-
-  if (!res.ok) throw new Error('프로필 수정 실패');
-  return res.json();
+  updateProfile: async (data: Partial<FullProfile>) =>
+    await apiFetcher.patch<ApiResponse>(`/api/profiles/me`, data),
 };

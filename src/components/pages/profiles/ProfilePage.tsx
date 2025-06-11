@@ -14,16 +14,17 @@ interface Props {
 }
 
 const ProfilePage = ({ userId }: Props) => {
-  const { profile, error } = useProfile(userId);
-
+  const { data: profile, error, isLoading } = useProfile(userId);
   const [showSkeleton, setShowSkeleton] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSkeleton(true);
-    }, 300);
-    return () => clearTimeout(timer);
-  }, []);
+    if (isLoading) {
+      const timer = setTimeout(() => setShowSkeleton(true), 500);
+      return () => clearTimeout(timer);
+    } else {
+      setShowSkeleton(false);
+    }
+  }, [isLoading]);
 
   if (error) {
     return (
@@ -35,7 +36,7 @@ const ProfilePage = ({ userId }: Props) => {
 
   return (
     <ProfileWrapper>
-      {showSkeleton && !profile && (
+      {isLoading && showSkeleton && (
         <>
           <ProfileHeaderSkeleton />
           <ProfileBodySkeleton />

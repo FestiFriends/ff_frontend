@@ -13,7 +13,7 @@ const ProfileHeaderSkeleton = () => (
 
     <div className='h-24 w-full max-w-xl rounded-md bg-gray-100' />
 
-    <div className='flex w-full max-w-xl flex-wrap gap-2'>
+    <div className='mb-2 flex w-full max-w-xl flex-wrap gap-2'>
       <div className='h-7 w-24 rounded-full bg-gray-200' />
       <div className='h-7 w-36 rounded-full bg-gray-200' />
       <div className='h-7 w-28 rounded-full bg-gray-200' />
