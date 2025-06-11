@@ -7,6 +7,7 @@ export interface ApiResponse<T = unknown> {
 export interface CursorResponse {
   cursorId?: number; // 다음 페이지 조회용 커서, 더 이상 없으면 undefined
   hasNext: boolean; // 다음 페이지 존재 여부
+  firstPage?: boolean;
 }
 
 export interface CursorRequest {

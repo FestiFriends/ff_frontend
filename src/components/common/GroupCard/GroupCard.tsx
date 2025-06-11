@@ -4,11 +4,11 @@ import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import Image from 'next/image';
 import StarIcon from '@/components/icons/StarIcon';
+import { GenderLabels } from '@/constants/genderLabels';
 import { GroupCategoryLabels } from '@/constants/groupLabels';
 import { cn } from '@/lib/utils';
 import { GroupCategoryType } from '@/types/enums';
 import { Group } from '@/types/group';
-import { getGenderLabels } from '@/utils/genderEnumLabel';
 import Badge from '../Badge/Badge';
 import { badgeStyles } from '../Badge/Badge.styles';
 import Button from '../Button/Button';
@@ -37,12 +37,14 @@ const GroupCard = ({
   onButtonClick,
   onHashtagClick,
 }: GroupCardProps) => {
-  const genderLabel = getGenderLabels(groupData.gender);
+  const genderLabel = GenderLabels[groupData.gender];
 
   const handleCardClick = (
     e: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>
   ) => {
-    if ('key' in e && !(e.key === 'Enter' || e.key === ' ')) return;
+    if ('key' in e && !(e.key === 'Enter' || e.key === ' ')) {
+      return;
+    }
 
     onCardClick();
   };
@@ -67,7 +69,7 @@ const GroupCard = ({
       onClick={handleCardClick}
       onKeyDown={handleCardClick}
       className={cn(
-        'flex w-[347px] flex-col items-start justify-center gap-3 rounded-2xl bg-gray-25 p-5',
+        'flex w-full flex-col items-start justify-center gap-3 rounded-2xl bg-gray-25 p-5',
         className
       )}
     >
