@@ -4,25 +4,43 @@ import {
   PerformanceIsLikedResponse,
   PerformancesResponse,
   PerformanceDetailResponse,
+  PerformancesResponsePagination,
 } from '@/types/performance';
 
 export const performancesApi = {
   getTopFavorites: async () =>
-    await apiFetcher.get<PerformancesResponse>(
-      '/api/v1/performances/top-favorites'
-    ),
+    (
+      await apiFetcher.get<PerformancesResponse>(
+        '/api/v1/performances/top-favorites'
+      )
+    ).data,
 
   getTopByGroupCount: async () =>
-    await apiFetcher.get<PerformancesResponse>(
-      '/api/v1/performances/top-groups'
-    ),
+    (
+      await apiFetcher.get<PerformancesResponse>(
+        '/api/v1/performances/top-groups'
+      )
+    ).data,
+
   patchLiked: async ({ performanceId, isLiked }: PerformanceIsLikedData) =>
-    await apiFetcher.patch<PerformanceIsLikedResponse>(
-      `/api/v1/performances/${performanceId}/favorites`,
-      { isLiked }
-    ),
+    (
+      await apiFetcher.patch<PerformanceIsLikedResponse>(
+        `/api/v1/performances/${performanceId}/favorites`,
+        { isLiked }
+      )
+    ).data,
+
   getPerformanceDetail: async (performanceId: string) =>
-    await apiFetcher.get<PerformanceDetailResponse>(
-      `/api/v1/performances/${performanceId}`
-    ),
+    (
+      await apiFetcher.get<PerformanceDetailResponse>(
+        `/api/v1/performances/${performanceId}`
+      )
+    ).data,
+
+  getPerformances: async (queryString: string) =>
+    (
+      await apiFetcher.get<PerformancesResponsePagination>(
+        `/api/v1/performances?${queryString}`
+      )
+    ).data,
 };
