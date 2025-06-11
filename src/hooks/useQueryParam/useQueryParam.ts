@@ -25,6 +25,7 @@ const useQueryParam = () => {
   const setQueryParam = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set(key, value);
+    router.replace(`${window.location.pathname}?${params.toString()}`);
     return params.toString();
   };
 
