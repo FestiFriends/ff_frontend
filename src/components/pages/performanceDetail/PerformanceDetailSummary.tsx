@@ -68,7 +68,7 @@ const PerformanceDetailSummary = ({
 
       <div className='flex flex-col gap-5 bg-white px-4 pt-5 pb-7.5'>
         {/* 공연 포스터 */}
-        <div className='relative flex justify-center'>
+        <div className='flex justify-center'>
           <Image
             src={performanceDetail?.poster || ''}
             alt={performanceDetail?.title || ''}
