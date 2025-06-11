@@ -23,6 +23,11 @@ const nextConfig: NextConfig = {
         hostname: 'k.kakaocdn.net',
         pathname: '/**',
       },
+      {
+        protocol: 'http',
+        hostname: 'example.com',
+        pathname: '/**',
+      },
     ],
   },
   async rewrites() {

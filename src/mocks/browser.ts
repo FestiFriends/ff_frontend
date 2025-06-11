@@ -9,7 +9,6 @@ export const worker = setupWorker(
   ...profileHandlers,
   ...performancesHandlers,
   ...reviewsHandlers,
-  ...performancesHandlers,
   ...notificationHandlers,
   ...groupsHandlers
 );
