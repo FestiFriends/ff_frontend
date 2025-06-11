@@ -25,7 +25,3 @@
 ![MSW](https://img.shields.io/badge/MSW-2.8.4-FF6A33?style=flat-square)
 
 ### TODO
-
-ProfileCard test 수정
-탭에 쿼리 연동
-무한 스크롤 구현
