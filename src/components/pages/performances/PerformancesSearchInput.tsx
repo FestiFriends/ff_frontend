@@ -1,11 +1,13 @@
 'use client';
 import React, { useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import SearchInput from '@/components/common/SearchInput/SearchInput';
 import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
 
 const PerformancesSearchInput = () => {
   const { setMultipleQueryParams, getQueryParam } = useQueryParam();
   const [keyword, setKeyword] = useState(getQueryParam('keyword') || '');
+  const isMobile = useMediaQuery({ maxWidth: 768 });
 
   const handleSubmit = () => {
     setMultipleQueryParams({
@@ -15,14 +17,18 @@ const PerformancesSearchInput = () => {
   };
 
   return (
-    <SearchInput
-      value={keyword}
-      onChange={(e) => setKeyword(e.target.value)}
-      placeholder='공연명, 출연진 등을 검색하세요'
-      onSubmit={handleSubmit}
-    >
-      검색
-    </SearchInput>
+    <>
+      {!isMobile && (
+        <SearchInput
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          placeholder='공연명, 출연진 등을 검색하세요'
+          onSubmit={handleSubmit}
+        >
+          검색
+        </SearchInput>
+      )}
+    </>
   );
 };
 
