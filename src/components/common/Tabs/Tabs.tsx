@@ -7,14 +7,14 @@ interface TabsProps {
 }
 
 const Tabs = ({ tabs, activeTab, onTabChange }: TabsProps) => {
-  const [underline, setunderline] = useState(0);
+  const [underline, setUnderline] = useState(0);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
     const activeIndex = tabs.findIndex((t) => t === activeTab);
     const activeTabEl = tabRefs.current[activeIndex];
     if (activeTabEl) {
-      setunderline(activeTabEl.offsetLeft);
+      setUnderline(activeTabEl.offsetLeft);
     }
   }, [activeTab, tabs]);
 
