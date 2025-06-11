@@ -1,4 +1,4 @@
-import { Gender, GroupCategoryType } from './enums';
+import { GenderType, GroupCategoryType } from './enums';
 
 export interface GroupCard {
   id: string;
@@ -9,7 +9,7 @@ export interface GroupCard {
   };
   title: string;
   category: GroupCategoryType;
-  gender: Gender;
+  gender: GenderType;
   startAge: number;
   endAge: number;
   location: string;
@@ -20,7 +20,7 @@ export interface GroupCard {
   description: string;
   hashtag?: string[];
   host: {
-    id: string;
+    id?: string;
     name: string;
     rating?: number;
     profileImage?: string;

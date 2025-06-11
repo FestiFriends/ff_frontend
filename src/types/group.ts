@@ -1,4 +1,6 @@
-import { Gender, GroupCategoryType, GenderType, LocationType } from './enums';
+import { ApiResponse, PageResponse } from './api';
+import { GroupCategoryType, GenderType, LocationType } from './enums';
+import { GroupCard } from './groupCard';
 
 export interface Group {
   id: string;
@@ -8,7 +10,7 @@ export interface Group {
   };
   title: string;
   category: GroupCategoryType;
-  gender: Gender;
+  gender: GenderType;
   startAge: number;
   endAge: number;
   location: string;
@@ -27,10 +29,12 @@ export interface Group {
   createdAt: string;
 }
 
-export type GroupsResponse = ApiResponse<Group[]> & {
+export type GroupsResponse = ApiResponse<{
   performanceId: string;
   groupCount: number;
-};
+  groups: GroupCard[];
+}>
+  & PageResponse;
 
 export interface GetGroupsParams {
   performanceId: string;
