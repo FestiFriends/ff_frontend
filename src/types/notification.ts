@@ -12,3 +12,8 @@ export type GetNotificationsResponse = ApiResponse<NotificationData[]>
 export type GetNewNotificationsCheckResponse = ApiResponse<{
   hasUnread: boolean;
 }>;
+
+export interface SseNotificationResponse {
+  message: string;
+  createdAt: string;
+}

@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
+import { useSseStore } from '@/providers/SseStoreProvider';
 import { authApi } from '@/services/authService';
 import { ApiResponse } from '@/types/api';
 
@@ -42,12 +43,14 @@ export const useKakaoLogin = (redirectPath: string) => {
 
 export const useLogout = () => {
   const logout = useAuthStore((state) => state.logout);
+  const disconnect = useSseStore((state) => state.disconnect);
   const router = useRouter();
 
   return useMutation({
     mutationFn: authApi.logout,
     onSuccess: () => {
       logout();
+      disconnect();
       router.push('/');
     },
     onError: (error: ApiResponse) => {
