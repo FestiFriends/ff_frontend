@@ -14,6 +14,7 @@ interface FavoritePerformanceTabContentProps {
 }
 
 const FavoritePerformanceTabContent: React.FC<
+
   FavoritePerformanceTabContentProps
 > = ({ performances }) => (
   <FavoriteTabPanelWrapper>
