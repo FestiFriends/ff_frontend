@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { format } from 'date-fns';
-import Poster from '@/components/common/poster/Poster';
+import Image from 'next/image';
 import Toast from '@/components/common/Toast/Toast';
 import LikeIcon from '@/components/icons/LikeIcon';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -16,11 +16,6 @@ interface PerformanceDetailSummaryProps {
   performanceDetail?: Performance;
 }
 
-type InfoItem = {
-  label: string;
-  value: React.ReactNode;
-};
-
 const PerformanceDetailSummary = ({
   isPending,
   performanceDetail,
@@ -29,7 +24,8 @@ const PerformanceDetailSummary = ({
   const [showToast, setShowToast] = useState(false);
   const [isLiked, setIsLiked] = useState(performanceDetail?.isLiked);
   const { mutate } = usePatchPerformanceLiked();
-  const { location, place } = formatLocation(performanceDetail?.location);
+  const imageWidth = 500;
+  const imageHeight = 700;
 
   const toggleLike = () => {
     if (!isLoggedIn) {
@@ -43,71 +39,6 @@ const PerformanceDetailSummary = ({
       isLiked: !performanceDetail.isLiked,
     });
   };
-
-  const performanceInfoList: InfoItem[] = useMemo(() => {
-    if (!performanceDetail) return [];
-
-    return [
-      {
-        label: '기간',
-        value: `${format(performanceDetail.startDate, 'yy.MM.dd')} ~ ${format(performanceDetail.endDate, 'yy.MM.dd')}`,
-      },
-      {
-        label: '지역',
-        value: location,
-      },
-      {
-        label: '공연 장소',
-        value: place,
-      },
-      {
-        label: '출연진',
-        value: (
-          <div className='flex flex-wrap items-center gap-x-1'>
-            {performanceDetail.cast.map((cast: string) => (
-              <span
-                className='underline decoration-solid [text-decoration-thickness:auto] [text-underline-offset:auto] [text-decoration-skip-ink:none] [text-underline-position:from-font]'
-                key={cast}
-              >
-                {cast}
-              </span>
-            ))}
-          </div>
-        ),
-      },
-      {
-        label: '제작진',
-        value: performanceDetail.crew?.join(', '),
-      },
-      { label: '공연 시간', value: performanceDetail.runtime },
-      { label: '기획사', value: performanceDetail.agency },
-      {
-        label: '티켓 가격',
-        value: performanceDetail.price.map((price: string) => (
-          <p key={price}>{price}</p>
-        )),
-      },
-      { label: '연령', value: performanceDetail.age },
-    ];
-  }, [performanceDetail, location, place]);
-
-  const renderPerformanceInfoList = () => (
-    <div
-      className='grid gap-y-3'
-      style={{ gridTemplateColumns: 'max-content 1fr' }}
-    >
-      {performanceInfoList.map(({ label, value }) => (
-        <React.Fragment key={label}>
-          <span className='pr-7.5 text-16_B leading-normal tracking-[-0.4px] whitespace-nowrap text-gray-700'>
-            {label}
-          </span>
-          <span className='text-16_M leading-normal tracking-[-0.4px] text-gray-700'>
-            {value}
-          </span>
-        </React.Fragment>
-      ))}
-    </div>
-  );
 
   if (isPending)
     return (
@@ -137,19 +68,22 @@ const PerformanceDetailSummary = ({
 
       <div className='flex flex-col gap-5 bg-white px-4 pt-5 pb-7.5'>
         {/* 공연 포스터 */}
-
-        <Poster
-          src={performanceDetail?.poster || ''}
-          alt={performanceDetail?.title}
-          className='aspect-[2/3] h-auto max-h-[60vh] w-full'
-        />
+        <div className='relative flex justify-center'>
+          <Image
+            src={performanceDetail?.poster || ''}
+            alt={performanceDetail?.title || ''}
+            width={imageWidth}
+            height={imageHeight}
+          />
+        </div>
 
         <div className='flex flex-col gap-5'>
-          {/* 공연명, 찜, 공유 */}
           <div className='flex items-center justify-between'>
-            <h2 className='text-18_B leading-normal tracking-[-0.45px] text-gray-950'>
+            {/* 공연명 */}
+            <h2 className='text-18_B leading-normal tracking-[-0.45px] break-keep text-gray-950'>
               {performanceDetail?.title}
             </h2>
+            {/* 공연 찜 */}
             <div className='flex items-center gap-3'>
               <button
                 onClick={toggleLike}
@@ -165,7 +99,46 @@ const PerformanceDetailSummary = ({
           </div>
 
           {/* 공연 정보 요약 */}
-          {renderPerformanceInfoList()}
+          <div
+            className='grid gap-y-3'
+            style={{ gridTemplateColumns: 'max-content 1fr' }}
+          >
+            <span className='pr-7.5 text-16_B leading-normal tracking-[-0.4px] whitespace-nowrap text-gray-700'>
+              기간
+            </span>
+            <span className='text-16_M leading-normal tracking-[-0.4px] text-gray-700'>
+              {!performanceDetail?.startDate || !performanceDetail?.endDate
+                ? '정보 없음'
+                : `${format(performanceDetail.startDate, 'yy.MM.dd')} ~ ${format(performanceDetail.endDate, 'yy.MM.dd')}`}
+            </span>
+
+            <span className='pr-7.5 text-16_B leading-normal tracking-[-0.4px] whitespace-nowrap text-gray-700'>
+              장소
+            </span>
+            <span className='text-16_M leading-normal tracking-[-0.4px] text-gray-700'>
+              {formatLocation(performanceDetail?.location).place}
+            </span>
+
+            <span className='pr-7.5 text-16_B leading-normal tracking-[-0.4px] whitespace-nowrap text-gray-700'>
+              출연진
+            </span>
+            <span className='text-16_M leading-normal tracking-[-0.4px] text-gray-700'>
+              {performanceDetail?.cast.length === 0 ? (
+                '정보 없음'
+              ) : (
+                <div className='flex flex-wrap items-center gap-x-1'>
+                  {performanceDetail?.cast.map((cast: string) => (
+                    <span
+                      className='underline decoration-solid [text-decoration-thickness:auto] [text-underline-offset:auto] [text-decoration-skip-ink:none] [text-underline-position:from-font]'
+                      key={cast}
+                    >
+                      {cast}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </span>
+          </div>
         </div>
       </div>
     </>
