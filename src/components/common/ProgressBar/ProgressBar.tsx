@@ -9,6 +9,7 @@ interface ProgressBarProps {
   total: number;
   shouldAnimate?: boolean;
   className?: string;
+  showInfo?: boolean;
 }
 
 // inView로 인식할 값
@@ -19,6 +20,7 @@ const ProgressBar = ({
   total,
   shouldAnimate = true,
   className,
+  showInfo = true,
 }: ProgressBarProps) => {
   const { ref, inView } = useInView({
     threshold: THRESHOLD,
@@ -40,12 +42,14 @@ const ProgressBar = ({
       ref={ref}
       className={cn('flex w-full flex-col gap-2', className)}
     >
-      <div className='flex justify-between text-12_M text-gray-700'>
-        <span>모집 인원</span>
-        <span>
-          ({current}/{total}명)
-        </span>
-      </div>
+      {showInfo && (
+        <div className='flex justify-between text-12_M text-gray-700'>
+          <span>모집 인원</span>
+          <span>
+            ({current}/{total}명)
+          </span>
+        </div>
+      )}
       <div className='relative h-1 w-full overflow-hidden rounded-md bg-gray-100'>
         <div
           role='progressbar'
