@@ -1,27 +1,15 @@
 'use client';
 
 import React from 'react';
-import { useGetTopFavoritesPerformances } from '@/hooks/performanceHooks/performanceHooks';
+import { getTopFavoritesQueryOptions } from '@/hooks/performanceHooks/performanceHooks';
 import PerformanceWrapper from './PerformanceWrapper';
 
-const MainTopFavoritesPerformances = () => {
-  const {
-    data: topFavoritesPerformances,
-    isPending,
-    isError,
-    error,
-  } = useGetTopFavoritesPerformances();
-
-  return (
-    <PerformanceWrapper
-      href='/performances?sort=popular'
-      title='지금 핫한 공연'
-      isPending={isPending}
-      isError={isError}
-      error={error}
-      performances={topFavoritesPerformances}
-    />
-  );
-};
+const MainTopFavoritesPerformances = () => (
+  <PerformanceWrapper
+    title='지금 핫한 공연'
+    href='/performances?sort=popular'
+    queryOptions={getTopFavoritesQueryOptions()}
+  />
+);
 
 export default MainTopFavoritesPerformances;
