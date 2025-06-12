@@ -1,12 +1,11 @@
 import ClientProfileWrapper from '@/components/pages/profiles/ClientProfileWrapper';
 
 interface PageProps {
-  params: { userId: string };
+  params: Promise<{ userId: string }>;
 }
 
 const OtherProfilePage = async ({ params }: PageProps) => {
-  const { userId } = params;
-
+  const { userId } = await params;
   return <ClientProfileWrapper userId={userId} />;
 };
 
