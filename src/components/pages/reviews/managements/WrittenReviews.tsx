@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
 import { useInfiniteWrittenReviews } from '@/hooks/reviewHooks/reviewHooks';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
 import ReviewCard from './ReviewCard';
+import ReviewCardSkeleton from './ReviewCardSkeleton';
 import WrittenReviewsContent from './WrittenReviewsContent';
 
 const WrittenReviews = () => {
@@ -16,12 +16,7 @@ const WrittenReviews = () => {
   );
 
   if (isPending) {
-    return (
-      <div className='flex flex-col gap-1'>
-        <Skeleton className='h-5 w-full bg-gray-50' />
-        <Skeleton className='h-5 w-full bg-gray-50' />
-      </div>
-    );
+    return <ReviewCardSkeleton />;
   }
 
   return (
