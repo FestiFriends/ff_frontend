@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { QueryTabs } from '@/components/common';
+import { LoadingOverlay, QueryTabs, Spinner } from '@/components/common';
 import {
   FavoritePerformanceTabContent,
   FavoriteUserTabContent,
@@ -14,6 +14,8 @@ import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
 
 const TABS = ['공연', '사용자'];
 
+const DEFAULT_SIZE = 10;
+
 const FavoriteTabContainer: React.FC = () => {
   const { getQueryParam } = useQueryParam();
 
@@ -26,7 +28,7 @@ const FavoriteTabContainer: React.FC = () => {
     hasNextPage: hasNextPerformances,
     fetchNextPage: fetchNextPerformances,
     isFetchingNextPage: isFetchingNextPerformances,
-  } = useFavoritePerformances();
+  } = useFavoritePerformances(DEFAULT_SIZE);
 
   const {
     data: usersResponse,
@@ -34,7 +36,7 @@ const FavoriteTabContainer: React.FC = () => {
     hasNextPage: hasNextUsers,
     fetchNextPage: fetchNextUsers,
     isFetchingNextPage: isFetchingNextUsers,
-  } = useFavoriteUsers();
+  } = useFavoriteUsers(DEFAULT_SIZE);
 
   const performancesBottomRef = useInfiniteScroll<HTMLDivElement>(
     fetchNextPerformances,
@@ -48,7 +50,7 @@ const FavoriteTabContainer: React.FC = () => {
   );
 
   if (isPerformancesLoading || isUsersLoading) {
-    return <div>로딩 중...</div>;
+    return <LoadingOverlay />;
   }
 
   const performances =
@@ -68,14 +70,14 @@ const FavoriteTabContainer: React.FC = () => {
           <>
             <FavoritePerformanceTabContent performances={performances} />
             <div ref={performancesBottomRef} />
-            {isFetchingNextPerformances && <p>로딩 중...</p>}
+            {isFetchingNextPerformances && <Spinner />}
           </>
         )}
         {selectedTab === '사용자' && (
           <>
             <FavoriteUserTabContent users={users} />
             <div ref={usersBottomRef} />
-            {isFetchingNextUsers && <p>로딩 중...</p>}
+            {isFetchingNextUsers && <Spinner />}
           </>
         )}
       </div>
