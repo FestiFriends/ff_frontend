@@ -22,23 +22,9 @@ const PerformanceDetailSummary = ({
 }: PerformanceDetailSummaryProps) => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedin);
   const [showToast, setShowToast] = useState(false);
-  const [isLiked, setIsLiked] = useState(performanceDetail?.isLiked);
   const { mutate } = usePatchPerformanceLiked();
   const imageWidth = 500;
   const imageHeight = 700;
-
-  const toggleLike = () => {
-    if (!isLoggedIn) {
-      setShowToast(true);
-      return;
-    }
-    if (!performanceDetail) return;
-    setIsLiked((prev) => !prev);
-    mutate({
-      performanceId: performanceDetail.id,
-      isLiked: !performanceDetail.isLiked,
-    });
-  };
 
   if (isPending)
     return (
@@ -54,6 +40,18 @@ const PerformanceDetailSummary = ({
         </div>
       </div>
     );
+
+  const toggleLike = () => {
+    if (!isLoggedIn) {
+      setShowToast(true);
+      return;
+    }
+    if (!performanceDetail) return;
+    mutate({
+      performanceId: performanceDetail.id,
+      isLiked: !performanceDetail.isLiked,
+    });
+  };
 
   return (
     <>
@@ -90,7 +88,9 @@ const PerformanceDetailSummary = ({
                 aria-label='찜 버튼'
                 className='flex h-7.5 items-center justify-center gap-1 rounded-full bg-gray-25 p-3'
               >
-                <LikeIcon type={isLiked ? 'active' : 'empty'} />
+                <LikeIcon
+                  type={performanceDetail?.isLiked ? 'active' : 'empty'}
+                />
                 <span className='text-14_M leading-normal tracking-[-0.35px] text-gray-950 select-none'>
                   {performanceDetail?.favoriteCount}
                 </span>
