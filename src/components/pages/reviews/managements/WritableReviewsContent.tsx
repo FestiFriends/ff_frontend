@@ -14,7 +14,7 @@ const WritableReviewsContent = ({
   reviews,
   groupId,
 }: WritableReviewsContentProps) => (
-  <div className='flex w-full flex-col gap-4 bg-gray-25 p-4'>
+  <div className='flex w-full flex-col gap-4 bg-gray-25'>
     {reviews.map((review) => (
       <div
         key={review.targetUserId}

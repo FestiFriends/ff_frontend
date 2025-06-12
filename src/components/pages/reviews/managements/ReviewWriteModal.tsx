@@ -75,7 +75,7 @@ const ReviewWriteModal = ({ review, groupId }: ReviewWriteModalProps) => {
         disableBackdropClose
       >
         <ModalTrigger>
-          <button className='h-[26px] rounded-[8px] px-2.5'>
+          <button className='h-[26px] rounded-[8px] bg-white px-2.5'>
             <span className='flex items-center justify-center text-13_M text-gray-800'>
               리뷰 작성
             </span>
