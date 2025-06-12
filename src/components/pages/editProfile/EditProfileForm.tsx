@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import MultiSlider from '@/components/common/MultiSlider/MultiSlider';
+import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import TextInput from '@/components/common/TextInput/TextInput';
 import { GenderType } from '@/types/enums';
 import GenderSelect from './GenderSelect';
@@ -10,6 +11,8 @@ const EditProfileForm = () => {
   const [nickname, setNickname] = useState<string>('');
   const [gender, setGender] = useState<GenderType | ''>('');
   const [ageRange, setAgeRange] = useState<[number, number]>([30, 60]);
+  const [description, setDescription] = useState('');
+  const [snsId, setSnsId] = useState('');
 
   return (
     <div>
@@ -33,22 +36,40 @@ const EditProfileForm = () => {
         />
       </div>
       <p className='mb-2 text-14_B'>연령대</p>
-      <MultiSlider
-        min={20}
-        max={80}
-        step={10}
-        value={ageRange}
-        onChange={setAgeRange}
-        valuePosition='none'
-        marks={{
-          20: '20세 이하',
-          30: '30세',
-          40: '40세',
-          50: '50세',
-          60: '60세',
-          70: '70세',
-          80: '80세 이상',
-        }}
+      <div className='mb-10'>
+        <MultiSlider
+          min={20}
+          max={80}
+          step={10}
+          value={ageRange}
+          onChange={setAgeRange}
+          valuePosition='none'
+          marks={{
+            20: '20세 이하',
+            30: '30세',
+            40: '40세',
+            50: '50세',
+            60: '60세',
+            70: '70세',
+            80: '80세 이상',
+          }}
+        />
+      </div>
+
+      <p className='mb-2 text-14_B'>소개글</p>
+      <TextareaInput
+        value={description}
+        onChange={setDescription}
+        placeholder='자기소개를 입력해주세요'
+        maxLength={150}
+        rows={5}
+      />
+
+      <TextInput
+        label='SNS 아이디'
+        placeholder='인스타그램 아이디'
+        value={snsId}
+        onChange={(e) => setSnsId(e.target.value)}
       />
     </div>
   );
