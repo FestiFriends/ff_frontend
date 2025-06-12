@@ -13,7 +13,7 @@ const NotificationToast = () => {
   useEffect(() => {
     setShowToast(true);
     refetch();
-  }, [notification, refetch]);
+  }, [notification?.createdAt, refetch]);
 
   return (
     <>
