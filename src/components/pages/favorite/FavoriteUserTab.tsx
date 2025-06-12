@@ -1,6 +1,6 @@
 import React from 'react';
 import ProfileCard from '@/components/common/ProfileCard/ProfileCard';
-import { UserResponse } from '@/services/usersService';
+import { User } from '@/types/users';
 import FavoriteTabPanelWrapper from './FavoriteTabPanelWrapper';
 
 const EMPTY_MESSAGE = '찜한 사용자가 없습니다.';
@@ -16,13 +16,7 @@ const handleProfileEdit = (userId: string) => {
   console.log('Edit profile:', userId);
 };
 
-interface FavoriteUserTabContentProps {
-  users: UserResponse[];
-}
-
-const FavoriteUserTabContent: React.FC<FavoriteUserTabContentProps> = ({
-  users,
-}) => (
+const FavoriteUserTabContent: React.FC<{ users: User[] }> = ({ users }) => (
   <FavoriteTabPanelWrapper>
     {users.map((user) => (
       <ProfileCard
