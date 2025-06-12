@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import MultiSlider from '@/components/common/MultiSlider/MultiSlider';
 import TextInput from '@/components/common/TextInput/TextInput';
 import { GenderType } from '@/types/enums';
 import GenderSelect from './GenderSelect';
@@ -8,6 +9,7 @@ import GenderSelect from './GenderSelect';
 const EditProfileForm = () => {
   const [nickname, setNickname] = useState<string>('');
   const [gender, setGender] = useState<GenderType | ''>('');
+  const [ageRange, setAgeRange] = useState<[number, number]>([30, 60]);
 
   return (
     <div>
@@ -30,6 +32,24 @@ const EditProfileForm = () => {
           onChange={setGender}
         />
       </div>
+      <p className='mb-2 text-14_B'>연령대</p>
+      <MultiSlider
+        min={20}
+        max={80}
+        step={10}
+        value={ageRange}
+        onChange={setAgeRange}
+        valuePosition='none'
+        marks={{
+          20: '20세 이하',
+          30: '30세',
+          40: '40세',
+          50: '50세',
+          60: '60세',
+          70: '70세',
+          80: '80세 이상',
+        }}
+      />
     </div>
   );
 };
