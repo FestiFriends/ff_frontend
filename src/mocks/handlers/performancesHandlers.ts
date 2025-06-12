@@ -885,15 +885,18 @@ export const performancesHandlers = [
       const data = PERFORMANCES_SAMPLE_DATA?.find(
         (item) => item.id === performanceId
       );
-      return HttpResponse.json({ code: 200, message: '성공', data });
-      // if (data) {
-      //   return HttpResponse.json({ code: 200, message: '성공', data });
-      // } else {
-      //   return HttpResponse.json(
-      //     { code: 400, message: '실패' },
-      //     { status: 400 }
-      //   );
-      // }
+      if (data) {
+        return HttpResponse.json({
+          code: 200,
+          message: '공연 조회에 성공했습니다.',
+          data,
+        });
+      } else {
+        return HttpResponse.json({
+          code: 404,
+          message: '존재하지 않는 공연입니다.',
+        });
+      }
     }
   ),
 
