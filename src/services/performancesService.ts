@@ -1,10 +1,12 @@
 import apiFetcher from '@/lib/apiFetcher';
+import { CursorRequest } from '@/types/api';
 import {
   PerformanceIsLikedData,
   PerformanceIsLikedResponse,
   PerformancesResponse,
   PerformanceDetailResponse,
   PerformancesResponsePagination,
+  GetFavoritePerformancesResponse,
 } from '@/types/performance';
 
 export const performancesApi = {
@@ -22,10 +24,10 @@ export const performancesApi = {
       )
     ).data,
 
-
-  getFavoritePerformances: async (cursorId?: string, size: number = 10) =>
-    await apiFetcher.get<PerformancesResponsePagination>(
-      `/api/v1/performances/favorites?${cursorId ? `cursorId=${cursorId}&` : ''}size=${size}`
+  getFavoritePerformances: async ({ cursorId, size = 10 }: CursorRequest) =>
+    await apiFetcher.get<GetFavoritePerformancesResponse>(
+      '/api/v1/performances/favorites',
+      { params: { cursorId, size } }
     ),
 
   patchLiked: async ({ performanceId, isLiked }: PerformanceIsLikedData) =>
