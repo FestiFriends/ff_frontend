@@ -17,10 +17,11 @@ const EditProfileForm = () => {
 
   return (
     <div>
-      <ProfileImageInput />
-      <p className='mb-2 text-14_B'>닉네임</p>
+      <div className='flex justify-center'>
+        <ProfileImageInput />
+      </div>
+      <p className='mt-6 mb-2 text-14_B'>닉네임</p>
       <TextInput
-        label='닉네임'
         value={nickname}
         onChange={(e) => setNickname(e.target.value)}
         placeholder='닉네임을 입력해주세요'
@@ -28,13 +29,13 @@ const EditProfileForm = () => {
       />
 
       <div>
-        <p className='mb-2 text-14_B'>성별</p>
+        <p className='mt-6 mb-2 text-14_B'>성별</p>
         <GenderSelect
           value={gender}
           onChange={setGender}
         />
       </div>
-      <p className='mb-2 text-14_B'>연령대</p>
+      <p className='mt-6 mb-2 text-14_B'>연령대</p>
       <div className='mb-10'>
         <MultiSlider
           min={20}
@@ -44,13 +45,13 @@ const EditProfileForm = () => {
           onChange={setAgeRange}
           valuePosition='none'
           marks={{
-            20: '20세 이하',
+            20: '20세',
             30: '30세',
             40: '40세',
             50: '50세',
             60: '60세',
             70: '70세',
-            80: '80세 이상',
+            80: '80세',
           }}
         />
       </div>
@@ -64,12 +65,27 @@ const EditProfileForm = () => {
         rows={5}
       />
 
-      <p className='mb-2 text-14_B'>SNS 아이디</p>
+      <p className='mt-[27px] mb-2 text-14_B'>SNS 아이디</p>
       <TextInput
         placeholder='인스타그램 아이디'
         value={snsId}
         onChange={(e) => setSnsId(e.target.value)}
       />
+
+      <div className='mt-10 flex gap-2'>
+        <button
+          type='button'
+          className='flex-1 rounded-[12px] border border-gray-300 py-3 text-16_M text-gray-800'
+        >
+          취소
+        </button>
+        <button
+          type='submit'
+          className='flex-1 rounded-[12px] bg-red-500 py-3 text-16_M text-white'
+        >
+          확인
+        </button>
+      </div>
     </div>
   );
 };
