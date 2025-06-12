@@ -12,8 +12,7 @@ import {
   startOfWeek,
 } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import AltArrowLeftIcon from '@/components/icons/AltArrowLeftIcon';
-import AltArrowRightIcon from '@/components/icons/AltArrowRightIcon';
+import AltArrowUpIcon from '@/components/icons/AltArrowUpIcon';
 import { cn } from '@/lib/utils';
 
 interface CalendarProps {
@@ -131,7 +130,7 @@ const Calendar = ({
             aria-label='prev month'
             onClick={handlePrevMonth}
           >
-            <AltArrowLeftIcon className='aspect-square h-6 w-6 text-gray-950' />
+            <AltArrowUpIcon className='aspect-square h-6 w-6 rotate-90 text-gray-950' />
           </button>
           <span className='text-20_B leading-normal tracking-[-0.5px] text-gray-950'>
             {format(currentMonth, 'yyyy년 M월', { locale: ko })}
@@ -141,7 +140,7 @@ const Calendar = ({
             aria-label='next month'
             onClick={handleNextMonth}
           >
-            <AltArrowRightIcon className='aspect-square h-6 w-6 text-gray-950' />
+            <AltArrowUpIcon className='aspect-square h-6 w-6 -rotate-90 text-gray-950' />
           </button>
         </div>
       )}

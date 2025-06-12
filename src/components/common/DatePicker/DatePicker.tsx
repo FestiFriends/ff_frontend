@@ -3,9 +3,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { addMonths, format, subMonths } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import AltArrowDownIcon from '@/components/icons/AltArrowDownIcon';
-import AltArrowLeftIcon from '@/components/icons/AltArrowLeftIcon';
-import AltArrowRightIcon from '@/components/icons/AltArrowRightIcon';
 import AltArrowUpIcon from '@/components/icons/AltArrowUpIcon';
 import DeleteIcon from '@/components/icons/DeleteIcon';
 import useClickOutside from '@/hooks/useClickOutside/useClickOutside';
@@ -69,7 +66,7 @@ const DatePicker = ({
 
   const datePickerTriggerClasses = cn(
     // default style
-    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 transition-all',
+    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 transition-all select-none',
 
     // opened, selected style
     (isOpen || startDate || endDate) && 'border-gray-950 bg-gray-950 text-white'
@@ -108,12 +105,12 @@ const DatePicker = ({
             )}
           </div>
         )}
-        {isOpen ? (
-          <AltArrowUpIcon className='aspect-square h-4 w-4 text-white' />
-        ) : startDate || endDate ? (
+        {startDate || endDate ? (
           <DeleteIcon className='aspect-square h-4 w-4 text-white' />
         ) : (
-          <AltArrowDownIcon className='aspect-square h-4 w-4 text-gray-950' />
+          <AltArrowUpIcon
+            className={`aspect-square h-4 w-4 ${isOpen ? 'text-white' : 'rotate-180 text-gray-950'}`}
+          />
         )}
       </button>
 
@@ -125,7 +122,7 @@ const DatePicker = ({
               aria-label='prev month'
               onClick={() => setCurrentMonth(prevMonth)}
             >
-              <AltArrowLeftIcon className='aspect-square h-6 w-6 text-gray-950' />
+              <AltArrowUpIcon className='aspect-square h-6 w-6 rotate-90 text-gray-950' />
             </button>
             <span className='text-20_B leading-normal tracking-[-0.5px] text-gray-950'>
               {format(currentMonth, 'yyyy년 M월', { locale: ko })}
@@ -135,7 +132,7 @@ const DatePicker = ({
               aria-label='next month'
               onClick={() => setCurrentMonth(nextMonth)}
             >
-              <AltArrowRightIcon className='aspect-square h-6 w-6 text-gray-950' />
+              <AltArrowUpIcon className='aspect-square h-6 w-6 -rotate-90 text-gray-950' />
             </button>
           </div>
           <Calendar
