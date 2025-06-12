@@ -10,7 +10,6 @@ interface ProfileHeaderProps {
 }
 
 const ProfileHeader = ({ profile, onEditClick }: ProfileHeaderProps) => {
-  console.log('[ProfileHeader] 렌더링됨! 받은 profile:', profile);
   const {
     name,
     gender,
