@@ -24,7 +24,7 @@ export interface ButtonGroupProps {
 
 // ? : button을 extends할까?
 export interface ButtonGroupItemProps {
-  children: ReactNode;
+  children: ReactNode | ((selected: boolean) => ReactNode);
   value: string;
   disabled?: boolean;
   className?: string;
@@ -153,7 +153,7 @@ export const ButtonGroupItem: React.FC<ButtonGroupItemProps> = ({
       data-value={value}
       aria-pressed={selected}
     >
-      {children}
+      {typeof children === 'function' ? children(selected) : children}
     </button>
   );
 };
