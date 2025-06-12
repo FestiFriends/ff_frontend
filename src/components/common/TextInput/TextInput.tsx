@@ -28,7 +28,7 @@ interface TextInputProps {
 
 const SIZE_MAP = {
   sm: 'text-sm py-1.5 px-3',
-  md: 'text-14_body_M h-[54px] px-[20px] py-[16px] rounded-[16px]',
+  md: 'text-14_M h-[54px] px-[20px] py-[16px] ',
   lg: 'text-lg py-3 px-5',
   xl: 'text-xl py-4 px-6',
 };
@@ -76,7 +76,7 @@ const TextInput = ({
   const autoCompleteValue = autoComplete ?? autoCompleteMap[type] ?? 'off';
 
   const inputClass = cn(
-    'w-full border border-gray-100 pr-10 text-gray-950 transition-colors placeholder:text-gray-500 focus:outline-none',
+    'w-full rounded-[16px] border border-gray-100 pr-10 text-gray-950 transition-colors placeholder:text-gray-500 focus:outline-none',
     SIZE_MAP[sizeKey],
     showError
       ? 'border-red-500 focus:ring-1 focus:ring-red-500'

@@ -29,13 +29,13 @@ const TextareaInput = ({
 
   const borderColor = !isValidText
     ? 'ring-1 ring-red-500 focus:ring-red-500'
-    : 'focus:ring-blue-500';
+    : 'focus:ring-gray-800';
 
   return (
     <div className='flex w-full flex-col gap-1'>
       <textarea
         className={cn(
-          'h-[190px] w-full resize-none rounded-[16px] border border-gray-100 px-[20px] py-[16px] text-14_body_M text-gray-950 placeholder:text-gray-500 focus:ring-1 focus:ring-gray-800 focus:outline-none',
+          'h-[190px] w-full resize-none rounded-[16px] border border-gray-100 px-[20px] py-[16px] text-14_M text-gray-950 placeholder:text-gray-500 focus:ring-1 focus:ring-gray-800 focus:outline-none',
           borderColor,
           hideScrollbar && 'scrollbar-hide',
           className
@@ -53,7 +53,7 @@ const TextareaInput = ({
         )}
       >
         {!isValidText && (
-          <p className='text-xs text-red-500'>
+          <p className='text-12_M text-red-500'>
             부적절한 단어가 포함되어 있습니다
           </p>
         )}
