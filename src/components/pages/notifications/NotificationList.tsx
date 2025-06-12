@@ -1,17 +1,17 @@
 'use client';
 
-import { useEffect } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   useDeleteAllNotifications,
   useInfiniteNotifications,
-  usePatchReadNotifications,
+  usePatchReadAllNotifications,
 } from '@/hooks/notificationHooks/notificationHooks';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
 import NotificationCard from './NotificationCard';
 
 const NotificationList = () => {
-  const { mutate: readMutate } = usePatchReadNotifications();
+  const { mutate: readAllMutate, isPending: readAllIsPending } =
+    usePatchReadAllNotifications();
   const { mutate: deleteAllMutate, isPending: deleteAllIsPending } =
     useDeleteAllNotifications();
 
@@ -29,9 +29,11 @@ const NotificationList = () => {
     deleteAllMutate();
   };
 
-  useEffect(() => {
-    readMutate();
-  }, [readMutate]);
+  const handleReadAll = () => {
+    if (readAllIsPending) return;
+
+    readAllMutate();
+  };
 
   if (isPending) {
     return (
@@ -46,10 +48,11 @@ const NotificationList = () => {
     <>
       <div className='flex flex-col gap-2'>
         <button onClick={handleDeleteAll}>삭제</button>
+        <button onClick={handleReadAll}>전체 읽음</button>
         {!deleteAllIsPending && (
           <>
             {data?.pages.map((page) =>
-              page.data.data?.map((notification) => (
+              page.data?.map((notification) => (
                 <NotificationCard
                   key={notification.id}
                   notification={notification}

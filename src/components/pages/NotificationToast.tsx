@@ -1,16 +1,19 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { useGetNewNotificationsCheck } from '@/hooks/notificationHooks/notificationHooks';
 import { useSseStore } from '@/providers/SseStoreProvider';
 import Toast from '../common/Toast/Toast';
 
 const NotificationToast = () => {
   const [showToast, setShowToast] = useState(false);
   const notification = useSseStore((state) => state.notification);
+  const { refetch } = useGetNewNotificationsCheck();
 
   useEffect(() => {
     setShowToast(true);
-  }, [notification]);
+    refetch();
+  }, [notification?.createdAt, refetch]);
 
   return (
     <>

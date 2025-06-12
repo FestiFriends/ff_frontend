@@ -7,21 +7,28 @@ import {
 
 export const notificationsApi = {
   getNotifications: async ({ cursorId, size = 20 }: CursorRequest) =>
-    await apiFetcher.get<GetNotificationsResponse>('/api/v1/notifications', {
-      params: { cursorId, size },
-    }),
+    (
+      await apiFetcher.get<GetNotificationsResponse>('/api/v1/notifications', {
+        params: { cursorId, size },
+      })
+    ).data,
 
   getNewNotificationsCheck: async () =>
-    await apiFetcher.get<GetNewNotificationsCheckResponse>(
-      '/api/v1/notifications/unread-exists'
-    ),
+    (
+      await apiFetcher.get<GetNewNotificationsCheckResponse>(
+        '/api/v1/notifications/unread-exists'
+      )
+    ).data,
 
-  patchReadNotifications: async () =>
-    await apiFetcher.patch<ApiResponse>('/api/v1/notifications/read'),
+  patchReadNotifications: async (id: string) =>
+    (await apiFetcher.patch<ApiResponse>(`/api/v1/notifications/${id}`)).data,
+
+  patchReadAllNotifications: async () =>
+    (await apiFetcher.patch<ApiResponse>('/api/v1/notifications')).data,
 
   deleteAllNotifications: async () =>
-    await apiFetcher.delete<ApiResponse>('/api/v1/notifications'),
+    (await apiFetcher.delete<ApiResponse>('/api/v1/notifications')).data,
 
   deleteNotifications: async (id: string) =>
-    await apiFetcher.delete<ApiResponse>(`/api/v1/notifications/${id}`),
+    (await apiFetcher.delete<ApiResponse>(`/api/v1/notifications/${id}`)).data,
 };

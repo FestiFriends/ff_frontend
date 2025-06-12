@@ -5,7 +5,6 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
 import { NOTIFICATIONS_QUERY_KEYS } from '@/constants/queryKeys';
 import { notificationsApi } from '@/services/notificationsService';
 import { ApiResponse, CursorRequest } from '@/types/api';
@@ -16,9 +15,9 @@ import {
 
 export const useInfiniteNotifications = (size: CursorRequest['size']) =>
   useInfiniteQuery<
-    AxiosResponse<GetNotificationsResponse>,
+    GetNotificationsResponse,
     ApiResponse,
-    InfiniteData<AxiosResponse<GetNotificationsResponse>>,
+    InfiniteData<GetNotificationsResponse>,
     string[],
     number | undefined
   >({
@@ -27,7 +26,7 @@ export const useInfiniteNotifications = (size: CursorRequest['size']) =>
       notificationsApi.getNotifications({ cursorId: pageParam, size }),
 
     getNextPageParam: (lastPage) =>
-      lastPage.data?.hasNext ? lastPage.data?.cursorId : undefined,
+      lastPage.hasNext ? lastPage.cursorId : undefined,
     initialPageParam: undefined,
   });
 
@@ -42,21 +41,56 @@ export const useGetNewNotificationsCheck = () =>
 
 export const usePatchReadNotifications = () => {
   const queryClient = useQueryClient();
-  return useMutation<ApiResponse, ApiResponse>({
-    mutationFn: async () => {
-      const response = await notificationsApi.patchReadNotifications();
-      return response.data;
+  return useMutation<ApiResponse, ApiResponse, string>({
+    mutationFn: async (id) => await notificationsApi.patchReadNotifications(id),
+
+    onMutate: async (id) => {
+      queryClient.setQueryData(
+        [NOTIFICATIONS_QUERY_KEYS.notifications],
+        (old: InfiniteData<GetNotificationsResponse>) => ({
+          ...old,
+          pages: old.pages.map((page) => ({
+            ...page,
+            data: page.data?.map((n) => ({
+              ...n,
+              isRead: id === n.id ? true : n.isRead,
+            })),
+          })),
+        })
+      );
     },
 
+    onSettled: () =>
+      queryClient.invalidateQueries({
+        queryKey: [NOTIFICATIONS_QUERY_KEYS.notifications],
+      }),
+  });
+};
+
+export const usePatchReadAllNotifications = () => {
+  const queryClient = useQueryClient();
+  return useMutation<ApiResponse, ApiResponse>({
+    mutationFn: notificationsApi.patchReadAllNotifications,
     onMutate: async () => {
       queryClient.setQueryData(
         [
           NOTIFICATIONS_QUERY_KEYS.notifications,
           NOTIFICATIONS_QUERY_KEYS.newNotifications,
         ],
-        (old: { data: GetNewNotificationsCheckResponse }) => ({
+        (old: GetNewNotificationsCheckResponse) => ({
           ...old,
-          data: { ...old.data, data: { hasUnread: false } },
+          data: { hasUnread: false },
+        })
+      );
+
+      queryClient.setQueryData(
+        [NOTIFICATIONS_QUERY_KEYS.notifications],
+        (old: InfiniteData<GetNotificationsResponse>) => ({
+          ...old,
+          pages: old.pages.map((page) => ({
+            ...page,
+            data: page.data?.map((n) => ({ ...n, isRead: true })),
+          })),
         })
       );
     },
@@ -71,11 +105,19 @@ export const usePatchReadNotifications = () => {
 export const useDeleteAllNotifications = () => {
   const queryClient = useQueryClient();
   return useMutation<ApiResponse, ApiResponse>({
-    mutationFn: async () => {
-      const response = await notificationsApi.deleteAllNotifications();
-      return response.data;
+    mutationFn: async () => await notificationsApi.deleteAllNotifications(),
+    onMutate: () => {
+      queryClient.setQueryData(
+        [
+          NOTIFICATIONS_QUERY_KEYS.notifications,
+          NOTIFICATIONS_QUERY_KEYS.newNotifications,
+        ],
+        (old: GetNewNotificationsCheckResponse) => ({
+          ...old,
+          data: { hasUnread: false },
+        })
+      );
     },
-
     onSettled: () =>
       queryClient.invalidateQueries({
         queryKey: [NOTIFICATIONS_QUERY_KEYS.notifications],
@@ -86,11 +128,7 @@ export const useDeleteAllNotifications = () => {
 export const useDeleteNotifications = () => {
   const queryClient = useQueryClient();
   return useMutation<ApiResponse, ApiResponse, string>({
-    mutationFn: async (id) => {
-      const response = await notificationsApi.deleteNotifications(id);
-      return response.data;
-    },
-
+    mutationFn: async (id) => await notificationsApi.deleteNotifications(id),
     onSettled: () =>
       queryClient.invalidateQueries({
         queryKey: [NOTIFICATIONS_QUERY_KEYS.notifications],
