@@ -6,35 +6,31 @@ interface GenderSelectProps {
   onChange: (value: GenderType) => void;
 }
 
-const GenderSelect = ({ value, onChange }: GenderSelectProps) => (
-  <div>
+const GenderSelect = ({ value, onChange }: GenderSelectProps) => {
+  const options: { label: string; value: GenderType }[] = [
+    { label: '여성', value: 'FEMALE' },
+    { label: '남성', value: 'MALE' },
+  ];
+
+  return (
     <div className='flex gap-2'>
-      <button
-        type='button'
-        onClick={() => onChange('FEMALE')}
-        className={cn(
-          'h-[43px] w-[68px] rounded-full border text-14_M',
-          value === 'FEMALE'
-            ? 'border-transparent bg-gray-950 text-white'
-            : 'border-gray-100 bg-white text-gray-700'
-        )}
-      >
-        여성
-      </button>
-      <button
-        type='button'
-        onClick={() => onChange('MALE')}
-        className={cn(
-          'h-[43px] w-[68px] rounded-full border text-14_M',
-          value === 'MALE'
-            ? 'border-transparent bg-gray-950 text-white'
-            : 'border-gray-100 bg-white text-gray-700'
-        )}
-      >
-        남성
-      </button>
+      {options.map((option) => (
+        <button
+          key={option.value}
+          type='button'
+          onClick={() => onChange(option.value)}
+          className={cn(
+            'h-[43px] w-[68px] rounded-full border text-14_M',
+            value === option.value
+              ? 'border-transparent bg-gray-950 text-white'
+              : 'border-gray-100 bg-white text-gray-700'
+          )}
+        >
+          {option.label}
+        </button>
+      ))}
     </div>
-  </div>
-);
+  );
+};
 
 export default GenderSelect;
