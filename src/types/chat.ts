@@ -11,6 +11,7 @@ export interface ChatMessage {
   };
   content: string;
   createdAt: string;
+  isMine: boolean;
 }
 
 export interface ChatMessageRequest {

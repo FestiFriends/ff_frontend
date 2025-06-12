@@ -8,12 +8,12 @@ interface ChatMessageListProps {
 const ChatMessageList = ({ messages }: ChatMessageListProps) => (
   <div className='flex h-[60dvh] flex-col gap-7.5 overflow-y-scroll'>
     {messages.map(
-      ({ chatId, senderId, senderName, content }: ChatMessageType) => (
+      ({ chatId, senderName, content, isMine }: ChatMessageType) => (
         <ChatMessage
           key={chatId}
           senderName={senderName}
           content={content}
-          isMine={senderId === 'u2'}
+          isMine={isMine}
         />
       )
     )}
