@@ -45,7 +45,7 @@ export const PROFILES_SAMPLE_DATA: FullProfile[] = [
         description: '락페는 역시 함께 가야 제맛!',
         hashtag: ['#인천', '#락페동행'],
         host: {
-          id: 'host001',
+          hostId: 'host001',
           name: '락서니',
           rating: 4.9,
         },
@@ -71,7 +71,7 @@ export const PROFILES_SAMPLE_DATA: FullProfile[] = [
         description: '장비 있어요! 캠핑 좋아하시는 분 함께해요.',
         hashtag: ['#캠핑존', '#장비지원', '#야영'],
         host: {
-          id: 'host010',
+          hostId: 'host010',
           name: '산들남',
           rating: 4.8,
         },
@@ -128,7 +128,7 @@ export const PROFILES_SAMPLE_DATA: FullProfile[] = [
       // description: '전자음악 좋아하는 사람들끼리 친목!',
       // hashtag: ['#EDM', '#친목모임'],
       // host: {
-      //   id: 'host011',
+      //   hostId: 'host011',
       //   name: '테크노짱',
       //   rating: 4.5,
       // },
@@ -185,7 +185,7 @@ export const PROFILES_SAMPLE_DATA: FullProfile[] = [
         description: '같이 사진도 찍고 브이로그도 남겨요!',
         hashtag: ['#부산', '#페스티벌룩', '#여성모임'],
         host: {
-          id: 'host012',
+          hostId: 'host012',
           name: '브이로그퀸',
           rating: 4.6,
         },
