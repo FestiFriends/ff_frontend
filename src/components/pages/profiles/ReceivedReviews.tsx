@@ -13,7 +13,9 @@ const ReceivedReviews = ({ profile }: ReceivedReviewsProps) => {
   const noReview = !reviewList || reviewList.length === 0;
 
   if (noTag && noReview) {
-    return <p className='text-sm text-gray-400'>아직 받은 리뷰가 없어요.</p>;
+    return (
+      <p className='text-center text-gray-500'>아직 받은 리뷰가 없어요.</p>
+    );
   }
 
   return (

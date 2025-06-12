@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Tabs from '@/components/common/Tabs/Tabs';
 import { FullProfile } from '@/types/profiles';
+import ProfileJoinedGroups from './ProfileJoinedGroups';
 import ProfileSummaryBox from './ProfileSummaryBox';
 import ReceivedReviews from './ReceivedReviews';
 
@@ -27,7 +28,11 @@ const ProfileBody = ({ profile }: ProfileBodyProps) => {
           />
         </div>
         <div className='mb-4'>
-          {selectedTab === '참여 모임' && <div>참여 중인 모임 목록</div>}
+          {selectedTab === '참여 모임' && (
+            <div>
+              <ProfileJoinedGroups groups={profile.joinedGroups ?? []} />
+            </div>
+          )}
           {selectedTab === '리뷰 목록' && <ReceivedReviews profile={profile} />}
         </div>
       </div>
