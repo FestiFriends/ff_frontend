@@ -6,13 +6,13 @@ interface ReviewTagSummaryProps {
 }
 
 const REVIEW_TAG_LABELS: Record<ReviewTagType, string> = {
-  PUNCTUAL: '제시간에 와요',
-  POLITE: '배려심이 있어요',
-  COMFORTABLE: '조용한 편이에요',
-  COMMUNICATIVE: '대화를 잘 이끌어요',
-  CLEAN: '깔끔해요',
-  RESPONSIVE: '응답이 빨라요',
-  RECOMMEND: '다시 함께하고 싶어요',
+  COMMUNICATIVE: '대화가 잘 통했어요',
+  RECOMMEND: '다음에도 함께하고 싶어요',
+  POLITE: '친절하고 매너가 좋아요',
+  PUNCTUAL: '시간 약속을 잘 지켜요',
+  CLEAN: '청결하고 깔끔했어요',
+  COMFORTABLE: '편안한 분위기였어요',
+  RESPONSIVE: '소통이 잘 되고 응답이 빨라요',
 };
 
 const ReviewTagSummary = ({ summary }: ReviewTagSummaryProps) => {
