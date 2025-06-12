@@ -30,7 +30,7 @@ const ReviewCard = ({ groupInfo, reviewsCount, content }: ReviewCardProps) => {
   return (
     <div
       className={cn(
-        'flex w-full flex-col rounded-2xl bg-gray-25 p-5',
+        'flex w-[343px] flex-col rounded-2xl bg-gray-25 p-5',
         open && 'gap-4'
       )}
     >
