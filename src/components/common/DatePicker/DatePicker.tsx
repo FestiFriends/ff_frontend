@@ -115,7 +115,7 @@ const DatePicker = ({
       </button>
 
       {isOpen && (
-        <div className='fixed top-1/2 left-1/2 z-10 inline-flex w-[calc(100vw-1rem)] max-w-[350px] -translate-x-1/2 -translate-y-1/2 flex-col gap-5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white px-2 py-5'>
+        <div className='fixed top-1/2 left-1/2 z-20 inline-flex w-[calc(100vw-1rem)] max-w-[350px] -translate-x-1/2 -translate-y-1/2 flex-col gap-5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white px-2 py-5'>
           <div className='flex items-center justify-center gap-2'>
             <button
               className='cursor-pointer'
