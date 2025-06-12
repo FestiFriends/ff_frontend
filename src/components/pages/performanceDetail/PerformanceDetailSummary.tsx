@@ -13,7 +13,7 @@ import { formatLocation } from '@/utils/formatLocation';
 
 interface PerformanceDetailSummaryProps {
   isPending: boolean;
-  performanceDetail: Performance;
+  performanceDetail?: Performance;
 }
 
 const PerformanceDetailSummary = ({
@@ -26,7 +26,7 @@ const PerformanceDetailSummary = ({
   const imageWidth = 500;
   const imageHeight = 700;
 
-  if (isPending)
+  if (isPending || !performanceDetail)
     return (
       <div className='flex flex-col gap-5 bg-white px-4 pt-5 pb-7.5'>
         <Skeleton className='h-[60vh] w-full' />

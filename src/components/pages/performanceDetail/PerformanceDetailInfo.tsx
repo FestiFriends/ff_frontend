@@ -7,7 +7,7 @@ import { formatLocation } from '@/utils/formatLocation';
 
 interface PerformanceDetailInfoProps {
   isPending: boolean;
-  performanceDetail: Performance;
+  performanceDetail?: Performance;
 }
 
 type InfoItem = {
@@ -123,7 +123,7 @@ const PerformanceDetailInfo = ({
     ];
   }, [performanceDetail]);
 
-  if (isPending)
+  if (isPending || !performanceDetail)
     return (
       <div className='flex flex-col items-center px-4 pt-2.5 pb-5'>
         <Skeleton className='h-[60vh] w-full' />
