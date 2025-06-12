@@ -1,16 +1,13 @@
-'use client';
+import ClientProfileWrapper from '@/components/pages/profiles/ClientProfileWrapper';
 
-import { useParams } from 'next/navigation';
-import ProfilePage from '@/components/pages/profiles/ProfilePage';
+interface PageProps {
+  params: { userId: string };
+}
 
-const OtherProfilePage = () => {
-  const { userId } = useParams();
+const OtherProfilePage = async ({ params }: PageProps) => {
+  const { userId } = await params;
 
-  if (!userId || typeof userId !== 'string') {
-    return <p>잘못된 접근입니다.</p>;
-  }
-
-  return <ProfilePage userId={userId} />;
+  return <ClientProfileWrapper userId={userId} />;
 };
 
 export default OtherProfilePage;
