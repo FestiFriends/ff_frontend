@@ -6,7 +6,7 @@ import { Performance } from '@/types/performance';
 
 interface PerformanceDetailTabsProps {
   isPending: boolean;
-  performanceDetail?: Performance;
+  performanceDetail: Performance;
 }
 
 const tabs: string[] = ['공연 정보', '모임'];

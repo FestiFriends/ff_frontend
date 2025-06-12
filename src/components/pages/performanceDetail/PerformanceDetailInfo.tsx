@@ -7,7 +7,7 @@ import { formatLocation } from '@/utils/formatLocation';
 
 interface PerformanceDetailInfoProps {
   isPending: boolean;
-  performanceDetail?: Performance;
+  performanceDetail: Performance;
 }
 
 type InfoItem = {
@@ -163,7 +163,7 @@ const PerformanceDetailInfo = ({
 
       {/* 공연 소개 이미지 */}
       <div className='flex flex-col items-center'>
-        {performanceDetail?.images?.map((image: ImageType) => (
+        {performanceDetail.images?.map((image: ImageType) => (
           <div
             key={image.id}
             className='relative'
