@@ -19,9 +19,7 @@ const Notification = () => {
     useGetNewNotificationsCheck();
   const pathname = usePathname();
 
-  const Icon = hasNewNotificationData?.data.data?.hasUnread
-    ? BellDotIcon
-    : BellIcon;
+  const Icon = hasNewNotificationData?.data?.hasUnread ? BellDotIcon : BellIcon;
 
   useEffect(() => {
     refetch();
