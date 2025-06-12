@@ -16,8 +16,10 @@ const ReviewTabs = () => {
         activeTab={selectedTab}
         onTabChange={setSelectedTab}
       />
-      {selectedTab === '작성 가능한 리뷰' && <WritableReviews />}
-      {selectedTab === '작성한 리뷰' && <WrittenReviews />}
+      <div className='px-4 pt-5'>
+        {selectedTab === '작성 가능한 리뷰' && <WritableReviews />}
+        {selectedTab === '작성한 리뷰' && <WrittenReviews />}
+      </div>
     </div>
   );
 };
