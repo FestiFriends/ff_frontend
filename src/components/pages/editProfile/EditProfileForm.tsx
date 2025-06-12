@@ -2,9 +2,12 @@
 
 import { useState } from 'react';
 import TextInput from '@/components/common/TextInput/TextInput';
+import { GenderType } from '@/types/enums';
+import GenderSelect from './GenderSelect';
 
 const EditProfileForm = () => {
-  const [nickname, setNickname] = useState('');
+  const [nickname, setNickname] = useState<string>('');
+  const [gender, setGender] = useState<GenderType | ''>('');
 
   return (
     <div>
@@ -18,6 +21,14 @@ const EditProfileForm = () => {
 
       <div>
         입력된 닉네임:<span>{nickname}</span>
+      </div>
+
+      <div>
+        <p className='mb-2 text-14_B'>성별</p>
+        <GenderSelect
+          value={gender}
+          onChange={setGender}
+        />
       </div>
     </div>
   );
