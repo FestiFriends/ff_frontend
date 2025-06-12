@@ -12,6 +12,7 @@ export const NOTIFICATIONS_QUERY_KEYS = {
 
 export const GROUP_QUERY_KEYS = {
   groups: 'groups',
+  leaveGroup: 'leaveGroup',
 };
 
 export const REVIEWS_QUERY_KEYS = {
@@ -23,4 +24,10 @@ export const REVIEWS_QUERY_KEYS = {
 export const USERS_QUERY_KEYS = {
   users: 'users',
   favoriteUsers: 'favoriteUsers',
+};
+
+export const GROUPS_MANAGEMENTS_QUERY_KEYS = {
+  appliedGroups: 'appliedGroups',
+  joinedGroups: 'joinedGroups',
+  applications: 'applications',
 };
