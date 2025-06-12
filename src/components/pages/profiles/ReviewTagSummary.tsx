@@ -1,19 +1,10 @@
+import { ReviewTagLabels } from '@/constants/reviewLabels';
 import { ReviewTagType } from '@/types/enums';
 import { ReviewSummary } from '@/types/profiles';
 
 interface ReviewTagSummaryProps {
   summary: ReviewSummary;
 }
-
-const REVIEW_TAG_LABELS: Record<ReviewTagType, string> = {
-  COMMUNICATIVE: '대화가 잘 통했어요',
-  RECOMMEND: '다음에도 함께하고 싶어요',
-  POLITE: '친절하고 매너가 좋아요',
-  PUNCTUAL: '시간 약속을 잘 지켜요',
-  CLEAN: '청결하고 깔끔했어요',
-  COMFORTABLE: '편안한 분위기였어요',
-  RESPONSIVE: '소통이 잘 되고 응답이 빨라요',
-};
 
 const ReviewTagSummary = ({ summary }: ReviewTagSummaryProps) => {
   const sortedTags = Object.entries(summary)
@@ -33,7 +24,7 @@ const ReviewTagSummary = ({ summary }: ReviewTagSummaryProps) => {
           key={tag}
           className='flex items-center justify-between rounded-md bg-gray-100 px-4 py-2 text-sm text-gray-700 shadow-sm'
         >
-          <span>{REVIEW_TAG_LABELS[tag]}</span>
+          <span>{ReviewTagLabels[tag]}</span>
           <span className='ml-4 font-semibold text-gray-900'> {count}</span>
         </li>
       ))}
