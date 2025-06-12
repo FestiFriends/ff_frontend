@@ -31,3 +31,7 @@ export const GROUPS_MANAGEMENTS_QUERY_KEYS = {
   joinedGroups: 'joinedGroups',
   applications: 'applications',
 };
+
+export const CHAT_QUERY_KEY = {
+  chat: 'chat',
+};

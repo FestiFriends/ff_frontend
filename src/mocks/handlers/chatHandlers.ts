@@ -1,4 +1,4 @@
-import { http } from 'msw';
+// import { http } from 'msw';
 import { ChatMessage } from '@/types/chat';
 
 export const CHAT_SAMPLE_DATA: ChatMessage[] = [
@@ -13,6 +13,7 @@ export const CHAT_SAMPLE_DATA: ChatMessage[] = [
     },
     content: '안녕하세요',
     createdAt: '2025-06-12T10:00:00Z',
+    isMine: false,
   },
   {
     chatId: '2',
@@ -25,6 +26,7 @@ export const CHAT_SAMPLE_DATA: ChatMessage[] = [
     },
     content: '네 안녕하세요',
     createdAt: '2025-06-12T10:01:00Z',
+    isMine: true,
   },
   {
     chatId: '3',
@@ -37,6 +39,7 @@ export const CHAT_SAMPLE_DATA: ChatMessage[] = [
     },
     content: '만나서 반갑습니다',
     createdAt: '2025-06-12T10:01:30Z',
+    isMine: true,
   },
   {
     chatId: '4',
@@ -49,6 +52,7 @@ export const CHAT_SAMPLE_DATA: ChatMessage[] = [
     },
     content: '안녕하세요',
     createdAt: '2025-06-12T10:02:00Z',
+    isMine: false,
   },
   {
     chatId: '5',
@@ -61,6 +65,7 @@ export const CHAT_SAMPLE_DATA: ChatMessage[] = [
     },
     content: '네 안녕하세요',
     createdAt: '2025-06-12T10:02:30Z',
+    isMine: true,
   },
   {
     chatId: '6',
@@ -73,6 +78,7 @@ export const CHAT_SAMPLE_DATA: ChatMessage[] = [
     },
     content: '만나서 반갑습니다',
     createdAt: '2025-06-12T10:03:00Z',
+    isMine: true,
   },
   {
     chatId: '7',
@@ -86,6 +92,7 @@ export const CHAT_SAMPLE_DATA: ChatMessage[] = [
     content:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint minus asperiores, at a delectus dolores reprehenderit expedita omnis culpa nam autem qui neque quidem similique molestiae magnam alias nostrum maiores?',
     createdAt: '2025-06-12T10:04:00Z',
+    isMine: false,
   },
   {
     chatId: '8',
@@ -98,6 +105,7 @@ export const CHAT_SAMPLE_DATA: ChatMessage[] = [
     },
     content: '네?',
     createdAt: '2025-06-12T10:04:20Z',
+    isMine: false,
   },
   {
     chatId: '9',
@@ -110,6 +118,7 @@ export const CHAT_SAMPLE_DATA: ChatMessage[] = [
     },
     content: '?',
     createdAt: '2025-06-12T10:04:40Z',
+    isMine: true,
   },
 ];
 
