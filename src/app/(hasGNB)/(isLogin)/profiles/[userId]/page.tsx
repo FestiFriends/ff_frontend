@@ -5,7 +5,7 @@ interface PageProps {
 }
 
 const OtherProfilePage = async ({ params }: PageProps) => {
-  const { userId } = await params;
+  const { userId } = params;
 
   return <ClientProfileWrapper userId={userId} />;
 };
