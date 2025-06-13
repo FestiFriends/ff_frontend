@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import InfiniteReviewList from '@/components/common/InfiniteReviewList';
+import InfiniteList from '@/components/common/InfiniteList ';
 import { infiniteWritableReviewsOptions } from '@/hooks/reviewHooks/reviewHooks';
 import { WritableReviewsResponse } from '@/types/reviews';
 import ReviewCard from './ReviewCard';
@@ -9,7 +9,7 @@ import ReviewCardSkeleton from './ReviewCardSkeleton';
 import WritableReviewsContent from './WritableReviewsContent';
 
 const WritableReviews = () => (
-  <InfiniteReviewList<
+  <InfiniteList<
     WritableReviewsResponse,
     WritableReviewsResponse['data'][number]
   >

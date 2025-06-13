@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
-import InfiniteReviewList from '@/components/common/InfiniteReviewList';
+import InfiniteList from '@/components/common/InfiniteList ';
 import {
   infiniteNotificationsOptions,
   useDeleteAllNotifications,
@@ -44,7 +44,7 @@ const NotificationList = () => {
         </button>
       </div>
 
-      <InfiniteReviewList<
+      <InfiniteList<
         GetNotificationsResponse,
         GetNotificationsResponse['data'][number]
       >

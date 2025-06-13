@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import InfiniteReviewList from '@/components/common/InfiniteReviewList';
+import InfiniteList from '@/components/common/InfiniteList ';
 import { infiniteWrittenReviewsOptions } from '@/hooks/reviewHooks/reviewHooks';
 import { WrittenReviewsResponse } from '@/types/reviews';
 import ReviewCard from './ReviewCard';
@@ -9,10 +9,7 @@ import ReviewCardSkeleton from './ReviewCardSkeleton';
 import WrittenReviewsContent from './WrittenReviewsContent';
 
 const WrittenReviews = () => (
-  <InfiniteReviewList<
-    WrittenReviewsResponse,
-    WrittenReviewsResponse['data'][number]
-  >
+  <InfiniteList<WrittenReviewsResponse, WrittenReviewsResponse['data'][number]>
     fallback={<ReviewCardSkeleton />}
     options={infiniteWrittenReviewsOptions(2)}
     getDataId={(data) => data.groupId}
