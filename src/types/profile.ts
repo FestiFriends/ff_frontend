@@ -1,12 +1,16 @@
 import { GenderType } from './enums';
+import { Image } from './image';
 
 export interface ProfileData {
-  profileImageUrl?: string;
-  nickname: string;
+  id: string;
+  name: string;
+  age: number;
   gender: GenderType;
-  rating: number;
+  profileImage?: Image;
   description?: string;
+  hashtag?: string[];
   sns?: string;
-  tags?: string[];
+  rating: number;
   isMyProfile?: boolean;
+  isLiked?: boolean;
 }

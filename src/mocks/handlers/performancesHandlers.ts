@@ -1,6 +1,7 @@
 import { http, HttpResponse, delay } from 'msw';
 import { Performance, PerformanceIsLikedData } from '@/types/performance';
 import { PerformancesSearchParams } from '@/types/performancesSearchParams';
+import { FULL_PERFORMANCES_DATA } from './performancesHandlers.data';
 
 const PERFORMANCES_SAMPLE_DATA: Performance[] = [
   {
@@ -834,14 +835,53 @@ export const performancesHandlers = [
       (a, b) => b.groupCount - a.groupCount
     ).slice(0, 5);
     return HttpResponse.json({ code: 200, message: '성공', data });
-    // return HttpResponse.json({ code: 400, message: '실패' }, { status: 400 });
   }),
+
+  http.get(
+    'http://localhost:3000/api/v1/performances/favorites',
+    ({ request }) => {
+      const url = new URL(request.url);
+      const cursorId = url.searchParams.get('cursorId');
+      const size = Number(url.searchParams.get('size')) || 20;
+
+      const favoritePerformances = FULL_PERFORMANCES_DATA.filter(
+        (performance) => performance.isLiked
+      );
+
+      const startIndex = cursorId
+        ? favoritePerformances.findIndex((p) => p.id === cursorId) + 1
+        : 0;
+      const endIndex = startIndex + size;
+      const paginatedPerformances = favoritePerformances.slice(
+        startIndex,
+        endIndex
+      );
+
+      const hasNext = endIndex < favoritePerformances.length;
+      const nextCursorId = hasNext
+        ? paginatedPerformances[paginatedPerformances.length - 1]?.id
+        : undefined;
+
+      return HttpResponse.json({
+        code: 200,
+        message: '요청이 성공적으로 처리되었습니다.',
+        data: paginatedPerformances,
+        cursorId: nextCursorId,
+        hasNext,
+      });
+    }
+  ),
 
   http.get(
     'http://localhost:3000/api/v1/performances/:performanceId',
     async ({ params }) => {
       await delay(3000);
       const { performanceId } = params;
+
+      if (performanceId === 'favorites') {
+        return;
+      }
+
       const data = PERFORMANCES_SAMPLE_DATA?.find(
         (item) => item.id === performanceId
       );
