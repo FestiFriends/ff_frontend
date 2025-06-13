@@ -4,7 +4,6 @@ import {
   useQueryClient,
   UseSuspenseInfiniteQueryOptions,
 } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
 import { REVIEWS_QUERY_KEYS } from '@/constants/queryKeys';
 import { reviewsApi } from '@/services/reviewsService';
 import { ApiResponse, CursorRequest } from '@/types/api';
@@ -65,11 +64,11 @@ export const usePostWriteReview = () => {
 
       queryClient.setQueryData(
         queryKey,
-        (oldData: InfiniteData<AxiosResponse<WritableReviewsResponse>>) => {
+        (oldData: InfiniteData<WritableReviewsResponse>) => {
           if (!oldData) return oldData;
 
           const newPages = oldData.pages.map((page) => {
-            const updatedGroups = page.data.data
+            const updatedGroups = page.data
               ?.map((group: WritableReviewsData) => {
                 const filteredReviews = group.reviews.filter(
                   (r) => r.targetUserId !== variables.targetUserId
@@ -86,10 +85,7 @@ export const usePostWriteReview = () => {
 
             return {
               ...page,
-              data: {
-                ...page.data,
-                data: updatedGroups,
-              },
+              data: updatedGroups,
             };
           });
 
