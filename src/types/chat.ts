@@ -21,8 +21,8 @@ export interface ChatMessageRequest {
 }
 
 export type ChatMessageResponse = {
-  chatId: number;
-  senderId: number;
+  chatId: string;
+  senderId: string;
   senderName: string;
   senderImage: string | null;
   content: string;
