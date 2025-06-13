@@ -5,12 +5,16 @@ import Button from '@/components/common/Button/Button';
 import TextInput from '@/components/common/TextInput/TextInput';
 import SendIcon from '@/components/icons/SendIcon';
 
-const ChatMessageInput = () => {
+interface ChatMessageInputProps {
+  sendMessage: (message: string) => void;
+}
+
+const ChatMessageInput = ({ sendMessage }: ChatMessageInputProps) => {
   const [message, setMessage] = useState<string>('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(message);
+    sendMessage(message);
     setMessage('');
   };
 

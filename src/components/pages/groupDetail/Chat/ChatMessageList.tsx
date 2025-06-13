@@ -1,19 +1,20 @@
-import { ChatMessage as ChatMessageType } from '@/types/chat';
+import { ChatMessageResponse } from '@/types/chat';
 import ChatMessage from './ChatMessage';
 
 interface ChatMessageListProps {
-  messages: ChatMessageType[];
+  userId?: string;
+  messages: ChatMessageResponse[];
 }
 
-const ChatMessageList = ({ messages }: ChatMessageListProps) => (
-  <div className='flex h-[60dvh] flex-col gap-7.5 overflow-y-scroll'>
+const ChatMessageList = ({ userId, messages }: ChatMessageListProps) => (
+  <div className='flex h-[50dvh] flex-col gap-7.5 overflow-y-scroll'>
     {messages.map(
-      ({ chatId, senderName, content, isMine }: ChatMessageType) => (
+      ({ chatId, senderName, content, senderId }: ChatMessageResponse) => (
         <ChatMessage
           key={chatId}
           senderName={senderName}
           content={content}
-          isMine={isMine}
+          isMine={senderId.toString() === userId}
         />
       )
     )}
