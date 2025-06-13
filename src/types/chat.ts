@@ -20,6 +20,14 @@ export interface ChatMessageRequest {
   size?: number;
 }
 
+export type ChatMessageResponse = {
+  chatId: number;
+  senderId: number;
+  senderName: string;
+  senderImage: string | null;
+  content: string;
+};
+
 export type GetChatMessageListRequest = {
   chatRoomId: string;
 } & CursorRequest;
