@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
 
 interface ProfileImageInputProps {
@@ -10,6 +10,12 @@ interface ProfileImageInputProps {
 const ProfileImageInput = ({ initialImageUrl }: ProfileImageInputProps) => {
   const [imageUrl, setImageUrl] = useState<string | undefined>(initialImageUrl);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (initialImageUrl) {
+      setImageUrl(initialImageUrl);
+    }
+  }, [initialImageUrl]);
 
   const handleClickChange = () => {
     fileInputRef.current?.click();

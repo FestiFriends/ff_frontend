@@ -9,6 +9,7 @@ import GenderSelect from './GenderSelect';
 import ProfileImageInput from './ProfileImageInput';
 
 const EditProfileForm = () => {
+  const [profileImageUrl, setProfileImageUrl] = useState<string | undefined>();
   const [nickname, setNickname] = useState<string>('');
   const [gender, setGender] = useState<GenderType | ''>('');
   const [age, setAge] = useState<number>(20);
@@ -23,13 +24,14 @@ const EditProfileForm = () => {
       setAge(profile.age ?? '');
       setDescription(profile.description ?? '');
       setSnsId(profile.sns ?? '');
+      setProfileImageUrl(profile.profileImage?.src);
     }
   }, [profile]);
 
   return (
     <div>
       <div className='flex justify-center'>
-        <ProfileImageInput />
+        <ProfileImageInput initialImageUrl={profileImageUrl} />
       </div>
       <p className='mt-[30px] mb-[10px] text-14_B'>닉네임</p>
       <TextInput
