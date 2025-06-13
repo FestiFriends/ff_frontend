@@ -55,7 +55,6 @@ const ReviewWriteModal = ({ review, groupId }: ReviewWriteModalProps) => {
   };
 
   const handleSubmit = async () => {
-    console.log(ref.current?.scrollHeight);
     if (!isPending) await mutateAsync(data);
   };
 

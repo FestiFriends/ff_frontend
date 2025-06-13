@@ -43,7 +43,9 @@ export interface WritableReviewsData extends ReviewGroupInfo {
   }[];
 }
 
-export type WritableReviewsResponse = ApiResponse<WritableReviewsData[]>
+export type WritableReviewsResponse = {
+  data: WritableReviewsData[];
+} & ApiResponse
   & CursorResponse;
 
 export interface WrittenReviewsData extends ReviewGroupInfo {
@@ -60,5 +62,7 @@ export interface WrittenReviewsData extends ReviewGroupInfo {
   }[];
 }
 
-export type WrittenReviewsResponse = ApiResponse<WrittenReviewsData[]>
-  & CursorResponse;
+export type WrittenReviewsResponse = {
+  data: WrittenReviewsData[];
+} & CursorResponse
+  & ApiResponse;

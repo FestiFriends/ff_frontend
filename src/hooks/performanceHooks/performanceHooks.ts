@@ -10,23 +10,21 @@ import {
   PerformancesResponsePagination,
 } from '@/types/performance';
 
-export const useGetTopFavoritesPerformances = () =>
-  useQuery<PerformancesResponse, ApiResponse>({
-    queryKey: [
-      PERFORMANCES_QUERY_KEYS.performances,
-      PERFORMANCES_QUERY_KEYS.topFavorites,
-    ],
-    queryFn: performancesApi.getTopFavorites,
-  });
+export const getTopFavoritesQueryOptions = () => ({
+  queryKey: [
+    PERFORMANCES_QUERY_KEYS.performances,
+    PERFORMANCES_QUERY_KEYS.topFavorites,
+  ],
+  queryFn: performancesApi.getTopFavorites,
+});
 
-export const useGetTopByGroupCountPerformances = () =>
-  useQuery<PerformancesResponse, ApiResponse>({
-    queryKey: [
-      PERFORMANCES_QUERY_KEYS.performances,
-      PERFORMANCES_QUERY_KEYS.topByGroupCount,
-    ],
-    queryFn: performancesApi.getTopByGroupCount,
-  });
+export const getTopByGroupCountQueryOptions = () => ({
+  queryKey: [
+    PERFORMANCES_QUERY_KEYS.performances,
+    PERFORMANCES_QUERY_KEYS.topByGroupCount,
+  ],
+  queryFn: performancesApi.getTopByGroupCount,
+});
 
 export const usePatchPerformanceLiked = () => {
   const queryClient = useQueryClient();

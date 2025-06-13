@@ -1,9 +1,9 @@
 import {
   InfiniteData,
-  useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
+  UseSuspenseInfiniteQueryOptions,
 } from '@tanstack/react-query';
 import { NOTIFICATIONS_QUERY_KEYS } from '@/constants/queryKeys';
 import { notificationsApi } from '@/services/notificationsService';
@@ -13,22 +13,24 @@ import {
   GetNotificationsResponse,
 } from '@/types/notification';
 
-export const useInfiniteNotifications = (size: CursorRequest['size']) =>
-  useInfiniteQuery<
-    GetNotificationsResponse,
-    ApiResponse,
-    InfiniteData<GetNotificationsResponse>,
-    string[],
-    number | undefined
-  >({
-    queryKey: [NOTIFICATIONS_QUERY_KEYS.notifications],
-    queryFn: ({ pageParam }) =>
-      notificationsApi.getNotifications({ cursorId: pageParam, size }),
+export const infiniteNotificationsOptions = (
+  size?: CursorRequest['size']
+): UseSuspenseInfiniteQueryOptions<
+  GetNotificationsResponse,
+  ApiResponse,
+  InfiniteData<GetNotificationsResponse>,
+  GetNotificationsResponse,
+  string[],
+  number | undefined
+> => ({
+  queryKey: [NOTIFICATIONS_QUERY_KEYS.notifications],
+  queryFn: ({ pageParam }) =>
+    notificationsApi.getNotifications({ cursorId: pageParam, size }),
 
-    getNextPageParam: (lastPage) =>
-      lastPage.hasNext ? lastPage.cursorId : undefined,
-    initialPageParam: undefined,
-  });
+  getNextPageParam: (lastPage) =>
+    lastPage.hasNext ? lastPage.cursorId : undefined,
+  initialPageParam: undefined,
+});
 
 export const useGetNewNotificationsCheck = () =>
   useQuery({
@@ -115,6 +117,17 @@ export const useDeleteAllNotifications = () => {
         (old: GetNewNotificationsCheckResponse) => ({
           ...old,
           data: { hasUnread: false },
+        })
+      );
+
+      queryClient.setQueryData(
+        [NOTIFICATIONS_QUERY_KEYS.notifications],
+        (old: InfiniteData<GetNotificationsResponse>) => ({
+          ...old,
+          pages: old.pages.map((page) => ({
+            ...page,
+            data: [],
+          })),
         })
       );
     },

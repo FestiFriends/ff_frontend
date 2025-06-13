@@ -1,47 +1,34 @@
 'use client';
 
 import React from 'react';
-import { useInfiniteWritableReviews } from '@/hooks/reviewHooks/reviewHooks';
-import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
+import InfiniteList from '@/components/common/InfiniteList ';
+import { infiniteWritableReviewsOptions } from '@/hooks/reviewHooks/reviewHooks';
+import { WritableReviewsResponse } from '@/types/reviews';
 import ReviewCard from './ReviewCard';
 import ReviewCardSkeleton from './ReviewCardSkeleton';
 import WritableReviewsContent from './WritableReviewsContent';
 
-const WritableReviews = () => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
-    useInfiniteWritableReviews();
-  const bottomRef = useInfiniteScroll<HTMLDivElement>(
-    fetchNextPage,
-    hasNextPage
-  );
-
-  if (isPending) {
-    return <ReviewCardSkeleton />;
-  }
-
-  return (
-    <div className='flex flex-col items-center gap-2'>
-      {data?.pages.map((page) =>
-        page.data.data?.map((item) => (
-          <ReviewCard
-            key={item.groupId}
-            groupInfo={item}
-            reviewsCount={item.memberCount - item.reviews.length}
-            content={
-              <WritableReviewsContent
-                reviews={item.reviews}
-                groupId={item.groupId}
-              />
-            }
+const WritableReviews = () => (
+  <InfiniteList<
+    WritableReviewsResponse,
+    WritableReviewsResponse['data'][number]
+  >
+    fallback={<ReviewCardSkeleton />}
+    options={infiniteWritableReviewsOptions()}
+    getDataId={(data) => data.groupId}
+    renderData={(data) => (
+      <ReviewCard
+        groupInfo={data}
+        reviewsCount={data.memberCount - data.reviews.length}
+        content={
+          <WritableReviewsContent
+            reviews={data.reviews}
+            groupId={data.groupId}
           />
-        ))
-      )}
-      <>
-        <div ref={bottomRef} />
-        {isFetchingNextPage && <p>로딩 중...</p>}
-      </>
-    </div>
-  );
-};
+        }
+      />
+    )}
+  />
+);
 
 export default WritableReviews;
