@@ -138,7 +138,7 @@ const TextInput = ({
         </p>
       )}
       {!showError && helperText && (
-        <p className='mt-1 text-12_M text-gray-500'>{helperText}</p>
+        <p className='mt-[10px] ml-2 text-12_M text-gray-500'>{helperText}</p>
       )}
     </div>
   );

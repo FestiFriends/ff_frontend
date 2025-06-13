@@ -20,7 +20,7 @@ const EditProfileForm = () => {
       <div className='flex justify-center'>
         <ProfileImageInput />
       </div>
-      <p className='mt-6 mb-2 text-14_B'>닉네임</p>
+      <p className='mt-[30px] mb-[10px] text-14_B'>닉네임</p>
       <TextInput
         value={nickname}
         onChange={(e) => setNickname(e.target.value)}
@@ -29,13 +29,13 @@ const EditProfileForm = () => {
       />
 
       <div>
-        <p className='mt-6 mb-2 text-14_B'>성별</p>
+        <p className='mt-[30px] mb-[10px] text-14_B'>성별</p>
         <GenderSelect
           value={gender}
           onChange={setGender}
         />
       </div>
-      <p className='mt-6 mb-2 text-14_B'>연령대</p>
+      <p className='mt-[30px] mb-[16px] text-14_B'>연령대</p>
       <div className='mb-10'>
         <MultiSlider
           min={20}
@@ -56,7 +56,7 @@ const EditProfileForm = () => {
         />
       </div>
 
-      <p className='mb-2 text-14_B'>소개글</p>
+      <p className='mt-[38px] mb-[10px] text-14_B'>소개글</p>
       <TextareaInput
         value={description}
         onChange={setDescription}
@@ -65,14 +65,14 @@ const EditProfileForm = () => {
         rows={5}
       />
 
-      <p className='mt-[27px] mb-2 text-14_B'>SNS 아이디</p>
+      <p className='mt-[30px] mb-[10px] text-14_B'>SNS 아이디</p>
       <TextInput
         placeholder='인스타그램 아이디'
         value={snsId}
         onChange={(e) => setSnsId(e.target.value)}
       />
 
-      <div className='mt-10 flex gap-2'>
+      <div className='mt-[30px] mb-[28px] flex gap-[10px]'>
         <button
           type='button'
           className='flex-1 rounded-[12px] border border-gray-300 py-3 text-16_M text-gray-800'

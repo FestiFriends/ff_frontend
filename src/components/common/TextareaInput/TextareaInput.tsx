@@ -57,7 +57,7 @@ const TextareaInput = ({
             부적절한 단어가 포함되어 있습니다
           </p>
         )}
-        <div className='pl-2 text-12_M text-gray-500'>
+        <div className='mt-[10px] pl-2 text-12_M text-gray-500'>
           {value.length} / {maxLength}자
         </div>
       </div>

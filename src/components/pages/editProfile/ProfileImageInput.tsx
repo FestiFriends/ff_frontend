@@ -33,7 +33,7 @@ const ProfileImageInput = () => {
       <button
         type='button'
         onClick={handleClickChange}
-        className='absolute -right-5 -bottom-2 h-[28px] w-[43px] rounded-full bg-white text-14_M text-gray-800 shadow-md transition hover:bg-gray-100'
+        className='absolute -right-5 -bottom-2 h-[28px] w-[43px] rounded-full bg-gray-25 text-14_M text-gray-800 shadow-md transition hover:bg-gray-100'
       >
         변경
       </button>
