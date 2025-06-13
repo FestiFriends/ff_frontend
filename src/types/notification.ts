@@ -25,7 +25,9 @@ export interface NotificationData {
   isRead: boolean;
 }
 
-export type GetNotificationsResponse = ApiResponse<NotificationData[]>
+export type GetNotificationsResponse = {
+  data: NotificationData[];
+} & ApiResponse
   & CursorResponse;
 
 export type GetNewNotificationsCheckResponse = ApiResponse<{
