@@ -18,9 +18,6 @@ const ChatRoom = () => {
     setMessage('');
   };
 
-  // console.log(messages);
-  // console.log(isConnected);
-
   return (
     <div className='bg-gray-100 p-2'>
       <div>
@@ -38,7 +35,9 @@ const ChatRoom = () => {
             key={index}
             className='text-sm text-gray-800'
           >
-            👤 {message}
+            <span>
+              👤 {message.senderName}: {message.content}
+            </span>
           </div>
         ))}
       </div>
