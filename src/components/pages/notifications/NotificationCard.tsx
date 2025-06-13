@@ -70,7 +70,7 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
   const href = getNotificationHref(notification.type, notification.target);
 
   return (
-    <div className='flex h-10 items-center justify-between bg-gray-100 px-4'>
+    <div className='flex h-10 w-full items-center justify-between bg-gray-100 px-4'>
       <button
         className='h-full w-full'
         onClick={() => {
