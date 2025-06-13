@@ -14,7 +14,6 @@ interface TextInputProps {
   value: string | number;
   onChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (_e: React.FocusEvent<HTMLInputElement>) => void;
-  touched?: boolean;
   placeholder?: string;
   required?: boolean;
   readOnly?: boolean;
@@ -24,6 +23,7 @@ interface TextInputProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
   helperText?: string;
+  helperTextColor?: string;
 }
 
 const SIZE_MAP = {
@@ -48,7 +48,6 @@ const TextInput = ({
   value,
   onChange,
   onBlur,
-  touched,
   placeholder,
   required,
   readOnly,
@@ -58,13 +57,14 @@ const TextInput = ({
   size = 'md',
   className,
   helperText,
+  helperTextColor,
 }: TextInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const isPasswordType = type === 'password' || type === 'new-password';
   const inputType = isPasswordType && showPassword ? 'text' : type;
 
-  const showError = touched && !!error;
+  const showError = !!error;
   const sizeKey = size in SIZE_MAP ? size : 'md';
 
   const autoCompleteMap: Record<string, string> = {
@@ -132,13 +132,15 @@ const TextInput = ({
       {showError && (
         <p
           id={`${id}-error`}
-          className='mt-1 text-12_M text-red-500'
+          className='mt-[10px] ml-2 text-12_M text-red-500'
         >
           {error}
         </p>
       )}
       {!showError && helperText && (
-        <p className='mt-[10px] ml-2 text-12_M text-gray-500'>{helperText}</p>
+        <p className={cn('mt-[10px] ml-2 !text-12_M', helperTextColor)}>
+          {helperText}
+        </p>
       )}
     </div>
   );

@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import TextInput from '@/components/common/TextInput/TextInput';
 import { useMyProfile } from '@/hooks/useMyProfile/useMyProfile';
-import { profilesApi } from '@/services/profileService';
+// import { profilesApi } from '@/services/profileService';
 import { GenderType } from '@/types/enums';
+import { validateNickname } from '@/utils/InputValidators/InputValidators';
 import GenderSelect from './GenderSelect';
 import ProfileImageInput from './ProfileImageInput';
 
@@ -21,6 +22,8 @@ interface EditProfileFormValues {
 
 const EditProfileForm = () => {
   const { data: profile } = useMyProfile();
+  const [nicknameError, setNicknameError] = useState<string>();
+  const [nicknameTouched, setNicknameTouched] = useState(false);
 
   const { handleSubmit, setValue, reset, watch, control } =
     useForm<EditProfileFormValues>({
@@ -49,12 +52,12 @@ const EditProfileForm = () => {
 
   const onSubmit = async (data: EditProfileFormValues) => {
     try {
-      await profilesApi.updateProfile({
-        ...data,
-        profileImage: data.profileImage
-          ? { src: data.profileImage }
-          : undefined,
-      });
+      // await profilesApi.updateProfile({
+      //   ...data,
+      //   profileImage: data.profileImage
+      //     ? { src: data.profileImage }
+      //     : undefined,
+      // });
       console.log('업데이트 성공', data);
       // TODO: 이동하거나 토스트 알림 띄우기
     } catch (error) {
@@ -77,8 +80,25 @@ const EditProfileForm = () => {
         render={({ field }) => (
           <TextInput
             {...field}
+            onBlur={(e) => {
+              const error = validateNickname(e.target.value);
+              console.log('닉네임 에러:', error);
+              setNicknameError(error);
+              setNicknameTouched(true);
+              field.onBlur?.();
+            }}
+            error={nicknameError}
             placeholder='닉네임을 입력해주세요'
-            helperText='변경 가능한 닉네임입니다.'
+            helperText={
+              nicknameTouched && !nicknameError
+                ? '사용 가능한 닉네임입니다.'
+                : '2~20자 한글/영문/숫자/_만 입력 가능합니다.'
+            }
+            helperTextColor={
+              nicknameTouched && !nicknameError
+                ? 'text-green-600'
+                : 'text-gray-500'
+            }
           />
         )}
       />

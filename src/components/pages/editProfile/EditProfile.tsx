@@ -1,5 +1,3 @@
-'use client';
-
 import EditProfileForm from './EditProfileForm';
 
 const EditProfile = () => (
