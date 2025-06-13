@@ -12,6 +12,7 @@ import { Group } from '@/types/group';
 import Badge from '../Badge/Badge';
 import { badgeStyles } from '../Badge/Badge.styles';
 import Button from '../Button/Button';
+import { buttonStyles } from '../Button/Button.styles';
 import HashtagGroup from '../HashtagBadgeGroup/HashtagBadgeGroup';
 import ProfileImage from '../ProfileImage/ProfileImage';
 import ProgressBar from '../ProgressBar/ProgressBar';
@@ -21,9 +22,11 @@ interface GroupCardProps {
   className?: string;
   buttonText: string;
   isHashtagClickable?: boolean;
-  onCardClick: () => void;
+  onCardClick?: () => void;
   onButtonClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onHashtagClick?: (hashtagText: string) => void;
+  buttonColor?: keyof typeof buttonStyles.variants.primary;
+  buttonDisabled?: boolean;
 }
 
 const DATE_FORMAT = 'yy.MM.dd';
@@ -36,6 +39,8 @@ const GroupCard = ({
   onCardClick,
   onButtonClick,
   onHashtagClick,
+  buttonColor = 'normal',
+  buttonDisabled = false,
 }: GroupCardProps) => {
   const genderLabel = GenderLabels[groupData.gender];
 
@@ -46,7 +51,7 @@ const GroupCard = ({
       return;
     }
 
-    onCardClick();
+    onCardClick?.();
   };
 
   const handleHashtagClick = (
@@ -163,8 +168,9 @@ const GroupCard = ({
       <div className='flex w-full gap-2'>
         <Button
           variant='primary'
-          color='normal'
+          color={buttonColor}
           onClick={handleButtonClick}
+          disabled={buttonDisabled}
         >
           {buttonText}
         </Button>
