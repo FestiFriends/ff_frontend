@@ -2,6 +2,7 @@ export const PERFORMANCES_QUERY_KEYS = {
   performances: 'performances',
   topFavorites: 'topFavorites',
   topByGroupCount: 'topByGroupCount',
+  favoritesPerformances: 'favoritesPerformances',
 };
 
 export const NOTIFICATIONS_QUERY_KEYS = {
@@ -17,4 +18,9 @@ export const REVIEWS_QUERY_KEYS = {
   reviews: 'reviews',
   written: 'written',
   writable: 'writable',
+};
+
+export const USERS_QUERY_KEYS = {
+  users: 'users',
+  favoriteUsers: 'favoriteUsers',
 };
