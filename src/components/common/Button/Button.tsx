@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import { buttonStyles } from './Button.styles';
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: keyof typeof buttonStyles.variants;
-  color?: keyof typeof buttonStyles.variants.primary; // color는 primary와 secondary 안에 있는 값들만 가능
+  color?: keyof typeof buttonStyles.variants.primary;
   size?: keyof typeof buttonStyles.sizes;
   disabled?: boolean;
   className?: string;

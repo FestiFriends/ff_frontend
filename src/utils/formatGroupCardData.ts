@@ -1,4 +1,4 @@
-import { PageResponse } from '@/types/api';
+import { CursorResponse, PageResponse } from '@/types/api';
 import { GenderType, GroupCategoryType } from '@/types/enums';
 import { Group } from '@/types/group';
 
@@ -62,42 +62,40 @@ export const formatPerformanceGroups = (
     isHost: group.isHost,
   }));
 
-interface RawJoinedGroup {
-  id: string;
-  performance: {
+export interface JoinedGroupsApiResponse extends CursorResponse {
+  code: number;
+  message: string;
+  data: {
     id: string;
+    performance: {
+      id: string;
+      title: string;
+      poster: string;
+    };
     title: string;
-    poster: string;
-  };
-  title: string;
-  category: string;
-  gender: string;
-  startAge: number;
-  endAge: number;
-  location: string;
-  startDate: string;
-  endDate: string;
-  memberCount: number;
-  maxMembers: number;
-  description: string;
-  hashtag?: string[];
-  host: {
-    hostId: string;
-    name: string;
-    rating: number;
-    profileImage: string;
-  };
-  isHost: boolean;
+    category: string;
+    gender: string;
+    startAge: number;
+    endAge: number;
+    location: string;
+    startDate: string;
+    endDate: string;
+    memberCount: number;
+    maxMembers: number;
+    description: string;
+    hashtag?: string[];
+    host: {
+      hostId: string;
+      name: string;
+      rating: number;
+      profileImage: string;
+    };
+    isHost: boolean;
+  }[];
 }
 
-interface JoinedGroupsApiResponse {
-  data: RawJoinedGroup[];
-}
-
-export const formatJoinedGroups = (
-  data: JoinedGroupsApiResponse['data']
-): Group[] =>
-  data.map((group) => ({
+export const formatJoinedGroups = (groups: JoinedGroupsApiResponse): Group[] =>
+  groups.data.map((group) => ({
     id: group.id,
     performance: group.performance && {
       id: group.performance.id,
