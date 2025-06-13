@@ -1,13 +1,15 @@
 'use client';
 
-import { Skeleton } from '@/components/ui/skeleton';
+import { ReactNode } from 'react';
+import InfiniteReviewList from '@/components/common/InfiniteReviewList';
 import {
+  infiniteNotificationsOptions,
   useDeleteAllNotifications,
-  useInfiniteNotifications,
   usePatchReadAllNotifications,
 } from '@/hooks/notificationHooks/notificationHooks';
-import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
+import { GetNotificationsResponse } from '@/types/notification';
 import NotificationCard from './NotificationCard';
+import NotificationCardSkeleton from './NotificationCardSkeleton';
 
 const NotificationList = () => {
   const { mutate: readAllMutate, isPending: readAllIsPending } =
@@ -15,59 +17,46 @@ const NotificationList = () => {
   const { mutate: deleteAllMutate, isPending: deleteAllIsPending } =
     useDeleteAllNotifications();
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
-    useInfiniteNotifications(10);
-
-  const bottomRef = useInfiniteScroll<HTMLDivElement>(
-    fetchNextPage,
-    hasNextPage
-  );
-
   const handleDeleteAll = () => {
     if (deleteAllIsPending) return;
-
     deleteAllMutate();
   };
 
   const handleReadAll = () => {
     if (readAllIsPending) return;
-
     readAllMutate();
   };
 
-  if (isPending) {
-    return (
-      <div className='flex flex-col gap-1'>
-        <Skeleton className='h-5 w-full bg-gray-50' />
-        <Skeleton className='h-5 w-full bg-gray-50' />
-      </div>
-    );
-  }
-
   return (
     <>
-      <div className='flex flex-col gap-2'>
-        <button onClick={handleDeleteAll}>삭제</button>
-        <button onClick={handleReadAll}>전체 읽음</button>
-        {!deleteAllIsPending && (
-          <>
-            {data?.pages.map((page) =>
-              page.data?.map((notification) => (
-                <NotificationCard
-                  key={notification.id}
-                  notification={notification}
-                />
-              ))
-            )}
-          </>
-        )}
+      <div className='mb-4 flex flex-col gap-2'>
+        <button
+          onClick={handleDeleteAll}
+          disabled={deleteAllIsPending}
+        >
+          삭제
+        </button>
+        <button
+          onClick={handleReadAll}
+          disabled={readAllIsPending}
+        >
+          전체 읽음
+        </button>
       </div>
-      {!deleteAllIsPending && (
-        <>
-          <div ref={bottomRef} />
-          {isFetchingNextPage && <p>로딩 중...</p>}
-        </>
-      )}
+
+      <InfiniteReviewList<
+        GetNotificationsResponse,
+        GetNotificationsResponse['data'][number]
+      >
+        options={infiniteNotificationsOptions(4)}
+        getDataId={(notification) => notification.id}
+        renderData={(notification): ReactNode => (
+          <NotificationCard notification={notification} />
+        )}
+        fallback={<NotificationCardSkeleton />}
+        isFetchingFallback={<p>로딩 중...</p>}
+        className='flex flex-col gap-2'
+      />
     </>
   );
 };
