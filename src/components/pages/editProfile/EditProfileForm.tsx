@@ -5,6 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import TextInput from '@/components/common/TextInput/TextInput';
 import { useMyProfile } from '@/hooks/useMyProfile/useMyProfile';
+import { profilesApi } from '@/services/profileService';
 import { GenderType } from '@/types/enums';
 import GenderSelect from './GenderSelect';
 import ProfileImageInput from './ProfileImageInput';
@@ -12,7 +13,7 @@ import ProfileImageInput from './ProfileImageInput';
 interface EditProfileFormValues {
   profileImage: string | undefined;
   name: string;
-  gender: GenderType | '';
+  gender: GenderType | undefined;
   age: number;
   description: string;
   sns: string;
@@ -26,7 +27,7 @@ const EditProfileForm = () => {
       defaultValues: {
         profileImage: '',
         name: '',
-        gender: '',
+        gender: undefined,
         age: 20,
         description: '',
         sns: '',
@@ -36,9 +37,9 @@ const EditProfileForm = () => {
   useEffect(() => {
     if (profile) {
       reset({
-        profileImage: profile.profileImage?.src ?? '',
+        profileImage: profile.profileImage?.src ?? undefined,
         name: profile.name ?? '',
-        gender: profile.gender ?? '',
+        gender: profile.gender ?? undefined,
         age: profile.age ?? 20,
         description: profile.description ?? '',
         sns: profile.sns ?? '',
@@ -46,8 +47,19 @@ const EditProfileForm = () => {
     }
   }, [profile, reset]);
 
-  const onSubmit = (data: EditProfileFormValues) => {
-    console.log('제출 데이터:', data);
+  const onSubmit = async (data: EditProfileFormValues) => {
+    try {
+      await profilesApi.updateProfile({
+        ...data,
+        profileImage: data.profileImage
+          ? { src: data.profileImage }
+          : undefined,
+      });
+      console.log('업데이트 성공', data);
+      // TODO: 이동하거나 토스트 알림 띄우기
+    } catch (error) {
+      console.error('업데이트 실패', error);
+    }
   };
 
   return (
@@ -74,7 +86,7 @@ const EditProfileForm = () => {
       <div>
         <p className='mt-[30px] mb-[10px] text-14_B'>성별</p>
         <GenderSelect
-          value={watch('gender')}
+          value={watch('gender') ?? ''}
           onChange={(val) => setValue('gender', val)}
         />
       </div>
