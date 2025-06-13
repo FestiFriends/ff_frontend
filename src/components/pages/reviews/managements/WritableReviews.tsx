@@ -55,7 +55,7 @@ const ReviewList = ({
 const WritableReviews = () => (
   <ErrorBoundary fallback={({ error }) => <p>{error.message}</p>}>
     <Suspense fallback={<ReviewCardSkeleton />}>
-      <SuspenseInfiniteQuery {...infiniteWritableReviewsOptions(1)}>
+      <SuspenseInfiniteQuery {...infiniteWritableReviewsOptions()}>
         {(props) => <ReviewList {...props} />}
       </SuspenseInfiniteQuery>
     </Suspense>
