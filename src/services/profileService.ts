@@ -5,13 +5,13 @@ import { FullProfile } from '@/types/profiles';
 export const profilesApi = {
   getProfile: async (userId: string) => {
     const res = await apiFetcher.get<ApiResponse<FullProfile>>(
-      `/api/profiles/${userId}`
+      `/api/v1/profiles/${userId}`
     );
     return res.data.data!;
   },
   updateProfile: async (data: Partial<FullProfile>) => {
     const { data: updated } = await apiFetcher.patch<ApiResponse<FullProfile>>(
-      '/api/profiles/me',
+      '/api/v1/profiles/me',
       data
     );
     return updated;

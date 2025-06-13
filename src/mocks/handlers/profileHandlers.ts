@@ -205,7 +205,7 @@ export const PROFILES_SAMPLE_DATA: FullProfile[] = [
 ];
 
 export const profileHandlers = [
-  http.get('/api/profiles/me', () => {
+  http.get('/api/v1/profiles/me', () => {
     const myProfile = PROFILES_SAMPLE_DATA.find((p) => p.isMine);
     if (!myProfile) {
       return HttpResponse.json(
@@ -220,7 +220,7 @@ export const profileHandlers = [
     });
   }),
 
-  http.get('/api/profiles/:userId', ({ params }) => {
+  http.get('/api/v1/profiles/:userId', ({ params }) => {
     const { userId } = params;
     const profile = PROFILES_SAMPLE_DATA.find((p) => p.id === userId);
 
