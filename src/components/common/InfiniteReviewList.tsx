@@ -41,7 +41,8 @@ const ContentList = <TPage extends { data: TData[] }, TData>({
   & Omit<InfiniteReviewListProps<TPage, TData>, 'options' | 'fallback'>) => {
   const bottomRef = useInfiniteScroll<HTMLDivElement>(
     fetchNextPage,
-    hasNextPage
+    hasNextPage,
+    isFetchingNextPage
   );
 
   return (
