@@ -29,13 +29,13 @@ const PerformanceDetailSummary = ({
   if (isPending || !performanceDetail)
     return (
       <div className='flex flex-col gap-5 bg-white px-4 pt-5 pb-7.5'>
-        <Skeleton className='h-[60vh] w-full' />
+        <Skeleton className='h-[60dvh] w-full' />
         <div className='flex flex-col gap-5'>
           <Skeleton className='h-6 w-full' />
           <div className='flex flex-col gap-3'>
-            <Skeleton className='h-4 w-[60vw]' />
-            <Skeleton className='h-4 w-[45vw]' />
-            <Skeleton className='h-4 w-[70vw]' />
+            <Skeleton className='h-4 w-[60dvw]' />
+            <Skeleton className='h-4 w-[45dvw]' />
+            <Skeleton className='h-4 w-[70dvw]' />
           </div>
         </div>
       </div>
@@ -65,14 +65,16 @@ const PerformanceDetailSummary = ({
 
       <div className='flex flex-col gap-5 bg-white px-4 pt-5 pb-7.5'>
         {/* 공연 포스터 */}
-        <div className='flex justify-center'>
-          <Image
-            src={performanceDetail.poster || ''}
-            alt={performanceDetail.title || ''}
-            width={imageWidth}
-            height={imageHeight}
-            className='rounded-[12px]'
-          />
+        <div>
+          <div className='flex max-h-[60dvh] justify-center'>
+            <Image
+              src={performanceDetail.poster || ''}
+              alt={performanceDetail.title || ''}
+              width={imageWidth}
+              height={imageHeight}
+              className='rounded-[12px] object-contain'
+            />
+          </div>
         </div>
 
         <div className='flex flex-col gap-5'>
