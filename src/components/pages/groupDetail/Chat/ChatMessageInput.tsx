@@ -21,7 +21,7 @@ const ChatMessageInput = ({ sendMessage }: ChatMessageInputProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className='flex w-full gap-2.5 rounded-[100px] bg-gray-25 py-1.25 pr-3.5 pl-2'
+      className='absolute bottom-0 z-1 flex w-full gap-2.5 rounded-[100px] border-1 border-gray-100 bg-white py-1.25 pr-3.5 pl-2'
     >
       <TextInput
         type='text'

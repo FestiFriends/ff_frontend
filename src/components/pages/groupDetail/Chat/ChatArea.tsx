@@ -2,6 +2,7 @@
 
 import { useChatWebSocket } from '@/hooks/chatHooks/chatHooks';
 import { useGetUserId } from '@/hooks/userHooks/userHooks';
+// import { CHAT_SAMPLE_DATA } from '@/mocks/handlers/chatHandlers';
 import ChatMessageInput from './ChatMessageInput';
 import ChatMessageList from './ChatMessageList';
 
@@ -18,10 +19,11 @@ const ChatArea = () => {
   if (!isPending && !userId) return <div>접근 권한이 없습니다.</div>;
 
   return (
-    <div className='flex flex-col gap-7.5'>
+    <div className='relative flex h-[60dvh] flex-col gap-2'>
       <ChatMessageList
         userId={userId?.data?.userId}
         messages={messages}
+        // messages={CHAT_SAMPLE_DATA}
       />
       <ChatMessageInput sendMessage={sendMessage} />
     </div>

@@ -5,7 +5,7 @@ const title = '8/16 공연 같이 가요';
 const memberCount = 8;
 
 const ChatInfo = () => (
-  <div className='flex items-center gap-2.5 py-3.5'>
+  <div className='mb-3.5 flex items-center gap-2.5'>
     <ProfileIcon className='aspect-square h-10 w-10 shrink-0' />
     <div className='flex flex-col gap-2'>
       <span className='text-14_B leading-normal tracking-[-0.35px] text-gray-950'>
