@@ -4,14 +4,14 @@ export interface ChatMessage {
   chatId: string;
   senderId: string;
   senderName: string;
-  senderImage: {
+  senderImage?: {
     id: string;
     src: string;
     alt: string;
   };
   content: string;
-  createdAt: string;
-  isMine: boolean;
+  createdAt?: string;
+  isMine?: boolean;
 }
 
 export interface ChatMessageRequest {
@@ -19,14 +19,6 @@ export interface ChatMessageRequest {
   cursorId?: number;
   size?: number;
 }
-
-export type ChatMessageResponse = {
-  chatId: string;
-  senderId: string;
-  senderName: string;
-  senderImage: string | null;
-  content: string;
-};
 
 export type GetChatMessageListRequest = {
   chatRoomId: string;

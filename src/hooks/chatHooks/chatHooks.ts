@@ -6,7 +6,7 @@ import { Client } from '@stomp/stompjs';
 // import { AxiosResponse } from 'axios';
 import SockJS from 'sockjs-client';
 import { getAccessToken } from '@/lib/apiFetcher';
-import { ChatMessageResponse } from '@/types/chat';
+import { ChatMessage } from '@/types/chat';
 // import { CHAT_QUERY_KEY } from '@/constants/queryKeys';
 // import { chatServiceApi } from '@/services/chatService';
 // import { ApiResponse, CursorRequest } from '@/types/api';
@@ -20,7 +20,7 @@ import { ChatMessageResponse } from '@/types/chat';
 export const useChatWebSocket = (userId: string, chatRoomId: string | null) => {
   const [client, setClient] = useState<Client | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
-  const [messages, setMessages] = useState<ChatMessageResponse[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   useEffect(() => {
     const accessToken = getAccessToken();
