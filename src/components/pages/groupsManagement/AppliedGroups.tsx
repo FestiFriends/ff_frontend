@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
+import React, { useRef, useState } from 'react';
 import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import Button from '@/components/common/Button/Button';
@@ -14,6 +13,7 @@ import {
   useCancelApplication,
   useConfirmApplication,
 } from '@/hooks/groupsManagementsHooks/groupsManagementsHooks';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
 import { groupsManagementsApi } from '@/services/groupsManagementsService';
 import { ApiResponse } from '@/types/api';
 import { ApplicationStatus } from '@/types/enums';
@@ -26,8 +26,9 @@ import ApplicationCard from './ApplicationCard/ApplicationCard';
 const size = 20;
 
 const AppliedGroups = () => {
-  const { ref, inView } = useInView();
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const { mutate: cancelApplication } = useCancelApplication();
+  const { mutate: confirmApplication } = useConfirmApplication();
   const [showToast, setShowToast] = useState(false);
   const [selectedApplicationId, setSelectedApplicationId] =
     useState<string>('');
@@ -48,14 +49,11 @@ const AppliedGroups = () => {
       initialPageParam: undefined,
     });
 
-  const { mutate: cancelApplication } = useCancelApplication();
-  const { mutate: confirmApplication } = useConfirmApplication();
-
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+  const bottomRef = useInfiniteScroll<HTMLDivElement>(
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage
+  );
 
   const handlePrimaryClick = (applicationId: string, status: string) => {
     if (status === ApplicationStatus.ACCEPTED) {
@@ -104,7 +102,7 @@ const AppliedGroups = () => {
       )}
       {hasNextPage && (
         <div
-          ref={ref}
+          ref={bottomRef}
           className='h-10'
         />
       )}

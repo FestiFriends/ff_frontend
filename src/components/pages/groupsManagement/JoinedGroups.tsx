@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
+import React, { useRef, useState } from 'react';
 import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import Button from '@/components/common/Button/Button';
@@ -11,6 +10,7 @@ import ModalContent from '@/components/common/Modal/ModalContent';
 import ModalTrigger from '@/components/common/Modal/ModalTrigger';
 import { GROUPS_MANAGEMENTS_QUERY_KEYS } from '@/constants/queryKeys';
 import { useLeaveGroup } from '@/hooks/groupsManagementsHooks/groupsManagementsHooks';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
 import { groupsManagementsApi } from '@/services/groupsManagementsService';
 import { ApiResponse } from '@/types/api';
 import {
@@ -21,9 +21,9 @@ import {
 const size = 20;
 
 const JoinedGroups = () => {
-  const { ref, inView } = useInView();
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const [selectedGroupId, setSelectedGroupId] = useState<string>('');
+  const { mutate: leaveGroup } = useLeaveGroup();
+  const [selectedGroupId, setSelectedGroupId] = useState('');
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery<
@@ -41,13 +41,11 @@ const JoinedGroups = () => {
       initialPageParam: undefined,
     });
 
-  const { mutate: leaveGroup } = useLeaveGroup();
-
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+  const bottomRef = useInfiniteScroll<HTMLDivElement>(
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage
+  );
 
   const handleButtonClick = (
     groupId: string,
@@ -95,7 +93,7 @@ const JoinedGroups = () => {
       )}
       {hasNextPage && (
         <div
-          ref={ref}
+          ref={bottomRef}
           className='h-10'
         />
       )}
