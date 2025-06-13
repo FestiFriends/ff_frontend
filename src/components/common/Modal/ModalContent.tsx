@@ -3,6 +3,7 @@ import React, {
   cloneElement,
   isValidElement,
   PropsWithChildren,
+  RefObject,
   useEffect,
   useRef,
 } from 'react';
@@ -12,11 +13,13 @@ import { useModalContext } from './ModalContext';
 
 interface ModalContentProps {
   className?: string;
+  ref?: RefObject<HTMLDivElement | null>;
 }
 
 const ModalContent = ({
   className,
   children,
+  ref,
 }: PropsWithChildren<ModalContentProps>) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const { open, disableBackdropClose, closeModal, onClose } = useModalContext();
@@ -79,7 +82,7 @@ const ModalContent = ({
         {isValidElement(children) ? (
           cloneElement(children)
         ) : (
-          <div>{children}</div>
+          <div ref={ref}>{children}</div>
         )}
       </dialog>
     </Portal>

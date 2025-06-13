@@ -673,9 +673,11 @@ export const groupsHandlers = [
         });
       }
 
-      if (location) {
+      if (location && location in LocationLabels) {
         newGroup = newGroup.filter(
-          (group) => group.location === LocationLabels[location]
+          (group) =>
+            group.location
+            === LocationLabels[location as keyof typeof LocationLabels]
         );
       }
 

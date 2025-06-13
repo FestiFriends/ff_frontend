@@ -1,6 +1,6 @@
-import { ApiResponse } from './api';
+import { ApiResponse, CursorResponse } from './api';
+import { PageResponse } from './api';
 import { Image } from './image';
-import { PaginationInfo } from './pagination';
 
 export interface Performance {
   id: string; // 공연 ID
@@ -38,7 +38,10 @@ export type PerformanceIsLikedResponse = ApiResponse<PerformanceIsLikedData>;
 export type PerformanceDetailResponse = ApiResponse<Performance>;
 
 export type PerformancesResponsePagination = ApiResponse<Performance[]>
-  & PaginationInfo;
+  & PageResponse;
+
+export type GetFavoritePerformancesResponse = ApiResponse<Performance[]>
+  & CursorResponse;
 
 export interface GetPerformancesParams {
   keyword?: string;
@@ -51,5 +54,4 @@ export interface GetPerformancesParams {
   size?: number;
 }
 
-export type PerformanceListResponse = ApiResponse<Performance[]>
-  & PaginationInfo;
+export type PerformanceListResponse = ApiResponse<Performance[]> & PageResponse;

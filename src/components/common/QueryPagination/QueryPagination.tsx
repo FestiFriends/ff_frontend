@@ -2,6 +2,7 @@
 
 import React from 'react';
 import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
+import { scrollToTop } from '@/lib/utils';
 import Pagination from '../Pagination/Pagination';
 
 interface QueryPaginationProps {
@@ -22,6 +23,7 @@ const QueryPagination = ({
 
   const handlePageChange = (page: number) => {
     setQueryParam(pageParamKey, page.toString());
+    scrollToTop();
   };
 
   return (
