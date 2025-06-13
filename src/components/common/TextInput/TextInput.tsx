@@ -80,7 +80,7 @@ const TextInput = ({
     SIZE_MAP[sizeKey],
     showError
       ? 'border-red-500 focus:ring-1 focus:ring-red-500'
-      : 'border-gray-300 focus:ring-1 focus:ring-gray-800',
+      : 'border-gray-100 focus:ring-1 focus:ring-gray-800',
     disabled && 'cursor-not-allowed bg-gray-100 text-gray-400',
     readOnly && 'bg-gray-50 text-gray-500',
     className

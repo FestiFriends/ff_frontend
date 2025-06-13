@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import MultiSlider from '@/components/common/MultiSlider/MultiSlider';
+import { useEffect, useState } from 'react';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import TextInput from '@/components/common/TextInput/TextInput';
+import { useMyProfile } from '@/hooks/useMyProfile/useMyProfile';
 import { GenderType } from '@/types/enums';
 import GenderSelect from './GenderSelect';
 import ProfileImageInput from './ProfileImageInput';
@@ -11,9 +11,20 @@ import ProfileImageInput from './ProfileImageInput';
 const EditProfileForm = () => {
   const [nickname, setNickname] = useState<string>('');
   const [gender, setGender] = useState<GenderType | ''>('');
-  const [ageRange, setAgeRange] = useState<[number, number]>([30, 60]);
+  const [age, setAge] = useState<number>(20);
   const [description, setDescription] = useState('');
   const [snsId, setSnsId] = useState('');
+  const { data: profile } = useMyProfile();
+
+  useEffect(() => {
+    if (profile) {
+      setNickname(profile.name ?? '');
+      setGender(profile.gender ?? '');
+      setAge(profile.age ?? '');
+      setDescription(profile.description ?? '');
+      setSnsId(profile.sns ?? '');
+    }
+  }, [profile]);
 
   return (
     <div>
@@ -35,24 +46,13 @@ const EditProfileForm = () => {
           onChange={setGender}
         />
       </div>
-      <p className='mt-[30px] mb-[16px] text-14_B'>연령대</p>
+      <p className='mt-[30px] mb-[16px] text-14_B'>나이</p>
       <div className='mb-10'>
-        <MultiSlider
-          min={20}
-          max={80}
-          step={10}
-          value={ageRange}
-          onChange={setAgeRange}
-          valuePosition='none'
-          marks={{
-            20: '20세',
-            30: '30세',
-            40: '40세',
-            50: '50세',
-            60: '60세',
-            70: '70세',
-            80: '80세',
-          }}
+        <TextInput
+          value={String(age)}
+          onChange={(e) => setAge(Number(e.target.value))}
+          placeholder='나이를 입력해 주세요'
+          helperText='정확한 나이를 입력해주세요'
         />
       </div>
 
