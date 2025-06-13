@@ -7,13 +7,11 @@ import {
 
 interface PerformanceDetailGroupsListProps {
   isPending: boolean;
-  groupCount?: number;
   groups?: PerformanceGroupsApiResponse;
 }
 
 const PerformanceDetailGroupsList = ({
   isPending,
-  groupCount,
   groups,
 }: PerformanceDetailGroupsListProps) => {
   if (isPending)
@@ -37,7 +35,7 @@ const PerformanceDetailGroupsList = ({
       <span className='text-14_M leading-normal tracking-[-0.35px] text-black'>
         총 모임{' '}
         <span className='text-14_B leading-normal tracking-[-0.35px] text-black'>
-          {groupCount}개
+          {groups?.data.groupCount}개
         </span>
       </span>
 
