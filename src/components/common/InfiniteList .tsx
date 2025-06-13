@@ -28,7 +28,7 @@ type InfiniteReviewListProps<TPage extends { data: TData[] }, TData> = {
   className?: string;
 };
 
-const ContentList = <TPage extends { data: TData[] }, TData>({
+const ListContent = <TPage extends { data: TData[] }, TData>({
   data,
   fetchNextPage,
   hasNextPage,
@@ -60,7 +60,7 @@ const ContentList = <TPage extends { data: TData[] }, TData>({
   );
 };
 
-const InfiniteReviewList = <TPage extends { data: TData[] }, TData>({
+const InfiniteList = <TPage extends { data: TData[] }, TData>({
   options,
   getDataId,
   renderData,
@@ -71,7 +71,7 @@ const InfiniteReviewList = <TPage extends { data: TData[] }, TData>({
     <Suspense fallback={fallback}>
       <SuspenseInfiniteQuery {...options}>
         {(queryResult) => (
-          <ContentList
+          <ListContent
             {...queryResult}
             getDataId={getDataId}
             renderData={renderData}
@@ -83,4 +83,4 @@ const InfiniteReviewList = <TPage extends { data: TData[] }, TData>({
   </ErrorBoundary>
 );
 
-export default InfiniteReviewList;
+export default InfiniteList;
