@@ -3,8 +3,12 @@
 import { useRef, useState } from 'react';
 import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
 
-const ProfileImageInput = () => {
-  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+interface ProfileImageInputProps {
+  initialImageUrl?: string;
+}
+
+const ProfileImageInput = ({ initialImageUrl }: ProfileImageInputProps) => {
+  const [imageUrl, setImageUrl] = useState<string | undefined>(initialImageUrl);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleClickChange = () => {
