@@ -71,6 +71,7 @@ const PerformanceDetailSummary = ({
             alt={performanceDetail.title || ''}
             width={imageWidth}
             height={imageHeight}
+            className='rounded-[12px]'
           />
         </div>
 
