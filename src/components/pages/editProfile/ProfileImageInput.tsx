@@ -5,9 +5,13 @@ import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
 
 interface ProfileImageInputProps {
   initialImageUrl?: string;
+  onChange?: (url: string) => void;
 }
 
-const ProfileImageInput = ({ initialImageUrl }: ProfileImageInputProps) => {
+const ProfileImageInput = ({
+  initialImageUrl,
+  onChange,
+}: ProfileImageInputProps) => {
   const [imageUrl, setImageUrl] = useState<string | undefined>(initialImageUrl);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -29,6 +33,7 @@ const ProfileImageInput = ({ initialImageUrl }: ProfileImageInputProps) => {
     reader.onload = () => {
       if (typeof reader.result === 'string') {
         setImageUrl(reader.result);
+        onChange?.(reader.result);
       }
     };
     reader.readAsDataURL(file);

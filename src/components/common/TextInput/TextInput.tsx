@@ -11,7 +11,7 @@ interface TextInputProps {
   id?: string;
   name?: string;
   label?: string;
-  value: string;
+  value: string | number;
   onChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (_e: React.FocusEvent<HTMLInputElement>) => void;
   touched?: boolean;

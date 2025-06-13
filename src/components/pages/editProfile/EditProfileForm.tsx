@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import TextInput from '@/components/common/TextInput/TextInput';
 import { useMyProfile } from '@/hooks/useMyProfile/useMyProfile';
@@ -8,70 +9,109 @@ import { GenderType } from '@/types/enums';
 import GenderSelect from './GenderSelect';
 import ProfileImageInput from './ProfileImageInput';
 
+interface EditProfileFormValues {
+  profileImage: string | undefined;
+  name: string;
+  gender: GenderType | '';
+  age: number;
+  description: string;
+  sns: string;
+}
+
 const EditProfileForm = () => {
-  const [profileImageUrl, setProfileImageUrl] = useState<string | undefined>();
-  const [nickname, setNickname] = useState<string>('');
-  const [gender, setGender] = useState<GenderType | ''>('');
-  const [age, setAge] = useState<number>(20);
-  const [description, setDescription] = useState('');
-  const [snsId, setSnsId] = useState('');
   const { data: profile } = useMyProfile();
+
+  const { handleSubmit, setValue, reset, watch, control } =
+    useForm<EditProfileFormValues>({
+      defaultValues: {
+        profileImage: '',
+        name: '',
+        gender: '',
+        age: 20,
+        description: '',
+        sns: '',
+      },
+    });
 
   useEffect(() => {
     if (profile) {
-      setNickname(profile.name ?? '');
-      setGender(profile.gender ?? '');
-      setAge(profile.age ?? '');
-      setDescription(profile.description ?? '');
-      setSnsId(profile.sns ?? '');
-      setProfileImageUrl(profile.profileImage?.src);
+      reset({
+        profileImage: profile.profileImage?.src ?? '',
+        name: profile.name ?? '',
+        gender: profile.gender ?? '',
+        age: profile.age ?? 20,
+        description: profile.description ?? '',
+        sns: profile.sns ?? '',
+      });
     }
-  }, [profile]);
+  }, [profile, reset]);
+
+  const onSubmit = (data: EditProfileFormValues) => {
+    console.log('제출 데이터:', data);
+  };
 
   return (
-    <div>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className='flex justify-center'>
-        <ProfileImageInput initialImageUrl={profileImageUrl} />
+        <ProfileImageInput
+          initialImageUrl={watch('profileImage')}
+          onChange={(url) => setValue('profileImage', url)}
+        />
       </div>
       <p className='mt-[30px] mb-[10px] text-14_B'>닉네임</p>
-      <TextInput
-        value={nickname}
-        onChange={(e) => setNickname(e.target.value)}
-        placeholder='닉네임을 입력해주세요'
-        helperText='변경 가능한 닉네임입니다.'
+      <Controller
+        name='name'
+        control={control}
+        render={({ field }) => (
+          <TextInput
+            {...field}
+            placeholder='닉네임을 입력해주세요'
+            helperText='변경 가능한 닉네임입니다.'
+          />
+        )}
       />
 
       <div>
         <p className='mt-[30px] mb-[10px] text-14_B'>성별</p>
         <GenderSelect
-          value={gender}
-          onChange={setGender}
+          value={watch('gender')}
+          onChange={(val) => setValue('gender', val)}
         />
       </div>
       <p className='mt-[30px] mb-[16px] text-14_B'>나이</p>
       <div className='mb-10'>
-        <TextInput
-          value={String(age)}
-          onChange={(e) => setAge(Number(e.target.value))}
-          placeholder='나이를 입력해 주세요'
-          helperText='정확한 나이를 입력해주세요'
+        <Controller
+          name='age'
+          control={control}
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              placeholder='나이를 입력해 주세요'
+              helperText='정확한 나이를 입력해주세요'
+            />
+          )}
         />
       </div>
 
       <p className='mt-[38px] mb-[10px] text-14_B'>소개글</p>
       <TextareaInput
-        value={description}
-        onChange={setDescription}
+        value={watch('description')}
+        onChange={(val) => setValue('description', val)}
         placeholder='자기소개를 입력해주세요'
         maxLength={150}
         rows={5}
       />
 
       <p className='mt-[30px] mb-[10px] text-14_B'>SNS 아이디</p>
-      <TextInput
-        placeholder='인스타그램 아이디'
-        value={snsId}
-        onChange={(e) => setSnsId(e.target.value)}
+      <Controller
+        name='sns'
+        control={control}
+        render={({ field }) => (
+          <TextInput
+            placeholder='인스타그램 아이디'
+            {...field}
+          />
+        )}
       />
 
       <div className='mt-[30px] mb-[28px] flex gap-[10px]'>
@@ -88,7 +128,7 @@ const EditProfileForm = () => {
           확인
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 
