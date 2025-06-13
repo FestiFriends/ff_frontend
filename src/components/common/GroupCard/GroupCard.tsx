@@ -4,14 +4,15 @@ import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import Image from 'next/image';
 import StarIcon from '@/components/icons/StarIcon';
+import { GenderLabels } from '@/constants/genderLabels';
 import { GroupCategoryLabels } from '@/constants/groupLabels';
 import { cn } from '@/lib/utils';
 import { GroupCategoryType } from '@/types/enums';
 import { Group } from '@/types/group';
-import { getGenderLabels } from '@/utils/genderEnumLabel';
 import Badge from '../Badge/Badge';
 import { badgeStyles } from '../Badge/Badge.styles';
 import Button from '../Button/Button';
+import { buttonStyles } from '../Button/Button.styles';
 import HashtagGroup from '../HashtagBadgeGroup/HashtagBadgeGroup';
 import ProfileImage from '../ProfileImage/ProfileImage';
 import ProgressBar from '../ProgressBar/ProgressBar';
@@ -21,9 +22,11 @@ interface GroupCardProps {
   className?: string;
   buttonText: string;
   isHashtagClickable?: boolean;
-  onCardClick: () => void;
+  onCardClick?: () => void;
   onButtonClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onHashtagClick?: (hashtagText: string) => void;
+  buttonColor?: keyof typeof buttonStyles.variants.primary;
+  buttonDisabled?: boolean;
 }
 
 const DATE_FORMAT = 'yy.MM.dd';
@@ -36,15 +39,19 @@ const GroupCard = ({
   onCardClick,
   onButtonClick,
   onHashtagClick,
+  buttonColor = 'normal',
+  buttonDisabled = false,
 }: GroupCardProps) => {
-  const genderLabel = getGenderLabels(groupData.gender);
+  const genderLabel = GenderLabels[groupData.gender];
 
   const handleCardClick = (
     e: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>
   ) => {
-    if ('key' in e && !(e.key === 'Enter' || e.key === ' ')) return;
+    if ('key' in e && !(e.key === 'Enter' || e.key === ' ')) {
+      return;
+    }
 
-    onCardClick();
+    onCardClick?.();
   };
 
   const handleHashtagClick = (
@@ -67,7 +74,7 @@ const GroupCard = ({
       onClick={handleCardClick}
       onKeyDown={handleCardClick}
       className={cn(
-        'flex w-[347px] flex-col items-start justify-center gap-3 rounded-2xl bg-gray-25 p-5',
+        'flex w-full flex-col items-start justify-center gap-3 rounded-2xl bg-gray-25 p-5',
         className
       )}
     >
@@ -161,8 +168,9 @@ const GroupCard = ({
       <div className='flex w-full gap-2'>
         <Button
           variant='primary'
-          color='normal'
+          color={buttonColor}
           onClick={handleButtonClick}
+          disabled={buttonDisabled}
         >
           {buttonText}
         </Button>
