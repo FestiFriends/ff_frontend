@@ -37,7 +37,7 @@ const ChatNotice = () => {
 
           <button onClick={toggleNotice}>
             <ChevronDownIcon
-              className={`aspect-square h-5 w-5 shrink-0 text-gray-950 transition-all ${
+              className={`aspect-square h-5 w-5 shrink-0 cursor-pointer text-gray-950 transition-all ${
                 isOpen ? 'rotate-180' : ''
               }`}
             />

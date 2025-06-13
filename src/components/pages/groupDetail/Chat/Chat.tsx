@@ -8,13 +8,6 @@ const Chat = () => (
       <ChatInfo />
       <ChatNotice />
       <ChatArea />
-      {/* <div>
-        <ChatInfo />
-        <ChatNotice />
-      </div>
-      <div className='mt-9'>
-        <ChatArea />
-      </div> */}
     </div>
   </div>
 );
