@@ -34,3 +34,9 @@ export interface UserIsLikedResponse {
 }
 
 export type GetFavoriteUsersResponse = ApiResponse<User[]> & CursorResponse;
+
+export interface UserId {
+  userId: string;
+}
+
+export type UserIdResponse = ApiResponse<UserId>;

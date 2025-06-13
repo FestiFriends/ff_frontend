@@ -1,5 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import { Gender } from '@/types/enums';
+import { UserId } from '@/types/users';
 
 interface UserResponse {
   id: string;
@@ -69,6 +70,10 @@ const FAVORITE_USERS_SAMPLE_DATA: UserResponse[] = [
   },
 ];
 
+const USER_ID_SAMPLE_DATA: UserId = {
+  userId: '4',
+};
+
 export const usersHandlers = [
   http.get('http://localhost:3000/api/v1/users/favorites', ({ request }) => {
     const url = new URL(request.url);
@@ -99,4 +104,12 @@ export const usersHandlers = [
       hasNext,
     });
   }),
+
+  http.get('http://localhost:3000/api/v1/users/id', () =>
+    HttpResponse.json({
+      code: 200,
+      message: '회원 ID 조회 성공',
+      data: USER_ID_SAMPLE_DATA,
+    })
+  ),
 ];

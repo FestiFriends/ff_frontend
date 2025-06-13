@@ -24,6 +24,7 @@ export const REVIEWS_QUERY_KEYS = {
 export const USERS_QUERY_KEYS = {
   users: 'users',
   favoriteUsers: 'favoriteUsers',
+  userId: 'userId',
 };
 
 export const GROUPS_MANAGEMENTS_QUERY_KEYS = {
