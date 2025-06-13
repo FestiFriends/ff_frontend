@@ -14,7 +14,7 @@ const WritableReviews = () => (
     WritableReviewsResponse['data'][number]
   >
     fallback={<ReviewCardSkeleton />}
-    options={infiniteWritableReviewsOptions(2)}
+    options={infiniteWritableReviewsOptions()}
     getDataId={(data) => data.groupId}
     renderData={(data) => (
       <ReviewCard

@@ -11,7 +11,7 @@ import WrittenReviewsContent from './WrittenReviewsContent';
 const WrittenReviews = () => (
   <InfiniteList<WrittenReviewsResponse, WrittenReviewsResponse['data'][number]>
     fallback={<ReviewCardSkeleton />}
-    options={infiniteWrittenReviewsOptions(2)}
+    options={infiniteWrittenReviewsOptions()}
     getDataId={(data) => data.groupId}
     renderData={(data) => (
       <ReviewCard
