@@ -62,7 +62,6 @@ const PerformanceDetailGroups = () => {
 
       <GroupsList
         isPending={isPending}
-        groupCount={groups?.data?.groupCount}
         groups={groups}
       />
 
