@@ -10,7 +10,8 @@ export const formatLocation = (location: string | undefined) => {
 
   const [rawLocation, place] = location.split('/');
   return {
-    location: LocationLabels[rawLocation] || rawLocation,
+    location:
+      LocationLabels[rawLocation as keyof typeof LocationLabels] || rawLocation,
     place,
   };
 };
