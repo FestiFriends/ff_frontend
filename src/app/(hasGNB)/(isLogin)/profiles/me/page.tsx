@@ -1,3 +1,5 @@
-const MyProfilePage = () => <div>내 프로필 페이지</div>;
+import ProfilePage from '@/components/pages/profiles/ProfilePage';
+
+const MyProfilePage = () => <ProfilePage userId='me' />;
 
 export default MyProfilePage;
