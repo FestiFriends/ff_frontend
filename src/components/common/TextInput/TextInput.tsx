@@ -24,6 +24,7 @@ interface TextInputProps {
   className?: string;
   helperText?: string;
   helperTextColor?: string;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const SIZE_MAP = {
@@ -58,6 +59,7 @@ const TextInput = ({
   className,
   helperText,
   helperTextColor,
+  onKeyDown,
 }: TextInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -113,6 +115,7 @@ const TextInput = ({
           aria-invalid={showError}
           aria-describedby={showError ? `${id}-error` : undefined}
           className={inputClass}
+          onKeyDown={onKeyDown}
         />
         {isPasswordType && (
           <button

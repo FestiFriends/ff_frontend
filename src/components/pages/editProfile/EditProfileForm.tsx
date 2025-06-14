@@ -109,8 +109,22 @@ const EditProfileForm = () => {
     }
   };
 
+  const handleFormKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (
+      e.key === 'Enter'
+      && e.target instanceof HTMLElement
+      && e.target.tagName === 'INPUT'
+    ) {
+      e.preventDefault();
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      onKeyDown={handleFormKeyDown}
+    >
       <div className='flex justify-center'>
         <ProfileImageInput
           initialImageUrl={watch('profileImage')}
