@@ -80,11 +80,11 @@ const ProfileHeader = ({ profile, onEditClick }: ProfileHeaderProps) => {
         <div className='mt-2 w-full max-w-xl text-sm text-gray-800'>
           🔗{' '}
           <a
-            href={sns}
+            href={`https://instagram.com/${sns}`}
             target='_blank'
             rel='noopener noreferrer'
           >
-            {sns}
+            @{sns}
           </a>
         </div>
       )}
