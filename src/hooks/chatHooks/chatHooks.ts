@@ -17,7 +17,10 @@ import { ChatMessage } from '@/types/chat';
  * @param chatRoomId
  * @returns { messages, sendMessage, isConnected }
  */
-export const useChatWebSocket = (userId: string, chatRoomId: string | null) => {
+export const useChatWebSocket = (
+  userId: number | undefined,
+  chatRoomId: number | undefined
+) => {
   const [client, setClient] = useState<Client | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
