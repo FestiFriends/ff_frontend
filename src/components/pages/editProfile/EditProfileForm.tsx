@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import TextInput from '@/components/common/TextInput/TextInput';
 import { useMyProfile } from '@/hooks/useMyProfile/useMyProfile';
-// import { profilesApi } from '@/services/profileService';
+import { hasProfanity } from '@/lib/utils';
+import { profilesApi } from '@/services/profileService';
 import { getCheckNickname } from '@/services/usersService';
 import { GenderType } from '@/types/enums';
 import {
@@ -30,6 +32,7 @@ const EditProfileForm = () => {
   const [nicknameTouched, setNicknameTouched] = useState(false);
   const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
   const [isChecking, setIsChecking] = useState(false);
+  const router = useRouter();
 
   const { handleSubmit, setValue, reset, watch, control } =
     useForm<EditProfileFormValues>({
@@ -69,6 +72,12 @@ const EditProfileForm = () => {
       return;
     }
 
+    if (hasProfanity(value)) {
+      setNicknameError('비속어는 사용할 수 없습니다.');
+      setIsAvailable(null);
+      return;
+    }
+
     setIsChecking(true);
     try {
       const available = await getCheckNickname(value);
@@ -82,15 +91,19 @@ const EditProfileForm = () => {
   };
 
   const onSubmit = async (data: EditProfileFormValues) => {
+    if (hasProfanity(data.description)) {
+      alert('소개글에 부적절한 표현이 포함되어 있습니다.');
+      return;
+    }
     try {
-      // await profilesApi.updateProfile({
-      //   ...data,
-      //   profileImage: data.profileImage
-      //     ? { src: data.profileImage }
-      //     : undefined,
-      // });
+      await profilesApi.updateProfile({
+        ...data,
+        profileImage: data.profileImage
+          ? { src: data.profileImage }
+          : undefined,
+      });
       console.log('업데이트 성공', data);
-      // TODO: 이동하거나 토스트 알림 띄우기
+      router.replace('/profiles/me');
     } catch (error) {
       console.error('업데이트 실패', error);
     }
