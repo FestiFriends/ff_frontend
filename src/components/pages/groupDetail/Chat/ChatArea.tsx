@@ -6,12 +6,12 @@ import { useGetUserId } from '@/hooks/userHooks/userHooks';
 import ChatMessageInput from './ChatMessageInput';
 import ChatMessageList from './ChatMessageList';
 
-const chatRoomId = '1';
+const chatRoomId = 1;
 
 const ChatArea = () => {
   const { data: userId, isPending } = useGetUserId();
   const { messages, sendMessage } = useChatWebSocket(
-    userId?.data?.userId || '',
+    userId?.data?.userId,
     chatRoomId
   );
 
