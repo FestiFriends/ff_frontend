@@ -6,8 +6,12 @@ import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import TextInput from '@/components/common/TextInput/TextInput';
 import { useMyProfile } from '@/hooks/useMyProfile/useMyProfile';
 // import { profilesApi } from '@/services/profileService';
+import { getCheckNickname } from '@/services/usersService';
 import { GenderType } from '@/types/enums';
-import { validateNickname } from '@/utils/InputValidators/InputValidators';
+import {
+  validateAge,
+  validateNickname,
+} from '@/utils/InputValidators/InputValidators';
 import GenderSelect from './GenderSelect';
 import ProfileImageInput from './ProfileImageInput';
 
@@ -24,6 +28,8 @@ const EditProfileForm = () => {
   const { data: profile } = useMyProfile();
   const [nicknameError, setNicknameError] = useState<string>();
   const [nicknameTouched, setNicknameTouched] = useState(false);
+  const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
+  const [isChecking, setIsChecking] = useState(false);
 
   const { handleSubmit, setValue, reset, watch, control } =
     useForm<EditProfileFormValues>({
@@ -35,6 +41,7 @@ const EditProfileForm = () => {
         description: '',
         sns: '',
       },
+      mode: 'onBlur',
     });
 
   useEffect(() => {
@@ -49,6 +56,30 @@ const EditProfileForm = () => {
       });
     }
   }, [profile, reset]);
+
+  const handleNicknameBlur = async (e: React.FocusEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    const error = validateNickname(value);
+    setNicknameError(error);
+    setNicknameTouched(true);
+
+    if (error) {
+      setIsAvailable(null);
+      return;
+    }
+
+    setIsChecking(true);
+    try {
+      const available = await getCheckNickname(value);
+      setIsAvailable(available);
+    } catch (err) {
+      console.error('중복 확인 실패', err);
+      setIsAvailable(null);
+    } finally {
+      setIsChecking(false);
+    }
+  };
 
   const onSubmit = async (data: EditProfileFormValues) => {
     try {
@@ -81,23 +112,28 @@ const EditProfileForm = () => {
           <TextInput
             {...field}
             onBlur={(e) => {
-              const error = validateNickname(e.target.value);
-              console.log('닉네임 에러:', error);
-              setNicknameError(error);
-              setNicknameTouched(true);
               field.onBlur?.();
+              handleNicknameBlur(e);
             }}
             error={nicknameError}
             placeholder='닉네임을 입력해주세요'
             helperText={
-              nicknameTouched && !nicknameError
-                ? '사용 가능한 닉네임입니다.'
-                : '2~20자 한글/영문/숫자/_만 입력 가능합니다.'
+              isChecking
+                ? '사용 가능 확인 중...'
+                : nicknameTouched && !nicknameError && isAvailable === true
+                  ? '사용 가능한 닉네임입니다.'
+                  : nicknameError
+                    ? nicknameError
+                    : isAvailable === false
+                      ? '이미 사용 중인 닉네임입니다.'
+                      : '2~20자 한글/영문/숫자/_만 입력 가능합니다.'
             }
             helperTextColor={
-              nicknameTouched && !nicknameError
+              isAvailable && !nicknameError
                 ? 'text-green-600'
-                : 'text-gray-500'
+                : nicknameError || isAvailable === false
+                  ? 'text-red-500'
+                  : 'text-gray-500'
             }
           />
         )}
@@ -110,22 +146,29 @@ const EditProfileForm = () => {
           onChange={(val) => setValue('gender', val)}
         />
       </div>
-      <p className='mt-[30px] mb-[16px] text-14_B'>나이</p>
-      <div className='mb-10'>
+
+      <div>
+        <p className='mt-[30px] mb-[16px] text-14_B'>나이</p>
         <Controller
           name='age'
           control={control}
-          render={({ field }) => (
+          rules={{
+            validate: (val) => validateAge(val) ?? true,
+          }}
+          render={({ field, fieldState }) => (
             <TextInput
               {...field}
               placeholder='나이를 입력해 주세요'
-              helperText='정확한 나이를 입력해주세요'
+              error={fieldState.error?.message}
+              helperText={
+                fieldState.error ? fieldState.error.message : undefined
+              }
             />
           )}
         />
       </div>
 
-      <p className='mt-[38px] mb-[10px] text-14_B'>소개글</p>
+      <p className='mt-[30px] mb-[10px] text-14_B'>소개글</p>
       <TextareaInput
         value={watch('description')}
         onChange={(val) => setValue('description', val)}

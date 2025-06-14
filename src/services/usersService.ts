@@ -1,5 +1,5 @@
 import apiFetcher from '@/lib/apiFetcher';
-import { CursorRequest } from '@/types/api';
+import { ApiResponse, CursorRequest } from '@/types/api';
 import { GetFavoriteUsersResponse } from '@/types/users';
 
 export const usersApi = {
@@ -12,4 +12,12 @@ export const usersApi = {
         }
       )
     ).data,
+};
+
+export const getCheckNickname = async (nickname: string): Promise<boolean> => {
+  const res = await apiFetcher.get<ApiResponse<{ isAvailable: boolean }>>(
+    '/api/v1/users/check-nickname?',
+    { params: { nickname } }
+  );
+  return res.data.data?.isAvailable ?? false;
 };

@@ -129,19 +129,15 @@ const TextInput = ({
           </button>
         )}
       </div>
-      {showError && (
-        <p
-          id={`${id}-error`}
-          className='mt-[10px] ml-2 text-12_M text-red-500'
-        >
-          {error}
-        </p>
-      )}
-      {!showError && helperText && (
-        <p className={cn('mt-[10px] ml-2 !text-12_M', helperTextColor)}>
-          {helperText}
-        </p>
-      )}
+      <p
+        id={showError ? `${id}-error` : undefined}
+        className={cn(
+          'mt-[10px] ml-2 min-h-[12px] !text-12_M transition-colors duration-150',
+          showError ? 'text-red-500' : helperTextColor || 'text-gray-500'
+        )}
+      >
+        {showError ? error : helperText || '\u00A0'}
+      </p>
     </div>
   );
 };
