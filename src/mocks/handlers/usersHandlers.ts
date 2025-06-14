@@ -71,7 +71,7 @@ const FAVORITE_USERS_SAMPLE_DATA: UserResponse[] = [
 ];
 
 const USER_ID_SAMPLE_DATA: UserId = {
-  userId: '4',
+  userId: 4,
 };
 
 export const usersHandlers = [

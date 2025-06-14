@@ -1,16 +1,16 @@
 import { ApiResponse, CursorRequest, CursorResponse } from './api';
 
 export interface ChatMessage {
-  chatId: string;
-  senderId: string;
+  chatId: number;
+  senderId: number;
   senderName: string;
   senderImage?: {
-    id: string;
+    id: number;
     src: string;
     alt: string;
   };
   content: string;
-  createdAt?: string;
+  createdAt: string;
   isMine?: boolean;
 }
 
@@ -21,7 +21,7 @@ export interface ChatMessageRequest {
 }
 
 export type GetChatMessageListRequest = {
-  chatRoomId: string;
+  chatRoomId: number;
 } & CursorRequest;
 
 export type GetChatMessageListResponse = ApiResponse<ChatMessage[]>
