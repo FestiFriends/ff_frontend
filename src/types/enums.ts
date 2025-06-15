@@ -69,3 +69,10 @@ export const ApplicationStatus = {
 
 export type ApplicationStatusType =
   (typeof ApplicationStatus)[keyof typeof ApplicationStatus];
+
+export const GroupSort = {
+  DATE_ASC: 'date_asc',
+  DATE_DESC: 'date_desc',
+} as const;
+
+export type GroupSortType = (typeof GroupSort)[keyof typeof GroupSort];
