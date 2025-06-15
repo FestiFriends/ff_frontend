@@ -138,6 +138,21 @@ const PerformanceDetailGroupsOptionTabs = ({
           isSelected={sort !== null}
         />
 
+        <OptionDropdown
+          triggerPlaceholder={categoryLabel}
+          itemList={groupCategoryOptions}
+          onClick={(value) => handleOptionChange('category', value)}
+          isSelected={category !== null}
+        />
+
+        <OptionDropdown
+          triggerPlaceholder={genderLabel}
+          itemList={groupGenderOptions}
+          onClick={(value) => handleOptionChange('gender', value)}
+          isSelected={gender !== null}
+        />
+      </div>
+      <div className='flex gap-2'>
         <DatePickerWithQuery
           startDate={startDate}
           endDate={endDate}
@@ -147,31 +162,22 @@ const PerformanceDetailGroupsOptionTabs = ({
         />
 
         <OptionDropdown
-          triggerPlaceholder={categoryLabel}
-          itemList={groupCategoryOptions}
-          onClick={(value) => handleOptionChange('category', value)}
-          isSelected={category !== null}
-        />
-
-        <OptionDropdown
           triggerPlaceholder={locationLabel}
           itemList={groupLocationOptions}
           onClick={(value) => handleOptionChange('location', value)}
           isSelected={locationParam !== null}
-        />
-
-        <OptionDropdown
-          triggerPlaceholder={genderLabel}
-          itemList={groupGenderOptions}
-          onClick={(value) => handleOptionChange('gender', value)}
-          isSelected={gender !== null}
+          variant='location'
         />
 
         <Button
           size='sm'
+          variant='secondary'
           onClick={handleInitOptions}
+          className='rounded-[100px] px-4 py-3 text-center'
         >
-          초기화
+          <span className='text-14_M leading-normal tracking-[-0.35px] whitespace-nowrap text-primary-red'>
+            초기화
+          </span>
         </Button>
       </div>
     </div>

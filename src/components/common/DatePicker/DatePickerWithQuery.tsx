@@ -130,7 +130,7 @@ const DatePickerWithQuery = ({
       </button>
 
       {isOpen && (
-        <div className='fixed top-1/2 left-1/2 z-20 inline-flex w-[calc(100vw-1rem)] max-w-[350px] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white p-5'>
+        <div className='fixed top-1/2 left-1/2 z-20 inline-flex w-[calc(100vw-1rem)] max-w-[390px] -translate-x-1/2 -translate-y-1/2 flex-col gap-2.5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white p-5'>
           <div className='flex items-center justify-center gap-2'>
             <button
               className='cursor-pointer'
@@ -150,28 +150,30 @@ const DatePickerWithQuery = ({
               <AltArrowUpIcon className='aspect-square h-6 w-6 rotate-90 text-gray-950' />
             </button>
           </div>
-          <div className='mt-5'>
-            <CalendarWithQuery
-              month={currentMonth}
-              startDate={selectedRange.start}
-              endDate={selectedRange.end}
-              onDateClick={handleSelectDate}
-              className='flex flex-col gap-1'
-            />
-          </div>
+          <CalendarWithQuery
+            month={currentMonth}
+            startDate={selectedRange.start}
+            endDate={selectedRange.end}
+            onDateClick={handleSelectDate}
+            className='flex flex-col gap-1'
+          />
 
-          <div className='mt-2.5 flex gap-2.5'>
+          <div className='flex gap-2.5'>
             <Button
               variant='secondary'
               onClick={handleResetDate}
             >
-              초기화
+              <span className='text-14_M leading-normal tracking-[-0.5px]'>
+                초기화
+              </span>
             </Button>
             <Button
               variant='primary'
               onClick={handleSubmitDate}
             >
-              선택 완료
+              <span className='text-14_M leading-normal tracking-[-0.5px]'>
+                선택 완료
+              </span>
             </Button>
           </div>
         </div>
