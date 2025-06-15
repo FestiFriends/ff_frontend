@@ -122,7 +122,7 @@ const DatePicker = ({
               aria-label='prev month'
               onClick={() => setCurrentMonth(prevMonth)}
             >
-              <AltArrowUpIcon className='aspect-square h-6 w-6 rotate-90 text-gray-950' />
+              <AltArrowUpIcon className='aspect-square h-6 w-6 -rotate-90 text-gray-950' />
             </button>
             <span className='text-20_B leading-normal tracking-[-0.5px] text-gray-950'>
               {format(currentMonth, 'yyyy년 M월', { locale: ko })}
@@ -132,7 +132,7 @@ const DatePicker = ({
               aria-label='next month'
               onClick={() => setCurrentMonth(nextMonth)}
             >
-              <AltArrowUpIcon className='aspect-square h-6 w-6 -rotate-90 text-gray-950' />
+              <AltArrowUpIcon className='aspect-square h-6 w-6 rotate-90 text-gray-950' />
             </button>
           </div>
           <Calendar
