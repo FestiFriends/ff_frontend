@@ -29,7 +29,7 @@ interface TextInputProps {
 
 const SIZE_MAP = {
   sm: 'text-sm py-1.5 px-3',
-  md: 'text-14_M h-[54px] px-[20px] py-[16px] ',
+  md: 'text-16_M h-[54px] px-[20px] py-[16px] ',
   lg: 'text-lg py-3 px-5',
   xl: 'text-xl py-4 px-6',
 };

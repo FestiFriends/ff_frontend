@@ -35,7 +35,7 @@ const TextareaInput = ({
     <div className='flex w-full flex-col gap-1'>
       <textarea
         className={cn(
-          'h-[190px] w-full resize-none rounded-[16px] border border-gray-100 px-[20px] py-[16px] !text-14_M text-gray-950 placeholder:!text-14_M placeholder:text-gray-500 focus:ring-1 focus:ring-gray-800 focus:outline-none',
+          'h-[190px] w-full resize-none rounded-[16px] border border-gray-100 px-[20px] py-[16px] !text-16_M text-gray-950 placeholder:!text-16_M placeholder:text-gray-500 focus:ring-1 focus:ring-gray-800 focus:outline-none',
           borderColor,
           hideScrollbar && 'scrollbar-hide',
           className
