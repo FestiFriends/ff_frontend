@@ -88,6 +88,19 @@ const EditProfileForm = () => {
     }
   };
 
+  const getNicknameHelperText = () => {
+    if (isChecking) return '사용 가능 확인 중...';
+    if (nicknameError) return nicknameError;
+    if (isAvailable === true) return '사용 가능한 닉네임입니다.';
+    return '2~20자 한글/영문/숫자/_만 입력 가능합니다.';
+  };
+
+  const getNicknameHelperColor = () => {
+    if (isAvailable && !nicknameError) return 'text-green-600';
+    if (nicknameError || isAvailable === false) return 'text-red-500';
+    return 'text-gray-500';
+  };
+
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <form
@@ -113,22 +126,8 @@ const EditProfileForm = () => {
             }}
             error={nicknameError}
             placeholder='닉네임을 입력해주세요'
-            helperText={
-              isChecking
-                ? '사용 가능 확인 중...'
-                : nicknameError
-                  ? nicknameError
-                  : isAvailable === true
-                    ? '사용 가능한 닉네임입니다.'
-                    : '2~20자 한글/영문/숫자/_만 입력 가능합니다.'
-            }
-            helperTextColor={
-              isAvailable && !nicknameError
-                ? 'text-green-600'
-                : nicknameError || isAvailable === false
-                  ? 'text-red-500'
-                  : 'text-gray-500'
-            }
+            helperText={getNicknameHelperText()}
+            helperTextColor={getNicknameHelperColor()}
           />
         )}
       />
