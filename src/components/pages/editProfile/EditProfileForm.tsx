@@ -1,19 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import TextInput from '@/components/common/TextInput/TextInput';
 import { useMyProfile } from '@/hooks/useMyProfile/useMyProfile';
+import { useNicknameValidator } from '@/hooks/useNicknameValidator/useNicknameValidator';
 import { hasProfanity } from '@/lib/utils';
 import { profilesApi } from '@/services/profileService';
-import { getCheckNickname } from '@/services/usersService';
 import { GenderType } from '@/types/enums';
-import {
-  validateAge,
-  validateNickname,
-} from '@/utils/InputValidators/InputValidators';
+import { validateAge } from '@/utils/InputValidators/InputValidators';
 import GenderSelect from './GenderSelect';
 import ProfileImageInput from './ProfileImageInput';
 
@@ -28,10 +25,12 @@ interface EditProfileFormValues {
 
 const EditProfileForm = () => {
   const { data: profile } = useMyProfile();
-  const [nicknameError, setNicknameError] = useState<string>();
-  const [nicknameTouched, setNicknameTouched] = useState(false);
-  const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
-  const [isChecking, setIsChecking] = useState(false);
+  const {
+    isChecking,
+    isAvailable,
+    error: nicknameError,
+    validate: validateNicknameAsync,
+  } = useNicknameValidator();
   const router = useRouter();
 
   const { handleSubmit, setValue, reset, watch, control } =
@@ -59,36 +58,6 @@ const EditProfileForm = () => {
       });
     }
   }, [profile, reset]);
-
-  const handleNicknameBlur = async (e: React.FocusEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-
-    const error = validateNickname(value);
-    setNicknameError(error);
-    setNicknameTouched(true);
-
-    if (error) {
-      setIsAvailable(null);
-      return;
-    }
-
-    if (hasProfanity(value)) {
-      setNicknameError('비속어는 사용할 수 없습니다.');
-      setIsAvailable(null);
-      return;
-    }
-
-    setIsChecking(true);
-    try {
-      const available = await getCheckNickname(value);
-      setIsAvailable(available);
-    } catch (err) {
-      console.error('중복 확인 실패', err);
-      setIsAvailable(null);
-    } finally {
-      setIsChecking(false);
-    }
-  };
 
   const onSubmit = async (data: EditProfileFormValues) => {
     if (hasProfanity(data.description)) {
@@ -140,20 +109,18 @@ const EditProfileForm = () => {
             {...field}
             onBlur={(e) => {
               field.onBlur?.();
-              handleNicknameBlur(e);
+              validateNicknameAsync(e.target.value);
             }}
             error={nicknameError}
             placeholder='닉네임을 입력해주세요'
             helperText={
               isChecking
                 ? '사용 가능 확인 중...'
-                : nicknameTouched && !nicknameError && isAvailable === true
-                  ? '사용 가능한 닉네임입니다.'
-                  : nicknameError
-                    ? nicknameError
-                    : isAvailable === false
-                      ? '이미 사용 중인 닉네임입니다.'
-                      : '2~20자 한글/영문/숫자/_만 입력 가능합니다.'
+                : nicknameError
+                  ? nicknameError
+                  : isAvailable === true
+                    ? '사용 가능한 닉네임입니다.'
+                    : '2~20자 한글/영문/숫자/_만 입력 가능합니다.'
             }
             helperTextColor={
               isAvailable && !nicknameError
