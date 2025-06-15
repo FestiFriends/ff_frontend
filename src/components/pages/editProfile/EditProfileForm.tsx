@@ -11,6 +11,7 @@ import { hasProfanity } from '@/lib/utils';
 import { profilesApi } from '@/services/profileService';
 import { GenderType } from '@/types/enums';
 import { validateAge } from '@/utils/InputValidators/InputValidators';
+import FormSection from './FormSection';
 import GenderSelect from './GenderSelect';
 import ProfileImageInput from './ProfileImageInput';
 
@@ -113,35 +114,33 @@ const EditProfileForm = () => {
           onChange={(url) => setValue('profileImage', url)}
         />
       </div>
-      <p className='mt-[30px] mb-[10px] text-14_B'>닉네임</p>
-      <Controller
-        name='name'
-        control={control}
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            onBlur={(e) => {
-              field.onBlur?.();
-              validateNicknameAsync(e.target.value);
-            }}
-            error={nicknameError}
-            placeholder='닉네임을 입력해주세요'
-            helperText={getNicknameHelperText()}
-            helperTextColor={getNicknameHelperColor()}
-          />
-        )}
-      />
+      <FormSection label='닉네임'>
+        <Controller
+          name='name'
+          control={control}
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              onBlur={(e) => {
+                field.onBlur?.();
+                validateNicknameAsync(e.target.value);
+              }}
+              error={nicknameError}
+              placeholder='닉네임을 입력해주세요'
+              helperText={getNicknameHelperText()}
+              helperTextColor={getNicknameHelperColor()}
+            />
+          )}
+        />
+      </FormSection>
 
-      <div>
-        <p className='mt-[30px] mb-[10px] text-14_B'>성별</p>
+      <FormSection label='성별'>
         <GenderSelect
           value={watch('gender') ?? ''}
           onChange={(val) => setValue('gender', val)}
         />
-      </div>
-
-      <div>
-        <p className='mt-[30px] mb-[16px] text-14_B'>나이</p>
+      </FormSection>
+      <FormSection label='나이'>
         <Controller
           name='age'
           control={control}
@@ -159,28 +158,30 @@ const EditProfileForm = () => {
             />
           )}
         />
-      </div>
+      </FormSection>
 
-      <p className='mt-[30px] mb-[10px] text-14_B'>소개글</p>
-      <TextareaInput
-        value={watch('description')}
-        onChange={(val) => setValue('description', val)}
-        placeholder='자기소개를 입력해주세요'
-        maxLength={150}
-        rows={5}
-      />
+      <FormSection label='소개글'>
+        <TextareaInput
+          value={watch('description')}
+          onChange={(val) => setValue('description', val)}
+          placeholder='자기소개를 입력해주세요'
+          maxLength={150}
+          rows={5}
+        />
+      </FormSection>
 
-      <p className='mt-[30px] mb-[10px] text-14_B'>SNS 아이디</p>
-      <Controller
-        name='sns'
-        control={control}
-        render={({ field }) => (
-          <TextInput
-            placeholder='인스타그램 아이디'
-            {...field}
-          />
-        )}
-      />
+      <FormSection label='SNS 아이디'>
+        <Controller
+          name='sns'
+          control={control}
+          render={({ field }) => (
+            <TextInput
+              placeholder='인스타그램 아이디'
+              {...field}
+            />
+          )}
+        />
+      </FormSection>
 
       <div className='mt-[30px] mb-[28px] flex gap-[10px]'>
         <button
