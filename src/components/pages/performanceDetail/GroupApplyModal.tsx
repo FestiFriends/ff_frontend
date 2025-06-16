@@ -73,7 +73,7 @@ const GroupApplyModal = ({
             value={message}
             onChange={setMessage}
             placeholder='간단한 소개를 작성해주세요.'
-            className='rounded-[16px] border-1 border-gray-100 px-5 py-4 text-16_body_M tracking-[-0.4px] shadow-[0px_2px_6px_0px_rgba(0,0,0,0.02)] placeholder:text-gray-500'
+            className='rounded-[16px] border-1 border-gray-100 px-5 py-4 text-[16px] leading-[180%] font-medium tracking-[-0.35px] text-gray-950 shadow-[0px_2px_6px_0px_rgba(0,0,0,0.02)] placeholder:text-gray-500'
           />
           <div className='flex gap-2'>
             <Button
