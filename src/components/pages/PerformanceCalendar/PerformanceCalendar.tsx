@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback } from 'react';
-import EventCalendar from '@/components/common/EventCalendar/EventCalendar';
+import EventCalendar from '@/components/common/EventCalendar/EventCalendar/EventCalendar';
 import { Performance } from '@/types/performance';
 import { isPerformanceOnDate } from '@/utils/isPerformanceOnDate';
 
