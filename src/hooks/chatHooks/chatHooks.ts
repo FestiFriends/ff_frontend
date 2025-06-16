@@ -6,71 +6,11 @@ import { Client } from '@stomp/stompjs';
 // import { AxiosResponse } from 'axios';
 import SockJS from 'sockjs-client';
 import { getAccessToken } from '@/lib/apiFetcher';
-import { callLogout, callTokenUpdater } from '@/providers/AuthStoreProvider';
 import { ChatMessage } from '@/types/chat';
 // import { CHAT_QUERY_KEY } from '@/constants/queryKeys';
 // import { chatServiceApi } from '@/services/chatService';
 // import { ApiResponse, CursorRequest } from '@/types/api';
 // import { GetChatMessageListResponse } from '@/types/chat';
-
-/**
- * 액세스 토큰 만료 여부를 확인하는 함수
- * @param token
- * @returns 액세스 토큰 만료 여부
- */
-const isTokenExpired = (token: string): boolean => {
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    const currentTime = Math.floor(Date.now() / 1000);
-    return payload.exp < currentTime;
-  } catch {
-    return true;
-  }
-};
-
-/**
- * 리프레시 토큰으로 액세스 토큰 재발급하는 함수
- * @returns 새 액세스 토큰
- */
-export const refreshAccessToken = async (): Promise<string | null> => {
-  const authInfo = localStorage.getItem('authInfo');
-  if (!authInfo) return null;
-
-  const refreshToken = JSON.parse(authInfo).state.refreshToken;
-  if (!refreshToken) return null;
-
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/token`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${refreshToken}`,
-        },
-        body: JSON.stringify({}),
-      }
-    );
-
-    if (!res.ok) return null;
-
-    const data = await res.json();
-    const newAccessToken = data.data?.accessToken;
-
-    if (!newAccessToken) return null;
-
-    callTokenUpdater(newAccessToken);
-    return newAccessToken;
-  } catch (refreshErr) {
-    callLogout();
-
-    const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BASE_URL}/login/kakao`;
-    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-    window.open(kakaoAuthUrl, '_self');
-
-    return Promise.reject(refreshErr);
-  }
-};
 
 /**
  * 채팅 웹소켓 연결
@@ -87,13 +27,12 @@ export const useChatWebSocket = (
 
   useEffect(() => {
     const connectWebSocket = async () => {
-      let token = getAccessToken();
+      const accessToken = getAccessToken();
 
-      if (!token || isTokenExpired(token)) {
-        token = await refreshAccessToken();
-      }
+      // 액세스 토큰이 만료되면 자동으로 서버에서 401 error가 날아옴
+      // 401 error 시 리프레시 토큰으로 액세스 토큰을 재발급 해야 함
 
-      if (!token || !userId || !chatRoomId) return;
+      if (!accessToken || !userId || !chatRoomId) return;
 
       const socket = new SockJS(
         `${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/chat`
@@ -103,7 +42,7 @@ export const useChatWebSocket = (
         webSocketFactory: () => socket,
 
         connectHeaders: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${accessToken}`,
         },
 
         onConnect: () => {
