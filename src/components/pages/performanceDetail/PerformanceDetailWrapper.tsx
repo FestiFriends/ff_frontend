@@ -38,7 +38,7 @@ const PerformanceDetailWrapper = ({
 
   if (isError)
     return (
-      <div className='flex h-[80dvh] flex-col items-center justify-center gap-2 px-4 py-5'>
+      <div className='flex h-full flex-col items-center justify-center px-4 py-5'>
         <p className='font-semibold text-gray-500'>존재하지 않는 공연입니다.</p>
       </div>
     );
