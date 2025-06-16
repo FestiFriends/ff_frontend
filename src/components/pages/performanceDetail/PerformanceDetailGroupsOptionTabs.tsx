@@ -129,7 +129,7 @@ const PerformanceDetailGroupsOptionTabs = ({
     );
 
   return (
-    <div className='flex flex-col gap-2 md:flex-row'>
+    <div className='flex flex-col gap-2'>
       <div className='flex gap-2'>
         <OptionDropdown
           triggerPlaceholder={sortLabel}
