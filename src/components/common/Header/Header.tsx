@@ -59,9 +59,7 @@ const Header = ({
               </button>
             )}
             {isLoggedin && hasNotification && <Notification />}
-            {!isLoggedin && hasNotification && (
-              <button onClick={onLogin}>로그인</button>
-            )}
+            {!isLoggedin && <button onClick={onLogin}>로그인</button>}
           </div>
         </>
       )}
