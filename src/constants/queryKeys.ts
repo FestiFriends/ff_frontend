@@ -26,10 +26,15 @@ export const USERS_QUERY_KEYS = {
   favoriteUsers: 'favoriteUsers',
   myProfile: 'myProfile',
   profile: (userId: string) => ['profile', userId] as const,
+  userId: 'userId',
 };
 
 export const GROUPS_MANAGEMENTS_QUERY_KEYS = {
   appliedGroups: 'appliedGroups',
   joinedGroups: 'joinedGroups',
   applications: 'applications',
+};
+
+export const CHAT_QUERY_KEY = {
+  chat: 'chat',
 };
