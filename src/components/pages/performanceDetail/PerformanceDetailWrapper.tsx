@@ -50,7 +50,6 @@ const PerformanceDetailWrapper = ({
           message='로그인이 필요합니다!'
           type='error'
           onClose={() => setShowToast(false)}
-          className='bottom-4 left-1/2 -translate-x-1/2'
         />
       )}
 
