@@ -3,22 +3,22 @@
 import { memo, useCallback } from 'react';
 import { format, isSameMonth, isToday, isSameDay } from 'date-fns';
 import { cn } from '@/lib/utils';
-import { GroupSchedule } from '@/types/group';
+import { Schedule } from '@/types/group';
 
 interface GroupCellProps {
   date: Date;
-  schedules: GroupSchedule[];
+  schedules: Schedule[];
   currentMonth: Date;
   selectedDate?: Date;
   onDateClick?: (
     date: Date,
-    schedules: GroupSchedule[],
+    schedules: Schedule[],
     openCreator?: boolean
   ) => void;
-  onScheduleClick?: (schedule: GroupSchedule) => void;
+  onScheduleClick?: (schedule: Schedule) => void;
 }
 
-const GroupCell = ({
+const GroupCalendarCell = ({
   date,
   schedules,
   currentMonth,
@@ -92,4 +92,4 @@ const GroupCell = ({
   );
 };
 
-export default memo(GroupCell);
+export default memo(GroupCalendarCell);

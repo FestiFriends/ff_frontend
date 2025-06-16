@@ -5,6 +5,7 @@ import { GroupCategory, Gender } from '@/types/enums';
 import {
   GetGroupsParams,
   GroupInfoResponse,
+  GroupSchedule,
   PostJoinGroupRequest,
   CreateGroupApiRequest,
   CreateGroupFormData,
@@ -84,5 +85,23 @@ export const groupsApi = {
     return await apiFetcher.post<
       ApiResponse<{ groupId: string; performanceId: string }>
     >(`/api/v1/groups`, apiRequest);
+  },
+
+  getSchedules: async (
+    groupId: string,
+    params: { startDate: string; endDate: string }
+  ): Promise<GroupSchedule[]> => {
+    const queryString = QueryString.stringify(params, { skipNulls: true });
+
+    const response = await apiFetcher.get<{
+      code: number;
+      message: string;
+      data: {
+        scheduleCount: number;
+        schedules: GroupSchedule[];
+      };
+    }>(`/api/v1/groups/${groupId}/schedules?${queryString}`);
+
+    return response.data.data?.schedules ?? [];
   },
 };
