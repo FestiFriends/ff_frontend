@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import {
   eachDayOfInterval,
   endOfMonth,
@@ -11,61 +11,38 @@ import {
   startOfMonth,
   startOfWeek,
 } from 'date-fns';
-import { ko } from 'date-fns/locale';
-import AltArrowUpIcon from '@/components/icons/AltArrowUpIcon';
 import { cn } from '@/lib/utils';
 
-interface CalendarProps {
+interface CalendarWithQueryProps {
   month?: Date;
-  startDate?: Date | null;
-  endDate?: Date | null;
+  startDate?: string | null;
+  endDate?: string | null;
   onDateClick?: (date: Date) => void;
-  isControllable?: boolean;
   className?: string;
 }
 
 const WEEKDAYS_KR = ['일', '월', '화', '수', '목', '금', '토'];
 
-const Calendar = ({
+const CalendarWithQuery = ({
   month = new Date(),
   startDate,
   endDate,
   onDateClick,
-  isControllable,
   className,
-}: CalendarProps) => {
-  const [internalMonth, setInternalMonth] = useState<Date>(month);
-  const currentMonth = isControllable ? internalMonth : month;
-
+}: CalendarWithQueryProps) => {
   const days = useMemo(() => {
-    const firstDay = startOfWeek(startOfMonth(currentMonth), {
+    const firstDay = startOfWeek(startOfMonth(month), {
       weekStartsOn: 0,
     });
-    const lastDay = endOfWeek(endOfMonth(currentMonth), { weekStartsOn: 0 });
+    const lastDay = endOfWeek(endOfMonth(month), { weekStartsOn: 0 });
 
     return eachDayOfInterval({ start: firstDay, end: lastDay });
-  }, [currentMonth]);
-
-  const handlePrevMonth = () => {
-    if (!isControllable) return;
-
-    setInternalMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1)
-    );
-  };
-
-  const handleNextMonth = () => {
-    if (!isControllable) return;
-
-    setInternalMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)
-    );
-  };
+  }, [month]);
 
   const renderDay = (day: Date | null, index: number) => {
     if (day === null) return <div key={`empty-${index}`}></div>;
 
-    const isCurrentMonth = isSameMonth(day, currentMonth);
+    const isCurrentMonth = isSameMonth(day, month);
     const isStart = startDate && isSameDay(day, startDate);
     const isEnd = endDate && isSameDay(day, endDate);
     const isRange =
@@ -92,10 +69,7 @@ const Calendar = ({
     );
 
     const dayButtonClasses = cn(
-      'h-full w-full',
-
-      // clickable style
-      onDateClick && 'cursor-pointer',
+      'h-full w-full cursor-pointer',
 
       // startDate style
       isStart && 'z-10 rounded-[100px] bg-primary-red font-bold text-white',
@@ -123,27 +97,6 @@ const Calendar = ({
 
   return (
     <div className={calendarClasses}>
-      {isControllable && (
-        <div className='flex items-center justify-center gap-2'>
-          <button
-            className='cursor-pointer'
-            aria-label='prev month'
-            onClick={handlePrevMonth}
-          >
-            <AltArrowUpIcon className='aspect-square h-6 w-6 -rotate-90 text-gray-950' />
-          </button>
-          <span className='text-20_B leading-normal tracking-[-0.5px] text-gray-950'>
-            {format(currentMonth, 'yyyy년 M월', { locale: ko })}
-          </span>
-          <button
-            className='cursor-pointer'
-            aria-label='next month'
-            onClick={handleNextMonth}
-          >
-            <AltArrowUpIcon className='aspect-square h-6 w-6 rotate-90 text-gray-950' />
-          </button>
-        </div>
-      )}
       <div className='grid grid-cols-7 place-items-center text-center'>
         {WEEKDAYS_KR.map((d) => (
           <div
@@ -163,4 +116,4 @@ const Calendar = ({
   );
 };
 
-export default Calendar;
+export default CalendarWithQuery;

@@ -2,7 +2,6 @@ import { isAfter, isBefore, parseISO } from 'date-fns';
 import { http, HttpResponse } from 'msw';
 import { GenderLabels } from '@/constants/genderLabels';
 import { GroupCategoryLabels } from '@/constants/groupLabels';
-import { LocationLabels } from '@/constants/locationLabels';
 import { GenderType, GroupCategoryType } from '@/types/enums';
 
 export const GROUPS_DATA = [
@@ -13,7 +12,7 @@ export const GROUPS_DATA = [
     gender: '혼성',
     startAge: 20,
     endAge: 35,
-    location: '서울',
+    location: '서울 강남',
     startDate: '2025-06-09T10:00:00Z',
     endDate: '2025-06-11T23:00:00Z',
     memberCount: 7,
@@ -636,6 +635,27 @@ export const GROUPS_DATA = [
     },
     isHost: true,
   },
+  {
+    id: 'g221',
+    title: '락페 끝나고 음악 공유모임🎧2',
+    category: '같이 동행',
+    gender: '혼성',
+    startAge: 25,
+    endAge: 37,
+    location: '경남',
+    startDate: '2025-08-12T18:00:00Z',
+    endDate: '2025-08-12T21:00:00Z',
+    memberCount: 5,
+    maxMembers: 8,
+    hashtag: ['후기나눔', '음악공유', '락덕'],
+    isFavorite: true,
+    host: {
+      hostId: 'host219',
+      name: '윤정현',
+      rating: 4.9,
+    },
+    isHost: false,
+  },
 ];
 
 export const groupsHandlers = [
@@ -646,7 +666,7 @@ export const groupsHandlers = [
       const url = new URL(request.url);
       const page = Number(url.searchParams.get('page'));
       const size = Number(url.searchParams.get('size'));
-      const sortType = url.searchParams.get('sortType');
+      const sort = url.searchParams.get('sort');
       const category = url.searchParams.get('category') as GroupCategoryType;
       const startDate = url.searchParams.get('startDate');
       const endDate = url.searchParams.get('endDate');
@@ -673,11 +693,9 @@ export const groupsHandlers = [
         });
       }
 
-      if (location && location in LocationLabels) {
-        newGroup = newGroup.filter(
-          (group) =>
-            group.location
-            === LocationLabels[location as keyof typeof LocationLabels]
+      if (location) {
+        newGroup = newGroup.filter((group) =>
+          group.location.includes(location)
         );
       }
 
@@ -687,11 +705,11 @@ export const groupsHandlers = [
         );
       }
 
-      if (sortType) {
+      if (sort) {
         newGroup = newGroup.sort((x, y) =>
-          sortType === 'latest'
-            ? Date.parse(y.startDate) - Date.parse(x.startDate)
-            : Date.parse(x.startDate) - Date.parse(y.startDate)
+          sort === 'date_asc'
+            ? Date.parse(x.startDate) - Date.parse(y.startDate)
+            : Date.parse(y.startDate) - Date.parse(x.startDate)
         );
       }
 

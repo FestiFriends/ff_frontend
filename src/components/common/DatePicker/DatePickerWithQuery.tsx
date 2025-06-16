@@ -1,72 +1,87 @@
 'use client';
 
-import { useCallback, useRef, useState } from 'react';
-import { addMonths, format, subMonths } from 'date-fns';
+import { useEffect, useRef, useState } from 'react';
+import { addMonths, format, isAfter, isBefore, subMonths } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import AltArrowUpIcon from '@/components/icons/AltArrowUpIcon';
 import DeleteIcon from '@/components/icons/DeleteIcon';
 import useClickOutside from '@/hooks/useClickOutside/useClickOutside';
 import { cn } from '@/lib/utils';
-import { DateRange } from '@/types/dateRange';
-import Calendar from '../Calendar/Calendar';
+import Button from '../Button/Button';
+import CalendarWithQuery from '../Calendar/CalendarWithQuery';
 
-interface DatePickerProps {
-  startDate: Date | null;
-  endDate: Date | null;
+interface DatePickerWithQueryProps {
+  startDate: string | null;
+  endDate: string | null;
   placeholder?: string;
-  onChange: (range: DateRange) => void;
+  onInit?: (keys: string[]) => void;
+  onSubmit?: (params: Record<string, string | null>) => void;
 }
 
-const DatePicker = ({
+const DatePickerWithQuery = ({
   startDate,
   endDate,
   placeholder = '날짜',
-  onChange,
-}: DatePickerProps) => {
+  onInit,
+  onSubmit,
+}: DatePickerWithQueryProps) => {
   const datePickerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectedRange, setSelectedRange] = useState<DateRange>({
-    startDate,
-    endDate,
+  const [selectedRange, setSelectedRange] = useState({
+    start: startDate,
+    end: endDate,
   });
 
   useClickOutside({ ref: datePickerRef, onClose: () => setIsOpen(false) });
+
+  useEffect(() => {
+    setSelectedRange({
+      start: startDate,
+      end: endDate,
+    });
+  }, [startDate, endDate]);
 
   const toggleDatePicker = () => {
     setIsOpen((prev) => !prev);
   };
 
-  const handleDateClick = useCallback(
-    (date: Date) => {
-      const { startDate, endDate } = selectedRange;
+  const handleSelectDate = (date: Date) => {
+    const { start } = selectedRange;
+    const formattedDate = format(date, 'yyyy-MM-dd');
 
-      if (!startDate) {
-        const newRange = { startDate: date, endDate: null };
-        setSelectedRange(newRange);
-        onChange(newRange);
-      } else if (startDate && endDate) {
-        const newRange = { startDate: null, endDate: null };
-        setSelectedRange(newRange);
-        onChange(newRange);
-      } else {
-        const earlier = date < startDate ? date : startDate;
-        const later = date < startDate ? startDate : date;
+    if (!start) {
+      const newRange = { start: formattedDate, end: null };
+      setSelectedRange(newRange);
+    } else {
+      const earlier = isBefore(formattedDate, start) ? formattedDate : start;
+      const later = isAfter(formattedDate, start) ? formattedDate : start;
 
-        const newRange = { startDate: earlier, endDate: later };
-        setSelectedRange(newRange);
-        onChange(newRange);
-      }
-    },
-    [selectedRange, onChange]
-  );
+      const newRange = { start: earlier, end: later };
+      setSelectedRange(newRange);
+    }
+  };
+
+  const handleSubmitDate = () => {
+    const dateParams: Record<string, string | null> = {
+      ['startDate']: selectedRange.start,
+      ['endDate']: selectedRange.end,
+    };
+    onSubmit?.(dateParams);
+    setIsOpen(false);
+  };
+
+  const handleResetDate = () => {
+    setSelectedRange({ start: null, end: null });
+    onInit?.(['startDate', 'endDate']);
+  };
 
   const prevMonth = subMonths(currentMonth, 1);
   const nextMonth = addMonths(currentMonth, 1);
 
   const datePickerTriggerClasses = cn(
     // default style
-    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 transition-all select-none',
+    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 whitespace-nowrap transition-all select-none',
 
     // opened, selected style
     (isOpen || startDate || endDate) && 'border-gray-950 bg-gray-950 text-white'
@@ -115,7 +130,7 @@ const DatePicker = ({
       </button>
 
       {isOpen && (
-        <div className='fixed top-1/2 left-1/2 z-20 inline-flex w-[calc(100vw-1rem)] max-w-[350px] -translate-x-1/2 -translate-y-1/2 flex-col gap-5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white p-5'>
+        <div className='fixed top-1/2 left-1/2 z-20 inline-flex w-[calc(100vw-1rem)] max-w-[390px] -translate-x-1/2 -translate-y-1/2 flex-col gap-2.5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white p-5'>
           <div className='flex items-center justify-center gap-2'>
             <button
               className='cursor-pointer'
@@ -135,17 +150,36 @@ const DatePicker = ({
               <AltArrowUpIcon className='aspect-square h-6 w-6 rotate-90 text-gray-950' />
             </button>
           </div>
-          <Calendar
+          <CalendarWithQuery
             month={currentMonth}
-            startDate={selectedRange.startDate}
-            endDate={selectedRange.endDate}
-            onDateClick={handleDateClick}
+            startDate={selectedRange.start}
+            endDate={selectedRange.end}
+            onDateClick={handleSelectDate}
             className='flex flex-col gap-1'
           />
+
+          <div className='flex gap-2.5'>
+            <Button
+              variant='secondary'
+              onClick={handleResetDate}
+            >
+              <span className='text-14_M leading-normal tracking-[-0.5px]'>
+                초기화
+              </span>
+            </Button>
+            <Button
+              variant='primary'
+              onClick={handleSubmitDate}
+            >
+              <span className='text-14_M leading-normal tracking-[-0.5px]'>
+                선택 완료
+              </span>
+            </Button>
+          </div>
         </div>
       )}
     </div>
   );
 };
 
-export default DatePicker;
+export default DatePickerWithQuery;
