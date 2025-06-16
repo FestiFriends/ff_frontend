@@ -6,8 +6,8 @@ interface GroupCalendarWrapperProps {
   groupId: string;
 }
 
-const GroupCalendarWrapper = ({ groupId }: GroupCalendarWrapperProps) => {
-  return <GroupCalendar groupId={groupId} />;
-};
+const GroupCalendarWrapper = ({ groupId }: GroupCalendarWrapperProps) => (
+  <GroupCalendar groupId={groupId} />
+);
 
 export default GroupCalendarWrapper;
