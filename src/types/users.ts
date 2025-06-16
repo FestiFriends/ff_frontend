@@ -33,4 +33,5 @@ export interface UserIsLikedResponse {
   };
 }
 
-export type GetFavoriteUsersResponse = ApiResponse<User[]> & CursorResponse;
+export type GetFavoriteUsersResponse = { data: User[] } & ApiResponse
+  & CursorResponse;

@@ -13,6 +13,7 @@ const WritableReviews = () => (
     WritableReviewsResponse,
     WritableReviewsResponse['data'][number]
   >
+    className='flex flex-col items-center gap-5'
     fallback={<ReviewCardSkeleton />}
     options={infiniteWritableReviewsOptions()}
     getDataId={(data) => data.groupId}

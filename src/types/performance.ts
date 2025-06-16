@@ -40,7 +40,9 @@ export type PerformanceDetailResponse = ApiResponse<Performance>;
 export type PerformancesResponsePagination = ApiResponse<Performance[]>
   & PageResponse;
 
-export type GetFavoritePerformancesResponse = ApiResponse<Performance[]>
+export type GetFavoritePerformancesResponse = {
+  data: Performance[];
+} & ApiResponse
   & CursorResponse;
 
 export interface GetPerformancesParams {
