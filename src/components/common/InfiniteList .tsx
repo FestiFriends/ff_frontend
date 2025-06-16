@@ -4,7 +4,6 @@ import { Fragment, ReactNode } from 'react';
 import { ErrorBoundary, Suspense } from '@suspensive/react';
 import { SuspenseInfiniteQuery } from '@suspensive/react-query';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
-import { cn } from '@/lib/utils';
 import type { ApiResponse } from '@/types/api';
 import type {
   UseSuspenseInfiniteQueryResult,
@@ -25,6 +24,7 @@ type InfiniteReviewListProps<TPage extends { data: TData[] }, TData> = {
   renderData: (data: TData) => ReactNode;
   fallback?: ReactNode;
   isFetchingFallback?: ReactNode;
+  emptyFallback?: ReactNode;
   className?: string;
 };
 
@@ -35,7 +35,8 @@ const ListContent = <TPage extends { data: TData[] }, TData>({
   isFetchingNextPage,
   getDataId,
   renderData,
-  isFetchingFallback = <p>로딩 중...</p>,
+  isFetchingFallback,
+  emptyFallback,
   className,
 }: UseSuspenseInfiniteQueryResult<InfiniteData<TPage>, ApiResponse>
   & Omit<InfiniteReviewListProps<TPage, TData>, 'options' | 'fallback'>) => {
@@ -45,14 +46,16 @@ const ListContent = <TPage extends { data: TData[] }, TData>({
     isFetchingNextPage
   );
 
+  const datas = data.pages.flatMap((page) => page.data);
+
   return (
     <>
-      <div className={cn('flex flex-col items-center gap-5', className)}>
-        {data.pages.flatMap((page) =>
-          page.data.map((data) => (
+      <div className={className}>
+        {datas.length === 0 && emptyFallback}
+        {datas.length > 0
+          && datas.map((data) => (
             <Fragment key={getDataId(data)}>{renderData(data)}</Fragment>
-          ))
-        )}
+          ))}
       </div>
       <div ref={bottomRef} />
       {isFetchingNextPage && isFetchingFallback}
@@ -64,6 +67,8 @@ const InfiniteList = <TPage extends { data: TData[] }, TData>({
   options,
   getDataId,
   renderData,
+  className,
+  emptyFallback = <p>데이터가 없습니다.</p>,
   fallback = <p>로딩 중...</p>,
   isFetchingFallback = <p>로딩 중...</p>,
 }: InfiniteReviewListProps<TPage, TData>) => (
@@ -76,6 +81,8 @@ const InfiniteList = <TPage extends { data: TData[] }, TData>({
             getDataId={getDataId}
             renderData={renderData}
             isFetchingFallback={isFetchingFallback}
+            emptyFallback={emptyFallback}
+            className={className}
           />
         )}
       </SuspenseInfiniteQuery>
