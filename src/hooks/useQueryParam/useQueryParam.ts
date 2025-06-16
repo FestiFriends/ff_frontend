@@ -6,6 +6,7 @@ const DEFAULT_PAGE = '1';
 const DEFAULT_SIZE = '20';
 
 type PerformanceQueryParams = {
+  title?: string;
   keyword?: string;
   category?: string;
   startDate?: string;
@@ -37,6 +38,7 @@ const useQueryParam = () => {
     (params: Partial<PerformanceQueryParams> = {}) => {
       const searchParams = new URLSearchParams();
       const queryParams = {
+        title: getQueryParam('title'),
         keyword: getQueryParam('keyword'),
         category: getQueryParam('category'),
         startDate: getQueryParam('startDate'),
