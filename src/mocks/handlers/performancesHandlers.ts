@@ -1,7 +1,6 @@
 import { http, HttpResponse, delay } from 'msw';
 import { Performance, PerformanceIsLikedData } from '@/types/performance';
 import { PerformancesSearchParams } from '@/types/performancesSearchParams';
-import { FULL_PERFORMANCES_DATA } from './performancesHandlers.data';
 
 const PERFORMANCES_SAMPLE_DATA: Performance[] = [
   {
@@ -844,9 +843,10 @@ export const performancesHandlers = [
       const cursorId = url.searchParams.get('cursorId');
       const size = Number(url.searchParams.get('size')) || 20;
 
-      const favoritePerformances = FULL_PERFORMANCES_DATA.filter(
+      const favoritePerformances = PERFORMANCES_SAMPLE_DATA.filter(
         (performance) => performance.isLiked
       );
+      console.log(favoritePerformances);
 
       const startIndex = cursorId
         ? favoritePerformances.findIndex((p) => p.id === cursorId) + 1
