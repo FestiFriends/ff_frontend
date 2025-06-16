@@ -2,10 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { useGetNewNotificationsCheck } from '@/hooks/notificationHooks/notificationHooks';
+import { useAuthStore } from '@/providers/AuthStoreProvider';
 import { useSseStore } from '@/providers/SseStoreProvider';
 import Toast from '../common/Toast/Toast';
 
-const NotificationToast = () => {
+const NotificationToastRender = () => {
   const [showToast, setShowToast] = useState(false);
   const notification = useSseStore((state) => state.notification);
   const { refetch } = useGetNewNotificationsCheck();
@@ -27,6 +28,16 @@ const NotificationToast = () => {
       )}
     </>
   );
+};
+
+const NotificationToast = () => {
+  const isLoggedIn = useAuthStore((state) => state.isLoggedin);
+
+  if (!isLoggedIn) {
+    return null;
+  }
+
+  return <NotificationToastRender />;
 };
 
 export default NotificationToast;
