@@ -3,7 +3,9 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import GroupCard from '@/components/common/GroupCard/GroupCard';
+import Toast from '@/components/common/Toast/Toast';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useAuthStore } from '@/providers/AuthStoreProvider';
 import {
   formatPerformanceGroups,
   PerformanceGroupsApiResponse,
@@ -20,6 +22,8 @@ const PerformanceDetailGroupsList = ({
   groups,
 }: PerformanceDetailGroupsListProps) => {
   const router = useRouter();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedin);
+  const [showToast, setShowToast] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedGroupId, setSelectedGroupId] = useState<string>('');
 
@@ -28,8 +32,15 @@ const PerformanceDetailGroupsList = ({
   };
 
   const onOpenApplyModal = (groupId: string) => {
-    setSelectedGroupId(groupId);
-    setIsOpen(true);
+    if (!isLoggedIn) {
+      setShowToast(true);
+      return;
+    }
+
+    if (groupId) {
+      setSelectedGroupId(groupId);
+      setIsOpen(true);
+    }
   };
 
   if (isPending)
@@ -49,37 +60,47 @@ const PerformanceDetailGroupsList = ({
     );
 
   return (
-    <div className='flex flex-col gap-4'>
-      <span className='text-14_M leading-normal tracking-[-0.35px] text-black'>
-        총 모임{' '}
-        <span className='text-14_B leading-normal tracking-[-0.35px] text-black'>
-          {groups?.data.groupCount}개
-        </span>
-      </span>
-
-      <div className='flex flex-col gap-5'>
-        {groups
-          && formatPerformanceGroups(groups).map((group) => (
-            <div key={group.id}>
-              <GroupCard
-                onCardClick={() => routeToGroupPage(group.id)}
-                key={group.id}
-                groupData={group}
-                buttonText='참가 신청'
-                onButtonClick={() => onOpenApplyModal(group.id)}
-              />
-            </div>
-          ))}
-
-        {/* 모임 참가 신청 모달 */}
-        <GroupApplyModal
-          groupId={selectedGroupId}
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          setSelectedGroupId={setSelectedGroupId}
+    <>
+      {showToast && (
+        <Toast
+          message='로그인이 필요합니다!'
+          type='error'
+          onClose={() => setShowToast(false)}
         />
+      )}
+
+      <div className='flex flex-col gap-4'>
+        <span className='text-14_M leading-normal tracking-[-0.35px] text-black'>
+          총 모임{' '}
+          <span className='text-14_B leading-normal tracking-[-0.35px] text-black'>
+            {groups?.data.groupCount}개
+          </span>
+        </span>
+
+        <div className='flex flex-col gap-5'>
+          {groups
+            && formatPerformanceGroups(groups).map((group) => (
+              <div key={group.id}>
+                <GroupCard
+                  onCardClick={() => routeToGroupPage(group.id)}
+                  key={group.id}
+                  groupData={group}
+                  buttonText='참가 신청'
+                  onButtonClick={() => onOpenApplyModal(group.id)}
+                />
+              </div>
+            ))}
+
+          {/* 모임 참가 신청 모달 */}
+          <GroupApplyModal
+            groupId={selectedGroupId}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            setSelectedGroupId={setSelectedGroupId}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
