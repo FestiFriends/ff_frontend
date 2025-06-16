@@ -123,7 +123,7 @@ const PerformanceDetailInfo = ({
     ];
   }, [performanceDetail]);
 
-  if (isPending)
+  if (isPending || !performanceDetail)
     return (
       <div className='flex flex-col items-center px-4 pt-2.5 pb-5'>
         <Skeleton className='h-[60vh] w-full' />
@@ -163,7 +163,7 @@ const PerformanceDetailInfo = ({
 
       {/* 공연 소개 이미지 */}
       <div className='flex flex-col items-center'>
-        {performanceDetail?.images?.map((image: ImageType) => (
+        {performanceDetail.images?.map((image: ImageType) => (
           <div
             key={image.id}
             className='relative'

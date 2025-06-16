@@ -4,41 +4,11 @@ import { groupsApi } from '@/services/groupsService';
 import { GetGroupsParams } from '@/types/group';
 import { PerformanceGroupsApiResponse } from '@/utils/formatGroupCardData';
 
-export const useGetGroups = ({
-  performanceId,
-  page = 1,
-  size = 20,
-  sortType,
-  category,
-  startDate,
-  endDate,
-  location,
-  gender,
-}: GetGroupsParams) =>
+export const useGetGroups = (params: GetGroupsParams) =>
   useQuery<PerformanceGroupsApiResponse>({
-    queryKey: [
-      GROUP_QUERY_KEYS.groups,
-      performanceId,
-      page,
-      sortType,
-      category,
-      startDate,
-      endDate,
-      location,
-      gender,
-    ],
+    queryKey: [GROUP_QUERY_KEYS.groups, params],
     queryFn: async () => {
-      const res = await groupsApi.getGroups({
-        performanceId,
-        page,
-        size,
-        sortType,
-        category,
-        startDate,
-        endDate,
-        location,
-        gender,
-      });
+      const res = await groupsApi.getGroups(params);
       return res.data;
     },
     placeholderData: (previousData: PerformanceGroupsApiResponse | undefined) =>

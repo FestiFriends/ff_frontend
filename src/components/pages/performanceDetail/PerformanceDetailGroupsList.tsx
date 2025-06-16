@@ -1,3 +1,6 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
 import GroupCard from '@/components/common/GroupCard/GroupCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
@@ -7,15 +10,24 @@ import {
 
 interface PerformanceDetailGroupsListProps {
   isPending: boolean;
-  groupCount?: number;
   groups?: PerformanceGroupsApiResponse;
 }
 
 const PerformanceDetailGroupsList = ({
   isPending,
-  groupCount,
   groups,
 }: PerformanceDetailGroupsListProps) => {
+  const router = useRouter();
+
+  const routeToGroupPage = (groupId: string) => {
+    router.push(`/groups/${groupId}`);
+  };
+
+  const applyToGroup = (groupId: string) => {
+    // TODO: 모임 신청 api 연동
+    console.log(`apply ${groupId}`);
+  };
+
   if (isPending)
     return (
       <div className='flex flex-col gap-4'>
@@ -37,7 +49,7 @@ const PerformanceDetailGroupsList = ({
       <span className='text-14_M leading-normal tracking-[-0.35px] text-black'>
         총 모임{' '}
         <span className='text-14_B leading-normal tracking-[-0.35px] text-black'>
-          {groupCount}개
+          {groups?.data.groupCount}개
         </span>
       </span>
 
@@ -45,11 +57,11 @@ const PerformanceDetailGroupsList = ({
         {groups
           && formatPerformanceGroups(groups).map((group) => (
             <GroupCard
-              onCardClick={() => {}}
+              onCardClick={() => routeToGroupPage(group.id)}
               key={group.id}
               groupData={group}
               buttonText='참가 신청'
-              onButtonClick={() => console.log(group)}
+              onButtonClick={() => applyToGroup(group.id)}
             />
           ))}
       </div>

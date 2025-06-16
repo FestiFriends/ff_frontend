@@ -1,5 +1,5 @@
 import { ApiResponse, PageResponse } from './api';
-import { GroupCategoryType, GenderType, LocationType } from './enums';
+import { GroupCategoryType, GenderType } from './enums';
 
 export interface Group {
   id: string;
@@ -41,10 +41,10 @@ export interface GetGroupsParams {
   performanceId: string;
   page?: number;
   size?: number;
-  sortType?: 'latest' | 'oldest' | string;
-  category?: GroupCategoryType | string;
-  startDate?: string;
-  endDate?: string;
-  location?: LocationType | string;
-  gender?: GenderType | string;
+  sort?: string | null;
+  category?: string | null;
+  startDate?: string | null;
+  endDate?: string | null;
+  location?: string | null;
+  gender?: string | null;
 }

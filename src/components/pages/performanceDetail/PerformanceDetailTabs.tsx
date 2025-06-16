@@ -18,7 +18,10 @@ const PerformanceDetailTabs = ({
   const [selectedTab, setSelectedTab] = useState<string>(tabs[0]);
 
   return (
-    <div className='flex flex-col bg-white'>
+    <div
+      className='flex flex-col bg-white'
+      id='performanceDetailTab'
+    >
       <Tabs
         tabs={tabs}
         activeTab={selectedTab}

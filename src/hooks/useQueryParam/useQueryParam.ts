@@ -23,10 +23,12 @@ const useQueryParam = () => {
   const getQueryParam = (key: string) => searchParams.get(key);
 
   const setQueryParam = useCallback(
-    (key: string, value: string | null) => {
+    (key: string, value: string, anchor?: string) => {
       const params = new URLSearchParams(searchParams.toString());
       (() => (value ? params.set(key, value) : params.delete(key)))();
-      router.replace(`${window.location.pathname}?${params.toString()}`);
+      router.replace(
+        `${window.location.pathname}?${params.toString()}${anchor ? `#${anchor}` : ''}`
+      );
     },
     [router, searchParams]
   );

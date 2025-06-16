@@ -22,38 +22,35 @@ const PerformanceDetailSummary = ({
 }: PerformanceDetailSummaryProps) => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedin);
   const [showToast, setShowToast] = useState(false);
-  const [isLiked, setIsLiked] = useState(performanceDetail?.isLiked);
   const { mutate } = usePatchPerformanceLiked();
   const imageWidth = 500;
   const imageHeight = 700;
+
+  if (isPending || !performanceDetail)
+    return (
+      <div className='flex flex-col gap-5 bg-white px-4 pt-5 pb-7.5'>
+        <Skeleton className='h-[60dvh] w-full' />
+        <div className='flex flex-col gap-5'>
+          <Skeleton className='h-6 w-full' />
+          <div className='flex flex-col gap-3'>
+            <Skeleton className='h-4 w-[60dvw]' />
+            <Skeleton className='h-4 w-[45dvw]' />
+            <Skeleton className='h-4 w-[70dvw]' />
+          </div>
+        </div>
+      </div>
+    );
 
   const toggleLike = () => {
     if (!isLoggedIn) {
       setShowToast(true);
       return;
     }
-    if (!performanceDetail) return;
-    setIsLiked((prev) => !prev);
     mutate({
       performanceId: performanceDetail.id,
       isLiked: !performanceDetail.isLiked,
     });
   };
-
-  if (isPending)
-    return (
-      <div className='flex flex-col gap-5 bg-white px-4 pt-5 pb-7.5'>
-        <Skeleton className='h-[60vh] w-full' />
-        <div className='flex flex-col gap-5'>
-          <Skeleton className='h-6 w-full' />
-          <div className='flex flex-col gap-3'>
-            <Skeleton className='h-4 w-[60vw]' />
-            <Skeleton className='h-4 w-[45vw]' />
-            <Skeleton className='h-4 w-[70vw]' />
-          </div>
-        </div>
-      </div>
-    );
 
   return (
     <>
@@ -68,20 +65,23 @@ const PerformanceDetailSummary = ({
 
       <div className='flex flex-col gap-5 bg-white px-4 pt-5 pb-7.5'>
         {/* 공연 포스터 */}
-        <div className='flex justify-center'>
-          <Image
-            src={performanceDetail?.poster || ''}
-            alt={performanceDetail?.title || ''}
-            width={imageWidth}
-            height={imageHeight}
-          />
+        <div>
+          <div className='flex max-h-[60dvh] justify-center'>
+            <Image
+              src={performanceDetail.poster || ''}
+              alt={performanceDetail.title || ''}
+              width={imageWidth}
+              height={imageHeight}
+              className='rounded-[12px] object-contain'
+            />
+          </div>
         </div>
 
         <div className='flex flex-col gap-5'>
           <div className='flex items-center justify-between'>
             {/* 공연명 */}
             <h2 className='text-18_B leading-normal tracking-[-0.45px] break-keep text-gray-950'>
-              {performanceDetail?.title}
+              {performanceDetail.title}
             </h2>
             {/* 공연 찜 */}
             <div className='flex items-center gap-3'>
@@ -90,9 +90,11 @@ const PerformanceDetailSummary = ({
                 aria-label='찜 버튼'
                 className='flex h-7.5 items-center justify-center gap-1 rounded-full bg-gray-25 p-3'
               >
-                <LikeIcon type={isLiked ? 'active' : 'empty'} />
+                <LikeIcon
+                  type={performanceDetail.isLiked ? 'active' : 'empty'}
+                />
                 <span className='text-14_M leading-normal tracking-[-0.35px] text-gray-950 select-none'>
-                  {performanceDetail?.favoriteCount}
+                  {performanceDetail.favoriteCount}
                 </span>
               </button>
             </div>
@@ -107,7 +109,7 @@ const PerformanceDetailSummary = ({
               기간
             </span>
             <span className='text-16_M leading-normal tracking-[-0.4px] text-gray-700'>
-              {!performanceDetail?.startDate || !performanceDetail?.endDate
+              {!performanceDetail.startDate || !performanceDetail.endDate
                 ? '정보 없음'
                 : `${format(performanceDetail.startDate, 'yy.MM.dd')} ~ ${format(performanceDetail.endDate, 'yy.MM.dd')}`}
             </span>
@@ -116,18 +118,18 @@ const PerformanceDetailSummary = ({
               장소
             </span>
             <span className='text-16_M leading-normal tracking-[-0.4px] text-gray-700'>
-              {formatLocation(performanceDetail?.location).place}
+              {formatLocation(performanceDetail.location).place}
             </span>
 
             <span className='pr-7.5 text-16_B leading-normal tracking-[-0.4px] whitespace-nowrap text-gray-700'>
               출연진
             </span>
             <span className='text-16_M leading-normal tracking-[-0.4px] text-gray-700'>
-              {performanceDetail?.cast.length === 0 ? (
+              {performanceDetail.cast.length === 0 ? (
                 '정보 없음'
               ) : (
                 <div className='flex flex-wrap items-center gap-x-1'>
-                  {performanceDetail?.cast.map((cast: string) => (
+                  {performanceDetail.cast.map((cast: string) => (
                     <span
                       className='underline decoration-solid [text-decoration-thickness:auto] [text-underline-offset:auto] [text-decoration-skip-ink:none] [text-underline-position:from-font]'
                       key={cast}
