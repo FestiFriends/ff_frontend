@@ -5,8 +5,6 @@ import ModalClose from './ModalClose';
 import ModalContent from './ModalContent';
 import { ModalContext, useModalContext } from './ModalContext';
 import ModalTrigger from './ModalTrigger';
-import TwoButtonModal from './TwoButtonModal';
-
 export {
   Modal,
   ModalAction,
@@ -16,5 +14,4 @@ export {
   ModalContext,
   useModalContext,
   ModalTrigger,
-  TwoButtonModal,
 };
