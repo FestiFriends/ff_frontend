@@ -892,10 +892,13 @@ export const performancesHandlers = [
           data,
         });
       } else {
-        return HttpResponse.json({
-          code: 404,
-          message: '존재하지 않는 공연입니다.',
-        });
+        return HttpResponse.json(
+          {
+            code: 404,
+            message: '존재하지 않는 공연입니다.',
+          },
+          { status: 404 }
+        );
       }
     }
   ),
