@@ -10,7 +10,7 @@ const postId = 'post123';
 const content =
   '하고 싶은 곡 여기 댓글에 달아주세요~\n(라이브나 공연영상 등 참고 영상 링크 다셔도 좋습니당)\n\n<4월까지 인당 1곡 이상>';
 
-const ChatNotice = () => {
+const PostNotice = () => {
   const { groupId } = useParams<{ groupId: string }>();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -19,7 +19,7 @@ const ChatNotice = () => {
   };
 
   return (
-    <div className='relative'>
+    <div className='relative mb-11'>
       <div className='absolute top-0 z-1 rounded-[12px] bg-primary-100 px-4.5 py-2.5'>
         <div className='flex items-start justify-between gap-2'>
           <div className='flex w-full flex-1 items-start gap-2 overflow-hidden'>
@@ -48,4 +48,4 @@ const ChatNotice = () => {
   );
 };
 
-export default ChatNotice;
+export default PostNotice;

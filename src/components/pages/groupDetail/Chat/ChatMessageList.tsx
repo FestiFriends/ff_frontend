@@ -7,7 +7,7 @@ interface ChatMessageListProps {
 }
 
 const ChatMessageList = ({ userId, messages }: ChatMessageListProps) => (
-  <div className='scrollbar-hide flex h-full flex-col gap-5 overflow-y-scroll pt-15 pb-17.5'>
+  <div className='scrollbar-hide flex h-full flex-col gap-5 overflow-y-scroll pt-5 pb-17.5'>
     {messages.map((message: ChatMessageType) => (
       <ChatMessage
         key={message.chatId}
