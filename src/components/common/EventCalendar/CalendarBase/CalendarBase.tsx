@@ -18,6 +18,7 @@ interface CalendarBaseProps<T> {
   getDate: (event: T) => Date;
   renderCell: (date: Date, events: T[]) => React.ReactNode;
   onMonthChange?: (month: Date) => void;
+  weekdayLabels?: string[];
 }
 
 const CalendarBase = <T,>({
@@ -26,6 +27,7 @@ const CalendarBase = <T,>({
   getDate,
   renderCell,
   onMonthChange,
+  weekdayLabels,
 }: CalendarBaseProps<T>) => {
   const [internalMonth, setInternalMonth] = useState(month);
 
@@ -72,7 +74,7 @@ const CalendarBase = <T,>({
         onPrev={handlePrevMonth}
         onNext={handleNextMonth}
       />
-      <WeekdayHeader />
+      <WeekdayHeader labels={weekdayLabels} />
       <div className='grid grid-cols-7'>
         {days.map((day) => {
           const key = format(day, 'yyyy-MM-dd');

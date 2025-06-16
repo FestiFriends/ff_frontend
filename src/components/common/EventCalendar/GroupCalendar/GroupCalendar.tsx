@@ -28,6 +28,7 @@ const GroupCalendar = ({
   <CalendarBase
     month={month}
     events={schedules}
+    weekdayLabels={['S', 'M', 'T', 'W', 'T', 'F', 'S']}
     getDate={(s) => new Date(s.startAt)}
     renderCell={(date, items) => (
       <GroupCell
