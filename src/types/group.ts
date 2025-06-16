@@ -113,3 +113,20 @@ export interface CreateGroupApiRequest {
   description: string;
   hashtag?: string[];
 }
+
+export interface GroupSchedule {
+  id: string;
+  description: string;
+  startAt: string;
+  endAt: string;
+  location: string;
+  createdAt: string;
+
+  author: {
+    id: string;
+    name: string;
+    profileImage?: string;
+  };
+
+  isMine: boolean;
+}
