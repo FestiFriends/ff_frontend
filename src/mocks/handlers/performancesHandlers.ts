@@ -838,7 +838,7 @@ export const performancesHandlers = [
   }),
 
   http.get(
-    'http://localhost:3000/api/v1/performances/favorites',
+    'http://localhost:3000/api/v1/users/performances/favorites',
     ({ request }) => {
       const url = new URL(request.url);
       const cursorId = url.searchParams.get('cursorId');
