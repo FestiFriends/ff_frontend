@@ -1,5 +1,6 @@
 'use client';
 
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import GroupCard from '@/components/common/GroupCard/GroupCard';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -7,6 +8,7 @@ import {
   formatPerformanceGroups,
   PerformanceGroupsApiResponse,
 } from '@/utils/formatGroupCardData';
+import GroupApplyModal from './GroupApplyModal';
 
 interface PerformanceDetailGroupsListProps {
   isPending: boolean;
@@ -18,14 +20,16 @@ const PerformanceDetailGroupsList = ({
   groups,
 }: PerformanceDetailGroupsListProps) => {
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedGroupId, setSelectedGroupId] = useState<string>('');
 
   const routeToGroupPage = (groupId: string) => {
     router.push(`/groups/${groupId}`);
   };
 
-  const applyToGroup = (groupId: string) => {
-    // TODO: 모임 신청 api 연동
-    console.log(`apply ${groupId}`);
+  const onOpenApplyModal = (groupId: string) => {
+    setSelectedGroupId(groupId);
+    setIsOpen(true);
   };
 
   if (isPending)
@@ -56,14 +60,24 @@ const PerformanceDetailGroupsList = ({
       <div className='flex flex-col gap-5'>
         {groups
           && formatPerformanceGroups(groups).map((group) => (
-            <GroupCard
-              onCardClick={() => routeToGroupPage(group.id)}
-              key={group.id}
-              groupData={group}
-              buttonText='참가 신청'
-              onButtonClick={() => applyToGroup(group.id)}
-            />
+            <div key={group.id}>
+              <GroupCard
+                onCardClick={() => routeToGroupPage(group.id)}
+                key={group.id}
+                groupData={group}
+                buttonText='참가 신청'
+                onButtonClick={() => onOpenApplyModal(group.id)}
+              />
+            </div>
           ))}
+
+        {/* 모임 참가 신청 모달 */}
+        <GroupApplyModal
+          groupId={selectedGroupId}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          setSelectedGroupId={setSelectedGroupId}
+        />
       </div>
     </div>
   );
