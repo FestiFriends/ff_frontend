@@ -1,16 +1,76 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Client } from '@stomp/stompjs';
 // import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 // import { AxiosResponse } from 'axios';
 import SockJS from 'sockjs-client';
 import { getAccessToken } from '@/lib/apiFetcher';
+import { callLogout, callTokenUpdater } from '@/providers/AuthStoreProvider';
 import { ChatMessage } from '@/types/chat';
 // import { CHAT_QUERY_KEY } from '@/constants/queryKeys';
 // import { chatServiceApi } from '@/services/chatService';
 // import { ApiResponse, CursorRequest } from '@/types/api';
 // import { GetChatMessageListResponse } from '@/types/chat';
+
+/**
+ * 액세스 토큰 만료 여부를 확인하는 함수
+ * @param token
+ * @returns 액세스 토큰 만료 여부
+ */
+const isTokenExpired = (token: string): boolean => {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const currentTime = Math.floor(Date.now() / 1000);
+    return payload.exp < currentTime;
+  } catch {
+    return true;
+  }
+};
+
+/**
+ * 리프레시 토큰으로 액세스 토큰 재발급하는 함수
+ * @returns 새 액세스 토큰
+ */
+export const refreshAccessToken = async (): Promise<string | null> => {
+  const authInfo = localStorage.getItem('authInfo');
+  if (!authInfo) return null;
+
+  const refreshToken = JSON.parse(authInfo).state.refreshToken;
+  if (!refreshToken) return null;
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/token`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${refreshToken}`,
+        },
+        body: JSON.stringify({}),
+      }
+    );
+
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    const newAccessToken = data.data?.accessToken;
+
+    if (!newAccessToken) return null;
+
+    callTokenUpdater(newAccessToken);
+    return newAccessToken;
+  } catch (refreshErr) {
+    callLogout();
+
+    const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BASE_URL}/login/kakao`;
+    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+    window.open(kakaoAuthUrl, '_self');
+
+    return Promise.reject(refreshErr);
+  }
+};
 
 /**
  * 채팅 웹소켓 연결
@@ -21,69 +81,80 @@ export const useChatWebSocket = (
   userId: number | undefined,
   chatRoomId: number | undefined
 ) => {
-  const [client, setClient] = useState<Client | null>(null);
+  const clientRef = useRef<Client | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   useEffect(() => {
-    const accessToken = getAccessToken();
-    if (!accessToken || !userId || !chatRoomId) return;
+    const connectWebSocket = async () => {
+      let token = getAccessToken();
 
-    const socket = new SockJS(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/chat`);
+      if (!token || isTokenExpired(token)) {
+        token = await refreshAccessToken();
+      }
 
-    const stompClient = new Client({
-      webSocketFactory: () => socket,
+      if (!token || !userId || !chatRoomId) return;
 
-      connectHeaders: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      const socket = new SockJS(
+        `${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/chat`
+      );
 
-      onConnect: () => {
-        setIsConnected(true);
-        stompClient.subscribe(`/sub/chat/${chatRoomId}`, (message) => {
-          const body = JSON.parse(message.body);
-          setMessages((prev) => [...prev, body]);
-        });
-      },
+      const stompClient = new Client({
+        webSocketFactory: () => socket,
 
-      onDisconnect: () => {
-        setIsConnected(false);
-      },
+        connectHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
 
-      // debug: (debugMessage: string) => {
-      //   console.log(`debug: ${debugMessage}`);
-      // },
+        onConnect: () => {
+          setIsConnected(true);
+          stompClient.subscribe(`/sub/chat/${chatRoomId}`, (message) => {
+            const body = JSON.parse(message.body);
+            setMessages((prev) => [...prev, body]);
+          });
+        },
 
-      onStompError: (error) => {
-        console.log(`stomp error: ${error}`);
-      },
+        onDisconnect: () => {
+          setIsConnected(false);
+        },
 
-      onWebSocketError: (error) => {
-        console.log(`web socket error: ${error}`);
-      },
+        // debug: (debugMessage: string) => {
+        //   console.log(`debug: ${debugMessage}`);
+        // },
 
-      reconnectDelay: 3000,
-    });
+        onStompError: (error) => {
+          console.log(`stomp error: ${error}`);
+        },
 
-    stompClient.activate();
-    setClient(stompClient);
+        onWebSocketError: (error) => {
+          console.log(`web socket error: ${error}`);
+        },
+
+        reconnectDelay: 3000,
+      });
+
+      clientRef.current = stompClient;
+      stompClient.activate();
+    };
+
+    connectWebSocket();
 
     return () => {
-      stompClient.deactivate();
-      setClient(null);
+      clientRef.current?.deactivate();
+      clientRef.current = null;
       setIsConnected(false);
     };
   }, [userId, chatRoomId]);
 
   const sendMessage = useCallback(
     (message: string) => {
-      if (!client || !isConnected) return;
+      if (!clientRef.current || !isConnected || !userId || !chatRoomId) return;
 
       try {
         const requestData = { senderId: userId, content: message };
         const requestBody = JSON.stringify(requestData);
 
-        client.publish({
+        clientRef.current.publish({
           destination: `/pub/chat/${chatRoomId}`,
           body: requestBody,
         });
@@ -91,7 +162,7 @@ export const useChatWebSocket = (
         console.log('error: ', error);
       }
     },
-    [client, isConnected, userId, chatRoomId]
+    [isConnected, userId, chatRoomId]
   );
 
   return { messages, sendMessage, isConnected };
