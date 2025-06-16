@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
+import { useImageUploader } from '@/hooks/useImageUploader/useImageUploader';
 
 interface ProfileImageInputProps {
   initialImageUrl?: string;
@@ -12,38 +13,34 @@ const ProfileImageInput = ({
   initialImageUrl,
   onChange,
 }: ProfileImageInputProps) => {
-  const [imageUrl, setImageUrl] = useState<string | undefined>(initialImageUrl);
+  const { images, upload, defaultUrlUpload } = useImageUploader('single');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (initialImageUrl) {
-      setImageUrl(initialImageUrl);
+      defaultUrlUpload(initialImageUrl);
     }
-  }, [initialImageUrl]);
+  }, [initialImageUrl, defaultUrlUpload]);
 
   const handleClickChange = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  useEffect(() => {
+    if (images?.url) {
+      onChange?.(images.url);
+    }
+  }, [images, onChange]);
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (typeof reader.result === 'string') {
-        setImageUrl(reader.result);
-        onChange?.(reader.result);
-      }
-    };
-    reader.readAsDataURL(file);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    upload(e.target.files);
   };
 
   return (
     <div className='relative w-fit'>
       <ProfileImage
         size='lg'
-        src={imageUrl}
+        src={images?.url}
       />
       <button
         type='button'

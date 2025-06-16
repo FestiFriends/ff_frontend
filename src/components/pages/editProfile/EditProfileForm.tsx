@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
@@ -102,6 +102,13 @@ const EditProfileForm = () => {
     return 'text-gray-500';
   };
 
+  const handleImageChange = useCallback(
+    (url: string) => {
+      setValue('profileImage', url);
+    },
+    [setValue]
+  );
+
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <form
@@ -111,7 +118,7 @@ const EditProfileForm = () => {
       <div className='flex justify-center'>
         <ProfileImageInput
           initialImageUrl={watch('profileImage')}
-          onChange={(url) => setValue('profileImage', url)}
+          onChange={handleImageChange}
         />
       </div>
       <FormSection label='닉네임'>
