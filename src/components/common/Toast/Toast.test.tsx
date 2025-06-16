@@ -42,15 +42,15 @@ describe('Toast 컴포넌트', () => {
         onClose={jest.fn()}
       />
     );
-    const toast = screen.getByText('기본 메시지');
-    expect(toast).toHaveClass('bg-gray-800');
+    const toast = screen.getByLabelText('toast');
+    expect(toast).toHaveClass('bg-white text-gray-950');
   });
 
   test('타입 props에 따라 올바른 스타일이 적용된다', () => {
     setup({ type: 'error' });
     const toast = screen.getByRole('alert');
 
-    expect(toast).toHaveClass('bg-red-500');
+    expect(toast).toHaveClass('bg-primary-red text-white');
   });
 
   test('초기에는 isVisible = true로 보여진다', () => {
@@ -108,7 +108,7 @@ describe('Toast 컴포넌트', () => {
       />
     );
 
-    const toast = screen.getByText('위치 조정 메시지');
+    const toast = screen.getByLabelText('toast');
     expect(toast.className).toContain('top-10 right-10');
   });
 });
