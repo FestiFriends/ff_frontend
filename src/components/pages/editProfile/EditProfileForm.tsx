@@ -2,9 +2,11 @@
 
 import { useCallback, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import TextInput from '@/components/common/TextInput/TextInput';
+import { USERS_QUERY_KEYS } from '@/constants/queryKeys';
 import { useMyProfile } from '@/hooks/useMyProfile/useMyProfile';
 import { useNicknameValidator } from '@/hooks/useNicknameValidator/useNicknameValidator';
 import { hasProfanity } from '@/lib/utils';
@@ -33,6 +35,7 @@ const EditProfileForm = () => {
     validate: validateNicknameAsync,
   } = useNicknameValidator();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { handleSubmit, setValue, reset, watch, control } =
     useForm<EditProfileFormValues>({
@@ -73,6 +76,9 @@ const EditProfileForm = () => {
           : undefined,
       });
       console.log('업데이트 성공', data);
+      queryClient.invalidateQueries({
+        queryKey: [USERS_QUERY_KEYS.myProfile],
+      });
       router.replace('/profiles/me');
     } catch (error) {
       console.error('업데이트 실패', error);
