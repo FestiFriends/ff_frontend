@@ -4,12 +4,16 @@ import { useEffect, useRef, useState } from 'react';
 import Button from '@/components/common/Button/Button';
 import Portal from '@/components/common/Portal';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
+import { usePostJoinGroup } from '@/hooks/groupHooks/groupHooks';
+import { ToastContent } from './PerformanceDetailGroupsList';
 
 interface GroupApplyModalProps {
   groupId: string;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  setSelectedGroupId: (groupId: string) => void;
+  setSelectedGroupId?: (groupId: string) => void;
+  setShowToast?: (show: boolean) => void;
+  setToastContent?: (value: ToastContent) => void;
 }
 
 const GroupApplyModal = ({
@@ -17,19 +21,26 @@ const GroupApplyModal = ({
   isOpen,
   setIsOpen,
   setSelectedGroupId,
+  setShowToast,
+  setToastContent,
 }: GroupApplyModalProps) => {
+  const { mutate: postJoinGroup } = usePostJoinGroup();
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const [message, setMessage] = useState<string>('');
-
-  const applyToGroup = () => {
-    // TODO: 모임 신청 api 연동
-    console.log(`apply ${groupId}`);
-  };
+  const [description, setDescription] = useState<string>('');
 
   const onCloseApplyModal = () => {
-    setSelectedGroupId('');
-    setMessage('');
+    setSelectedGroupId?.('');
+    setDescription('');
     setIsOpen(false);
+  };
+
+  const applyToGroup = () => {
+    if (groupId && description) {
+      postJoinGroup({ groupId, description });
+      setToastContent?.({ message: '신청이 완료되었습니다.', type: 'success' });
+      setShowToast?.(true);
+      onCloseApplyModal();
+    }
   };
 
   useEffect(() => {
@@ -70,8 +81,8 @@ const GroupApplyModal = ({
         <div className='flex flex-col gap-5'>
           <span className='text-center text-16_B'>신청서 작성</span>
           <TextareaInput
-            value={message}
-            onChange={setMessage}
+            value={description}
+            onChange={setDescription}
             placeholder='간단한 소개를 작성해주세요.'
             className='rounded-[16px] border-1 border-gray-100 px-5 py-4 text-[16px] leading-[180%] font-medium tracking-[-0.35px] text-gray-950 shadow-[0px_2px_6px_0px_rgba(0,0,0,0.02)] placeholder:text-gray-500'
           />

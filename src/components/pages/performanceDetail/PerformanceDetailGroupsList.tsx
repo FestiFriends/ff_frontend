@@ -17,6 +17,11 @@ interface PerformanceDetailGroupsListProps {
   groups?: PerformanceGroupsApiResponse;
 }
 
+export interface ToastContent {
+  message: string;
+  type: 'default' | 'success' | 'warning' | 'error' | 'info';
+}
+
 const PerformanceDetailGroupsList = ({
   isPending,
   groups,
@@ -24,6 +29,10 @@ const PerformanceDetailGroupsList = ({
   const router = useRouter();
   const isLoggedIn = useAuthStore((state) => state.isLoggedin);
   const [showToast, setShowToast] = useState(false);
+  const [toastContent, setToastContent] = useState<ToastContent>({
+    message: '',
+    type: 'default',
+  });
   const [isOpen, setIsOpen] = useState(false);
   const [selectedGroupId, setSelectedGroupId] = useState<string>('');
 
@@ -33,6 +42,7 @@ const PerformanceDetailGroupsList = ({
 
   const onOpenApplyModal = (groupId: string) => {
     if (!isLoggedIn) {
+      setToastContent({ message: '로그인이 필요합니다!', type: 'error' });
       setShowToast(true);
       return;
     }
@@ -63,8 +73,8 @@ const PerformanceDetailGroupsList = ({
     <>
       {showToast && (
         <Toast
-          message='로그인이 필요합니다!'
-          type='error'
+          message={toastContent.message}
+          type={toastContent.type}
           onClose={() => setShowToast(false)}
         />
       )}
@@ -97,6 +107,8 @@ const PerformanceDetailGroupsList = ({
             isOpen={isOpen}
             setIsOpen={setIsOpen}
             setSelectedGroupId={setSelectedGroupId}
+            setShowToast={setShowToast}
+            setToastContent={setToastContent}
           />
         </div>
       </div>
