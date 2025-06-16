@@ -1,8 +1,8 @@
 'use client';
 import { useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { BellDotIcon, BellIcon } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
+import BellIcon from '@/components/icons/BellIcon';
 import NotificationList from '@/components/pages/notifications/NotificationList';
 import {
   Popover,
@@ -19,8 +19,6 @@ const Notification = () => {
     useGetNewNotificationsCheck();
   const pathname = usePathname();
 
-  const Icon = hasNewNotificationData?.data?.hasUnread ? BellDotIcon : BellIcon;
-
   useEffect(() => {
     refetch();
   }, [pathname, refetch]);
@@ -30,7 +28,7 @@ const Notification = () => {
       {isDesktop ? (
         <Popover>
           <PopoverTrigger>
-            <Icon />
+            <BellIcon isActive={hasNewNotificationData?.data?.hasUnread} />
           </PopoverTrigger>
           <PopoverContent>
             <ScrollArea className='h-80'>
@@ -39,7 +37,10 @@ const Notification = () => {
           </PopoverContent>
         </Popover>
       ) : (
-        <Icon onClick={() => router.push('/notifications')} />
+        <BellIcon
+          isActive={hasNewNotificationData?.data?.hasUnread}
+          onClick={() => router.push('/notifications')}
+        />
       )}
     </>
   );
