@@ -8,5 +8,10 @@ export const useMyProfile = () =>
     queryKey: [USERS_QUERY_KEYS.myProfile] as const,
     queryFn: () => profilesApi.getProfile('me'),
     staleTime: 1000 * 60 * 5,
-    retry: 0,
+    retry: (failureCount, error) => {
+      if (error instanceof Response && error.status === 401) {
+        return false;
+      }
+      return failureCount < 2;
+    },
   });
