@@ -1,16 +1,15 @@
 'use client';
 import React, { useRef, useState } from 'react';
 import { Rating } from 'react-simple-star-rating';
-import {
-  ButtonGroup,
-  ButtonGroupItem,
-} from '@/components/common/ButtonGroup/ButtonGroup';
+import { ButtonGroup, ButtonGroupItem } from '@/components/common/ButtonGroup';
 import LoadingOverlay from '@/components/common/LoadingOverlay/LoadingOverlay';
-import Modal from '@/components/common/Modal/Modal';
-import ModalAction from '@/components/common/Modal/ModalAction';
-import ModalCancel from '@/components/common/Modal/ModalCancel';
-import ModalContent from '@/components/common/Modal/ModalContent';
-import ModalTrigger from '@/components/common/Modal/ModalTrigger';
+import {
+  Modal,
+  ModalAction,
+  ModalCancel,
+  ModalContent,
+  ModalTrigger,
+} from '@/components/common/Modal';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import CheckBoxIcon from '@/components/icons/CheckboxIcon';
 import { ReviewTagLabels } from '@/constants/reviewLabels';
