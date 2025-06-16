@@ -1,8 +1,14 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  InfiniteData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { PERFORMANCES_QUERY_KEYS } from '@/constants/queryKeys';
 import { performancesApi } from '@/services/performancesService';
 import { ApiResponse } from '@/types/api';
 import {
+  GetFavoritePerformancesResponse,
   PerformanceDetailResponse,
   PerformanceIsLikedData,
   PerformanceIsLikedResponse,
@@ -84,6 +90,39 @@ export const usePatchPerformanceLiked = () => {
             })
           );
         }
+      });
+
+      const queryData = queryClient.getQueryData<
+        InfiniteData<GetFavoritePerformancesResponse>
+      >([PERFORMANCES_QUERY_KEYS.favoritesPerformances]);
+
+      if (!queryData) return;
+
+      const newData: InfiniteData<GetFavoritePerformancesResponse> = {
+        ...queryData,
+        pages: queryData.pages.map((page) => ({
+          ...page,
+          data: page.data.map((p) =>
+            p.id === performanceId
+              ? {
+                  ...p,
+                  isLiked,
+                  favoriteCount: p.favoriteCount + (isLiked ? 1 : -1),
+                }
+              : p
+          ),
+        })),
+      };
+
+      queryClient.setQueryData(
+        [PERFORMANCES_QUERY_KEYS.favoritesPerformances],
+        newData
+      );
+    },
+
+    onError: () => {
+      queryClient.invalidateQueries({
+        queryKey: [PERFORMANCES_QUERY_KEYS.favoritesPerformances],
       });
     },
 

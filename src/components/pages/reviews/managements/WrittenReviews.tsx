@@ -10,6 +10,7 @@ import WrittenReviewsContent from './WrittenReviewsContent';
 
 const WrittenReviews = () => (
   <InfiniteList<WrittenReviewsResponse, WrittenReviewsResponse['data'][number]>
+    className='flex flex-col items-center gap-5'
     fallback={<ReviewCardSkeleton />}
     options={infiniteWrittenReviewsOptions()}
     getDataId={(data) => data.groupId}

@@ -25,10 +25,12 @@ export const performancesApi = {
     ).data,
 
   getFavoritePerformances: async ({ cursorId, size = 10 }: CursorRequest) =>
-    await apiFetcher.get<GetFavoritePerformancesResponse>(
-      '/api/v1/performances/favorites',
-      { params: { cursorId, size } }
-    ),
+    (
+      await apiFetcher.get<GetFavoritePerformancesResponse>(
+        '/api/v1/users/performances/favorites',
+        { params: { cursorId, size } }
+      )
+    ).data,
 
   patchLiked: async ({ performanceId, isLiked }: PerformanceIsLikedData) =>
     (

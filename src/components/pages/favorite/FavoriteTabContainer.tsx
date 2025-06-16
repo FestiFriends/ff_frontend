@@ -1,16 +1,16 @@
 'use client';
 import React from 'react';
-import { LoadingOverlay, QueryTabs, Spinner } from '@/components/common';
+import { QueryTabs, Spinner } from '@/components/common';
+import InfiniteList from '@/components/common/InfiniteList ';
+import PerformanceCard from '@/components/common/PerformanceCard';
+import ProfileCard from '@/components/common/ProfileCard/ProfileCard';
 import {
-  FavoritePerformanceTabContent,
-  FavoriteUserTabContent,
-} from '@/components/pages/favorite';
-import {
-  useFavoritePerformances,
-  useFavoriteUsers,
+  favoritePerformancesOptions,
+  favoriteUsersOptions,
 } from '@/hooks/favoriteHooks/useFavorite';
-import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
 import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
+import { GetFavoritePerformancesResponse } from '@/types/performance';
+import { GetFavoriteUsersResponse } from '@/types/users';
 
 const TABS = ['공연', '사용자'];
 
@@ -22,42 +22,6 @@ const FavoriteTabContainer: React.FC = () => {
   const currentTab = getQueryParam('tab') || TABS[0];
   const selectedTab = TABS.includes(currentTab) ? currentTab : TABS[0];
 
-  const {
-    data: performancesResponse,
-    isLoading: isPerformancesLoading,
-    hasNextPage: hasNextPerformances,
-    fetchNextPage: fetchNextPerformances,
-    isFetchingNextPage: isFetchingNextPerformances,
-  } = useFavoritePerformances(DEFAULT_SIZE);
-
-  const {
-    data: usersResponse,
-    isLoading: isUsersLoading,
-    hasNextPage: hasNextUsers,
-    fetchNextPage: fetchNextUsers,
-    isFetchingNextPage: isFetchingNextUsers,
-  } = useFavoriteUsers(DEFAULT_SIZE);
-
-  const performancesBottomRef = useInfiniteScroll<HTMLDivElement>(
-    fetchNextPerformances,
-
-    hasNextPerformances ?? false
-  );
-
-  const usersBottomRef = useInfiniteScroll<HTMLDivElement>(
-    fetchNextUsers,
-    hasNextUsers ?? false
-  );
-
-  if (isPerformancesLoading || isUsersLoading) {
-    return <LoadingOverlay />;
-  }
-
-  const performances =
-    performancesResponse?.pages.flatMap((page) => page.data?.data ?? []) ?? [];
-  const users =
-    usersResponse?.pages.flatMap((page) => page.data?.data ?? []) ?? [];
-
   return (
     <>
       <QueryTabs
@@ -67,18 +31,42 @@ const FavoriteTabContainer: React.FC = () => {
       />
       <div className='p-4'>
         {selectedTab === '공연' && (
-          <>
-            <FavoritePerformanceTabContent performances={performances} />
-            <div ref={performancesBottomRef} />
-            {isFetchingNextPerformances && <Spinner />}
-          </>
+          <InfiniteList<
+            GetFavoritePerformancesResponse,
+            GetFavoritePerformancesResponse['data'][number]
+          >
+            options={favoritePerformancesOptions(DEFAULT_SIZE)}
+            getDataId={(performance) => performance.id}
+            renderData={(performance) => (
+              <PerformanceCard performance={performance} />
+            )}
+            fallback={<Spinner />}
+            isFetchingFallback={<Spinner />}
+            className='mx-auto grid w-fit grid-cols-2 gap-4'
+            emptyFallback={
+              <div className='col-span-2 py-8 text-center text-gray-500'>
+                찜한 공연이 없습니다.
+              </div>
+            }
+          />
         )}
         {selectedTab === '사용자' && (
-          <>
-            <FavoriteUserTabContent users={users} />
-            <div ref={usersBottomRef} />
-            {isFetchingNextUsers && <Spinner />}
-          </>
+          <InfiniteList<
+            GetFavoriteUsersResponse,
+            GetFavoriteUsersResponse['data'][number]
+          >
+            options={favoriteUsersOptions(DEFAULT_SIZE)}
+            getDataId={(user) => user.id}
+            renderData={(user) => <ProfileCard profile={user} />}
+            fallback={<Spinner />}
+            isFetchingFallback={<Spinner />}
+            className='mx-auto grid w-fit grid-cols-2 gap-4'
+            emptyFallback={
+              <div className='col-span-2 py-8 text-center text-gray-500'>
+                찜한 사용자가 없습니다.
+              </div>
+            }
+          />
         )}
       </div>
     </>
