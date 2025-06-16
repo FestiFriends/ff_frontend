@@ -2,12 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Button from '@/components/common/Button/Button';
 import Toast from '@/components/common/Toast/Toast';
-import PlusIcon from '@/components/icons/PlusIcon';
 import { Summary, Tabs } from '@/components/pages/performanceDetail';
 import { useGetPerformanceDetail } from '@/hooks/performanceHooks/performanceHooks';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
+import CreateGroupButton from './CreateGroupButton';
 
 type PerformanceDetailWrapperProps = {
   performanceId: string;
@@ -64,15 +63,7 @@ const PerformanceDetailWrapper = ({
           performanceDetail={performanceDetail?.data}
         />
 
-        <Button
-          onClick={routeToCreateGroupPage}
-          className='fixed right-4 bottom-23 z-2 w-fit min-w-30 gap-1 rounded-[100px] py-2.5 pr-4 pl-2.5'
-        >
-          <PlusIcon className='aspect-square h-6 w-6' />
-          <span className='text-16_B leading-normal tracking-[-0.4px]'>
-            모임 개설
-          </span>
-        </Button>
+        <CreateGroupButton onClick={routeToCreateGroupPage} />
       </div>
     </>
   );
