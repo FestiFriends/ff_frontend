@@ -12,11 +12,11 @@ import { ApplicationStatusLabels } from '@/constants/applicationLabels';
 import { GenderLabels } from '@/constants/genderLabels';
 import { GroupCategoryLabels } from '@/constants/groupLabels';
 import { cn } from '@/lib/utils';
-import { Application } from '@/types/application';
+import { AppliedGroup } from '@/types/application';
 import { GroupCategory, GroupCategoryType } from '@/types/enums';
 
 interface ApplicationCardProps {
-  applicationData: Application;
+  applicationData: AppliedGroup;
   className?: string;
   onCardClick?: () => void;
   primaryButtonText: string;

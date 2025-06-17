@@ -1,4 +1,5 @@
 import { GroupCategoryType, GenderType, ApplicationStatusType } from './enums';
+import { Image } from './image';
 
 // 신청한 모임
 export interface AppliedGroup {
@@ -11,7 +12,7 @@ export interface AppliedGroup {
   userId?: string; // 신청자
   userName: string; // 신청자, 방장 hostName
   rating: number; // 신청자, 방장 hostRating
-  profileImage: string; // 신청자, 방장 hostProfileImage
+  profileImage: Image; // 신청자, 방장 hostProfileImage
   gender: GenderType; // 신청자, 모임
   age?: number; // 신청자
   applicationText: string;
