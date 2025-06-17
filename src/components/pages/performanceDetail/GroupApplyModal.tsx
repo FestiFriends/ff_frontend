@@ -24,7 +24,7 @@ const GroupApplyModal = ({
   setShowToast,
   setToastContent,
 }: GroupApplyModalProps) => {
-  const { mutate: postJoinGroup } = usePostJoinGroup();
+  const { mutate: postJoinGroup, status } = usePostJoinGroup();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [description, setDescription] = useState<string>('');
 
@@ -36,10 +36,34 @@ const GroupApplyModal = ({
 
   const applyToGroup = () => {
     if (groupId && description) {
-      postJoinGroup({ groupId, description });
-      setToastContent?.({ message: '신청이 완료되었습니다.', type: 'success' });
-      setShowToast?.(true);
-      onCloseApplyModal();
+      postJoinGroup(
+        { groupId, description },
+        {
+          onSuccess: () => {
+            setToastContent?.({
+              message: '신청 완료되었습니다.',
+              type: 'success',
+            });
+          },
+          onError: (error) => {
+            if (error.code === 400) {
+              setToastContent?.({
+                message: '이미 신청한 모임입니다.',
+                type: 'error',
+              });
+            } else {
+              setToastContent?.({
+                message: '신청 중 오류가 발생했습니다.',
+                type: 'error',
+              });
+            }
+          },
+          onSettled: () => {
+            setShowToast?.(true);
+            onCloseApplyModal();
+          },
+        }
+      );
     }
   };
 
@@ -90,10 +114,16 @@ const GroupApplyModal = ({
             <Button
               variant='secondary'
               onClick={onCloseApplyModal}
+              disabled={status === 'pending'}
             >
               취소
             </Button>
-            <Button onClick={applyToGroup}>신청</Button>
+            <Button
+              onClick={applyToGroup}
+              disabled={status === 'pending'}
+            >
+              {status === 'pending' ? '신청중...' : '신청'}
+            </Button>
           </div>
         </div>
       </dialog>
