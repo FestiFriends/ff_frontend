@@ -13,6 +13,7 @@ export const NOTIFICATIONS_QUERY_KEYS = {
 export const GROUP_QUERY_KEYS = {
   groups: 'groups',
   leaveGroup: 'leaveGroup',
+  groupPosts: 'groupPosts',
 };
 
 export const REVIEWS_QUERY_KEYS = {
@@ -30,4 +31,9 @@ export const GROUPS_MANAGEMENTS_QUERY_KEYS = {
   appliedGroups: 'appliedGroups',
   joinedGroups: 'joinedGroups',
   applications: 'applications',
+};
+
+export const POSTS_QUERY_KEYS = {
+  postDetail: 'postDetail',
+  comments: 'comments',
 };
