@@ -20,3 +20,8 @@ export interface Post {
   isMine: boolean;
   isReactioned: boolean;
 }
+
+export interface GroupPostsResponse {
+  groupId: string;
+  posts: Post[];
+}

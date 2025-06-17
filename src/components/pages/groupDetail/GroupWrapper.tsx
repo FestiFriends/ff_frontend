@@ -12,10 +12,10 @@ const GroupWrapper = () => {
   const params = useParams();
   const groupId = params?.groupId as string;
 
-  const { data: posts, isLoading, error } = useGetGroupPosts({ groupId });
+  const { data: posts, isPending, error } = useGetGroupPosts({ groupId });
   const { mutate: reactionPost } = useReactionPost();
 
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isPending) return <div>로딩 중...</div>;
   if (error) return <div>오류 발생: {error.message}</div>;
   if (!posts?.posts) return <div>데이터 없음</div>;
 
