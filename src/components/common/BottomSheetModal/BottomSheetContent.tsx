@@ -62,8 +62,6 @@ const BottomSheetContent: React.FC<Props> = ({
 
   if (!shouldRender) return null;
 
-  const isShowHeader = title || hasClose;
-
   const Overlay = () => (
     <div
       className={cn(
@@ -141,13 +139,9 @@ const BottomSheetContent: React.FC<Props> = ({
           HEIGHT_CLASS[height],
           className
         )}
-        onClick={handleClose}
-        onKeyDown={handleClose}
-        role='button'
-        tabIndex={0}
       >
         {hasHandle && <Handle />}
-        {isShowHeader && <Header />}
+        <Header />
         <div className='min-h-0 flex-1 overflow-y-auto'>{children}</div>
       </div>
     </>
