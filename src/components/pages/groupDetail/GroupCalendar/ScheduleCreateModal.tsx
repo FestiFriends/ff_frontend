@@ -12,6 +12,7 @@ import ModalContent from '@/components/common/Modal/ModalContent';
 import TimePicker from '@/components/common/TimePicker/TimePicker';
 import { EventColorName } from '@/types/enums';
 import EventColorDropdown from './EventColorDropdown';
+import ScheduleTitleInput from './ScheduleTitleInput';
 import TimeInput from './TimeInput';
 
 //TODO: 모달위로 popover구현해야함
@@ -27,6 +28,7 @@ const ScheduleCreateModal = ({
   defaultDate,
   onClose,
 }: ScheduleCreateModalProps) => {
+  const [title, setTitle] = useState('');
   const [startDate, setStartDate] = useState<Date>(defaultDate);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [isSelecting, setIsSelecting] = useState(false);
@@ -77,12 +79,12 @@ const ScheduleCreateModal = ({
         </div>
 
         <section>
-          <div className='flex justify-between'>
-            <EventColorDropdown
-              value={eventColor}
-              onChange={setEventColor}
-            />
-          </div>
+          <ScheduleTitleInput
+            value={title}
+            onChange={setTitle}
+            color={eventColor}
+            onColorChange={setEventColor}
+          />
           <div className='flex flex-col gap-[10px]'>
             <div className='flex items-center gap-[12px]'>
               <input

@@ -11,18 +11,13 @@ import { EventColorName } from '@/types/enums';
 interface EventColorDropdownProps {
   value: EventColorName;
   onChange: (value: EventColorName) => void;
-  placeholder?: string;
 }
 
-const EventColorDropdown = ({
-  value,
-  onChange,
-  placeholder = '색상 선택',
-}: EventColorDropdownProps) => (
+const EventColorDropdown = ({ value, onChange }: EventColorDropdownProps) => (
   <Dropdown>
     <DropdownTrigger
       isStatic
-      className='h-[24px] w-[34px] px-[20px] py-[16px] text-left text-14_M hover:bg-transparent focus:bg-transparent focus:outline-none'
+      className='h-[54px] w-[34px] p-0 text-14_M hover:bg-transparent focus:bg-transparent focus:outline-none'
     >
       <div className='flex items-center'>
         <span
