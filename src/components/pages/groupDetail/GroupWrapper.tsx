@@ -15,8 +15,6 @@ const GroupWrapper = () => {
   const { data: posts, isLoading, error } = useGetGroupPosts({ groupId });
   const { mutate: reactionPost } = useReactionPost();
 
-  console.log('Posts:', posts);
-
   if (isLoading) return <div>로딩 중...</div>;
   if (error) return <div>오류 발생: {error.message}</div>;
   if (!posts?.posts) return <div>데이터 없음</div>;
