@@ -1,4 +1,10 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
+import Button from '@/components/common/Button/Button';
+import Modal from '@/components/common/Modal/Modal';
+import ModalAction from '@/components/common/Modal/ModalAction';
+import ModalCancel from '@/components/common/Modal/ModalCancel';
+import ModalContent from '@/components/common/Modal/ModalContent';
+import ModalTrigger from '@/components/common/Modal/ModalTrigger';
 import SlideCard from '@/components/common/SlideCard/SlideCard';
 import {
   useGetApplications,
@@ -17,8 +23,15 @@ import ApplicationComponent from './Application/Application';
 const Applications = () => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
     useGetApplications();
-
+  const [actionType, setActionType] = useState<'accept' | 'reject' | null>(
+    null
+  );
+  const [selectedApplicationId, setSelectedApplicationId] = useState<
+    string | null
+  >(null);
   const { mutate: patchApplication } = usePatchApplication();
+
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   const bottomRef = useInfiniteScroll<HTMLDivElement>(
     fetchNextPage,
@@ -39,11 +52,33 @@ const Applications = () => {
   );
 
   const handleAcceptClick = (applicationId: string) => {
-    patchApplication({ applicationId, status: ApplicationStatus.ACCEPTED });
+    setActionType('accept');
+    setSelectedApplicationId(applicationId);
+    triggerRef.current?.click();
   };
 
   const handleRejectClick = (applicationId: string) => {
-    patchApplication({ applicationId, status: ApplicationStatus.REJECTED });
+    setActionType('reject');
+    setSelectedApplicationId(applicationId);
+    triggerRef.current?.click();
+  };
+
+  const handleConfirmModal = () => {
+    if (!actionType || !selectedApplicationId) return;
+
+    patchApplication({
+      applicationId: selectedApplicationId,
+      status:
+        actionType === 'accept'
+          ? ApplicationStatus.ACCEPTED
+          : ApplicationStatus.REJECTED,
+    });
+    handleCancelModal();
+  };
+
+  const handleCancelModal = () => {
+    setActionType(null);
+    setSelectedApplicationId(null);
   };
 
   return (
@@ -86,6 +121,31 @@ const Applications = () => {
       ))}
       {isFetchingNextPage && <p>로딩 중...</p>}
       <div ref={bottomRef} />
+
+      <Modal>
+        <ModalTrigger>
+          <button ref={triggerRef}></button>
+        </ModalTrigger>
+        <ModalContent className='flex w-[343px] flex-col rounded-2xl bg-white p-5 pt-11'>
+          <p className='mb-[30px] flex w-full justify-center text-16_B text-black'>
+            {actionType
+              && `신청을 ${actionType === 'accept' ? '수락' : '거절'}하시겠습니까?`}
+          </p>
+          <div className='flex w-full justify-between gap-2.5'>
+            <ModalCancel className='w-1/2'>
+              <Button
+                onClick={handleCancelModal}
+                variant='secondary'
+              >
+                아니요
+              </Button>
+            </ModalCancel>
+            <ModalAction className='w-1/2'>
+              <Button onClick={handleConfirmModal}>네</Button>
+            </ModalAction>
+          </div>
+        </ModalContent>
+      </Modal>
     </div>
   );
 };
