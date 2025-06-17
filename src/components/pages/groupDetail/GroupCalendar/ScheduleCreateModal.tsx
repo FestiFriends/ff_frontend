@@ -39,8 +39,10 @@ const ScheduleCreateModal = ({
     format(startTime, 'aa hh:mm', { locale: ko })
   );
   const [endTimeInput, setEndTimeInput] = useState(
-    format(startTime, 'aa hh:mm', { locale: ko })
+    format(endTime, 'aa hh:mm', { locale: ko })
   );
+
+  const [eventColor, setEventColor] = useState('#60A5FA');
 
   const handleDateClick = (date: Date) => {
     if (!startDate || (startDate && endDate)) {

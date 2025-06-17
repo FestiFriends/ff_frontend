@@ -1,6 +1,6 @@
 import { DateRange } from '@/types/dateRange';
 import { ApiResponse, PageResponse } from './api';
-import { GroupCategoryType, GenderType } from './enums';
+import { GroupCategoryType, GenderType, EventColorName } from './enums';
 
 export interface Group {
   id: string;
@@ -129,6 +129,7 @@ export interface GroupSchedule {
   };
 
   isMine: boolean;
+  eventColor?: EventColorName;
 }
 
 export interface ScheduleRequest {
@@ -136,4 +137,5 @@ export interface ScheduleRequest {
   startAt: string;
   endAt: string;
   location: string;
+  eventColor?: EventColorName;
 }
