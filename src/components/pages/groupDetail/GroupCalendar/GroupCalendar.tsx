@@ -6,8 +6,8 @@ import CalendarBase from '@/components/common/EventCalendar/CalendarBase/Calenda
 import { useSchedules } from '@/hooks/useSchedules/useSchedules';
 import { Schedule } from '@/types/group';
 import GroupCalendarCell from './GroupCalendarCell';
-import ScheduleCreateModal from './ScheduleCreateModal';
 import ScheduleDetailModal from './ScheduleDetailModal';
+import ScheduleFormModal from './ScheduleFormModal';
 
 interface GroupCalendarProps {
   groupId: string;
@@ -55,12 +55,13 @@ const GroupCalendar = ({ groupId }: GroupCalendarProps) => {
       />
       {selectedSchedule && (
         <ScheduleDetailModal
+          groupId={groupId}
           schedule={selectedSchedule}
           onClose={() => setSelectedSchedule(null)}
         />
       )}
       {isCreating && selectedDate && (
-        <ScheduleCreateModal
+        <ScheduleFormModal
           key={selectedDate?.toISOString()}
           groupId={groupId}
           defaultDate={selectedDate}

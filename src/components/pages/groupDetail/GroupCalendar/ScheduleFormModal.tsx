@@ -14,7 +14,7 @@ import TimePicker from '@/components/common/TimePicker/TimePicker';
 import { cn } from '@/lib/utils';
 import { groupsApi } from '@/services/groupsService';
 import { EventColorName } from '@/types/enums';
-import { ScheduleRequest } from '@/types/group';
+import { Schedule, ScheduleRequest } from '@/types/group';
 import AllDayToggle from './AllDayToggle';
 import ScheduleLocationInput from './ScheduleLocationInput';
 import ScheduleTitleInput from './ScheduleTitleInput';
@@ -22,17 +22,21 @@ import TimeInput from './TimeInput';
 
 //TODO: 모달위로 달력 구현해야함, timepicker로 교체해야 함
 
-interface ScheduleCreateModalProps {
+interface ScheduleFormModalProps {
   groupId: string;
   defaultDate: Date;
   onClose: () => void;
+  initialData?: Schedule;
+  isEdit?: boolean;
 }
 
-const ScheduleCreateModal = ({
+const ScheduleFormModal = ({
   groupId,
   defaultDate,
   onClose,
-}: ScheduleCreateModalProps) => {
+  initialData,
+  isEdit,
+}: ScheduleFormModalProps) => {
   const [title, setTitle] = useState('');
   const [startDate, setStartDate] = useState<Date>(defaultDate);
   const [endDate, setEndDate] = useState<Date | null>(defaultDate);
@@ -90,6 +94,24 @@ const ScheduleCreateModal = ({
   };
 
   useEffect(() => {
+    if (initialData) {
+      setTitle(initialData.description);
+      setStartDate(new Date(initialData.startAt));
+      setEndDate(new Date(initialData.endAt));
+      setStartTime(new Date(initialData.startAt));
+      setEndTime(new Date(initialData.endAt));
+      setStartTimeInput(
+        format(new Date(initialData.startAt), 'aa hh:mm', { locale: ko })
+      );
+      setEndTimeInput(
+        format(new Date(initialData.endAt), 'aa hh:mm', { locale: ko })
+      );
+      setLocation(initialData.location || '');
+      setEventColor(initialData.eventColor ?? 'red');
+    }
+  }, [initialData]);
+
+  useEffect(() => {
     if (isAllDay) {
       const newStart = new Date(startDate.setHours(0, 0));
       const newEnd = new Date(startDate.setHours(23, 59));
@@ -105,7 +127,9 @@ const ScheduleCreateModal = ({
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (data: ScheduleRequest) =>
-      groupsApi.postSchedule(groupId, data),
+      isEdit && initialData
+        ? groupsApi.updateSchedule(groupId, initialData.id, data)
+        : groupsApi.postSchedule(groupId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['schedules', groupId],
@@ -113,8 +137,8 @@ const ScheduleCreateModal = ({
       onClose();
     },
     onError: (error) => {
-      console.error('등록 실패', error);
-      alert('일정 등록에 실패했습니다.');
+      console.error(isEdit ? '수정 실패' : '등록 실패', error);
+      alert(`일정 ${isEdit ? '수정' : '등록'}에 실패했습니다.`);
     },
   });
 
@@ -129,7 +153,7 @@ const ScheduleCreateModal = ({
         description: title,
         startAt: startTime.toISOString(),
         endAt: endTime.toISOString(),
-        location: '',
+        location: location ?? '',
         eventColor: eventColor,
       };
 
@@ -274,7 +298,13 @@ const ScheduleCreateModal = ({
             disabled={isPending}
             className='w-full rounded-[12px] bg-primary-red px-4 py-2 text-14_M text-white'
           >
-            {isPending ? '등록 중...' : '등록'}
+            {isPending
+              ? isEdit
+                ? '수정 중...'
+                : '등록 중...'
+              : isEdit
+                ? '수정'
+                : '등록'}
           </ModalAction>
         </div>
       </ModalContent>
@@ -282,4 +312,4 @@ const ScheduleCreateModal = ({
   );
 };
 
-export default ScheduleCreateModal;
+export default ScheduleFormModal;
