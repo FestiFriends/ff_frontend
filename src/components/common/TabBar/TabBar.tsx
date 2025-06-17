@@ -3,13 +3,14 @@
 import React, { ReactNode } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { CalendarIcon } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { match } from 'path-to-regexp';
 import GroupIcon from '@/components/icons/GroupIcon';
 import HomeIcon from '@/components/icons/HomeIcon';
 import LikeIcon from '@/components/icons/LikeIcon';
 import UserIcon from '@/components/icons/UserIcon';
 import { cn } from '@/lib/utils';
 import NavLink from '../NavLink/NavLink';
-
 const NAV_ITEM = [
   { herf: '/', name: '홈', Icon: HomeIcon },
   { herf: '/calendar', name: '캘린더', Icon: CalendarIcon },
@@ -18,12 +19,32 @@ const NAV_ITEM = [
   { herf: '/profiles/me', name: '마이', Icon: UserIcon },
 ];
 
+const INVISIBLE_ROUTE = [
+  '/groups/create',
+  '/proflies/me/edit',
+  '/reviews/managements',
+  '/groups/:groupId/edit',
+  '/groups/:groupId/posts/:postId',
+  '/groups/:groupId/posts/create',
+];
+
+const tabBarHide = (pathname: string) =>
+  INVISIBLE_ROUTE.some((route) =>
+    match(route, { decode: decodeURIComponent })(pathname)
+  );
+
 interface TabBarProps {
   children: ReactNode;
 }
 
 const TabBar = ({ children }: TabBarProps) => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
+  const pathname = usePathname();
+
+  if (tabBarHide(pathname)) {
+    return children;
+  }
+
   return (
     <>
       <div className={cn('overflow-auto', isMobile && 'h-[calc(100dvh-80px)]')}>
