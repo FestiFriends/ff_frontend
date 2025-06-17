@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Toast from '@/components/common/Toast/Toast';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import { GroupInfo as GroupInfoType } from '@/types/group';
 import { ToastContent } from '@/types/toastContent';
@@ -9,10 +10,11 @@ import GroupInfoCard from './GroupInfoCard/GroupInfoCard';
 import GroupModal from './GroupModal/GroupModal';
 
 interface GroupInfoProps {
-  groupInfo: GroupInfoType;
+  isPending: boolean;
+  groupInfo?: GroupInfoType;
 }
 
-const GroupInfo = ({ groupInfo }: GroupInfoProps) => {
+const GroupInfo = ({ isPending, groupInfo }: GroupInfoProps) => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedin);
   const [showToast, setShowToast] = useState(false);
   const [toastContent, setToastContent] = useState<ToastContent>({
@@ -30,6 +32,16 @@ const GroupInfo = ({ groupInfo }: GroupInfoProps) => {
 
     setIsOpen(true);
   };
+
+  if (isPending) {
+    return (
+      <div className='px-4'>
+        <Skeleton className='h-[40dvh] w-full rounded-[16px]' />
+      </div>
+    );
+  }
+
+  if (!groupInfo) return null;
 
   return (
     <>
