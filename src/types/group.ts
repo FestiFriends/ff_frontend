@@ -49,7 +49,7 @@ export interface GetGroupsParams {
   gender?: string | null;
 }
 
-export type PostJoinGroupResponse = {
+export type PostJoinGroupRequest = {
   groupId: string;
   description: string;
 };

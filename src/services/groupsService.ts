@@ -1,7 +1,7 @@
 import QueryString from 'qs';
 import apiFetcher from '@/lib/apiFetcher';
 import { ApiResponse } from '@/types/api';
-import { GetGroupsParams, PostJoinGroupResponse } from '@/types/group';
+import { GetGroupsParams, PostJoinGroupRequest } from '@/types/group';
 import { PerformanceGroupsApiResponse } from '@/utils/formatGroupCardData';
 
 export const groupsApi = {
@@ -13,7 +13,7 @@ export const groupsApi = {
       `/api/v1/performances/${performanceId}/groups?${queryString}`
     );
   },
-  postJoinGroup: async ({ groupId, description }: PostJoinGroupResponse) =>
+  postJoinGroup: async ({ groupId, description }: PostJoinGroupRequest) =>
     (
       await apiFetcher.post<ApiResponse>(`/api/v1/groups/${groupId}/join`, {
         description,

@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { GROUP_QUERY_KEYS } from '@/constants/queryKeys';
 import { groupsApi } from '@/services/groupsService';
 import { ApiResponse } from '@/types/api';
-import { GetGroupsParams, PostJoinGroupResponse } from '@/types/group';
+import { GetGroupsParams, PostJoinGroupRequest } from '@/types/group';
 import { PerformanceGroupsApiResponse } from '@/utils/formatGroupCardData';
 
 export const useGetGroups = (params: GetGroupsParams) =>
@@ -19,8 +19,8 @@ export const useGetGroups = (params: GetGroupsParams) =>
 export const usePostJoinGroup = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<ApiResponse, ApiResponse, PostJoinGroupResponse>({
-    mutationFn: ({ groupId, description }: PostJoinGroupResponse) =>
+  return useMutation<ApiResponse, ApiResponse, PostJoinGroupRequest>({
+    mutationFn: ({ groupId, description }: PostJoinGroupRequest) =>
       groupsApi.postJoinGroup({ groupId, description }),
 
     onSuccess: () => {
