@@ -44,55 +44,58 @@ const Header = ({
   if (!isMobile) return null;
 
   return (
-    <header className='relative flex h-11 w-full items-center justify-between bg-white px-5 py-3'>
-      {!isSearchOpen && (
-        <>
-          <div className='w-[68px]'></div>
-          <h1 className='text-16_B text-black'>{title}</h1>
-          <div className='flex w-[68px] items-center justify-end gap-5'>
-            {hasSearch && (
-              <button
-                ref={iconRef}
-                onClick={() => setIsSearchOpen(true)}
-              >
-                <SearchIcon />
-              </button>
-            )}
-            {isLoggedin && hasNotification && <Notification />}
-            {!isLoggedin && <button onClick={onLogin}>로그인</button>}
-          </div>
-        </>
-      )}
-
-      <AnimatePresence>
-        {isSearchOpen && hasSearch && (
-          <motion.div
-            initial={{ scaleX: 0, opacity: 0 }}
-            animate={{ scaleX: 1, opacity: 1 }}
-            exit={{ scaleX: 0, opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            style={{
-              left: iconCenterX,
-              transform: 'translateX(-100%)',
-              transformOrigin: 'right',
-            }}
-            className='absolute top-0 z-10 flex h-full w-full items-center gap-3 bg-white px-5'
-          >
-            <button onClick={() => setIsSearchOpen(false)}>
-              <ArrowLeft size={20} />
-            </button>
-
-            <SearchInput
-              type='text'
-              ref={searchRef}
-              placeholder='검색어를 입력하세요'
-              className='w-full grow bg-transparent text-16_M outline-none'
-              onSubmit={handleSubmit}
-            />
-          </motion.div>
+    <>
+      <header className='fixed top-0 left-0 z-50 flex h-11 w-full items-center justify-between bg-white px-5 py-3'>
+        {!isSearchOpen && (
+          <>
+            <div className='w-[68px]'></div>
+            <h1 className='text-16_B text-black'>{title}</h1>
+            <div className='flex w-[68px] items-center justify-end gap-5'>
+              {hasSearch && (
+                <button
+                  ref={iconRef}
+                  onClick={() => setIsSearchOpen(true)}
+                >
+                  <SearchIcon />
+                </button>
+              )}
+              {isLoggedin && hasNotification && <Notification />}
+              {!isLoggedin && <button onClick={onLogin}>로그인</button>}
+            </div>
+          </>
         )}
-      </AnimatePresence>
-    </header>
+
+        <AnimatePresence>
+          {isSearchOpen && hasSearch && (
+            <motion.div
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: 1, opacity: 1 }}
+              exit={{ scaleX: 0, opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              style={{
+                left: iconCenterX,
+                transform: 'translateX(-100%)',
+                transformOrigin: 'right',
+              }}
+              className='absolute top-0 z-10 flex h-full w-full items-center gap-3 bg-white px-5'
+            >
+              <button onClick={() => setIsSearchOpen(false)}>
+                <ArrowLeft size={20} />
+              </button>
+
+              <SearchInput
+                type='text'
+                ref={searchRef}
+                placeholder='검색어를 입력하세요'
+                className='w-full grow bg-transparent text-16_M outline-none'
+                onSubmit={handleSubmit}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+      <div className='h-11' />
+    </>
   );
 };
 
