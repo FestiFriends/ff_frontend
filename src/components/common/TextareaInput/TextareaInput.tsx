@@ -32,7 +32,7 @@ const TextareaInput = ({
     : 'focus:ring-gray-800';
 
   return (
-    <div className='flex w-full flex-col gap-1'>
+    <div className='flex w-full flex-col'>
       <textarea
         className={cn(
           'h-[190px] w-full resize-none rounded-[16px] border border-gray-100 px-[20px] py-[16px] !text-16_M text-gray-950 placeholder:!text-16_M placeholder:text-gray-500 focus:ring-1 focus:ring-gray-800 focus:outline-none',

@@ -13,6 +13,7 @@ export const NOTIFICATIONS_QUERY_KEYS = {
 export const GROUP_QUERY_KEYS = {
   groups: 'groups',
   leaveGroup: 'leaveGroup',
+  joinGroup: 'joinGroup',
 };
 
 export const REVIEWS_QUERY_KEYS = {
