@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { GROUP_QUERY_KEYS } from '@/constants/queryKeys';
 import { groupsApi } from '@/services/groupsService';
 import { GetGroupsParams } from '@/types/group';
+import { Post } from '@/types/post';
 import { PerformanceGroupsApiResponse } from '@/utils/formatGroupCardData';
 
 export const useGetGroups = ({
@@ -43,4 +44,18 @@ export const useGetGroups = ({
     },
     placeholderData: (previousData: PerformanceGroupsApiResponse | undefined) =>
       previousData,
+  });
+
+interface GroupPostsResponse {
+  groupId: number;
+  posts: Post[];
+}
+
+export const useGetGroupPosts = ({ groupId }: { groupId: string }) =>
+  useQuery<GroupPostsResponse>({
+    queryKey: [GROUP_QUERY_KEYS.groupPosts, groupId],
+    queryFn: async () => {
+      const res = await groupsApi.getGroupPosts({ groupId });
+      return res;
+    },
   });
