@@ -121,6 +121,45 @@ export const CHAT_SAMPLE_DATA: ChatMessage[] = [
     createdAt: '2025-06-12T10:04:40Z',
     isMine: true,
   },
+  {
+    chatId: 10,
+    senderId: 4,
+    senderName: '문영',
+    senderImage: {
+      id: 2,
+      src: '/images/moonyoung.png',
+      alt: '문영 프로필',
+    },
+    content: '재밌는 얘기 해주세요',
+    createdAt: '2025-06-13T21:04:40Z',
+    isMine: true,
+  },
+  {
+    chatId: 11,
+    senderId: 3,
+    senderName: '말하는 감자',
+    senderImage: {
+      id: 3,
+      src: '/images/potato.png',
+      alt: '감자 프로필',
+    },
+    content: '냉장고를 열었더니 잼이 있었어요',
+    createdAt: '2025-06-13T22:34:40Z',
+    isMine: false,
+  },
+  {
+    chatId: 12,
+    senderId: 1,
+    senderName: '토끼',
+    senderImage: {
+      id: 1,
+      src: '/images/rabbit.png',
+      alt: '토끼 프로필',
+    },
+    content: '그만.',
+    createdAt: '2025-06-13T22:35:40Z',
+    isMine: false,
+  },
 ];
 
 // export const chatHandlers = [
