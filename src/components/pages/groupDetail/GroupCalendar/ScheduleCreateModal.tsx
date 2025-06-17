@@ -31,7 +31,10 @@ const ScheduleCreateModal = ({
 }: ScheduleCreateModalProps) => {
   const [title, setTitle] = useState('');
   const [startDate, setStartDate] = useState<Date>(defaultDate);
-  const [endDate, setEndDate] = useState<Date | null>(startDate);
+  const [endDate, setEndDate] = useState<Date | null>(defaultDate);
+  const [activeDateField, setActiveDateField] = useState<
+    'start' | 'end' | null
+  >(null);
   const [isSelecting, setIsSelecting] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
 
@@ -50,18 +53,32 @@ const ScheduleCreateModal = ({
   const [eventColor, setEventColor] = useState<EventColorName>('red');
   const [isAllDay, setIsAllDay] = useState(false);
 
-  const handleDateClick = (date: Date) => {
-    if (!startDate || (startDate && endDate)) {
-      setStartDate(date);
-      setEndDate(null);
-    } else if (startDate && !endDate) {
-      if (date < startDate) {
-        setStartDate(date);
-      } else {
-        setEndDate(date);
-        setIsSelecting(false);
+  const handleDateClick = (clickedDate: Date) => {
+    if (activeDateField === 'start') {
+      if (endDate && clickedDate < startDate) {
+        setStartDate(clickedDate);
         setShowCalendar(false);
+        setActiveDateField(null);
+      } else {
+        setStartDate(clickedDate);
+        setEndDate(null);
+        setActiveDateField('end');
+        setIsSelecting(true);
       }
+      return;
+    }
+
+    if (activeDateField === 'end') {
+      if (clickedDate < startDate) {
+        setStartDate(clickedDate);
+        setEndDate(null);
+        setActiveDateField('end');
+      } else {
+        setEndDate(clickedDate);
+        setShowCalendar(false);
+        setActiveDateField(null);
+      }
+      return;
     }
   };
 
@@ -107,7 +124,10 @@ const ScheduleCreateModal = ({
                 readOnly
                 value={format(startDate, 'yyyy.MM.dd (E)', { locale: ko })}
                 placeholder='시작일'
-                onClick={() => setShowCalendar(true)}
+                onClick={() => {
+                  setActiveDateField('start');
+                  setShowCalendar(true);
+                }}
                 className='h-[54px] w-full rounded-[16px] border border-gray-100 px-[20px] py-[16px] text-14_M text-gray-950 placeholder:text-gray-500'
               />
               <TimeInput
@@ -133,7 +153,10 @@ const ScheduleCreateModal = ({
                     : ''
                 }
                 className='h-[54px] w-full flex-1 rounded-[16px] border border-gray-100 px-[20px] py-[16px] text-14_M text-gray-950 placeholder:text-gray-500'
-                onClick={() => setShowCalendar(true)}
+                onClick={() => {
+                  setActiveDateField('end');
+                  setShowCalendar(true);
+                }}
                 readOnly
               />
               <TimeInput
