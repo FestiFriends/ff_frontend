@@ -5,7 +5,7 @@ import Button from '@/components/common/Button/Button';
 import Portal from '@/components/common/Portal';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import { usePostJoinGroup } from '@/hooks/groupHooks/groupHooks';
-import { ToastContent } from './PerformanceDetailGroupsList';
+import { ToastContent } from '@/types/toastContent';
 
 interface GroupApplyModalProps {
   groupId: string;

@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { Tabs } from '@/components/common';
-import Chat from './Chat/Chat';
 import GroupPosts from './GroupPosts';
 
 const groupTabs = ['게시글', '채팅', '캘린더'];
@@ -19,7 +18,7 @@ const GroupTabs = () => {
       />
       <>
         {selectedTab === '게시글' && <GroupPosts />}
-        {selectedTab === '채팅' && <Chat />}
+        {/* {selectedTab === '채팅' && <Chat />} */}
         {/* {selectedTab === '캘린더' && <캘린더 />} */}
       </>
     </div>

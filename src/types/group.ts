@@ -49,6 +49,37 @@ export interface GetGroupsParams {
   gender?: string | null;
 }
 
+export interface GroupInfo {
+  id: string;
+  performance?: {
+    id: string;
+    title?: string;
+    poster?: string;
+  };
+  title: string;
+  category: GroupCategoryType;
+  gender: GenderType;
+  startAge: number;
+  endAge: number;
+  location: string;
+  startDate: string;
+  endDate: string;
+  memberCount: number;
+  maxMembers: number;
+  description?: string;
+  hashtag?: string[];
+  host: {
+    hostId: string;
+    name: string;
+    rating?: number;
+    profileImage?: string;
+  };
+  isMember: boolean;
+  chatRoomId: number;
+}
+
+export type GroupInfoResponse = ApiResponse<GroupInfo>;
+
 export type PostJoinGroupRequest = {
   groupId: string;
   description: string;

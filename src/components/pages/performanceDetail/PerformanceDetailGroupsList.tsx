@@ -6,6 +6,7 @@ import GroupCard from '@/components/common/GroupCard/GroupCard';
 import Toast from '@/components/common/Toast/Toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
+import { ToastContent } from '@/types/toastContent';
 import {
   formatPerformanceGroups,
   PerformanceGroupsApiResponse,
@@ -15,11 +16,6 @@ import GroupApplyModal from './GroupApplyModal';
 interface PerformanceDetailGroupsListProps {
   isPending: boolean;
   groups?: PerformanceGroupsApiResponse;
-}
-
-export interface ToastContent {
-  message: string;
-  type: 'default' | 'success' | 'warning' | 'error' | 'info';
 }
 
 const PerformanceDetailGroupsList = ({
