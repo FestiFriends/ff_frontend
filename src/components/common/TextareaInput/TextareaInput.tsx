@@ -10,36 +10,44 @@ interface TextareaInputProps {
   className?: string;
   hideScrollbar?: boolean;
   isValidText?: boolean;
+  hasBorder?: boolean;
+  showLength?: boolean;
 }
 
 const TextareaInput = ({
   value,
   onChange,
   placeholder = '',
-  rows = 4,
+  rows,
   maxLength = 150,
   className,
   hideScrollbar = true,
   isValidText = true,
+  hasBorder = true,
+  showLength = true,
 }: TextareaInputProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = e.target.value;
     onChange(maxLength ? inputValue.slice(0, maxLength) : inputValue);
   };
 
-  const borderColor = !isValidText
-    ? 'ring-1 ring-red-500 focus:ring-red-500'
-    : 'focus:ring-blue-500';
+  const baseClass =
+    'h-full w-full resize-none rounded-md px-3 py-2 text-16_M text-gray-900 bg-white';
+  let borderClass = '';
+  if (hasBorder) {
+    borderClass = isValidText
+      ? 'shadow-sm focus:ring-1 focus:outline-none focus:ring-blue-500'
+      : 'shadow-sm ring-1 ring-red-500 focus:ring-red-500 focus:outline-none';
+  } else {
+    borderClass = 'focus:outline-none';
+  }
+  const scrollbarClass = hideScrollbar ? 'scrollbar-hide' : '';
+  const finalClass = cn(baseClass, borderClass, scrollbarClass, className);
 
   return (
-    <div className='flex w-full flex-col gap-1'>
+    <div className='flex h-full w-full flex-col gap-1'>
       <textarea
-        className={cn(
-          'w-full resize-none rounded-md px-3 py-2 text-sm text-gray-900 shadow-sm focus:ring-1 focus:outline-none',
-          borderColor,
-          hideScrollbar && 'scrollbar-hide',
-          className
-        )}
+        className={finalClass}
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
@@ -48,18 +56,18 @@ const TextareaInput = ({
       />
       <div
         className={cn(
-          'flex items-center justify-end',
+          'flex items-center justify-end text-12_M',
           !isValidText && 'justify-between'
         )}
       >
         {!isValidText && (
-          <p className='text-xs text-red-500'>
-            부적절한 단어가 포함되어 있습니다
-          </p>
+          <p className='text-red-500'>부적절한 단어가 포함되어 있습니다</p>
         )}
-        <div className='text-right text-xs text-gray-500'>
-          {value.length} / {maxLength}자
-        </div>
+        {showLength && (
+          <div className='text-right text-gray-500'>
+            {value.length} / {maxLength}자
+          </div>
+        )}
       </div>
     </div>
   );
