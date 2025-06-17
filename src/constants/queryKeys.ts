@@ -12,6 +12,7 @@ export const NOTIFICATIONS_QUERY_KEYS = {
 
 export const GROUP_QUERY_KEYS = {
   groups: 'groups',
+  groupInfo: 'groupInfo',
   leaveGroup: 'leaveGroup',
   joinGroup: 'joinGroup',
   groupPosts: 'groupPosts',

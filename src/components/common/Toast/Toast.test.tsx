@@ -50,7 +50,7 @@ describe('Toast 컴포넌트', () => {
     setup({ type: 'error' });
     const toast = screen.getByRole('alert');
 
-    expect(toast).toHaveClass('bg-primary-red text-white');
+    expect(toast).toHaveClass('bg-white text-gray-950');
   });
 
   test('초기에는 isVisible = true로 보여진다', () => {

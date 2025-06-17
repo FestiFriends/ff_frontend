@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { BellRingIcon, CircleAlertIcon, TriangleAlertIcon } from 'lucide-react';
+import BellIcon from '@/components/icons/BellIcon';
 import CheckIcon from '@/components/icons/CheckIcon';
+import WarningIcon from '@/components/icons/WarningIcon';
 import { cn } from '@/lib/utils';
 import Portal from '../Portal';
 
@@ -16,7 +17,7 @@ const typeStyles: Record<NonNullable<ToastProps['type']>, string> = {
   default: 'bg-white text-gray-950',
   success: 'bg-white text-gray-950',
   warning: 'bg-yellow-400 text-gray-950',
-  error: 'bg-primary-red text-white',
+  error: 'bg-white text-gray-950',
   info: 'bg-white text-gray-950',
 };
 
@@ -24,18 +25,18 @@ const iconStyles: Record<NonNullable<ToastProps['type']>, React.ReactNode> = {
   default: (
     <CheckIcon
       type='filled'
-      className='spect-square h-6 w-6 text-primary-red'
+      className='aspect-square h-6 w-6 text-primary-red'
     />
   ),
   success: (
     <CheckIcon
       type='filled'
-      className='spect-square h-6 w-6 text-primary-red'
+      className='aspect-square h-6 w-6 text-primary-red'
     />
   ),
-  warning: <TriangleAlertIcon className='aspect-square h-6 w-6' />,
-  error: <CircleAlertIcon className='aspect-square h-6 w-6' />,
-  info: <BellRingIcon className='aspect-square h-6 w-6' />,
+  warning: <WarningIcon className='aspect-square h-6 w-6' />,
+  error: <WarningIcon className='aspect-square h-6 w-6 text-primary-red' />,
+  info: <BellIcon className='aspect-square h-6 w-6 text-primary-red' />,
 };
 
 const animationClass = (visible: boolean) =>
@@ -71,7 +72,7 @@ const Toast = ({
         aria-label='toast'
         role='alert'
         className={cn(
-          'fixed bottom-4 left-1/2 z-50 flex w-full max-w-[343px] -translate-x-1/2 flex-col items-center justify-center gap-2 rounded-[18px] px-5 py-5 text-gray-950 shadow-[0px_4px_14px_0px_rgba(0,0,0,0.10)] transition-all duration-500 ease-in-out',
+          'fixed bottom-4 left-1/2 z-50 flex w-full max-w-[343px] -translate-x-1/2 flex-col items-center justify-center gap-2.5 rounded-[18px] px-5 py-5.5 text-gray-950 shadow-[0px_4px_14px_0px_rgba(0,0,0,0.10)] transition-all duration-500 ease-in-out',
           typeStyles[type],
           animationClass(isVisible),
           className
