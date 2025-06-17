@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { XIcon } from 'lucide-react';
@@ -11,6 +11,7 @@ import ModalCancel from '@/components/common/Modal/ModalCancel';
 import ModalContent from '@/components/common/Modal/ModalContent';
 import TimePicker from '@/components/common/TimePicker/TimePicker';
 import { EventColorName } from '@/types/enums';
+import AllDayToggle from './AllDayToggle';
 import EventColorDropdown from './EventColorDropdown';
 import ScheduleTitleInput from './ScheduleTitleInput';
 import TimeInput from './TimeInput';
@@ -30,9 +31,9 @@ const ScheduleCreateModal = ({
 }: ScheduleCreateModalProps) => {
   const [title, setTitle] = useState('');
   const [startDate, setStartDate] = useState<Date>(defaultDate);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(startDate);
   const [isSelecting, setIsSelecting] = useState(false);
-  const [showCalendar, setShowCalendar] = useState(true);
+  const [showCalendar, setShowCalendar] = useState(false);
 
   const [startTime, setStartTime] = useState<Date>(defaultDate);
   const [endTime, setEndTime] = useState<Date>(defaultDate);
@@ -47,6 +48,7 @@ const ScheduleCreateModal = ({
   );
 
   const [eventColor, setEventColor] = useState<EventColorName>('red');
+  const [isAllDay, setIsAllDay] = useState(false);
 
   const handleDateClick = (date: Date) => {
     if (!startDate || (startDate && endDate)) {
@@ -62,6 +64,19 @@ const ScheduleCreateModal = ({
       }
     }
   };
+
+  useEffect(() => {
+    if (isAllDay) {
+      const newStart = new Date(startDate.setHours(0, 0));
+      const newEnd = new Date(startDate.setHours(23, 59));
+      setStartTime(newStart);
+      setEndTime(newEnd);
+
+      setStartTimeInput(format(newStart, 'aa hh:mm', { locale: ko }));
+      setEndTimeInput(format(newEnd, 'aa hh:mm', { locale: ko }));
+    }
+  }, [isAllDay, startDate]);
+
   return (
     <Modal
       defaultOpen
@@ -99,6 +114,7 @@ const ScheduleCreateModal = ({
                 value={startTimeInput}
                 onInputChange={setStartTimeInput}
                 onChange={setStartTime}
+                readOnly={isAllDay}
               />
               {/* <div>
                 <TimePicker
@@ -124,6 +140,7 @@ const ScheduleCreateModal = ({
                 value={endTimeInput}
                 onInputChange={setEndTimeInput}
                 onChange={setEndTime}
+                readOnly={isAllDay}
               />
               {/* <div>
                 <TimePicker
@@ -167,6 +184,10 @@ const ScheduleCreateModal = ({
               }}
             />
           )}
+          <AllDayToggle
+            value={isAllDay}
+            onChange={setIsAllDay}
+          />
         </section>
         <div className='mt-[30px] flex justify-between gap-[10px]'>
           <ModalCancel className='w-full rounded-[12px] border border-primary-red px-4 py-2 text-14_M text-primary-red'>

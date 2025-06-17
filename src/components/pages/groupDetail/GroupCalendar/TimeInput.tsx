@@ -3,12 +3,18 @@ import { parse, format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
 interface TimeInputProps {
-  value: string; // ex: '0930'
+  value: string;
   onInputChange: (value: string) => void;
   onChange: (date: Date) => void;
+  readOnly?: boolean;
 }
 
-const TimeInput = ({ value, onInputChange, onChange }: TimeInputProps) => {
+const TimeInput = ({
+  value,
+  onInputChange,
+  onChange,
+  readOnly,
+}: TimeInputProps) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +55,7 @@ const TimeInput = ({ value, onInputChange, onChange }: TimeInputProps) => {
       inputMode='numeric'
       placeholder='시간'
       maxLength={5}
+      readOnly={readOnly}
       className='h-[54px] w-[100px] rounded-[16px] border border-gray-100 px-[12px] py-[16px] text-[14px] leading-[22px] font-medium text-gray-950 placeholder:text-gray-500'
     />
   );
