@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { parse, format } from 'date-fns';
 import { ko } from 'date-fns/locale';
+import { cn } from '@/lib/utils';
 
 interface TimeInputProps {
   value: string;
@@ -56,7 +57,12 @@ const TimeInput = ({
       placeholder='시간'
       maxLength={5}
       readOnly={readOnly}
-      className='h-[54px] w-[100px] rounded-[16px] border border-gray-100 px-[12px] py-[16px] text-[14px] leading-[22px] font-medium text-gray-950 placeholder:text-gray-500'
+      className={cn(
+        'h-[54px] w-[100px] rounded-[16px] border border-gray-100 px-[12px] py-[16px] text-[14px] leading-[22px] font-medium placeholder:text-gray-500',
+        readOnly
+          ? 'pointer-events-none bg-gray-50 text-gray-400'
+          : 'text-gray-950'
+      )}
     />
   );
 };

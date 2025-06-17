@@ -10,6 +10,7 @@ import ModalAction from '@/components/common/Modal/ModalAction';
 import ModalCancel from '@/components/common/Modal/ModalCancel';
 import ModalContent from '@/components/common/Modal/ModalContent';
 import TimePicker from '@/components/common/TimePicker/TimePicker';
+import { cn } from '@/lib/utils';
 import { EventColorName } from '@/types/enums';
 import AllDayToggle from './AllDayToggle';
 import EventColorDropdown from './EventColorDropdown';
@@ -132,7 +133,11 @@ const ScheduleCreateModal = ({
                     setShowCalendar(true);
                   }
                 }}
-                className='h-[54px] w-full rounded-[16px] border border-gray-100 px-[20px] py-[16px] text-14_M text-gray-950 placeholder:text-gray-500'
+                className={cn(
+                  'h-[54px] w-full rounded-[16px] border border-gray-100 px-[20px] py-[16px] text-14_M text-gray-950 placeholder:text-gray-500',
+                  isAllDay
+                    && 'pointer-events-none cursor-not-allowed bg-gray-50 text-gray-400'
+                )}
               />
               <TimeInput
                 value={startTimeInput}
@@ -156,7 +161,11 @@ const ScheduleCreateModal = ({
                     ? format(endDate, 'yyyy.MM.dd (E)', { locale: ko })
                     : ''
                 }
-                className='h-[54px] w-full flex-1 rounded-[16px] border border-gray-100 px-[20px] py-[16px] text-14_M text-gray-950 placeholder:text-gray-500'
+                className={cn(
+                  'h-[54px] w-full flex-1 rounded-[16px] border border-gray-100 px-[20px] py-[16px] text-14_M text-gray-950 placeholder:text-gray-500',
+                  isAllDay
+                    && 'pointer-events-none cursor-not-allowed bg-gray-50 text-gray-400'
+                )}
                 onClick={() => {
                   if (!isAllDay) {
                     setActiveDateField('end');
