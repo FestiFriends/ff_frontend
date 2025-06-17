@@ -1,7 +1,7 @@
 import { GroupCategoryType, GenderType, ApplicationStatusType } from './enums';
 
-// 신청한 모임, 받은 신청서
-export interface Application {
+// 신청한 모임
+export interface AppliedGroup {
   applicationId: string;
   performanceId?: string;
   poster?: string;
@@ -32,4 +32,21 @@ export interface ApplicationGroupInfo {
   maxMembers: number;
   startDate: string;
   endDate: string;
+}
+
+export interface Application {
+  applicationId: string;
+  userId: string;
+  userName: string;
+  rating: number;
+  gender: GenderType;
+  age: number;
+  profileImage: {
+    id: string;
+    src: string;
+    alt: string;
+  };
+  applicationText: string;
+  createdAt: string;
+  status: ApplicationStatusType;
 }
