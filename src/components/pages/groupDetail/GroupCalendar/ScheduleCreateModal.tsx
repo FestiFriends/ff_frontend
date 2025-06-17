@@ -16,6 +16,7 @@ import { groupsApi } from '@/services/groupsService';
 import { EventColorName } from '@/types/enums';
 import { ScheduleRequest } from '@/types/group';
 import AllDayToggle from './AllDayToggle';
+import ScheduleLocationInput from './ScheduleLocationInput';
 import ScheduleTitleInput from './ScheduleTitleInput';
 import TimeInput from './TimeInput';
 
@@ -55,6 +56,7 @@ const ScheduleCreateModal = ({
 
   const [eventColor, setEventColor] = useState<EventColorName>('red');
   const [isAllDay, setIsAllDay] = useState(false);
+  const [location, setLocation] = useState<string>();
 
   const queryClient = useQueryClient();
 
@@ -130,6 +132,8 @@ const ScheduleCreateModal = ({
         location: '',
         eventColor: eventColor,
       };
+
+      console.log('📝 일정 등록 요청:', scheduleRequest);
 
       await mutateAsync(scheduleRequest);
       return true;
@@ -255,6 +259,10 @@ const ScheduleCreateModal = ({
           <AllDayToggle
             value={isAllDay}
             onChange={setIsAllDay}
+          />
+          <ScheduleLocationInput
+            value={location}
+            onChange={setLocation}
           />
         </section>
         <div className='mt-[30px] flex justify-between gap-[10px]'>
