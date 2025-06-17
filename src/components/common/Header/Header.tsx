@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import SearchIcon from '@/components/icons/SearchIcon';
 import { useLogin } from '@/hooks/useAuth/useAuth';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
-import Notification from '../GlobalNavigationBar/Notification';
+import Notification from '../Notification/Notification';
 import SearchInput from '../SearchInput/SearchInput';
 
 interface HeaderProps {

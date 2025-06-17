@@ -5,8 +5,8 @@ import { useMediaQuery } from 'react-responsive';
 import { useLogin, useLogout } from '@/hooks/useAuth/useAuth';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import NavLink from '../NavLink/NavLink';
+import Notification from '../Notification/Notification';
 import SearchInput from '../SearchInput/SearchInput';
-import Notification from './Notification';
 
 const NAV_ITEM = [
   { herf: '/calendar', name: '캘린더' },
