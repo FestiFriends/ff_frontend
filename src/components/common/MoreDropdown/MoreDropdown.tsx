@@ -34,12 +34,15 @@ const MoreDropdown = ({
       >
         <MoreIcon className='h-6 w-6 text-gray-400' />
       </DropdownTrigger>
-      <DropdownContent className='right-6 -mt-8'>
+      <DropdownContent className='right-6 -mt-8 w-[106px] rounded-[12px]'>
         {Array.from(items, (item, index) => (
           <DropdownItem
             key={index}
             label={item.label}
             onClick={item.onClick}
+            className={`flex items-center justify-center px-4 py-3.5 text-16_M text-black${
+              index !== items.length - 1 && 'border-b border-b-gray-50'
+            }`}
           >
             {item.label}
           </DropdownItem>

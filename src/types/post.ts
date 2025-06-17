@@ -11,7 +11,7 @@ export interface Post {
   author: {
     id: string;
     name: string;
-    profileImage?: string;
+    profileImage?: Image;
   };
   createdAt: string;
   updatedAt?: string;
@@ -19,4 +19,9 @@ export interface Post {
   reactionCount: number;
   isMine: boolean;
   isReactioned: boolean;
+}
+
+export interface GroupPostsResponse {
+  groupId: string;
+  posts: Post[];
 }

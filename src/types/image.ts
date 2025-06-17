@@ -1,7 +1,9 @@
 import { StaticImageData } from 'next/image';
 
 export interface Image {
-  id?: string; // 이미지 ID
-  src: string | StaticImageData; // 이미지 경로 (url)
-  alt?: string; // 이미지 파일명
+  id?: string;
+  src: string | StaticImageData;
+  alt?: string;
+  name?: string; //S3
+  file?: File; // S3
 }
