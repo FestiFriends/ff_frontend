@@ -1,6 +1,4 @@
-import React, { useRef, useState } from 'react';
-import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
 import Button from '@/components/common/Button/Button';
 import Modal from '@/components/common/Modal/Modal';
 import ModalAction from '@/components/common/Modal/ModalAction';
@@ -8,22 +6,15 @@ import ModalCancel from '@/components/common/Modal/ModalCancel';
 import ModalContent from '@/components/common/Modal/ModalContent';
 import ModalTrigger from '@/components/common/Modal/ModalTrigger';
 import Toast from '@/components/common/Toast/Toast';
-import { GROUPS_MANAGEMENTS_QUERY_KEYS } from '@/constants/queryKeys';
 import {
   useCancelApplication,
   useConfirmApplication,
+  useGetAppliedGroups,
 } from '@/hooks/groupsManagementsHooks/groupsManagementsHooks';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
-import { groupsManagementsApi } from '@/services/groupsManagementsService';
-import { ApiResponse } from '@/types/api';
-import { ApplicationStatus } from '@/types/enums';
-import {
-  AppliedGroupsApiResponse,
-  formatAppliedGroups,
-} from '@/utils/formatApplicationData';
-import ApplicationCard from './ApplicationCard/ApplicationCard';
-
-const size = 20;
+import { ApplicationStatus, ApplicationStatusType } from '@/types/enums';
+import { formatAppliedGroups } from '@/utils/formatApplicationData';
+import AppliedGroup from './AppliedGroup/AppliedGroup';
 
 const AppliedGroups = () => {
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -33,27 +24,28 @@ const AppliedGroups = () => {
   const [selectedApplicationId, setSelectedApplicationId] =
     useState<string>('');
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery<
-      AxiosResponse<AppliedGroupsApiResponse>,
-      ApiResponse,
-      InfiniteData<AxiosResponse<AppliedGroupsApiResponse>>,
-      string[],
-      number | undefined
-    >({
-      queryKey: [GROUPS_MANAGEMENTS_QUERY_KEYS.appliedGroups],
-      queryFn: ({ pageParam }) =>
-        groupsManagementsApi.getAppliedGroups({ cursorId: pageParam, size }),
-      getNextPageParam: (lastPage) =>
-        lastPage.data?.hasNext ? lastPage.data?.cursorId : undefined,
-      initialPageParam: undefined,
-    });
+  const primaryText = (status: ApplicationStatusType) =>
+    status === ApplicationStatus.ACCEPTED ? '참가 확정' : '신청 취소';
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
+    useGetAppliedGroups();
 
   const bottomRef = useInfiniteScroll<HTMLDivElement>(
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage
   );
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+  if (isPending) {
+    return (
+      <div className='flex h-full items-center justify-center'>
+        <p>로딩 중...</p>
+      </div>
+    );
+  }
 
   const handlePrimaryClick = (applicationId: string, status: string) => {
     if (status === ApplicationStatus.ACCEPTED) {
@@ -76,17 +68,11 @@ const AppliedGroups = () => {
     }
   };
 
-  type ApplicationStatus =
-    (typeof ApplicationStatus)[keyof typeof ApplicationStatus];
-
-  const primaryText = (status: ApplicationStatus) =>
-    status === ApplicationStatus.ACCEPTED ? '참가 확정' : '신청 취소';
-
   return (
     <div className='flex flex-col items-center gap-5 px-4'>
       {data?.pages.flatMap((page) =>
         formatAppliedGroups(page.data).map((group) => (
-          <ApplicationCard
+          <AppliedGroup
             key={group.applicationId}
             applicationData={group}
             primaryButtonText={primaryText(group.status)}

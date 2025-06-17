@@ -9,7 +9,29 @@ import { GROUPS_MANAGEMENTS_QUERY_KEYS } from '@/constants/queryKeys';
 import { groupsManagementsApi } from '@/services/groupsManagementsService';
 import { ApiResponse } from '@/types/api';
 import { ApplicationStatusType } from '@/types/enums';
-import { ApplicationsApiResponse } from '@/utils/formatApplicationData';
+import {
+  ApplicationsApiResponse,
+  AppliedGroupsApiResponse,
+} from '@/utils/formatApplicationData';
+
+// 신청한 모임 목록
+export const useGetAppliedGroups = () => {
+  const size = 20;
+  return useInfiniteQuery<
+    AxiosResponse<AppliedGroupsApiResponse>,
+    ApiResponse,
+    InfiniteData<AxiosResponse<AppliedGroupsApiResponse>>,
+    string[],
+    number | undefined
+  >({
+    queryKey: [GROUPS_MANAGEMENTS_QUERY_KEYS.appliedGroups],
+    queryFn: ({ pageParam }) =>
+      groupsManagementsApi.getAppliedGroups({ cursorId: pageParam, size }),
+    getNextPageParam: (lastPage) =>
+      lastPage.data?.hasNext ? lastPage.data?.cursorId : undefined,
+    initialPageParam: undefined,
+  });
+};
 
 // 신청 취소
 export const useCancelApplication = () => {
