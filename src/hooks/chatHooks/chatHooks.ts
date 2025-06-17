@@ -4,48 +4,14 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Client } from '@stomp/stompjs';
 // import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 // import { AxiosResponse } from 'axios';
-import axios from 'axios';
 import SockJS from 'sockjs-client';
 import { getAccessToken } from '@/lib/apiFetcher';
-import { callLogout, callTokenUpdater } from '@/providers/AuthStoreProvider';
-import { TokenRefreshResponse } from '@/types/auth';
 import { ChatMessage } from '@/types/chat';
+import { getNewAccessToken } from '@/utils/getNewAccessToken';
 // import { CHAT_QUERY_KEY } from '@/constants/queryKeys';
 // import { chatServiceApi } from '@/services/chatService';
 // import { ApiResponse, CursorRequest } from '@/types/api';
 // import { GetChatMessageListResponse } from '@/types/chat';
-
-/**
- * 리프레시 토큰으로 액세스 토큰 재발급하는 함수
- * @returns Promise<newAccessToken:string | null>
- */
-const refreshAccessToken = async (): Promise<string> => {
-  try {
-    const res = await axios.post<TokenRefreshResponse>(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/token`,
-      {},
-      { withCredentials: true }
-    );
-
-    const newAccessToken = res.data.data?.accessToken;
-
-    if (!newAccessToken) {
-      throw new Error('토큰이 존재하지 않습니다.');
-    }
-
-    callTokenUpdater(newAccessToken);
-    return newAccessToken;
-  } catch (err) {
-    callLogout();
-
-    const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BASE_URL}/login/kakao`;
-    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-
-    window.open(kakaoAuthUrl, '_self');
-
-    return Promise.reject(err);
-  }
-};
 
 /**
  * 채팅 웹소켓 연결
@@ -98,7 +64,7 @@ export const useChatWebSocket = (
         },
 
         onStompError: async () => {
-          const newToken = await refreshAccessToken();
+          const newToken = await getNewAccessToken();
           if (newToken) {
             stompClient.deactivate();
             connectWebSocket(newToken);
