@@ -1,13 +1,16 @@
 'use client';
 
 import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
+import { LoadingOverlay } from '@/components/common';
 import Modal from '@/components/common/Modal/Modal';
 import ModalContent from '@/components/common/Modal/ModalContent';
 import MoreDropdown from '@/components/common/MoreDropdown/MoreDropdown';
 import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
 import BackIcon from '@/components/icons/BackIcon';
 import MapPinIcon from '@/components/icons/MapPinIcon';
+import { groupsApi } from '@/services/groupsService';
 import { Schedule } from '@/types/group';
 import ScheduleFormModal from './ScheduleFormModal';
 
@@ -23,10 +26,23 @@ const ScheduleDetailModal = ({
   onClose,
 }: ScheduleDetailModalProps) => {
   const [isEditing, setIsEditing] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleEditClick = () => {
     setIsEditing(true);
   };
+
+  const { mutate: deleteSchedule, isPending: isDeleting } = useMutation({
+    mutationFn: () => groupsApi.deleteSchedule(groupId, schedule.id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['schedules', groupId] });
+      onClose();
+    },
+    onError: (error) => {
+      console.error('삭제 실패:', error);
+      alert('일정 삭제에 실패했습니다.');
+    },
+  });
 
   return (
     <>
@@ -34,7 +50,8 @@ const ScheduleDetailModal = ({
         defaultOpen
         onClose={onClose}
       >
-        <ModalContent className='w-[90vw] max-w-md rounded-[20px] bg-white p-[30px] shadow-lg'>
+        <ModalContent className='relative w-[90vw] max-w-md rounded-[20px] bg-white p-[30px] shadow-lg'>
+          {isDeleting && <LoadingOverlay />}
           <div className='mb-[20px] flex items-center justify-between'>
             <button
               onClick={onClose}
@@ -45,7 +62,14 @@ const ScheduleDetailModal = ({
             <MoreDropdown
               items={[
                 { label: '수정하기', onClick: handleEditClick },
-                { label: '삭제하기', onClick: () => console.log('삭제') },
+                {
+                  label: '삭제하기',
+                  onClick: () => {
+                    if (confirm('정말 삭제하시겠습니까?')) {
+                      deleteSchedule();
+                    }
+                  },
+                },
               ]}
               className='h-6 w-6 text-black'
             />
