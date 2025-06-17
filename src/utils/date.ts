@@ -43,3 +43,12 @@ export const formatPostDate = (dateStr: string): string => {
     return dateStr;
   }
 };
+
+export const formatToKST = (isoString: string) => {
+  const timeStr = isoString.split('T')[1].slice(0, 5);
+  const hour = Number(timeStr.split(':')[0]);
+  const meridiem = hour < 12 ? '오전' : '오후';
+  const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+  const minute = timeStr.split(':')[1];
+  return `${meridiem} ${hour12}:${minute}`;
+};
