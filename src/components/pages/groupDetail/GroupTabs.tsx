@@ -2,11 +2,17 @@
 
 import { useState } from 'react';
 import { Tabs } from '@/components/common';
+import { GroupInfo } from '@/types/group';
+import Chat from './Chat/Chat';
 import GroupPosts from './GroupPosts';
 
 const groupTabs = ['게시글', '채팅', '캘린더'];
 
-const GroupTabs = () => {
+interface GroupTabsProps {
+  groupInfo?: GroupInfo;
+}
+
+const GroupTabs = ({ groupInfo }: GroupTabsProps) => {
   const [selectedTab, setSelectedTab] = useState(groupTabs[0]);
 
   return (
@@ -18,7 +24,7 @@ const GroupTabs = () => {
       />
       <>
         {selectedTab === '게시글' && <GroupPosts />}
-        {/* {selectedTab === '채팅' && <Chat />} */}
+        {selectedTab === '채팅' && <Chat groupInfo={groupInfo} />}
         {/* {selectedTab === '캘린더' && <캘린더 />} */}
       </>
     </div>
