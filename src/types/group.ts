@@ -130,3 +130,10 @@ export interface GroupSchedule {
 
   isMine: boolean;
 }
+
+export interface ScheduleRequest {
+  description: string;
+  startAt: string;
+  endAt: string;
+  location: string;
+}

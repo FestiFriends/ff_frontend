@@ -9,6 +9,7 @@ import {
   PostJoinGroupRequest,
   CreateGroupApiRequest,
   CreateGroupFormData,
+  ScheduleRequest,
 } from '@/types/group';
 import { Post } from '@/types/post';
 import { formatPostDate } from '@/utils/date';
@@ -104,4 +105,21 @@ export const groupsApi = {
 
     return response.data.data?.schedules ?? [];
   },
+  postSchedule: async (groupId: string, body: ScheduleRequest) =>
+    await apiFetcher.post(`/api/v1/groups/${groupId}/schedules`, body),
+
+  updateSchedule: async (
+    groupId: string,
+    scheduleId: string,
+    body: ScheduleRequest
+  ) =>
+    await apiFetcher.patch(
+      `/api/v1/groups/${groupId}/schedules/${scheduleId}`,
+      body
+    ),
+
+  deleteSchedule: async (groupId: string, scheduleId: string) =>
+    await apiFetcher.delete(
+      `/api/v1/groups/${groupId}/schedules/${scheduleId}`
+    ),
 };
