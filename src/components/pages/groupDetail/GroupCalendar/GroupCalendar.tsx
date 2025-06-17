@@ -6,6 +6,7 @@ import CalendarBase from '@/components/common/EventCalendar/CalendarBase/Calenda
 import { useSchedules } from '@/hooks/useSchedules/useSchedules';
 import { Schedule } from '@/types/group';
 import GroupCalendarCell from './GroupCalendarCell';
+import ScheduleDetailModal from './ScheduleDetailModal';
 
 interface GroupCalendarProps {
   groupId: string;
@@ -14,6 +15,9 @@ interface GroupCalendarProps {
 const GroupCalendar = ({ groupId }: GroupCalendarProps) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
+    null
+  );
 
   const { start, end } = useMemo(() => {
     const start = startOfWeek(startOfMonth(currentMonth), { weekStartsOn: 0 });
@@ -24,23 +28,31 @@ const GroupCalendar = ({ groupId }: GroupCalendarProps) => {
   const { data: schedules = [] } = useSchedules(groupId, start, end);
 
   return (
-    <CalendarBase<Schedule>
-      month={currentMonth}
-      events={schedules}
-      weekdayLabels={['S', 'M', 'T', 'W', 'T', 'F', 'S']}
-      getDate={(s) => new Date(s.startAt)}
-      renderCell={(date, events) => (
-        <GroupCalendarCell
-          date={date}
-          schedules={events}
-          currentMonth={currentMonth}
-          selectedDate={selectedDate}
-          onDateClick={(d) => setSelectedDate(d)}
-          onScheduleClick={(s) => console.log('clicked schedule', s)}
+    <>
+      <CalendarBase<Schedule>
+        month={currentMonth}
+        events={schedules}
+        weekdayLabels={['S', 'M', 'T', 'W', 'T', 'F', 'S']}
+        getDate={(s) => new Date(s.startAt)}
+        renderCell={(date, events) => (
+          <GroupCalendarCell
+            date={date}
+            schedules={events}
+            currentMonth={currentMonth}
+            selectedDate={selectedDate}
+            onDateClick={(d) => setSelectedDate(d)}
+            onScheduleClick={(s) => setSelectedSchedule(s)}
+          />
+        )}
+        onMonthChange={setCurrentMonth}
+      />
+      {selectedSchedule && (
+        <ScheduleDetailModal
+          schedule={selectedSchedule}
+          onClose={() => setSelectedSchedule(null)}
         />
       )}
-      onMonthChange={setCurrentMonth}
-    />
+    </>
   );
 };
 

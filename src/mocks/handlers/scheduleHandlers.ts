@@ -34,8 +34,8 @@ const SCHEDULES_DATA: Schedule[] = [
   {
     id: 's3',
     description: '공연 끝나고 뒤풀이',
-    startAt: '2025-06-10T22:00:00Z',
-    endAt: '2025-06-11T01:00:00Z',
+    startAt: '2025-12-28T22:00:00Z',
+    endAt: '2025-12-28T01:00:00Z',
     location: '합정 포차 거리',
     createdAt: '2025-06-03T15:00:00Z',
     author: {
