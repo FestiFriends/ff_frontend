@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { QueryTabs, Spinner } from '@/components/common';
-import InfiniteList from '@/components/common/InfiniteList ';
+import InfiniteList from '@/components/common/InfiniteList/InfiniteList ';
 import PerformanceCard from '@/components/common/PerformanceCard';
 import ProfileCard from '@/components/common/ProfileCard/ProfileCard';
 import {
