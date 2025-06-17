@@ -1,10 +1,8 @@
-import axios from 'axios';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { createStore } from 'zustand/vanilla';
 import { getAccessToken } from '@/lib/apiFetcher';
-import { callLogout, callTokenUpdater } from '@/providers/AuthStoreProvider';
-import { TokenRefreshResponse } from '@/types/auth';
 import { SseNotificationResponse } from '@/types/notification';
+import { getNewAccessToken } from '@/utils/getNewAccessToken';
 export type SseState = {
   message: string | null;
   notification: SseNotificationResponse | null;
@@ -59,26 +57,8 @@ export const createSseStore = (initState: SseState = defaultInitState) =>
 
         es.onerror = async (e) => {
           if ('status' in e && e.status === 401) {
-            try {
-              const res = await axios.post<TokenRefreshResponse>(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/token`,
-                {},
-                { withCredentials: true }
-              );
-              const newAccessToken = res.data.data?.accessToken;
-              if (newAccessToken) {
-                callTokenUpdater(newAccessToken);
-                await createEventSource(newAccessToken);
-              }
-            } catch (refreshErr) {
-              callLogout();
-
-              const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BASE_URL}/login/kakao`;
-              const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-              window.open(kakaoAuthUrl, '_self');
-
-              return Promise.reject(refreshErr);
-            }
+            const newToken = await getNewAccessToken();
+            await createEventSource(newToken);
           }
         };
 

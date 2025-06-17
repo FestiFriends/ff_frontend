@@ -1,7 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { callLogout, callTokenUpdater } from '@/providers/AuthStoreProvider';
 import { ApiResponse } from '@/types/api';
-import { TokenRefreshResponse } from '@/types/auth';
+import { getNewAccessToken } from '@/utils/getNewAccessToken';
 
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
@@ -41,24 +40,10 @@ instance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const res = await axios.post<TokenRefreshResponse>(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/token`,
-          {},
-          { withCredentials: true }
-        );
-        const resData = res.data;
-        const newAccessToken = resData.data?.accessToken;
-        if (newAccessToken) callTokenUpdater(newAccessToken);
-
+        const newAccessToken = await getNewAccessToken();
         originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
         return instance(originalRequest);
       } catch (refreshErr) {
-        callLogout();
-
-        const REDIRECT_URI = `${process.env.NEXT_PUBLIC_BASE_URL}/login/kakao`;
-        const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-        window.open(kakaoAuthUrl, '_self');
-
         return Promise.reject(refreshErr);
       }
     }
