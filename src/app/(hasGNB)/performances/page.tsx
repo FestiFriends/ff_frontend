@@ -1,3 +1,4 @@
+import Header from '@/components/common/Header/Header';
 import {
   PerformanceListContainer,
   Search,
@@ -48,6 +49,7 @@ const DROPDOWN_OPTIONS: Record<string, DropdownOption> = {
 
 const PerformancesPage = () => (
   <div className='flex flex-col gap-2'>
+    <Header title='공연 목록' />
     <Search />
     <div className='z-1 flex w-full gap-4 px-4'>
       {Object.values(DROPDOWN_OPTIONS).map((option) => (
