@@ -53,12 +53,12 @@ const ReportDetailModal = ({ reportId, children }: ReportDetailModalProps) => {
               </Suspense>
             </ErrorBoundary>
             <div className='flex gap-3'>
-              <ModalCancel>
+              <ModalCancel disabled={isPending}>
                 <Button variant='secondary'>취소</Button>
               </ModalCancel>
               <ModalAction>
                 <Button
-                  disabled={!status}
+                  disabled={!status || isPending}
                   onClick={handleSubmit}
                 >
                   확인
