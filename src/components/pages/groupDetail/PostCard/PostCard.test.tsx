@@ -1,7 +1,34 @@
 import type { ReactNode } from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { formatPostDate } from '@/utils/date';
 import PostCard from './PostCard';
+
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    prefetch: jest.fn(),
+    back: jest.fn(),
+  }),
+}));
+
+jest.mock('@tanstack/react-query', () => ({
+  useQueryClient: () => ({
+    invalidateQueries: jest.fn(),
+    setQueryData: jest.fn(),
+    getQueryData: jest.fn(),
+  }),
+  useMutation: () => ({
+    mutate: jest.fn(),
+    mutateAsync: jest.fn(),
+    isLoading: false,
+    isError: false,
+    isSuccess: false,
+    error: null,
+    data: null,
+  }),
+}));
 
 jest.mock('@/components/ui/carousel', () => ({
   Carousel: ({ children, ...props }: { children: ReactNode }) => (
@@ -39,9 +66,12 @@ const mockPost1 = {
   author: {
     id: 'user1',
     name: '테스터',
-    profileImage: '/profile.jpg',
+    profileImage: {
+      src: '/profile.jpg',
+      alt: '프로필 이미지',
+    },
   },
-  createdAt: '2025-06-01T15:30:00',
+  createdAt: formatPostDate('2025-06-01T15:30:00'),
   commentCount: 3,
   reactionCount: 5,
   isMine: true,
@@ -75,9 +105,12 @@ const mockPost2 = {
   author: {
     id: 'user2',
     name: '테스터',
-    profileImage: '/profile.jpg',
+    profileImage: {
+      src: '/profile.jpg',
+      alt: '프로필 이미지',
+    },
   },
-  createdAt: '2025-06-01T15:30:00',
+  createdAt: formatPostDate('2025-06-01T15:30:00'),
   commentCount: 3,
   reactionCount: 5,
   isMine: false,

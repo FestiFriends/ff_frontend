@@ -14,6 +14,7 @@ export const GROUP_QUERY_KEYS = {
   groups: 'groups',
   leaveGroup: 'leaveGroup',
   joinGroup: 'joinGroup',
+  groupPosts: 'groupPosts',
 };
 
 export const REVIEWS_QUERY_KEYS = {
@@ -38,4 +39,9 @@ export const GROUPS_MANAGEMENTS_QUERY_KEYS = {
 
 export const CHAT_QUERY_KEY = {
   chat: 'chat',
+};
+
+export const POSTS_QUERY_KEYS = {
+  postDetail: 'postDetail',
+  comments: 'comments',
 };

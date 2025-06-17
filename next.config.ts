@@ -34,8 +34,8 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
       {
-        protocol: 'http',
-        hostname: 'example.com',
+        protocol: 'https',
+        hostname: 'festi-friends.s3.ap-northeast-2.amazonaws.com',
         pathname: '/**',
       },
     ],

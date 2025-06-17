@@ -2,37 +2,31 @@
 
 import CheckIcon from '@/components/icons/CheckIcon';
 import { cn } from '@/lib/utils';
+import { Post } from '@/types/post';
 
 interface CheckButtonProps {
-  isReactioned: boolean;
-  reactionCount: number;
-  onClick: () => void;
+  post: Post;
+  onClick?: (post: Post) => void;
   className?: string;
 }
 
-const CheckButton = ({
-  isReactioned,
-  reactionCount,
-  onClick,
-  className,
-}: CheckButtonProps) => (
+const CheckButton = ({ post, onClick, className }: CheckButtonProps) => (
   <button
-    onClick={onClick}
+    onClick={() => onClick?.(post)}
     className={cn(
-      'flex w-1/2 items-center justify-center gap-1 px-6 pt-3.5 pb-2.5',
+      'flex w-1/2 items-center justify-center gap-1 px-6 py-3.5',
       className
     )}
-    aria-label={isReactioned ? '게시글 확인 취소 버튼' : '게시글 확인 버튼'}
+    aria-label={post.isPinned ? '게시글 반응 취소' : '게시글 반응'}
   >
-    {/* TODO: 디자인 시스템 확정 시 색상 토큰으로 대체 예정 */}
     <CheckIcon
-      type={isReactioned ? 'filled' : 'stroke'}
+      type={post.isReactioned ? 'filled' : 'stroke'}
       className={cn(
         'h-5 w-5',
-        isReactioned ? 'text-[#ED3639]' : 'text-gray-500'
+        post.isReactioned ? 'text-primary-red' : 'text-gray-500'
       )}
     />
-    <span>확인 {reactionCount}</span>
+    <span className='text-14_M text-gray-500'>확인 {post.reactionCount}</span>
   </button>
 );
 
