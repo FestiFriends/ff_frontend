@@ -2,16 +2,18 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Client } from '@stomp/stompjs';
-// import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
-// import { AxiosResponse } from 'axios';
+import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 import SockJS from 'sockjs-client';
+import { CHAT_QUERY_KEY } from '@/constants/queryKeys';
 import { getAccessToken } from '@/lib/apiFetcher';
-import { ChatMessage } from '@/types/chat';
+import { chatServiceApi } from '@/services/chatService';
+import { ApiResponse, CursorRequest } from '@/types/api';
+import {
+  ChatMessage,
+  GetChatHistoryRequest,
+  GetChatHistoryResponse,
+} from '@/types/chat';
 import { getNewAccessToken } from '@/utils/getNewAccessToken';
-// import { CHAT_QUERY_KEY } from '@/constants/queryKeys';
-// import { chatServiceApi } from '@/services/chatService';
-// import { ApiResponse, CursorRequest } from '@/types/api';
-// import { GetChatMessageListResponse } from '@/types/chat';
 
 /**
  * 채팅 웹소켓 연결
@@ -118,42 +120,21 @@ export const useChatWebSocket = (
   return { messages, sendMessage, isConnected, statusMessage };
 };
 
-// export const useGetChatMessageList = (size: CursorRequest['size']) =>
-//   useInfiniteQuery<
-//     AxiosResponse<GetChatMessageListResponse>,
-//     ApiResponse,
-//     InfiniteData<AxiosResponse<GetChatMessageListResponse>>,
-//     string[],
-//     number | undefined
-//   >({
-//     queryKey: [CHAT_QUERY_KEY.chat],
-//     queryFn: ({ pageParam }) =>
-//       chatServiceApi.getChatMessageList({
-//         // chatRoomId,
-//         cursorId: pageParam,
-//         size,
-//       }),
-//     initialPageParam: undefined,
-//     getNextPageParam: (lastPage) =>
-//       lastPage.data.hasNext ? lastPage.data.cursorId : undefined,
-//   });
-
-// export const useGetChatMessageList = (size: CursorRequest['size']) =>
-//   useInfiniteQuery<
-//     AxiosResponse<GetChatMessageListResponse>,
-//     ApiResponse,
-//     InfiniteData<AxiosResponse<GetChatMessageListResponse>>,
-//     string[],
-//     number | undefined
-//   >({
-//     queryKey: [CHAT_QUERY_KEY.chat],
-//     queryFn: ({ pageParam }) =>
-//       chatServiceApi.getChatMessageList({
-//         // chatRoomId,
-//         cursorId: pageParam,
-//         size,
-//       }),
-//     initialPageParam: undefined,
-//     getNextPageParam: (lastPage) =>
-//       lastPage.data.hasNext ? lastPage.data.cursorId : undefined,
-//   });
+export const useGetChatHistory = (
+  chatRoomId: GetChatHistoryRequest['chatRoomId'],
+  size?: CursorRequest['size']
+) =>
+  useInfiniteQuery<
+    GetChatHistoryResponse,
+    ApiResponse,
+    InfiniteData<GetChatHistoryResponse>,
+    string[],
+    number | undefined
+  >({
+    queryKey: [CHAT_QUERY_KEY.chat, chatRoomId.toString()],
+    queryFn: ({ pageParam }) =>
+      chatServiceApi.getChatHistory({ chatRoomId, cursorId: pageParam, size }),
+    getNextPageParam: (lastPage) =>
+      lastPage.hasNext ? lastPage.cursorId : undefined,
+    initialPageParam: undefined,
+  });

@@ -14,15 +14,9 @@ export interface ChatMessage {
   isMine?: boolean;
 }
 
-export interface ChatMessageRequest {
-  chatRoomId: string;
-  cursorId?: number;
-  size?: number;
-}
-
-export type GetChatMessageListRequest = {
+export type GetChatHistoryRequest = {
   chatRoomId: number;
 } & CursorRequest;
 
-export type GetChatMessageListResponse = ApiResponse<ChatMessage[]>
+export type GetChatHistoryResponse = ApiResponse<ChatMessage[]>
   & CursorResponse;
