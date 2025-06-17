@@ -1,31 +1,46 @@
 'use client';
 
 import { useChatWebSocket } from '@/hooks/chatHooks/chatHooks';
-import { useGetUserId } from '@/hooks/userHooks/userHooks';
 // import { CHAT_SAMPLE_DATA } from '@/mocks/handlers/chatHandlers';
 import ChatMessageInput from './ChatMessageInput';
 import ChatMessageList from './ChatMessageList';
 
-const chatRoomId = 1;
+interface ChatAreaProps {
+  userId: number | undefined;
+  chatRoomId: number | undefined;
+}
 
-const ChatArea = () => {
-  const { data: userId, isPending } = useGetUserId();
-  const { messages, sendMessage } = useChatWebSocket(
-    userId?.data?.userId,
-    chatRoomId
-  );
+const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
+  const { messages, sendMessage, statusMessage, isConnected } =
+    useChatWebSocket(userId, chatRoomId);
 
-  if (isPending) return <div>loading...</div>;
-  if (!isPending && !userId) return <div>접근 권한이 없습니다.</div>;
+  if (!isConnected) {
+    return (
+      <div className='relative flex h-[60dvh] flex-col items-center justify-center gap-2'>
+        <p className='font-semibold text-gray-500'>{statusMessage}</p>
+        <ChatMessageInput
+          disabled={true}
+          sendMessage={() => {}}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className='relative flex h-[60dvh] flex-col gap-2'>
-      <ChatMessageList
-        userId={userId?.data?.userId}
-        messages={messages}
-        // messages={CHAT_SAMPLE_DATA}
-      />
-      <ChatMessageInput sendMessage={sendMessage} />
+      {isConnected && (
+        <>
+          <ChatMessageList
+            userId={userId}
+            messages={messages}
+            // messages={CHAT_SAMPLE_DATA}
+          />
+          <ChatMessageInput
+            disabled={!isConnected}
+            sendMessage={sendMessage}
+          />
+        </>
+      )}
     </div>
   );
 };
