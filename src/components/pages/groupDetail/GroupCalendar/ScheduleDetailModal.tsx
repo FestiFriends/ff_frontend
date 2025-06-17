@@ -22,7 +22,7 @@ const ScheduleDetailModal = ({
     defaultOpen
     onClose={onClose}
   >
-    <ModalContent className='w-[90vw] max-w-md rounded-2xl bg-white p-[30px] shadow-lg'>
+    <ModalContent className='w-[90vw] max-w-md rounded-[20px] bg-white p-[30px] shadow-lg'>
       <div className='mb-[20px] flex items-center justify-between'>
         <button
           onClick={onClose}

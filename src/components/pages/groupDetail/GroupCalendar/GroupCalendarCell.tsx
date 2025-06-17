@@ -9,7 +9,7 @@ interface GroupCellProps {
   date: Date;
   schedules: Schedule[];
   currentMonth: Date;
-  selectedDate?: Date;
+  selectedDate?: Date | null;
   onDateClick?: (
     date: Date,
     schedules: Schedule[],

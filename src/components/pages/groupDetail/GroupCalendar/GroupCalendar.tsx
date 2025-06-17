@@ -6,6 +6,7 @@ import CalendarBase from '@/components/common/EventCalendar/CalendarBase/Calenda
 import { useSchedules } from '@/hooks/useSchedules/useSchedules';
 import { Schedule } from '@/types/group';
 import GroupCalendarCell from './GroupCalendarCell';
+import ScheduleCreateModal from './ScheduleCreateModal';
 import ScheduleDetailModal from './ScheduleDetailModal';
 
 interface GroupCalendarProps {
@@ -13,11 +14,12 @@ interface GroupCalendarProps {
 }
 
 const GroupCalendar = ({ groupId }: GroupCalendarProps) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
     null
   );
+  const [isCreating, setIsCreating] = useState(false);
 
   const { start, end } = useMemo(() => {
     const start = startOfWeek(startOfMonth(currentMonth), { weekStartsOn: 0 });
@@ -26,6 +28,11 @@ const GroupCalendar = ({ groupId }: GroupCalendarProps) => {
   }, [currentMonth]);
 
   const { data: schedules = [] } = useSchedules(groupId, start, end);
+
+  const handleDateClick = (date: Date) => {
+    setSelectedDate(date);
+    setIsCreating(true);
+  };
 
   return (
     <>
@@ -40,7 +47,7 @@ const GroupCalendar = ({ groupId }: GroupCalendarProps) => {
             schedules={events}
             currentMonth={currentMonth}
             selectedDate={selectedDate}
-            onDateClick={(d) => setSelectedDate(d)}
+            onDateClick={handleDateClick}
             onScheduleClick={(s) => setSelectedSchedule(s)}
           />
         )}
@@ -50,6 +57,17 @@ const GroupCalendar = ({ groupId }: GroupCalendarProps) => {
         <ScheduleDetailModal
           schedule={selectedSchedule}
           onClose={() => setSelectedSchedule(null)}
+        />
+      )}
+      {isCreating && selectedDate && (
+        <ScheduleCreateModal
+          key={selectedDate?.toISOString()}
+          groupId={groupId}
+          defaultDate={selectedDate}
+          onClose={() => {
+            setIsCreating(false);
+            setSelectedDate(null);
+          }}
         />
       )}
     </>
