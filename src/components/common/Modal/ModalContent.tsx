@@ -14,12 +14,14 @@ import { useModalContext } from './ModalContext';
 interface ModalContentProps {
   className?: string;
   ref?: RefObject<HTMLDivElement | null>;
+  restoreDialogStyle?: boolean;
 }
 
 const ModalContent = ({
   className,
   children,
   ref,
+  restoreDialogStyle = false,
 }: PropsWithChildren<ModalContentProps>) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const { open, disableBackdropClose, closeModal, onClose } = useModalContext();
@@ -73,7 +75,9 @@ const ModalContent = ({
       <dialog
         ref={dialogRef}
         className={cn(
-          'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+          restoreDialogStyle
+            ? ''
+            : 'fixed top-1/2 left-1/2 h-full -translate-x-1/2 -translate-y-1/2',
           className
         )}
         onClose={handleClose}
