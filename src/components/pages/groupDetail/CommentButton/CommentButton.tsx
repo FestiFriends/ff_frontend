@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 
 interface CommentButtonProps {
   commentCount: number;
-  onClick: () => void;
+  onClick?: () => void;
   className?: string;
 }
 
@@ -17,13 +17,13 @@ const CommentButton = ({
   <button
     onClick={onClick}
     className={cn(
-      'flex w-1/2 items-center justify-center gap-1 px-6 pt-3.5 pb-2.5',
+      'flex w-1/2 items-center justify-center gap-1 px-6 py-3.5',
       className
     )}
     aria-label='댓글 목록 이동'
   >
-    <ChatIcon className='h-5 w-5 text-gray-500' />
-    <span>확인 {commentCount}</span>
+    <ChatIcon className='h-5 w-5 text-14_M text-gray-500' />
+    <span>댓글 {commentCount}</span>
   </button>
 );
 
