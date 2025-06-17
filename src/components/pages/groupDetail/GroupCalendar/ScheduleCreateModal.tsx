@@ -1,10 +1,18 @@
 'use client';
 
+import { useState } from 'react';
+import { format } from 'date-fns';
+import { ko } from 'date-fns/locale';
 import { XIcon } from 'lucide-react';
+import Calendar from '@/components/common/Calendar/Calendar';
 import Modal from '@/components/common/Modal/Modal';
 import ModalAction from '@/components/common/Modal/ModalAction';
 import ModalCancel from '@/components/common/Modal/ModalCancel';
 import ModalContent from '@/components/common/Modal/ModalContent';
+import TimePicker from '@/components/common/TimePicker/TimePicker';
+import TimeInput from './TimeInput';
+
+//TODO: 모달위로 popover구현해야함
 
 interface ScheduleCreateModalProps {
   groupId: string;
@@ -16,33 +24,149 @@ const ScheduleCreateModal = ({
   groupId,
   defaultDate,
   onClose,
-}: ScheduleCreateModalProps) => (
-  <Modal
-    defaultOpen
-    onClose={onClose}
-  >
-    <ModalContent className='w-[90vw] max-w-md rounded-[20px] bg-white p-[30px] shadow-lg'>
-      <div className='mb-[20px] flex items-center justify-between'>
-        <button
-          onClick={onClose}
-          aria-label='모달 닫기'
-        >
-          <XIcon className='h-[24px] w-[24px]' />
-        </button>
+}: ScheduleCreateModalProps) => {
+  const [startDate, setStartDate] = useState<Date>(defaultDate);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [isSelecting, setIsSelecting] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(true);
 
-        <h2 className='text-16_B font-bold text-gray-900'>등록</h2>
-      </div>
+  const [startTime, setStartTime] = useState<Date>(defaultDate);
+  const [endTime, setEndTime] = useState<Date>(defaultDate);
+  const [showStartTimePicker, setShowStartTimePicker] = useState(false);
+  const [showEndTimePicker, setShowEndTimePicker] = useState(false);
 
-      <div className='mt-[30px] flex justify-between gap-[10px]'>
-        <ModalCancel className='w-full rounded-[12px] border border-primary-red px-4 py-2 text-14_M text-primary-red'>
-          취소
-        </ModalCancel>
-        <ModalAction className='w-full rounded-[12px] bg-primary-red px-4 py-2 text-14_M text-white'>
-          등록
-        </ModalAction>
-      </div>
-    </ModalContent>
-  </Modal>
-);
+  const [startTimeInput, setStartTimeInput] = useState(
+    format(startTime, 'aa hh:mm', { locale: ko })
+  );
+  const [endTimeInput, setEndTimeInput] = useState(
+    format(startTime, 'aa hh:mm', { locale: ko })
+  );
+
+  const handleDateClick = (date: Date) => {
+    if (!startDate || (startDate && endDate)) {
+      setStartDate(date);
+      setEndDate(null);
+    } else if (startDate && !endDate) {
+      if (date < startDate) {
+        setStartDate(date);
+      } else {
+        setEndDate(date);
+        setIsSelecting(false);
+        setShowCalendar(false);
+      }
+    }
+  };
+  return (
+    <Modal
+      defaultOpen
+      onClose={onClose}
+    >
+      <ModalContent className='w-[90vw] max-w-md rounded-[20px] bg-white p-[30px] shadow-lg'>
+        <div className='mb-[20px] flex items-center justify-between'>
+          <button
+            onClick={onClose}
+            aria-label='모달 닫기'
+          >
+            <XIcon className='h-[24px] w-[24px]' />
+          </button>
+          <h2 className='text-16_B font-bold text-gray-900'>등록</h2>
+        </div>
+
+        <section>
+          <div className='flex flex-col gap-[10px]'>
+            <div className='flex items-center gap-[12px]'>
+              <input
+                type='text'
+                readOnly
+                value={format(startDate, 'yyyy.MM.dd (E)', { locale: ko })}
+                placeholder='시작일'
+                onClick={() => setShowCalendar(true)}
+                className='h-[54px] w-full rounded-[16px] border border-gray-100 px-[20px] py-[16px] text-14_M text-gray-950 placeholder:text-gray-500'
+              />
+              <TimeInput
+                value={startTimeInput}
+                onInputChange={setStartTimeInput}
+                onChange={setStartTime}
+              />
+              {/* <div>
+                <TimePicker
+                  onChange={(date) => setStartTime(date)}
+                  size='md'
+                />
+              </div> */}
+            </div>
+            <div className='flex items-center gap-[12px]'>
+              <input
+                type='text'
+                placeholder='종료일'
+                value={
+                  endDate
+                    ? format(endDate, 'yyyy.MM.dd (E)', { locale: ko })
+                    : ''
+                }
+                className='h-[54px] w-full flex-1 rounded-[16px] border border-gray-100 px-[20px] py-[16px] text-14_M text-gray-950 placeholder:text-gray-500'
+                onClick={() => setShowCalendar(true)}
+                readOnly
+              />
+              <TimeInput
+                value={endTimeInput}
+                onInputChange={setEndTimeInput}
+                onChange={setEndTime}
+              />
+              {/* <div>
+                <TimePicker
+                  onChange={(date) => setEndTime(date)}
+                  size='md'
+                />
+              </div> */}
+            </div>
+          </div>
+          {showCalendar && (
+            <div id='portal'>
+              <button
+                onClick={() => setShowCalendar(false)}
+                aria-label='달력 닫기'
+              >
+                <XIcon className='h-[24px] w-[24px]' />
+              </button>
+              <Calendar
+                isControllable
+                month={new Date('2025-06-01')}
+                startDate={startDate}
+                endDate={endDate}
+                onDateClick={handleDateClick}
+              />
+            </div>
+          )}
+          {showStartTimePicker && (
+            <TimePicker
+              onChange={(date) => {
+                setStartTime(date);
+                setShowStartTimePicker(false);
+              }}
+            />
+          )}
+
+          {showEndTimePicker && (
+            <TimePicker
+              onChange={(date) => {
+                setEndTime(date);
+                setShowEndTimePicker(false);
+              }}
+            />
+          )}
+        </section>
+        <div className='mt-[30px] flex justify-between gap-[10px]'>
+          <ModalCancel className='w-full rounded-[12px] border border-primary-red px-4 py-2 text-14_M text-primary-red'>
+            취소
+          </ModalCancel>
+          <ModalAction className='w-full rounded-[12px] bg-primary-red px-4 py-2 text-14_M text-white'>
+            등록
+          </ModalAction>
+        </div>
+      </ModalContent>
+    </Modal>
+  );
+};
 
 export default ScheduleCreateModal;
