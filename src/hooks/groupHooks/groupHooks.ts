@@ -23,7 +23,7 @@ export const useGetGroups = (params: GetGroupsParams) =>
 
 export const useGetGroupInfo = (groupId: string) =>
   useQuery<GroupInfoResponse>({
-    queryKey: [GROUP_QUERY_KEYS.groupInfo],
+    queryKey: [GROUP_QUERY_KEYS.groupInfo, groupId],
     queryFn: async () => await groupsApi.getGroupInfo(groupId),
   });
 
