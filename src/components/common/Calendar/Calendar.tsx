@@ -64,7 +64,13 @@ const Calendar = ({
   };
 
   const renderDay = (day: Date | null, index: number) => {
-    if (day === null) return <div key={`empty-${index}`}></div>;
+    if (day === null)
+      return (
+        <div
+          key={`empty-${index}`}
+          className='aspect-square h-12.5'
+        ></div>
+      );
 
     const isCurrentMonth = isSameMonth(day, currentMonth);
     const isStart = startDate && isSameDay(day, startDate);
@@ -74,42 +80,45 @@ const Calendar = ({
 
     const dayClasses = cn(
       // default style
-      'flex aspect-square h-12.5 w-12.5 items-center justify-center bg-white',
+      'relative flex aspect-square h-12.5 items-center justify-center bg-white',
       'text-base font-medium tracking-[-0.4px] text-gray-800',
 
       // prevMonthDate, nextMonthDate style
-      !isCurrentMonth && 'text-gray-300',
+      !isCurrentMonth && 'text-gray-300'
+    );
 
-      isStart
-        && endDate
-        && 'rounded-tl-[100px] rounded-bl-[100px] bg-primary-100',
-
-      isEnd
-        && startDate
-        && 'rounded-tr-[100px] rounded-br-[100px] bg-primary-100',
-
-      // rangeDate style
+    const rangeBackgroundClasses = cn(
+      'absolute inset-0 overflow-hidden bg-primary-100',
+      isStart && endDate && 'rounded-r-none',
+      isEnd && startDate && 'rounded-l-none',
       isRange && 'bg-primary-100'
     );
 
+    const startMaskClasses = cn('absolute inset-0 bg-white', 'left-0 w-1/2');
+    const endMaskClasses = cn('absolute inset-0 bg-white', 'left-1/2 w-1/2');
+
     const dayButtonClasses = cn(
-      'h-full w-full',
-
-      // clickable style
+      'relative z-10 flex items-center justify-center',
       onDateClick && 'cursor-pointer',
-
-      // startDate style
-      isStart && 'z-10 rounded-[100px] bg-primary-red font-bold text-white',
-
-      // endDate style
-      isEnd && 'z-10 rounded-[100px] bg-primary-red font-bold text-white'
+      (isStart || isEnd)
+        && 'h-12.5 w-12.5 rounded-full bg-primary-red font-bold text-white'
     );
+
+    const showRangeBackground =
+      (isStart && endDate) || (isEnd && startDate) || isRange;
 
     return (
       <div
         key={day.toISOString()}
         className={dayClasses}
       >
+        {showRangeBackground && (
+          <div className={rangeBackgroundClasses}>
+            {isStart && endDate && <div className={startMaskClasses} />}
+            {isEnd && startDate && <div className={endMaskClasses} />}
+          </div>
+        )}
+
         <button
           onClick={() => onDateClick?.(day)}
           className={dayButtonClasses}
@@ -157,7 +166,7 @@ const Calendar = ({
           </div>
         ))}
       </div>
-      <div className='grid grid-cols-7 place-items-center gap-y-2 text-center'>
+      <div className='grid grid-cols-7 place-items-stretch gap-y-2 text-center'>
         {days.map((day, index) => renderDay(day, index))}
       </div>
     </div>
