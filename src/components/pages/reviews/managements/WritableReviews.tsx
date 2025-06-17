@@ -2,9 +2,9 @@
 
 import React from 'react';
 import InfiniteList from '@/components/common/InfiniteList ';
+import SlideCard from '@/components/common/SlideCard/SlideCard';
 import { infiniteWritableReviewsOptions } from '@/hooks/reviewHooks/reviewHooks';
 import { WritableReviewsResponse } from '@/types/reviews';
-import ReviewCard from './ReviewCard';
 import ReviewCardSkeleton from './ReviewCardSkeleton';
 import WritableReviewsContent from './WritableReviewsContent';
 
@@ -18,7 +18,8 @@ const WritableReviews = () => (
     options={infiniteWritableReviewsOptions()}
     getDataId={(data) => data.groupId}
     renderData={(data) => (
-      <ReviewCard
+      <SlideCard
+        type='review'
         groupInfo={data}
         reviewsCount={data.memberCount - data.reviews.length}
         content={
