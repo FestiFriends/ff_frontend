@@ -37,7 +37,6 @@ describe('TextInput Component', () => {
         value='abc'
         onChange={() => {}}
         error='이메일 형식이 아닙니다'
-        touched
       />
     );
     expect(screen.getByText('이메일 형식이 아닙니다')).toBeInTheDocument();
@@ -71,7 +70,7 @@ test('지원되지 않는 size는 기본 md 스타일을 사용해야 한다', (
     />
   );
   const input = container.querySelector('input');
-  expect(input).toHaveClass('text-base');
+  expect(input).toHaveClass('text-16_M');
 });
 
 test('disabled, readOnly 상태에서도 스타일이 적용되어야 한다', () => {

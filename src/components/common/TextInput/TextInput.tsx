@@ -11,10 +11,9 @@ interface TextInputProps {
   id?: string;
   name?: string;
   label?: string;
-  value: string;
+  value: string | number;
   onChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (_e: React.FocusEvent<HTMLInputElement>) => void;
-  touched?: boolean;
   placeholder?: string;
   required?: boolean;
   readOnly?: boolean;
@@ -24,11 +23,13 @@ interface TextInputProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
   helperText?: string;
+  helperTextColor?: string;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const SIZE_MAP = {
   sm: 'text-sm py-1.5 px-3',
-  md: 'text-base py-2 px-4',
+  md: 'text-16_M h-[54px] px-[20px] py-[16px] ',
   lg: 'text-lg py-3 px-5',
   xl: 'text-xl py-4 px-6',
 };
@@ -48,7 +49,6 @@ const TextInput = ({
   value,
   onChange,
   onBlur,
-  touched,
   placeholder,
   required,
   readOnly,
@@ -58,13 +58,15 @@ const TextInput = ({
   size = 'md',
   className,
   helperText,
+  helperTextColor,
+  onKeyDown,
 }: TextInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const isPasswordType = type === 'password' || type === 'new-password';
   const inputType = isPasswordType && showPassword ? 'text' : type;
 
-  const showError = touched && !!error;
+  const showError = !!error;
   const sizeKey = size in SIZE_MAP ? size : 'md';
 
   const autoCompleteMap: Record<string, string> = {
@@ -76,11 +78,11 @@ const TextInput = ({
   const autoCompleteValue = autoComplete ?? autoCompleteMap[type] ?? 'off';
 
   const inputClass = cn(
-    'w-full rounded-xl border pr-10 transition-colors focus:outline-none',
+    'w-full rounded-[16px] border border-gray-100 pr-10 text-gray-950 transition-colors placeholder:text-gray-500 focus:outline-none',
     SIZE_MAP[sizeKey],
     showError
       ? 'border-red-500 focus:ring-1 focus:ring-red-500'
-      : 'border-gray-300 focus:ring-1 focus:ring-gray-800',
+      : 'border-gray-100 focus:ring-1 focus:ring-gray-800',
     disabled && 'cursor-not-allowed bg-gray-100 text-gray-400',
     readOnly && 'bg-gray-50 text-gray-500',
     className
@@ -91,7 +93,7 @@ const TextInput = ({
       {label && (
         <label
           htmlFor={id}
-          className='text-sm font-medium text-gray-800'
+          className='text-14_B text-gray-950'
         >
           {label}
           {required && <span className='ml-1 text-red-500'>*</span>}
@@ -113,6 +115,7 @@ const TextInput = ({
           aria-invalid={showError}
           aria-describedby={showError ? `${id}-error` : undefined}
           className={inputClass}
+          onKeyDown={onKeyDown}
         />
         {isPasswordType && (
           <button
@@ -129,17 +132,15 @@ const TextInput = ({
           </button>
         )}
       </div>
-      {showError && (
-        <p
-          id={`${id}-error`}
-          className='mt-1 text-sm text-red-500'
-        >
-          {error}
-        </p>
-      )}
-      {!showError && helperText && (
-        <p className='mt-1 text-sm text-gray-500'>{helperText}</p>
-      )}
+      <p
+        id={showError ? `${id}-error` : undefined}
+        className={cn(
+          'mt-[10px] ml-2 min-h-[12px] !text-12_M transition-colors duration-150',
+          showError ? 'text-red-500' : helperTextColor || 'text-gray-500'
+        )}
+      >
+        {showError ? error : helperText || '\u00A0'}
+      </p>
     </div>
   );
 };

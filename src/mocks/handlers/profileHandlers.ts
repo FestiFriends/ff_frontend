@@ -10,7 +10,7 @@ export const PROFILES_SAMPLE_DATA: FullProfile[] = [
     rating: 4.9,
     description:
       '공연과 여행을 사랑하는 자유로운 영혼, 락서니입니다 🎸🌍'.repeat(2),
-    sns: 'https://instagram.com/roxani.rocks',
+    sns: 'roxani.rocks',
     hashtag: [
       'INCHEON PENTAPORT MUSIC FESTIVAL',
       '배려심 있어요',
@@ -150,7 +150,7 @@ export const PROFILES_SAMPLE_DATA: FullProfile[] = [
     gender: 'FEMALE',
     rating: 4.7,
     description: '매년 페스티벌 전국투어 중인 진짜 마니아 🤘 '.repeat(2),
-    sns: 'https://instagram.com/festagirl',
+    sns: 'festagirl',
     hashtag: [
       '부산 록 페스티벌',
       '친절하고 매너가 좋아요',

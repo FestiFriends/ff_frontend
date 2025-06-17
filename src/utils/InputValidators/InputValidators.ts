@@ -22,3 +22,11 @@ export const validatePasswordConfirm = (
   original: string
 ): string | undefined =>
   confirm !== original ? '비밀번호가 일치하지 않습니다' : undefined;
+
+export const validateAge = (val: string | number): string | undefined => {
+  const age = Number(val);
+  if (isNaN(age)) return '숫자만 입력해주세요';
+  if (!Number.isInteger(age)) return '정수를 입력해주세요';
+  if (age < 1 || age > 120) return '1~120 사이의 나이를 입력해주세요';
+  return undefined;
+};
