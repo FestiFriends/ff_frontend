@@ -1,18 +1,33 @@
 'use client';
 
-import { useChatWebSocket } from '@/hooks/chatHooks/chatHooks';
+import {
+  useChatWebSocket,
+  useGetChatHistory,
+} from '@/hooks/chatHooks/chatHooks';
 // import { CHAT_SAMPLE_DATA } from '@/mocks/handlers/chatHandlers';
+import { ChatMessage } from '@/types/chat';
 import ChatMessageInput from './ChatMessageInput';
 import ChatMessageList from './ChatMessageList';
 
 interface ChatAreaProps {
   userId: number | undefined;
-  chatRoomId: number | undefined;
+  chatRoomId: number;
 }
 
 const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
-  const { messages, sendMessage, statusMessage, isConnected } =
-    useChatWebSocket(userId, chatRoomId);
+  const {
+    messages: liveMessages,
+    sendMessage,
+    statusMessage,
+    isConnected,
+  } = useChatWebSocket(userId, chatRoomId);
+
+  const {
+    data: chatHistory,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetChatHistory(chatRoomId, 20);
 
   if (!isConnected) {
     return (
@@ -26,14 +41,22 @@ const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
     );
   }
 
+  const historyMessages: ChatMessage[] = (chatHistory?.pages ?? [])
+    .flatMap((page) => page.data ?? [])
+    .reverse();
+  // const historyMessages = CHAT_SAMPLE_DATA;
+
+  const allMessages = [...historyMessages, ...liveMessages];
+
   return (
     <div className='relative flex h-[60dvh] flex-col gap-2'>
       {isConnected && (
         <>
           <ChatMessageList
             userId={userId}
-            messages={messages}
-            // messages={CHAT_SAMPLE_DATA}
+            messages={allMessages}
+            fetchPrev={fetchNextPage}
+            hasPrev={!!hasNextPage && !isFetchingNextPage}
           />
           <ChatMessageInput
             disabled={!isConnected}
