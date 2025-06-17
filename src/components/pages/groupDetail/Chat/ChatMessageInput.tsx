@@ -5,10 +5,14 @@ import Button from '@/components/common/Button/Button';
 import SendIcon from '@/components/icons/SendIcon';
 
 interface ChatMessageInputProps {
+  disabled?: boolean;
   sendMessage: (message: string) => void;
 }
 
-const ChatMessageInput = ({ sendMessage }: ChatMessageInputProps) => {
+const ChatMessageInput = ({
+  disabled = false,
+  sendMessage,
+}: ChatMessageInputProps) => {
   const [message, setMessage] = useState<string>('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -25,6 +29,7 @@ const ChatMessageInput = ({ sendMessage }: ChatMessageInputProps) => {
       <input
         type='text'
         placeholder='메세지를 입력하세요'
+        disabled={disabled}
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         className='flex w-full items-center text-16_M text-gray-950 placeholder:text-16_M placeholder:leading-normal placeholder:tracking-[-0.35px] placeholder:text-gray-400 focus:outline-none'

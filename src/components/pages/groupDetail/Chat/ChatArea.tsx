@@ -11,16 +11,36 @@ interface ChatAreaProps {
 }
 
 const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
-  const { messages, sendMessage } = useChatWebSocket(userId, chatRoomId);
+  const { messages, sendMessage, statusMessage, isConnected } =
+    useChatWebSocket(userId, chatRoomId);
+
+  if (!isConnected) {
+    return (
+      <div className='relative flex h-[60dvh] flex-col items-center justify-center gap-2'>
+        <p className='font-semibold text-gray-500'>{statusMessage}</p>
+        <ChatMessageInput
+          disabled={true}
+          sendMessage={() => {}}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className='relative flex h-[60dvh] flex-col gap-2'>
-      <ChatMessageList
-        userId={userId}
-        messages={messages}
-        // messages={CHAT_SAMPLE_DATA}
-      />
-      <ChatMessageInput sendMessage={sendMessage} />
+      {isConnected && (
+        <>
+          <ChatMessageList
+            userId={userId}
+            messages={messages}
+            // messages={CHAT_SAMPLE_DATA}
+          />
+          <ChatMessageInput
+            disabled={!isConnected}
+            sendMessage={sendMessage}
+          />
+        </>
+      )}
     </div>
   );
 };
