@@ -1,5 +1,6 @@
 import { setupWorker } from 'msw/browser';
 import { groupsHandlers } from './handlers/groupsHandlers';
+import { nicknameHandlers } from './handlers/nicknameHandlers';
 import { notificationHandlers } from './handlers/notificationHandlers';
 import { performancesHandlers } from './handlers/performancesHandlers';
 import { profileHandlers } from './handlers/profileHandlers';
@@ -12,5 +13,6 @@ export const worker = setupWorker(
   ...reviewsHandlers,
   ...notificationHandlers,
   ...groupsHandlers,
-  ...usersHandlers
+  ...usersHandlers,
+  ...nicknameHandlers
 );
