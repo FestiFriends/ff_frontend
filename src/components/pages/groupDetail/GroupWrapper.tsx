@@ -3,7 +3,6 @@
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import GroupInfo from './GroupInfo';
 import GroupMembers from './GroupMembers';
-import GroupPosts from './GroupPosts';
 import GroupTabs from './GroupTabs';
 
 interface GroupWrapperProps {
@@ -23,7 +22,6 @@ const GroupWrapper = ({ groupId }: GroupWrapperProps) => {
         <>
           <GroupMembers />
           <GroupTabs />
-          <GroupPosts />
         </>
       )}
     </div>
