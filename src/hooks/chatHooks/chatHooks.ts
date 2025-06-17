@@ -44,9 +44,9 @@ export const useChatWebSocket = (
           Authorization: `Bearer ${token}`,
         },
 
-        debug: (debugMessage: string) => {
-          console.log(`debug: ${debugMessage}`);
-        },
+        // debug: (debugMessage: string) => {
+        //   console.log(`debug: ${debugMessage}`);
+        // },
 
         reconnectDelay: 0,
 
