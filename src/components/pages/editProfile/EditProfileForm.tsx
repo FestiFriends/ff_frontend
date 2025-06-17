@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import TextInput from '@/components/common/TextInput/TextInput';
@@ -63,26 +63,30 @@ const EditProfileForm = () => {
     }
   }, [profile, reset]);
 
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (data: EditProfileFormValues) =>
+      profilesApi.updateProfile({
+        ...data,
+        profileImage: data.profileImage
+          ? { src: data.profileImage }
+          : undefined,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [USERS_QUERY_KEYS.myProfile] });
+      router.replace('/profiles/me');
+    },
+    onError: (error) => {
+      console.error('업데이트 실패', error);
+      alert('업데이트에 실패했습니다.');
+    },
+  });
+
   const onSubmit = async (data: EditProfileFormValues) => {
     if (hasProfanity(data.description)) {
       alert('소개글에 부적절한 표현이 포함되어 있습니다.');
       return;
     }
-    try {
-      await profilesApi.updateProfile({
-        ...data,
-        profileImage: data.profileImage
-          ? { src: data.profileImage }
-          : undefined,
-      });
-      console.log('업데이트 성공', data);
-      queryClient.invalidateQueries({
-        queryKey: [USERS_QUERY_KEYS.myProfile],
-      });
-      router.replace('/profiles/me');
-    } catch (error) {
-      console.error('업데이트 실패', error);
-    }
+    await mutateAsync(data);
   };
 
   const handleFormKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
@@ -96,9 +100,15 @@ const EditProfileForm = () => {
   };
 
   const getNicknameHelperText = () => {
-    if (isChecking) return '사용 가능 확인 중...';
-    if (nicknameError) return nicknameError;
-    if (isAvailable === true) return '사용 가능한 닉네임입니다.';
+    if (isChecking) {
+      return '사용 가능 확인 중...';
+    }
+    if (nicknameError) {
+      return nicknameError;
+    }
+    if (isAvailable === true) {
+      return '사용 가능한 닉네임입니다.';
+    }
     return '2~20자 한글/영문/숫자/_만 입력 가능합니다.';
   };
 
@@ -127,6 +137,7 @@ const EditProfileForm = () => {
           onChange={handleImageChange}
         />
       </div>
+
       <FormSection label='닉네임'>
         <Controller
           name='name'
@@ -153,6 +164,7 @@ const EditProfileForm = () => {
           onChange={(val) => setValue('gender', val)}
         />
       </FormSection>
+
       <FormSection label='나이'>
         <Controller
           name='age'
@@ -165,9 +177,7 @@ const EditProfileForm = () => {
               {...field}
               placeholder='나이를 입력해 주세요'
               error={fieldState.error?.message}
-              helperText={
-                fieldState.error ? fieldState.error.message : undefined
-              }
+              helperText={fieldState.error?.message}
             />
           )}
         />
@@ -205,9 +215,10 @@ const EditProfileForm = () => {
         </button>
         <button
           type='submit'
-          className='flex-1 rounded-[12px] bg-red-500 py-3 text-16_M text-white'
+          disabled={isPending}
+          className='flex-1 rounded-[12px] bg-red-500 py-3 text-16_M text-white disabled:cursor-not-allowed disabled:opacity-50'
         >
-          확인
+          {isPending ? '저장 중...' : '확인'}
         </button>
       </div>
     </form>
