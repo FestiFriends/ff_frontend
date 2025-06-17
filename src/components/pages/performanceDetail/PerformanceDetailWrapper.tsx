@@ -1,7 +1,12 @@
 'use client';
 
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Toast from '@/components/common/Toast/Toast';
 import { Summary, Tabs } from '@/components/pages/performanceDetail';
 import { useGetPerformanceDetail } from '@/hooks/performanceHooks/performanceHooks';
+import { useAuthStore } from '@/providers/AuthStoreProvider';
+import CreateGroupButton from './CreateGroupButton';
 
 type PerformanceDetailWrapperProps = {
   performanceId: string;
@@ -10,28 +15,57 @@ type PerformanceDetailWrapperProps = {
 const PerformanceDetailWrapper = ({
   performanceId,
 }: PerformanceDetailWrapperProps) => {
-  const { data: performanceDetail, isPending } =
-    useGetPerformanceDetail(performanceId);
+  const router = useRouter();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedin);
+  const [showToast, setShowToast] = useState(false);
+  const {
+    data: performanceDetail,
+    isPending,
+    isError,
+  } = useGetPerformanceDetail(performanceId);
 
-  if (!isPending && !performanceDetail?.data)
+  const routeToCreateGroupPage = () => {
+    if (!isLoggedIn) {
+      setShowToast(true);
+      return;
+    }
+
+    if (!isError && performanceDetail?.data) {
+      router.push(`performances/${performanceDetail?.data?.id}/createGroup`);
+    }
+  };
+
+  if (isError)
     return (
-      <div className='flex h-[80dvh] flex-col items-center justify-center gap-2 px-4 py-5 md:h-[100dvh]'>
+      <div className='flex h-full flex-col items-center justify-center px-4 py-5'>
         <p className='font-semibold text-gray-500'>존재하지 않는 공연입니다.</p>
       </div>
     );
 
   return (
-    <div className='flex flex-col gap-3 bg-gray-25'>
-      <Summary
-        isPending={isPending}
-        performanceDetail={performanceDetail?.data}
-      />
+    <>
+      {showToast && (
+        <Toast
+          message='로그인이 필요합니다!'
+          type='error'
+          onClose={() => setShowToast(false)}
+        />
+      )}
 
-      <Tabs
-        isPending={isPending}
-        performanceDetail={performanceDetail?.data}
-      />
-    </div>
+      <div className='flex flex-col gap-3 bg-gray-25'>
+        <Summary
+          isPending={isPending}
+          performanceDetail={performanceDetail?.data}
+        />
+
+        <Tabs
+          isPending={isPending}
+          performanceDetail={performanceDetail?.data}
+        />
+
+        <CreateGroupButton onClick={routeToCreateGroupPage} />
+      </div>
+    </>
   );
 };
 
