@@ -39,7 +39,7 @@ const ScheduleCreateModal = ({
   const [activeDateField, setActiveDateField] = useState<
     'start' | 'end' | null
   >(null);
-  const [isSelecting, setIsSelecting] = useState(false);
+  const [, setIsSelecting] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
 
   const [startTime, setStartTime] = useState<Date>(defaultDate);

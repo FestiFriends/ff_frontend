@@ -1,7 +1,7 @@
 'use client';
 
 interface ScheduleLocationInputProps {
-  value: string;
+  value: string | undefined;
   onChange: (value: string) => void;
 }
 
