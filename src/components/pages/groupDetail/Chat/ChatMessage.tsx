@@ -1,6 +1,6 @@
-import { format } from 'date-fns';
 import ProfileIcon from '@/components/icons/ProfileIcon';
 import { ChatMessage as ChatMessageType } from '@/types/chat';
+import { formatToKST } from '@/utils/date';
 
 interface ChatMessageProps {
   message: ChatMessageType;
@@ -12,7 +12,7 @@ const ChatMessage = ({ message, isMine }: ChatMessageProps) => {
     return (
       <div className='flex items-end justify-end gap-2'>
         <span className='text-right text-12_M text-gray-500'>
-          {format(message.createdAt, 'yy.MM.dd hh:mm')}
+          {formatToKST(message.createdAt)}
         </span>
         <div className='rounded-l-[20px] rounded-tr-[2px] rounded-br-[20px] bg-[#ececec] p-3.5'>
           <span className='text-16_M leading-normal tracking-[-0.4px] text-gray-950'>
@@ -36,7 +36,7 @@ const ChatMessage = ({ message, isMine }: ChatMessageProps) => {
             </span>
           </div>
           <span className='text-left text-12_M text-gray-500'>
-            {format(message.createdAt, 'yy.MM.dd hh:mm')}
+            {formatToKST(message.createdAt)}
           </span>
         </div>
       </div>

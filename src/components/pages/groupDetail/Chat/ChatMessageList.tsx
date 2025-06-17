@@ -41,8 +41,6 @@ const ChatMessageList = ({
     }
   }, [hasPrev, fetchPrev]);
 
-  console.log('messages', messages);
-
   return (
     <div className='scrollbar-hide flex h-full flex-col gap-5 overflow-y-scroll pt-1 pb-12'>
       {/* <div ref={bottomRef} /> */}
