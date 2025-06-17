@@ -105,11 +105,20 @@ export const usersHandlers = [
     });
   }),
 
-  http.get('http://localhost:3000/api/v1/users/id', () =>
-    HttpResponse.json({
-      code: 200,
-      message: '회원 ID 조회 성공',
-      data: USER_ID_SAMPLE_DATA,
-    })
+  http.get(
+    'http://localhost:3000/api/v1/users/id',
+    () =>
+      HttpResponse.json({
+        code: 200,
+        message: '사용자 ID 조회 성공',
+        data: USER_ID_SAMPLE_DATA,
+      })
+    // HttpResponse.json(
+    //   {
+    //     code: 401,
+    //     message: '인증 실패',
+    //   },
+    //   { status: 401 }
+    // )
   ),
 ];

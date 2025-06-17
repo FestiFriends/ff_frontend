@@ -1,12 +1,13 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Client } from '@stomp/stompjs';
 // import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 // import { AxiosResponse } from 'axios';
 import SockJS from 'sockjs-client';
 import { getAccessToken } from '@/lib/apiFetcher';
 import { ChatMessage } from '@/types/chat';
+import { getNewAccessToken } from '@/utils/getNewAccessToken';
 // import { CHAT_QUERY_KEY } from '@/constants/queryKeys';
 // import { chatServiceApi } from '@/services/chatService';
 // import { ApiResponse, CursorRequest } from '@/types/api';
@@ -21,80 +22,100 @@ export const useChatWebSocket = (
   userId: number | undefined,
   chatRoomId: number | undefined
 ) => {
-  const [client, setClient] = useState<Client | null>(null);
+  const clientRef = useRef<Client | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!userId || !chatRoomId) return;
+
+    const connectWebSocket = async (token: string) => {
+      setStatusMessage('채팅방 연결중...');
+
+      const socket = new SockJS(
+        `${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/chat`
+      );
+
+      const stompClient = new Client({
+        webSocketFactory: () => socket,
+
+        connectHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
+
+        // debug: (debugMessage: string) => {
+        //   console.log(`debug: ${debugMessage}`);
+        // },
+
+        reconnectDelay: 0,
+
+        onConnect: () => {
+          setIsConnected(true);
+          setStatusMessage(null);
+          stompClient.subscribe(`/sub/chat/${chatRoomId}`, (message) => {
+            const body = JSON.parse(message.body);
+            setMessages((prev) => [...prev, body]);
+          });
+        },
+
+        onDisconnect: () => {
+          setIsConnected(false);
+        },
+
+        onStompError: async () => {
+          const newToken = await getNewAccessToken();
+          if (newToken) {
+            stompClient.deactivate();
+            connectWebSocket(newToken);
+          } else {
+            setStatusMessage('서버 연결 중 오류가 발생했습니다.');
+          }
+        },
+
+        onWebSocketError: (error) => {
+          console.log(`web socket error: ${error}`);
+          setStatusMessage('서버 연결 중 오류가 발생했습니다.');
+        },
+      });
+
+      clientRef.current = stompClient;
+      stompClient.activate();
+    };
+
     const accessToken = getAccessToken();
-    if (!accessToken || !userId || !chatRoomId) return;
-
-    const socket = new SockJS(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/chat`);
-
-    const stompClient = new Client({
-      webSocketFactory: () => socket,
-
-      connectHeaders: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-
-      onConnect: () => {
-        setIsConnected(true);
-        stompClient.subscribe(`/sub/chat/${chatRoomId}`, (message) => {
-          const body = JSON.parse(message.body);
-          setMessages((prev) => [...prev, body]);
-        });
-      },
-
-      onDisconnect: () => {
-        setIsConnected(false);
-      },
-
-      // debug: (debugMessage: string) => {
-      //   console.log(`debug: ${debugMessage}`);
-      // },
-
-      onStompError: (error) => {
-        console.log(`stomp error: ${error}`);
-      },
-
-      onWebSocketError: (error) => {
-        console.log(`web socket error: ${error}`);
-      },
-
-      reconnectDelay: 3000,
-    });
-
-    stompClient.activate();
-    setClient(stompClient);
+    if (accessToken) {
+      connectWebSocket(accessToken);
+    }
 
     return () => {
-      stompClient.deactivate();
-      setClient(null);
+      clientRef.current?.deactivate();
+      clientRef.current = null;
       setIsConnected(false);
     };
   }, [userId, chatRoomId]);
 
   const sendMessage = useCallback(
     (message: string) => {
-      if (!client || !isConnected) return;
+      if (!clientRef.current || !isConnected || !userId || !chatRoomId) return;
 
       try {
         const requestData = { senderId: userId, content: message };
         const requestBody = JSON.stringify(requestData);
 
-        client.publish({
+        clientRef.current.publish({
           destination: `/pub/chat/${chatRoomId}`,
           body: requestBody,
         });
       } catch (error) {
+        setStatusMessage('메세지 전송에 실패했습니다.');
         console.log('error: ', error);
       }
     },
-    [client, isConnected, userId, chatRoomId]
+    [isConnected, userId, chatRoomId]
   );
 
-  return { messages, sendMessage, isConnected };
+  return { messages, sendMessage, isConnected, statusMessage };
 };
 
 // export const useGetChatMessageList = (size: CursorRequest['size']) =>
