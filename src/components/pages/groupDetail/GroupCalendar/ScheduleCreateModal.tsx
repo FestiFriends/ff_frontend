@@ -91,6 +91,8 @@ const ScheduleCreateModal = ({
 
       setStartTimeInput(format(newStart, 'aa hh:mm', { locale: ko }));
       setEndTimeInput(format(newEnd, 'aa hh:mm', { locale: ko }));
+
+      setEndDate(new Date(startDate));
     }
   }, [isAllDay, startDate]);
 
@@ -125,8 +127,10 @@ const ScheduleCreateModal = ({
                 value={format(startDate, 'yyyy.MM.dd (E)', { locale: ko })}
                 placeholder='시작일'
                 onClick={() => {
-                  setActiveDateField('start');
-                  setShowCalendar(true);
+                  if (!isAllDay) {
+                    setActiveDateField('start');
+                    setShowCalendar(true);
+                  }
                 }}
                 className='h-[54px] w-full rounded-[16px] border border-gray-100 px-[20px] py-[16px] text-14_M text-gray-950 placeholder:text-gray-500'
               />
@@ -154,8 +158,10 @@ const ScheduleCreateModal = ({
                 }
                 className='h-[54px] w-full flex-1 rounded-[16px] border border-gray-100 px-[20px] py-[16px] text-14_M text-gray-950 placeholder:text-gray-500'
                 onClick={() => {
-                  setActiveDateField('end');
-                  setShowCalendar(true);
+                  if (!isAllDay) {
+                    setActiveDateField('end');
+                    setShowCalendar(true);
+                  }
                 }}
                 readOnly
               />
