@@ -18,3 +18,18 @@ export interface Application {
   createdAt: string;
   status: ApplicationStatusType;
 }
+
+export interface ApplicationGroupInfo {
+  groupId: string;
+  performance: {
+    id: string;
+    title: string;
+    poster: string;
+  };
+  groupTitle: string;
+  category: GroupCategoryType;
+  memberCount: number;
+  maxMembers: number;
+  startDate: string;
+  endDate: string;
+}

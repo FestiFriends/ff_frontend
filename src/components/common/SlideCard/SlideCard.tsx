@@ -1,24 +1,37 @@
 'use client';
 
-import React, { ReactNode, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import Image from 'next/image';
-import ProgressBar from '@/components/common/ProgressBar/ProgressBar';
 import {
   GroupCategoryIconLabels,
   GroupCategoryLabels,
 } from '@/constants/groupLabels';
 import { cn } from '@/lib/utils';
+import { ApplicationGroupInfo } from '@/types/application';
 import { ReviewGroupInfo } from '@/types/reviews';
+import ProgressBar from '../ProgressBar/ProgressBar';
 
-interface ReviewCardProps {
-  groupInfo: ReviewGroupInfo & { memberCount: number };
-  reviewsCount: number;
-  content: ReactNode;
+interface BaseProps {
+  content?: ReactNode;
 }
 
-const ReviewCard = ({ groupInfo, reviewsCount, content }: ReviewCardProps) => {
+interface ReviewCardProps extends BaseProps {
+  type: 'review';
+  reviewsCount: number;
+  groupInfo: ReviewGroupInfo & { memberCount: number };
+}
+
+interface ApplicationCardProps extends BaseProps {
+  type: 'application';
+  groupInfo: ApplicationGroupInfo;
+}
+
+type SlideCardProps = ReviewCardProps | ApplicationCardProps;
+
+const SlideCard = (props: SlideCardProps) => {
+  const { type, groupInfo, content } = props;
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -52,8 +65,18 @@ const ReviewCard = ({ groupInfo, reviewsCount, content }: ReviewCardProps) => {
             </span>
 
             <p className='text-12_M text-gray-600'>
-              {format(groupInfo.groupStartDate, 'yy.MM.dd')} ~{' '}
-              {format(groupInfo.groupEndDate, 'yy.MM.dd', { locale: ko })}
+              {format(
+                type === 'review'
+                  ? groupInfo.groupStartDate
+                  : groupInfo.startDate,
+                'yy.MM.dd'
+              )}{' '}
+              ~{' '}
+              {format(
+                type === 'review' ? groupInfo.groupEndDate : groupInfo.endDate,
+                'yy.MM.dd',
+                { locale: ko }
+              )}
             </p>
           </div>
 
@@ -69,7 +92,9 @@ const ReviewCard = ({ groupInfo, reviewsCount, content }: ReviewCardProps) => {
           <div className='flex flex-col gap-2.5'>
             <div className='flex items-center justify-between'>
               <p className='text-14_M text-gray-700'>
-                멤버 ({groupInfo.memberCount}명)
+                {type === 'review'
+                  ? `멤버 (${groupInfo.memberCount}명)`
+                  : `모집 인원 (${groupInfo.memberCount}/${groupInfo.maxMembers}명)`}
               </p>
               <button
                 className='text-12_M text-gray-700 underline'
@@ -80,8 +105,12 @@ const ReviewCard = ({ groupInfo, reviewsCount, content }: ReviewCardProps) => {
             </div>
 
             <ProgressBar
-              current={reviewsCount}
-              total={groupInfo.memberCount}
+              current={
+                type === 'review' ? props.reviewsCount : groupInfo.memberCount
+              }
+              total={
+                type === 'review' ? groupInfo.memberCount : groupInfo.maxMembers
+              }
               showInfo={false}
             />
           </div>
@@ -100,4 +129,4 @@ const ReviewCard = ({ groupInfo, reviewsCount, content }: ReviewCardProps) => {
   );
 };
 
-export default ReviewCard;
+export default SlideCard;
