@@ -1,3 +1,4 @@
+import Header from '@/components/common/Header/Header';
 import ClientProfileWrapper from '@/components/pages/profiles/ClientProfileWrapper';
 
 interface PageProps {
@@ -6,7 +7,12 @@ interface PageProps {
 
 const OtherProfilePage = async ({ params }: PageProps) => {
   const { userId } = await params;
-  return <ClientProfileWrapper userId={userId} />;
+  return (
+    <>
+      <Header />
+      <ClientProfileWrapper userId={userId} />
+    </>
+  );
 };
 
 export default OtherProfilePage;

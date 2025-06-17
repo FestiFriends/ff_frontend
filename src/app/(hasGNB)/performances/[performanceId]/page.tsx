@@ -1,3 +1,4 @@
+import Header from '@/components/common/Header/Header';
 import { Wrapper } from '@/components/pages/performanceDetail';
 
 type PerformanceDetailPageProps = {
@@ -11,6 +12,7 @@ const PerformanceDetailPage = async ({
 
   return (
     <div>
+      <Header title='공연 정보' />
       <Wrapper performanceId={performanceId} />
     </div>
   );
