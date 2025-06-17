@@ -15,11 +15,18 @@ const ModalAction = ({
   children,
   onClick,
   ...props
-}: PropsWithChildren<ButtonHTMLAttributes<HTMLButtonElement>>) => {
+}: PropsWithChildren<
+  ButtonHTMLAttributes<HTMLButtonElement> & {
+    onClick?: (
+      e: MouseEvent<HTMLButtonElement>
+    ) => void | boolean | Promise<void | boolean>;
+  }
+>) => {
   const { closeModal } = useModalContext();
-  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-    const result = onClick?.(e);
-    Promise.resolve(result).then(() => closeModal());
+  const handleClick = async (e: MouseEvent<HTMLButtonElement>) => {
+    const result = (await onClick?.(e)) as boolean | undefined;
+    if (result === false) return;
+    closeModal();
   };
 
   if (isValidElement(children)) {

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { XIcon } from 'lucide-react';
@@ -11,13 +12,14 @@ import ModalCancel from '@/components/common/Modal/ModalCancel';
 import ModalContent from '@/components/common/Modal/ModalContent';
 import TimePicker from '@/components/common/TimePicker/TimePicker';
 import { cn } from '@/lib/utils';
+import { groupsApi } from '@/services/groupsService';
 import { EventColorName } from '@/types/enums';
+import { ScheduleRequest } from '@/types/group';
 import AllDayToggle from './AllDayToggle';
-import EventColorDropdown from './EventColorDropdown';
 import ScheduleTitleInput from './ScheduleTitleInput';
 import TimeInput from './TimeInput';
 
-//TODO: 모달위로 popover구현해야함
+//TODO: 모달위로 달력 구현해야함, timepicker로 교체해야 함
 
 interface ScheduleCreateModalProps {
   groupId: string;
@@ -53,6 +55,8 @@ const ScheduleCreateModal = ({
 
   const [eventColor, setEventColor] = useState<EventColorName>('red');
   const [isAllDay, setIsAllDay] = useState(false);
+
+  const queryClient = useQueryClient();
 
   const handleDateClick = (clickedDate: Date) => {
     if (activeDateField === 'start') {
@@ -96,6 +100,44 @@ const ScheduleCreateModal = ({
       setEndDate(new Date(startDate));
     }
   }, [isAllDay, startDate]);
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (data: ScheduleRequest) =>
+      groupsApi.postSchedule(groupId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['schedules', groupId],
+      });
+      onClose();
+    },
+    onError: (error) => {
+      console.error('등록 실패', error);
+      alert('일정 등록에 실패했습니다.');
+    },
+  });
+
+  const onSubmit = async () => {
+    if (!title.trim()) {
+      alert('일정 제목을 입력해주세요.');
+      return false;
+    }
+
+    try {
+      const scheduleRequest: ScheduleRequest = {
+        description: title,
+        startAt: startTime.toISOString(),
+        endAt: endTime.toISOString(),
+        location: '',
+        eventColor: eventColor,
+      };
+
+      await mutateAsync(scheduleRequest);
+      return true;
+    } catch (err) {
+      console.error('일정 등록 실패', err);
+      return false;
+    }
+  };
 
   return (
     <Modal
@@ -145,12 +187,6 @@ const ScheduleCreateModal = ({
                 onChange={setStartTime}
                 readOnly={isAllDay}
               />
-              {/* <div>
-                <TimePicker
-                  onChange={(date) => setStartTime(date)}
-                  size='md'
-                />
-              </div> */}
             </div>
             <div className='flex items-center gap-[12px]'>
               <input
@@ -180,12 +216,6 @@ const ScheduleCreateModal = ({
                 onChange={setEndTime}
                 readOnly={isAllDay}
               />
-              {/* <div>
-                <TimePicker
-                  onChange={(date) => setEndTime(date)}
-                  size='md'
-                />
-              </div> */}
             </div>
           </div>
           {showCalendar && (
@@ -231,8 +261,12 @@ const ScheduleCreateModal = ({
           <ModalCancel className='w-full rounded-[12px] border border-primary-red px-4 py-2 text-14_M text-primary-red'>
             취소
           </ModalCancel>
-          <ModalAction className='w-full rounded-[12px] bg-primary-red px-4 py-2 text-14_M text-white'>
-            등록
+          <ModalAction
+            onClick={onSubmit}
+            disabled={isPending}
+            className='w-full rounded-[12px] bg-primary-red px-4 py-2 text-14_M text-white'
+          >
+            {isPending ? '등록 중...' : '등록'}
           </ModalAction>
         </div>
       </ModalContent>
