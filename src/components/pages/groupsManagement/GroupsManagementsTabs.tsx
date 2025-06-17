@@ -12,14 +12,14 @@ const GroupsManagementsTabs = () => {
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
   return (
     <>
-      <div className='mb-5'>
+      <div className='fixed top-11 right-0 left-0 z-10 mb-5 bg-white'>
         <Tabs
           tabs={tabs}
           activeTab={selectedTab}
           onTabChange={setSelectedTab}
         />
       </div>
-      <div className='mb-9'>
+      <div className='mt-[114px] mb-5'>
         {selectedTab === '신청한 모임' && <AppliedGroups />}
         {selectedTab === '참가 중인 모임' && <JoinedGroups />}
         {selectedTab === '받은 신청서' && <Applications />}

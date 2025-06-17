@@ -1,7 +1,10 @@
 import apiFetcher from '@/lib/apiFetcher';
 import { ApiResponse, CursorRequest } from '@/types/api';
-import { ApplicationStatus } from '@/types/enums';
-import { AppliedGroupsApiResponse } from '@/utils/formatApplicationCardData';
+import { ApplicationStatus, ApplicationStatusType } from '@/types/enums';
+import {
+  ApplicationsApiResponse,
+  AppliedGroupsApiResponse,
+} from '@/utils/formatApplicationData';
 import { JoinedGroupsApiResponse } from '@/utils/formatGroupCardData';
 
 export const groupsManagementsApi = {
@@ -54,6 +57,28 @@ export const groupsManagementsApi = {
   deleteJoinedGroup: async (groupId: string) => {
     const response = await apiFetcher.delete<ApiResponse>(
       `/api/v1/groups/${groupId}/leave`
+    );
+
+    return response.data;
+  },
+
+  // 받은 신청서 목록
+  getApplications: async ({ cursorId, size = 20 }: CursorRequest) =>
+    await apiFetcher.get<ApplicationsApiResponse>(
+      `/api/v1/managements/applications`,
+      {
+        params: { cursorId, size },
+      }
+    ),
+
+  // 신청서 수락, 거절
+  patchApplication: async (
+    applicationId: string,
+    status: ApplicationStatusType
+  ) => {
+    const response = await apiFetcher.patch<ApiResponse>(
+      `/api/v1/managements/${applicationId}`,
+      { status }
     );
 
     return response.data;
