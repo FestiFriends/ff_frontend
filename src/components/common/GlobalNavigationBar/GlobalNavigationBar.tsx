@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useMediaQuery } from 'react-responsive';
 import { useLogin, useLogout } from '@/hooks/useAuth/useAuth';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import NavLink from '../NavLink/NavLink';
@@ -17,6 +18,11 @@ const GlobalNavigationBar = () => {
   const isLoggedin = useAuthStore((state) => state.isLoggedin);
   const { onLogin } = useLogin();
   const { mutate: logoutMutate } = useLogout();
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+
+  if (isMobile) {
+    return null;
+  }
 
   return (
     <nav className='grid grid-cols-3'>
