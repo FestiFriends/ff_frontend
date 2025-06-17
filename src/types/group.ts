@@ -48,3 +48,8 @@ export interface GetGroupsParams {
   location?: string | null;
   gender?: string | null;
 }
+
+export type PostJoinGroupRequest = {
+  groupId: string;
+  description: string;
+};
