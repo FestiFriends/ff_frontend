@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import InfiniteList from '@/components/common/InfiniteList ';
+import InfiniteList from '@/components/common/InfiniteList/InfiniteList ';
 import SlideCard from '@/components/common/SlideCard/SlideCard';
 import { infiniteWrittenReviewsOptions } from '@/hooks/reviewHooks/reviewHooks';
 import { WrittenReviewsResponse } from '@/types/reviews';
