@@ -2,8 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import PerformanceCardHeadless from '@/components/common/PerformanceCardHeadless';
-import Toast from '@/components/common/Toast/Toast';
+import { PerformanceCardHeadless, Toast } from '@/components/common';
 import LikeIcon from '@/components/icons/LikeIcon';
 import { usePatchPerformanceLiked } from '@/hooks';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
