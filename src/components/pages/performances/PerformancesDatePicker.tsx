@@ -2,21 +2,11 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { format, parse, isValid } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import Calendar from '@/components/common/Calendar/Calendar';
-import AltArrowUpIcon from '@/components/icons/AltArrowUpIcon';
-import DeleteIcon from '@/components/icons/DeleteIcon';
-import useClickOutside from '@/hooks/useClickOutside/useClickOutside';
-import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
+import { Calendar } from '@/components/common';
+import { AltArrowUpIcon, DeleteIcon } from '@/components/icons';
+import { useClickOutside, useQueryParam } from '@/hooks/';
 import { cn } from '@/lib/utils';
 import { DateRange } from '@/types/dateRange';
-
-interface PerformanceDatePickerProps {
-  startDateKey?: string;
-  endDateKey?: string;
-  dateFormat?: string;
-  resetPage?: boolean;
-  className?: string;
-}
 
 const parseDate = (
   dateString: string | null,
@@ -41,6 +31,14 @@ const formatDate = (date: Date | null, dateFormat: string): string | null => {
   return format(date, dateFormat);
 };
 
+interface PerformanceDatePickerProps {
+  startDateKey?: string;
+  endDateKey?: string;
+  dateFormat?: string;
+  resetPage?: boolean;
+  className?: string;
+}
+
 const PerformanceDatePicker = ({
   startDateKey = 'startDate',
   endDateKey = 'endDate',
@@ -50,7 +48,7 @@ const PerformanceDatePicker = ({
 }: PerformanceDatePickerProps) => {
   const { getQueryParam, setMultipleQueryParams } = useQueryParam();
   const datePickerRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const buttonWrapperRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [buttonPosition, setButtonPosition] = useState({ top: 0 });
   const [dateRange, setDateRange] = useState<DateRange>({
@@ -78,8 +76,8 @@ const PerformanceDatePicker = ({
   }, [startDateKey, endDateKey, dateFormat]);
 
   const toggleDatePicker = () => {
-    if (!isOpen && buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
+    if (!isOpen && buttonWrapperRef.current) {
+      const rect = buttonWrapperRef.current.getBoundingClientRect();
       setButtonPosition({
         top: rect.bottom + window.scrollY,
       });
@@ -144,25 +142,19 @@ const PerformanceDatePicker = ({
     setMultipleQueryParams(queryParams);
   }, [startDateKey, endDateKey, resetPage, setMultipleQueryParams]);
 
-  const datePickerTriggerClasses = cn(
-    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 whitespace-nowrap transition-all select-none',
-    (isOpen || dateRange.startDate || dateRange.endDate)
-      && 'border-gray-950 bg-gray-950 text-white'
-  );
-
-  const isDateSelected =
-    dateRange.startDate !== null || dateRange.endDate !== null;
-
-  return (
+  const TriggerButton = () => (
     <div
-      ref={datePickerRef}
-      className={cn('relative inline-block', className)}
+      ref={buttonWrapperRef}
+      className={cn(
+        'inline-flex cursor-pointer items-center justify-center gap-1 overflow-hidden rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 whitespace-nowrap transition-all select-none',
+        (isOpen || dateRange.startDate || dateRange.endDate)
+          && 'border-gray-950 bg-gray-950 text-white'
+      )}
     >
       <button
-        ref={buttonRef}
         aria-label='datepicker open'
         onClick={toggleDatePicker}
-        className={datePickerTriggerClasses}
+        className='flex cursor-pointer items-center gap-1 border-none bg-transparent p-0'
       >
         {!dateRange.startDate && !dateRange.endDate ? (
           <span className='text-14_M leading-normal tracking-[-0.35px]'>
@@ -178,23 +170,40 @@ const PerformanceDatePicker = ({
             {dateRange.endDate && (
               <>
                 <span className='text-14_M leading-normal tracking-[-0.35px]'>
-                  -
-                </span>
-                <span className='text-14_M leading-normal tracking-[-0.35px]'>
-                  {format(dateRange.endDate, 'MM/dd', { locale: ko })}
+                  - {format(dateRange.endDate, 'MM/dd', { locale: ko })}
                 </span>
               </>
             )}
           </div>
         )}
-        {dateRange.startDate || dateRange.endDate ? (
-          <DeleteIcon className='aspect-square h-4 w-4 text-white' />
-        ) : (
+        {!(dateRange.startDate || dateRange.endDate) && (
           <AltArrowUpIcon
             className={`aspect-square h-4 w-4 ${isOpen ? 'text-white' : 'rotate-180 text-gray-950'}`}
           />
         )}
       </button>
+
+      {(dateRange.startDate || dateRange.endDate) && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleReset();
+          }}
+          className='flex cursor-pointer items-center justify-center border-none bg-transparent p-0'
+          aria-label='날짜 선택 초기화'
+        >
+          <DeleteIcon className='aspect-square h-4 w-4 text-white' />
+        </button>
+      )}
+    </div>
+  );
+
+  return (
+    <div
+      ref={datePickerRef}
+      className={cn('relative inline-block', className)}
+    >
+      <TriggerButton />
 
       {isOpen && (
         <div
@@ -212,15 +221,6 @@ const PerformanceDatePicker = ({
             className='flex flex-col gap-1'
           />
         </div>
-      )}
-
-      {isDateSelected && (
-        <button
-          onClick={handleReset}
-          className='ml-2 text-sm text-gray-600 hover:text-gray-800'
-        >
-          초기화
-        </button>
       )}
     </div>
   );
