@@ -12,14 +12,12 @@ import { Performance } from '@/types/performance';
 interface PerformanceCardProps {
   performance: Performance;
   ranking?: number;
-  width?: 'full' | 'auto';
   size?: 'fixed' | 'auto';
 }
 
 const PerformanceCard = ({
   performance,
   ranking,
-  width = 'full',
   size = 'fixed',
 }: PerformanceCardProps) => {
   const { Image, LikeButton, Location, Root, Title } = PerformanceCardHeadless;
@@ -53,11 +51,7 @@ const PerformanceCard = ({
         performance={performance}
         className={cn(
           'relative flex flex-col gap-3 border-0',
-          width === 'full'
-            ? 'flex-1'
-            : size === 'fixed'
-              ? 'w-[150px]'
-              : 'w-auto'
+          size === 'fixed' ? 'w-[150px]' : 'w-full'
         )}
       >
         <LikeButton
