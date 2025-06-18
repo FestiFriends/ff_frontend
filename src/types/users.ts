@@ -1,5 +1,6 @@
 import { Gender } from '@/types/enums';
 import { ApiResponse, CursorResponse } from './api';
+import { FullProfile } from './profiles';
 
 export interface User {
   id: string;
@@ -41,3 +42,19 @@ export interface UserId {
 }
 
 export type UserIdResponse = ApiResponse<UserId>;
+
+export interface ToggleUserLikeData {
+  isLiked: boolean;
+  userId: string;
+}
+
+export type ToggleUserLikeResponse = ToggleUserLikeData;
+
+export interface ToggleUserLikeParams {
+  userId: string;
+  isLiked: boolean;
+}
+
+export interface ToggleUserLikeContext {
+  previousProfile?: FullProfile;
+}

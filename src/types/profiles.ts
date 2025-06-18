@@ -27,6 +27,7 @@ export interface Profile {
   hashtag?: string[];
   sns?: string;
   rating: number;
+  isLiked?: boolean;
 }
 
 export interface FullProfile extends Profile {

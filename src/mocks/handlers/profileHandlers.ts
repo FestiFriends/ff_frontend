@@ -36,6 +36,7 @@ export const PROFILES_SAMPLE_DATA: FullProfile[] = [
     profileImage: { src: '/images/sample1.webp', alt: '락서니' },
     isReported: false,
     isMine: true,
+    isLiked: true,
     groupSummary: {
       joinedCount: 3,
       totalJoinedCount: 10,
@@ -119,6 +120,7 @@ export const PROFILES_SAMPLE_DATA: FullProfile[] = [
     profileImage: { src: '', alt: '비트보이' },
     isReported: false,
     isMine: false,
+    isLiked: true,
     groupSummary: {
       joinedCount: 1,
       totalJoinedCount: 0,
@@ -176,6 +178,7 @@ export const PROFILES_SAMPLE_DATA: FullProfile[] = [
     profileImage: { src: '/images/sample2.jpg', alt: '페스타걸' },
     isReported: false,
     isMine: false,
+    isLiked: false,
     groupSummary: {
       joinedCount: 2,
       totalJoinedCount: 6,
