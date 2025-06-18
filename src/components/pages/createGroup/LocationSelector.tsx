@@ -87,9 +87,9 @@ const FormLocationSelector = <
       <BottomSheetModal
         trigger={<TriggerButton />}
         height='auto'
-        title='지역 선택'
-        hasHandle={true}
-        hasClose={true}
+        title=''
+        hasHandle={false}
+        hasClose={false}
       >
         <div className='p-5'>
           <div className='grid grid-cols-4 place-items-stretch gap-4'>
