@@ -78,7 +78,6 @@ const GroupCard = ({
         className
       )}
     >
-      {/* 카테고리, 날짜 */}
       <div className='flex w-full items-center justify-between'>
         <div className='flex gap-0.5'>
           <Badge
@@ -100,7 +99,6 @@ const GroupCard = ({
         </span>
       </div>
       <div className='flex w-full justify-between gap-4'>
-        {/* 포스터 */}
         {groupData.performance?.poster && (
           <div className='relative h-[136px] w-[102px] flex-shrink-0 overflow-hidden rounded-12'>
             <Image
@@ -114,17 +112,14 @@ const GroupCard = ({
           </div>
         )}
         <div className='flex flex-1 flex-col justify-between overflow-hidden'>
-          {/* 공연명 */}
           {groupData.performance?.title && (
             <h4 className='mb-1.5 truncate text-12_B text-black'>
               {groupData.performance.title}
             </h4>
           )}
-          {/* 모임명 */}
           <h4 className='mb-1.5 truncate text-16_B text-black'>
             {groupData.title}
           </h4>
-          {/* 모임 정보 */}
           <div className='mb-2.5 flex items-center gap-2 text-13_M text-gray-700'>
             <span>{groupData.location}</span>
             <div className='h-2 w-[1px] bg-gray-200' />
@@ -134,7 +129,6 @@ const GroupCard = ({
               {groupData.startAge}~{groupData.endAge}세
             </span>
           </div>
-          {/* 방장 정보 */}
           <div className='flex items-center gap-0.5'>
             <ProfileImage
               size='xs'
@@ -148,18 +142,15 @@ const GroupCard = ({
               {groupData.host.rating})
             </span>
           </div>
-          {/* 소개글 */}
           <p className='line-clamp-2 w-full text-14_body_M text-gray-950'>
             {groupData.description}
           </p>
         </div>
       </div>
-      {/* 인원 수 프로그레스 바 */}
       <ProgressBar
         current={groupData.memberCount}
         total={groupData.maxMembers}
       />
-      {/* 해시태그 */}
       {groupData.hashtag && (
         <HashtagGroup
           hashtags={groupData.hashtag}

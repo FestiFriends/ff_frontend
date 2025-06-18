@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import { useRouter } from 'next/navigation';
 import Button from '@/components/common/Button/Button';
 import GroupCard from '@/components/common/GroupCard/GroupCard';
 import Modal from '@/components/common/Modal/Modal';
@@ -8,38 +7,20 @@ import ModalAction from '@/components/common/Modal/ModalAction';
 import ModalCancel from '@/components/common/Modal/ModalCancel';
 import ModalContent from '@/components/common/Modal/ModalContent';
 import ModalTrigger from '@/components/common/Modal/ModalTrigger';
-import { GROUPS_MANAGEMENTS_QUERY_KEYS } from '@/constants/queryKeys';
-import { useLeaveGroup } from '@/hooks/groupsManagementsHooks/groupsManagementsHooks';
-import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
-import { groupsManagementsApi } from '@/services/groupsManagementsService';
-import { ApiResponse } from '@/types/api';
 import {
-  formatJoinedGroups,
-  JoinedGroupsApiResponse,
-} from '@/utils/formatGroupCardData';
-
-const size = 20;
+  useGetJoinedGroups,
+  useLeaveGroup,
+} from '@/hooks/groupsManagementsHooks/groupsManagementsHooks';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
+import { formatJoinedGroups } from '@/utils/formatGroupCardData';
 
 const JoinedGroups = () => {
+  const router = useRouter();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const { mutate: leaveGroup } = useLeaveGroup();
   const [selectedGroupId, setSelectedGroupId] = useState('');
-
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery<
-      AxiosResponse<JoinedGroupsApiResponse>,
-      ApiResponse,
-      InfiniteData<AxiosResponse<JoinedGroupsApiResponse>>,
-      string[],
-      number | undefined
-    >({
-      queryKey: [GROUPS_MANAGEMENTS_QUERY_KEYS.joinedGroups],
-      queryFn: ({ pageParam }) =>
-        groupsManagementsApi.getJoinedGroups({ cursorId: pageParam, size }),
-      getNextPageParam: (lastPage) =>
-        lastPage.data?.hasNext ? lastPage.data?.cursorId : undefined,
-      initialPageParam: undefined,
-    });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
+    useGetJoinedGroups();
 
   const bottomRef = useInfiniteScroll<HTMLDivElement>(
     fetchNextPage,
@@ -47,9 +28,10 @@ const JoinedGroups = () => {
     isFetchingNextPage
   );
 
+  if (isPending) return <div>Loading...</div>;
+
   const handleButtonClick = (
     groupId: string,
-    title: string,
     isHost: boolean,
     memberCount: number
   ) => {
@@ -59,8 +41,6 @@ const JoinedGroups = () => {
     }
   };
   const handleModalConfirm = () => {
-    console.log('탈퇴 요청 groupId:', selectedGroupId);
-
     if (selectedGroupId) {
       leaveGroup({ groupId: selectedGroupId });
     }
@@ -79,14 +59,9 @@ const JoinedGroups = () => {
                 buttonColor: 'disable',
                 buttonDisabled: true,
               })}
-            onCardClick={() => alert('상세페이지로 이동')}
+            onCardClick={() => router.push(`/groups/${group.id}`)}
             onButtonClick={() =>
-              handleButtonClick(
-                group.id,
-                group.title,
-                group.isHost,
-                group.memberCount
-              )
+              handleButtonClick(group.id, group.isHost, group.memberCount)
             }
           />
         ))
