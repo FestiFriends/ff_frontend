@@ -3,7 +3,7 @@ import GroupsManagementsTabs from '@/components/pages/groupsManagement/GroupsMan
 
 const GroupsManagementsPage = () => (
   <>
-    <Header title='모임 관리' />
+    <Header title='나의 모임' />
     <GroupsManagementsTabs />
   </>
 );
