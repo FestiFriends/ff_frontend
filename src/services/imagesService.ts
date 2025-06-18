@@ -1,11 +1,14 @@
 import apiFetcher from '@/lib/apiFetcher';
-import { ApiResponse } from '@/types/api';
+import { PresignedUrlResponse } from '@/types/image';
 
 export const imagesApi = {
-  getPresignedURL: async (fileName: string): Promise<ApiResponse> => {
-    const res = await apiFetcher.post<ApiResponse>(`/api/v1/images/presigned`, {
-      fileName: fileName,
-    });
+  getPresignedURL: async (fileName: string) => {
+    const res = await apiFetcher.post<PresignedUrlResponse>(
+      `/api/v1/images/presigned`,
+      {
+        fileName: fileName,
+      }
+    );
     return res.data;
   },
 
