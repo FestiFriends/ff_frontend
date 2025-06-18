@@ -10,7 +10,7 @@ const MyPageButtonGroup = () => {
   return (
     <div className='mt-[30px] mb-[24px] grid w-full max-w-md grid-cols-2 gap-[14px]'>
       <button
-        onClick={() => router.push('/mypage/liked-performances')}
+        onClick={() => router.push('/mypage/likes?tab=performances')}
         className='flex h-[86px] flex-col items-center justify-center rounded-[12px] bg-gray-25 px-[30px] py-[20px]'
       >
         <NoteIcon className='text-gray-400' />
@@ -19,7 +19,7 @@ const MyPageButtonGroup = () => {
         </span>
       </button>
       <button
-        onClick={() => router.push('/mypage/liked-users')}
+        onClick={() => router.push('/mypage/likes?tab=users')}
         className='flex h-[86px] flex-col items-center justify-center rounded-[12px] bg-gray-25 px-[30px] py-[20px]'
       >
         <UserIcon className='text-gray-400' />
