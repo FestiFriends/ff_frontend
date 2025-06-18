@@ -1,7 +1,4 @@
-import { Star } from 'lucide-react';
-import Button from '@/components/common/Button/Button';
-import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
-import { Gender } from '@/types/enums';
+import InstagramIcon from '@/components/icons/InstagramIcon';
 import { FullProfile } from '@/types/profiles';
 import ProfileInfoBox from './ProfileInfoBox';
 
@@ -15,40 +12,41 @@ const ProfileHeader = ({ profile, onEditClick }: ProfileHeaderProps) => {
   const filteredTags = hashtag?.filter((tag) => tag.trim().length > 0) ?? [];
 
   return (
-    <section className='flex flex-col items-center rounded-xl bg-white p-2 shadow'>
-      <ProfileInfoBox
-        name={profile.name}
-        gender={profile.gender}
-        age={profile.age}
-        rating={profile.rating}
-        reviewCount={profile.reviewCount}
-        profileImage={profile.profileImage?.src}
-        isMine={profile.isMine}
-        onEditClick={onEditClick}
-      />
-      <p className='mt-3 w-full max-w-xl rounded-md border border-gray-200 bg-gray-50 p-4 text-sm whitespace-pre-wrap text-gray-700'>
+    <section className='flex flex-col items-center'>
+      <div className='mb-[10px] w-full max-w-xl'>
+        <ProfileInfoBox
+          name={profile.name}
+          gender={profile.gender}
+          age={profile.age}
+          rating={profile.rating}
+          reviewCount={profile.reviewCount}
+          profileImage={profile.profileImage?.src}
+          isMine={profile.isMine}
+          onEditClick={onEditClick}
+        />
+      </div>
+      <p className='w-full max-w-xl text-14_body_M whitespace-pre-wrap text-gray-950'>
         {description?.trim()
           || '이 사용자는 아직 자기소개를 작성하지 않았어요.'}
       </p>
 
       {sns?.trim() && (
-        <div className='mt-2 w-full max-w-xl text-sm text-gray-800'>
-          🔗{' '}
+        <div className='mt-2 w-full max-w-xl text-14_M text-gray-950'>
           <a
             href={`https://instagram.com/${sns}`}
             target='_blank'
             rel='noopener noreferrer'
           >
-            @{sns}
+            <InstagramIcon className='inline-flex' /> <span>@{sns}</span>
           </a>
         </div>
       )}
 
-      <div className='mt-4 mb-2 flex w-full max-w-xl flex-wrap gap-2'>
+      <div className='mt-[14px] flex w-full max-w-xl flex-wrap gap-[6px]'>
         {filteredTags.map((tag, i) => (
           <span
             key={i}
-            className='rounded-full bg-gray-100 px-3 py-1 text-sm'
+            className='rounded-full bg-gray-25 px-[10px] py-[9px] text-12_M text-gray-700'
           >
             {tag}
           </span>

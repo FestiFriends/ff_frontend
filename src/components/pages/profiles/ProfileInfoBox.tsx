@@ -28,7 +28,7 @@ const ProfileInfoBox = ({
     gender === 'FEMALE' ? '여성' : gender === 'MALE' ? '남성' : '';
 
   return (
-    <div className='flex items-center gap-[10px] px-4 py-2'>
+    <div className='flex items-center gap-[10px]'>
       <ProfileImage
         src={profileImage}
         size='lg'
