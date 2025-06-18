@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import PerformanceCard from '@/components/common/PerformanceCard';
+import { PerformanceCard } from '@/components/common';
 import { Performance } from '@/types/performance';
 import { isPerformanceOnDate } from '@/utils/isPerformanceOnDate';
 
