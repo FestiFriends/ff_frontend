@@ -13,7 +13,7 @@ interface ProfileImageProps {
 
 const sizeMap = {
   xs: 'w-4 h-4',
-  sm: 'w-10 h-10',
+  sm: 'w-6 h-6',
   md: 'w-12 h-12',
   lg: 'w-16 h-16',
 };
