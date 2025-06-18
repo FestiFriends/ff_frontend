@@ -76,3 +76,22 @@ export const GroupSort = {
 } as const;
 
 export type GroupSortType = (typeof GroupSort)[keyof typeof GroupSort];
+
+export const ReportTarget = {
+  GROUP: 'GROUP', // 모임
+  REVIEW: 'REVIEW', // 리뷰
+  USER: 'USER', // 사용자
+  CHAT: 'CHAT', // 채팅
+  POST: 'POST', // 게시글
+  COMMENT: 'COMMENT', // 댓글
+} as const;
+
+export type ReportTargetType = (typeof ReportTarget)[keyof typeof ReportTarget];
+
+export const ReportStatus = {
+  PENDING: 'PENDING', // 미처리 (보류)
+  APPROVED: 'APPROVED', // 승인
+  REJECTED: 'REJECTED', // 반려
+} as const;
+
+export type ReportStatusType = (typeof ReportStatus)[keyof typeof ReportStatus];
