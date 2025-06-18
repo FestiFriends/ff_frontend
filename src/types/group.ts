@@ -173,3 +173,14 @@ export type GetGroupMembersFormattedResponse = {
   memberCount: number;
 } & CursorResponse
   & ApiResponse;
+
+export type PatchGroupMemberRoleRequest = {
+  groupId: string;
+  memberId: string;
+  role: string;
+};
+
+export type DeleteGroupMemberRequest = {
+  groupId: string;
+  memberId: string;
+};

@@ -10,11 +10,13 @@ import { GROUP_QUERY_KEYS } from '@/constants/queryKeys';
 import { groupsApi } from '@/services/groupsService';
 import { ApiResponse, CursorRequest } from '@/types/api';
 import {
+  DeleteGroupMemberRequest,
   GetGroupMembersFormattedResponse,
   GetGroupMembersRequest,
   GetGroupMembersResponse,
   GetGroupsParams,
   GroupInfoResponse,
+  PatchGroupMemberRoleRequest,
   PostJoinGroupRequest,
 } from '@/types/group';
 import { CreateGroupFormData } from '@/types/group';
@@ -148,3 +150,33 @@ export const infiniteGroupMembersOptions = (
     lastPage.hasNext ? lastPage.cursorId : undefined,
   initialPageParam: undefined,
 });
+
+export const usePatchGroupMemberRole = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<ApiResponse, ApiResponse, PatchGroupMemberRoleRequest>({
+    mutationFn: ({ groupId, memberId, role }: PatchGroupMemberRoleRequest) =>
+      groupsApi.patchGroupMemberRole({ groupId, memberId, role }),
+
+    onSuccess: (_, { groupId }) => {
+      queryClient.invalidateQueries({
+        queryKey: [GROUP_QUERY_KEYS.groupMembers, groupId],
+      });
+    },
+  });
+};
+
+export const useDeleteGroupMember = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<ApiResponse, ApiResponse, DeleteGroupMemberRequest>({
+    mutationFn: ({ groupId, memberId }: DeleteGroupMemberRequest) =>
+      groupsApi.deleteGroupMember({ groupId, memberId }),
+
+    onSuccess: (_, { groupId }) => {
+      queryClient.invalidateQueries({
+        queryKey: [GROUP_QUERY_KEYS.groupMembers, groupId],
+      });
+    },
+  });
+};
