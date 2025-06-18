@@ -1,4 +1,6 @@
 import { useParams, useRouter } from 'next/navigation';
+import FabButton from '@/components/common/FabButton/FabButton';
+import EditIcon from '@/components/icons/EditIcon';
 import { useGetGroupPosts } from '@/hooks/groupHooks/groupHooks';
 import { useReactionPost } from '@/hooks/postHooks/postHook';
 import { Post } from '@/types/post';
@@ -47,6 +49,11 @@ const GroupPosts = () => {
           />
         </PostCard>
       ))}
+      <FabButton
+        onClick={() => router.push(`/groups/${groupId}/posts/create`)}
+        icon={<EditIcon />}
+        actionLabel='게시글 작성'
+      />
     </div>
   );
 };
