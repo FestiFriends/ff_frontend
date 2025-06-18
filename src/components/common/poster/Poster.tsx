@@ -12,10 +12,10 @@ interface PosterProps {
 }
 
 const sizeMap = {
-  sm: 'w-20 h-28',
-  md: 'w-28 h-40',
-  lg: 'w-40 h-56',
-  xl: 'w-52 h-72',
+  sm: { width: 80, height: 112, className: 'w-20 h-28' },
+  md: { width: 112, height: 160, className: 'w-28 h-40' },
+  lg: { width: 160, height: 224, className: 'w-40 h-56' },
+  xl: { width: 208, height: 288, className: 'w-52 h-72' },
 };
 
 const Poster = ({
@@ -26,13 +26,13 @@ const Poster = ({
   size = 'md',
   className,
 }: PosterProps) => {
-  const sizeClass = sizeMap[size] ?? '';
+  const sizeConfig = sizeMap[size] ?? sizeMap.md;
 
   return (
     <div
       className={cn(
         'relative overflow-hidden',
-        sizeClass,
+        sizeConfig.className,
         shadow && 'shadow-md',
         border && 'border border-gray-300',
         className
@@ -41,7 +41,9 @@ const Poster = ({
       <Image
         src={src}
         alt={alt}
-        fill
+        width={sizeConfig.width}
+        height={sizeConfig.height}
+        sizes={`${sizeConfig.width}px`}
         className='object-contain'
       />
     </div>

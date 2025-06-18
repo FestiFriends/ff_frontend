@@ -80,7 +80,9 @@ const ReportDetailCard = ({ report, onStatus }: ReportDetailCardProps) => {
                 src={img.src}
                 alt={img.alt || '신고 이미지'}
                 className='object-contain'
-                fill
+                width={256}
+                height={256}
+                sizes='256px'
               />
             </CarouselItem>
           ))}

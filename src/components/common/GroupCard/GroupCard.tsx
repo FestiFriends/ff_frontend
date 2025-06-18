@@ -106,7 +106,9 @@ const GroupCard = ({
             <Image
               src={groupData.performance.poster}
               alt={groupData.performance?.title || '공연 포스터'}
-              fill
+              width={102}
+              height={136}
+              sizes='102px'
               className='object-cover'
             />
           </div>

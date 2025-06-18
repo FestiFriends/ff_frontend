@@ -99,10 +99,12 @@ const ImageComponent = ({
     <div className={cn(container, className)}>
       {data.mainImage ? (
         <Image
-          fill
           src={data.mainImage}
           alt={alt || MESSAGES.POSTER_ALT(data.title)}
           className={image}
+          width={96}
+          height={128}
+          sizes='96px'
           priority={priority}
         />
       ) : (
