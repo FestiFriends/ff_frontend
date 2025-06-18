@@ -49,7 +49,6 @@ const PerformancesPage = () => (
               queryKey={option.queryKey}
               placeholder={option.placeholder}
               options={option.data}
-              fullSize={option.fullSize ? option.fullSize : false}
               className='flex-shrink-0'
             />
           ))}
