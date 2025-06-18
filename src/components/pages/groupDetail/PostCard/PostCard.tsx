@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/common/Button/Button';
+import CreateReportModal from '@/components/common/CreateReportModal/CreateReportModal';
 import Modal from '@/components/common/Modal/Modal';
 import ModalAction from '@/components/common/Modal/ModalAction';
 import ModalCancel from '@/components/common/Modal/ModalCancel';
@@ -19,6 +20,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { useDeletePost, usePinPost } from '@/hooks/postHooks/postHook';
+import { ReportTarget } from '@/types/enums';
 import { Post } from '@/types/post';
 
 interface PostCardProps {
@@ -42,6 +44,7 @@ const PostCard = ({ post, type = 'posts', children }: PostCardProps) => {
 
   const { profileImage, name } = author ?? {};
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const reportTriggerRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const [selectedPostId, setSelectedPostId] = useState<string>('');
   const [selectedGroupId, setSelectedGroupId] = useState<string>('');
@@ -66,7 +69,7 @@ const PostCard = ({ post, type = 'posts', children }: PostCardProps) => {
     : [
         {
           label: '신고하기',
-          onClick: () => console.log('신고하기 클릭'),
+          onClick: () => handleReportPost(),
         },
       ];
 
@@ -97,8 +100,13 @@ const PostCard = ({ post, type = 'posts', children }: PostCardProps) => {
     }
   };
 
+  const handleReportPost = () => {
+    reportTriggerRef.current?.click();
+  };
+
   const handleModalConfirm = () => {
     deletePost({ groupId: selectedGroupId, postId: selectedPostId });
+    router.replace(`/groups/${groupId}`);
   };
 
   return (
@@ -211,6 +219,13 @@ const PostCard = ({ post, type = 'posts', children }: PostCardProps) => {
           </div>
         </ModalContent>
       </Modal>
+
+      <CreateReportModal
+        targetId={id.toString()}
+        category={ReportTarget.POST}
+      >
+        <button ref={reportTriggerRef}></button>
+      </CreateReportModal>
     </div>
   );
 };
