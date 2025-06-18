@@ -31,13 +31,13 @@ const PerformanceListContainer = () => {
   if (isPending) return <LoadingFallback />;
   if (!searchResult?.data)
     return (
-      <div>
+      <div className='flex items-center justify-center py-8'>
         <span>데이터를 불러 올수 없습니다.</span>
       </div>
     );
   if (searchResult.data.length === 0)
     return (
-      <div>
+      <div className='flex items-center justify-center py-8'>
         <span>검색 결과가 없습니다.</span>
       </div>
     );
