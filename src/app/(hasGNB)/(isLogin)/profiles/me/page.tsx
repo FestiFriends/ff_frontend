@@ -1,5 +1,5 @@
-import ProfilePage from '@/components/pages/profiles/ProfilePage';
+import MyPageMain from '@/components/pages/myPage/myPageMain';
 
-const MyProfilePage = () => <ProfilePage userId='me' />;
+const MyProfilePage = () => <MyPageMain />;
 
 export default MyProfilePage;
