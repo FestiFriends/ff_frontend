@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Modal,
   ModalContent,
@@ -28,21 +28,6 @@ interface TwoButtonModalProps {
   isOpen: boolean;
   onModalClose: () => void;
 }
-
-interface ModalControllerProps {
-  isOpen: boolean;
-  openModal: () => void;
-  closeModal: () => void;
-}
-
-const useModalController = (): ModalControllerProps => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
-
-  return { isOpen, openModal, closeModal };
-};
 
 const TwoButtonModal: React.FC<TwoButtonModalProps> = ({
   title,
@@ -117,7 +102,6 @@ const TwoButtonModal: React.FC<TwoButtonModalProps> = ({
   );
 };
 
-export type { TwoButtonModalProps, ModalControllerProps };
-export { useModalController };
+export type { TwoButtonModalProps };
 
 export default TwoButtonModal;

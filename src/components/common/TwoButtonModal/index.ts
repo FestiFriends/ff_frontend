@@ -1,6 +1,2 @@
-export { default as TwoButtonModal } from './TwoButtonModal';
-export { useModalController } from './TwoButtonModal';
-export type {
-  TwoButtonModalProps,
-  ModalControllerProps,
-} from './TwoButtonModal';
+export { default } from './TwoButtonModal';
+export type { TwoButtonModalProps } from './TwoButtonModal';
