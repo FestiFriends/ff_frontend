@@ -21,3 +21,11 @@ export type ReportListResponse = ApiResponse & {
 } & PageResponse;
 
 export type ReportDetailResponse = ApiResponse & { data: Report };
+
+export interface CreateReportRequest {
+  targetId: string;
+  category: ReportTargetType;
+  reason?: ReportReasonType;
+  snapshots: Image[];
+  details?: string;
+}
