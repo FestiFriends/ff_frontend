@@ -29,7 +29,7 @@ const DetailHeader = ({
 
   return (
     <header className='fixed top-0 left-0 z-50 flex h-11 w-full items-center justify-between border-b border-gray-50 bg-white p-4 text-black'>
-      <div className='flex items-center gap-0.5'>
+      <div className='flex w-1/3 items-center justify-start gap-0.5'>
         {hasLeftIcon && (
           <button
             onClick={handleLeftClick}
@@ -40,8 +40,8 @@ const DetailHeader = ({
         )}
         {hasLeftText && <span className='text-14_B'>{hasLeftText}</span>}
       </div>
-      <h1 className='text-16_B'>{title}</h1>
-      <div className='flex items-center gap-0.5'>
+      <h1 className='w-1/3 text-center text-16_B'>{title}</h1>
+      <div className='flex w-1/3 items-center justify-end gap-0.5'>
         {hasRightIcon && (
           <button
             onClick={onRightClick}
