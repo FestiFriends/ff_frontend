@@ -1,8 +1,8 @@
 import { parseISO, isAfter, isBefore } from 'date-fns';
 import { http, HttpResponse } from 'msw';
-import { Schedule } from '@/types/group';
+import { GroupSchedule } from '@/types/group';
 
-const SCHEDULES_DATA: Schedule[] = [
+const SCHEDULES_DATA: GroupSchedule[] = [
   {
     id: 's1',
     description: '락페 준비 모임',
