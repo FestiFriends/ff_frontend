@@ -1,9 +1,17 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  InfiniteData,
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { GROUP_QUERY_KEYS } from '@/constants/queryKeys';
 import { groupsApi } from '@/services/groupsService';
-import { ApiResponse } from '@/types/api';
+import { ApiResponse, CursorRequest } from '@/types/api';
 import {
+  GetGroupMembersRequest,
+  GetGroupMembersResponse,
   GetGroupsParams,
   GroupInfoResponse,
   PostJoinGroupRequest,
@@ -95,3 +103,22 @@ export const useCreateGroup = () => {
     },
   });
 };
+
+export const useGetGroupMembers = (
+  groupId: GetGroupMembersRequest['groupId'],
+  size: CursorRequest['size']
+) =>
+  useInfiniteQuery<
+    GetGroupMembersResponse,
+    ApiResponse,
+    InfiniteData<GetGroupMembersResponse>,
+    string[],
+    number | undefined
+  >({
+    queryKey: [GROUP_QUERY_KEYS.groupMembers, groupId],
+    queryFn: ({ pageParam }) =>
+      groupsApi.getGroupMembers({ groupId, cursorId: pageParam, size }),
+    getNextPageParam: (lastPage) =>
+      lastPage.hasNext ? lastPage.cursorId : undefined,
+    initialPageParam: undefined,
+  });

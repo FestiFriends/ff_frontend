@@ -10,6 +10,8 @@ import {
   CreateGroupApiRequest,
   CreateGroupFormData,
   ScheduleRequest,
+  GetGroupMembersRequest,
+  GetGroupMembersResponse,
 } from '@/types/group';
 import { Post } from '@/types/post';
 import { formatPostDate } from '@/utils/date';
@@ -122,4 +124,18 @@ export const groupsApi = {
     await apiFetcher.delete(
       `/api/v1/groups/${groupId}/schedules/${scheduleId}`
     ),
+
+  getGroupMembers: async ({
+    groupId,
+    cursorId,
+    size = 20,
+  }: GetGroupMembersRequest) =>
+    (
+      await apiFetcher.get<GetGroupMembersResponse>(
+        `/api/v1/groups/${groupId}/members`,
+        {
+          params: { groupId, cursorId, size },
+        }
+      )
+    ).data,
 };
