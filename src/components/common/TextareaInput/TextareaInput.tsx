@@ -45,7 +45,7 @@ const TextareaInput = ({
   const finalClass = cn(baseClass, borderClass, scrollbarClass, className);
 
   return (
-    <div className='flex h-full w-full flex-col gap-1'>
+    <div className='flex h-full w-full flex-col gap-2.5'>
       <textarea
         className={finalClass}
         value={value}
