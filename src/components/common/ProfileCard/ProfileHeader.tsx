@@ -1,4 +1,9 @@
+'use client';
+
+import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import InstagramIcon from '@/components/icons/InstagramIcon';
+import { usersApi } from '@/services/usersService';
 import { FullProfile } from '@/types/profiles';
 import ProfileHeaderTagList from './ProfileHeaderTagList';
 import ProfileInfoBox from './ProfileInfoBox';
@@ -9,7 +14,28 @@ interface ProfileHeaderProps {
 }
 
 const ProfileHeader = ({ profile, onEditClick }: ProfileHeaderProps) => {
-  const { description, sns, hashtag } = profile;
+  const {
+    description,
+    sns,
+    hashtag,
+    isLiked: initialIsLiked,
+    id: userId,
+  } = profile;
+
+  const [isLiked, setIsLiked] = useState(initialIsLiked ?? false);
+
+  const { mutate: toggleLike, isPending } = useMutation({
+    mutationFn: ({ isLiked, userId }: { isLiked: boolean; userId: string }) =>
+      usersApi.updateLikeUser(userId, isLiked),
+    onSuccess: (res) => {
+      setIsLiked(res.isLiked);
+    },
+  });
+
+  const handleLikeClick = () => {
+    if (!isPending) toggleLike({ isLiked: !isLiked, userId });
+  };
+
   const filteredTags = hashtag?.filter((tag) => tag.trim().length > 0) ?? [];
 
   return (
@@ -24,8 +50,11 @@ const ProfileHeader = ({ profile, onEditClick }: ProfileHeaderProps) => {
           profileImage={profile.profileImage?.src}
           isMine={profile.isMine}
           onEditClick={onEditClick}
+          isLiked={isLiked}
+          onLikeClick={handleLikeClick}
         />
       </div>
+
       <p className='w-full max-w-xl text-14_body_M whitespace-pre-wrap text-gray-950'>
         {description?.trim()
           || '이 사용자는 아직 자기소개를 작성하지 않았어요.'}
@@ -47,4 +76,5 @@ const ProfileHeader = ({ profile, onEditClick }: ProfileHeaderProps) => {
     </section>
   );
 };
+
 export default ProfileHeader;
