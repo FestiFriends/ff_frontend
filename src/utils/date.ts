@@ -45,10 +45,11 @@ export const formatPostDate = (dateStr: string): string => {
 };
 
 export const formatToKST = (isoString: string) => {
-  const timeStr = isoString.split('T')[1].slice(0, 5);
-  const hour = Number(timeStr.split(':')[0]);
+  const timeString = isoString.split('T')[1].slice(0, 5);
+  const hour = Number(timeString.split(':')[0]);
   const meridiem = hour < 12 ? '오전' : '오후';
   const hour12 = hour % 12 === 0 ? 12 : hour % 12;
-  const minute = timeStr.split(':')[1];
-  return `${meridiem} ${hour12}:${minute}`;
+  const paddedHour = hour12.toString().padStart(2, '0');
+  const minute = timeString.split(':')[1];
+  return `${meridiem} ${paddedHour}:${minute}`;
 };
