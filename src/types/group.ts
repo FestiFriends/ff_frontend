@@ -165,3 +165,11 @@ export type GetGroupMembersResponse = {
   };
 } & CursorResponse
   & ApiResponse;
+
+export type GetGroupMembersFormattedResponse = {
+  data: Member[];
+  groupId: string;
+  performanceId: string;
+  memberCount: number;
+} & CursorResponse
+  & ApiResponse;

@@ -4,12 +4,14 @@ import {
   useMutation,
   useQuery,
   useQueryClient,
+  UseSuspenseInfiniteQueryOptions,
 } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { GROUP_QUERY_KEYS } from '@/constants/queryKeys';
 import { groupsApi } from '@/services/groupsService';
 import { ApiResponse, CursorRequest } from '@/types/api';
 import {
+  GetGroupMembersFormattedResponse,
   GetGroupMembersRequest,
   GetGroupMembersResponse,
   GetGroupsParams,
@@ -122,3 +124,37 @@ export const useGetGroupMembers = (
       lastPage.hasNext ? lastPage.cursorId : undefined,
     initialPageParam: undefined,
   });
+
+export const infiniteGroupMembersOptions = (
+  groupId: GetGroupMembersRequest['groupId'],
+  size: CursorRequest['size']
+): UseSuspenseInfiniteQueryOptions<
+  GetGroupMembersFormattedResponse,
+  ApiResponse,
+  InfiniteData<GetGroupMembersFormattedResponse>,
+  GetGroupMembersFormattedResponse,
+  string[],
+  number | undefined
+> => ({
+  queryKey: [GROUP_QUERY_KEYS.groupMembers, groupId],
+  queryFn: async ({ pageParam }) => {
+    const res = await groupsApi.getGroupMembers({
+      groupId,
+      cursorId: pageParam,
+      size,
+    });
+    return {
+      data: res.data.members,
+      groupId: res.data.groupId,
+      performanceId: res.data.performanceId,
+      memberCount: res.data.memberCount,
+      cursorId: res.cursorId,
+      hasNext: res.hasNext,
+      code: res.code,
+      message: res.message,
+    };
+  },
+  getNextPageParam: (lastPage) =>
+    lastPage.hasNext ? lastPage.cursorId : undefined,
+  initialPageParam: undefined,
+});
