@@ -1,6 +1,7 @@
 import apiFetcher from '@/lib/apiFetcher';
 import { ApiResponse, PageRequest } from '@/types/api';
 import {
+  CreateReportRequest,
   ReportAction,
   ReportDetailResponse,
   ReportListResponse,
@@ -22,6 +23,9 @@ export const reportApi = {
       `/api/v1/reports/${id}`,
       { reportStatus: action }
     ),
+
+  postReport: async (report: CreateReportRequest) =>
+    (await apiFetcher.post<ApiResponse>('/api/v1/reports', report)).data,
 };
 
 export interface PatchReportProps {
