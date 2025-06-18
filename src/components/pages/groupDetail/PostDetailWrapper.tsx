@@ -1,8 +1,12 @@
 'use client';
 
-import { useParams } from 'next/navigation';
-import Header from '@/components/common/Header/Header';
+import { useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import Button from '@/components/common/Button/Button';
+import DetailHeader from '@/components/common/DetailHeader/DetailHeader';
 import MessageInput from '@/components/common/MessageInput/MessageInput';
+import BackIcon from '@/components/icons/BackIcon';
+import SendIcon from '@/components/icons/SendIcon';
 import {
   useCreateComment,
   useGetPost,
@@ -19,11 +23,10 @@ const PostDetailWrapper = () => {
   const { data: post, isLoading, error } = useGetPost({ groupId, postId });
   const { mutate: reactionPost } = useReactionPost();
   const { mutate: createComment } = useCreateComment();
-
+  const router = useRouter();
   if (isLoading) return <div>로딩 중...</div>;
   if (error) return <div>오류 발생: {error.message}</div>;
   if (!post) return <div>데이터 없음</div>;
-
   const handleReaction = () => {
     reactionPost({
       groupId,
@@ -38,12 +41,12 @@ const PostDetailWrapper = () => {
 
   return (
     <>
-      <Header
-        title='게시글 상세'
-        hasNotification={false}
-        hasSearch={false}
+      <DetailHeader
+        title='상세보기'
+        hasLeftIcon={<BackIcon />}
+        onLeftClick={() => router.back()}
       />
-      <div className='mb-[89px] flex w-full flex-col px-4'>
+      <div className='flex w-full flex-col px-4 pt-11 pb-4'>
         <PostCard
           post={post}
           type='detail'
