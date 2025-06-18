@@ -3,6 +3,7 @@ import { http, HttpResponse } from 'msw';
 import { GenderLabels } from '@/constants/genderLabels';
 import { GroupCategoryLabels } from '@/constants/groupLabels';
 import { GenderType, GroupCategoryType } from '@/types/enums';
+import { CreateGroupApiRequest } from '@/types/group';
 
 export const GROUPS_DATA = [
   {
@@ -732,4 +733,47 @@ export const groupsHandlers = [
       });
     }
   ),
+  http.post('http://localhost:3000/api/v1/groups', async ({ request }) => {
+    const body = (await request.json()) as CreateGroupApiRequest;
+
+    const newGroupId = `g${Date.now()}`;
+    const newGroup = {
+      id: newGroupId,
+      title: body.title,
+      category: body.category,
+      gender:
+        body.gender === 'MALE'
+          ? '남성'
+          : body.gender === 'FEMALE'
+            ? '여성'
+            : '혼성',
+      startAge: body.startAge,
+      endAge: body.endAge,
+      location: body.location,
+      startDate: body.startDate,
+      endDate: body.endDate,
+      memberCount: 1,
+      maxMembers: body.maxMembers,
+      description: body.description,
+      hashtag: body.hashtag || [],
+      isFavorite: false,
+      host: {
+        hostId: 'host-current-user',
+        name: '현재 사용자',
+        rating: 4.5,
+      },
+      isHost: true,
+    };
+
+    GROUPS_DATA.unshift(newGroup);
+
+    return HttpResponse.json({
+      code: 201,
+      message: '모임이 성공적으로 생성되었습니다.',
+      data: {
+        groupId: newGroupId,
+        performanceId: body.performanceId,
+      },
+    });
+  }),
 ];

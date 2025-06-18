@@ -4,7 +4,7 @@
  * @param includeAll '전체' 옵션 포함 여부 (기본값: true)
  * @returns 드롭다운에 사용할 label/value 형태의 옵션 배열
  */
-export const generateFilterOptions = <T extends Record<string, string>>(
+const generateFilterOptions = <T extends Record<string, string>>(
   labels: T,
   includeAll: boolean = true
 ): { label: string; value: keyof T | '' }[] => {
@@ -15,3 +15,5 @@ export const generateFilterOptions = <T extends Record<string, string>>(
 
   return includeAll ? [{ label: '전체', value: '' }, ...options] : options;
 };
+
+export default generateFilterOptions;

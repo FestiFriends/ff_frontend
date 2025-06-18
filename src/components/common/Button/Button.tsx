@@ -8,6 +8,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
   className?: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 const Button = ({
@@ -18,6 +19,7 @@ const Button = ({
   className,
   onClick,
   children,
+  type = 'button',
   ...props
 }: PropsWithChildren<ButtonProps>) => {
   const buttonClasses = cn(
@@ -37,6 +39,7 @@ const Button = ({
       className={buttonClasses}
       onClick={onClick}
       disabled={disabled}
+      type={type}
       {...props}
     >
       {children}

@@ -3,7 +3,7 @@
 import { PropsWithChildren } from 'react';
 import AltArrowUpIcon from '@/components/icons/AltArrowUpIcon';
 import DeleteIcon from '@/components/icons/DeleteIcon';
-import { cn } from '@/lib/utils';
+import { useStyles } from '@/hooks';
 import { useDropdownContext } from './DropdownContext';
 
 interface DropdownTriggerWithIconProps {
@@ -17,15 +17,11 @@ const DropdownTriggerWithIcon = ({
   children,
 }: PropsWithChildren<DropdownTriggerWithIconProps>) => {
   const { isOpen, toggleDropdown, selectedItem } = useDropdownContext();
-
-  const dropdownTriggerClasses = cn(
-    // default style
-    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 text-gray-950 transition-all select-none',
-
-    // opened, selected style
-    (isOpen || selectedItem) && 'border-gray-950 bg-gray-950 text-white',
-
-    // custom style
+  const { getButtonClasses } = useStyles();
+  const dropdownTriggerClasses = getButtonClasses(
+    isOpen,
+    selectedItem,
+    !!selectedItem,
     className
   );
 
