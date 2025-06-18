@@ -16,7 +16,7 @@ const PerformanceDetailWrapper = ({
   performanceId,
 }: PerformanceDetailWrapperProps) => {
   const router = useRouter();
-  const isLoggedIn = useAuthStore((state) => state.isLoggedin);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const [showToast, setShowToast] = useState(false);
   const {
     data: performanceDetail,

@@ -11,7 +11,7 @@ interface GroupWrapperProps {
 }
 
 const GroupWrapper = ({ groupId }: GroupWrapperProps) => {
-  const isLoggedIn = useAuthStore((state) => state.isLoggedin);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const { data: groupInfo, isPending, isError } = useGetGroupInfo(groupId);
   const isMember = groupInfo?.data?.isMember;
 

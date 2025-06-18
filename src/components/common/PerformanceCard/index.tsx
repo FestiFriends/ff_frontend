@@ -23,7 +23,7 @@ const PerformanceCard = ({ performance, ranking }: PerformanceCardProps) => {
   const router = useRouter();
 
   const toggleLike = () => {
-    if (!isLoggedin) {
+    if (!isLoggedIn) {
       setShowToast(true);
       return;
     }

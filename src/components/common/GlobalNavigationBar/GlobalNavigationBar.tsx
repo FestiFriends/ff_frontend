@@ -15,7 +15,7 @@ const NAV_ITEM = [
 ];
 
 const GlobalNavigationBar = () => {
-  const isLoggedin = useAuthStore((state) => state.isLoggedin);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const { onLogin } = useLogin();
   const { mutate: logoutMutate } = useLogout();
   const isMobile = useMediaQuery({ maxWidth: 768 });
@@ -49,7 +49,7 @@ const GlobalNavigationBar = () => {
         <SearchInput onSubmit={() => {}}>검색</SearchInput>
       </div>
       <div className='justify-self-end'>
-        {!isLoggedin ? (
+        {!isLoggedIn ? (
           <button onClick={onLogin}>로그인</button>
         ) : (
           <>

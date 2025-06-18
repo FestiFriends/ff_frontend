@@ -2,7 +2,7 @@ import { persist } from 'zustand/middleware';
 import { createStore } from 'zustand/vanilla';
 
 export type AuthState = {
-  isLoggedin: boolean;
+  isLoggedIn: boolean;
   accessToken: string | null;
 };
 
@@ -14,12 +14,12 @@ export type AuthActions = {
 export type AuthStore = AuthState & AuthActions;
 
 export const initAuthStore = (): AuthState => ({
-  isLoggedin: false,
+  isLoggedIn: false,
   accessToken: null,
 });
 
 export const defaultInitState: AuthState = {
-  isLoggedin: false,
+  isLoggedIn: false,
   accessToken: null,
 };
 
@@ -31,12 +31,12 @@ export const createAuthStore = (initState: AuthState = defaultInitState) =>
         login: (token: string) =>
           set({
             accessToken: token,
-            isLoggedin: true,
+            isLoggedIn: true,
           }),
         logout: () => {
           set({
             accessToken: null,
-            isLoggedin: false,
+            isLoggedIn: false,
           });
           localStorage.removeItem('authInfo');
         },

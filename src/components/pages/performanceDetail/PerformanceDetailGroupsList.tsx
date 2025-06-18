@@ -23,7 +23,7 @@ const PerformanceDetailGroupsList = ({
   groups,
 }: PerformanceDetailGroupsListProps) => {
   const router = useRouter();
-  const isLoggedIn = useAuthStore((state) => state.isLoggedin);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const [showToast, setShowToast] = useState(false);
   const [toastContent, setToastContent] = useState<ToastContent>({
     message: '',

@@ -26,7 +26,7 @@ const Header = ({
   const iconRef = useRef<HTMLButtonElement>(null);
   const [iconCenterX, setIconCenterX] = useState<number>(0);
   const { onLogin } = useLogin();
-  const isLoggedin = useAuthStore((state) => state.isLoggedin);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const searchRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -59,8 +59,8 @@ const Header = ({
                   <SearchIcon />
                 </button>
               )}
-              {isLoggedin && hasNotification && <Notification />}
-              {!isLoggedin && <button onClick={onLogin}>로그인</button>}
+              {isLoggedIn && hasNotification && <Notification />}
+              {!isLoggedIn && <button onClick={onLogin}>로그인</button>}
             </div>
           </>
         )}

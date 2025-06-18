@@ -31,7 +31,7 @@ const NotificationToastRender = () => {
 };
 
 const NotificationToast = () => {
-  const isLoggedIn = useAuthStore((state) => state.isLoggedin);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   if (!isLoggedIn) {
     return null;
