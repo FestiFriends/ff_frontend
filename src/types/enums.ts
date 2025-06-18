@@ -76,10 +76,3 @@ export const GroupSort = {
 } as const;
 
 export type GroupSortType = (typeof GroupSort)[keyof typeof GroupSort];
-
-export const TabLabel = {
-  USERS: '찜한 유저',
-  PERFORMANCES: '찜한 공연',
-} as const;
-
-export type TabLabelType = (typeof TabLabel)[keyof typeof TabLabel];
