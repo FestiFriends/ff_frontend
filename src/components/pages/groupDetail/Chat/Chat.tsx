@@ -35,10 +35,10 @@ const Chat = ({ groupInfo }: ChatProps) => {
   }
 
   return (
-    <div className='px-4'>
+    <div className='px-4 pt-4 pb-6'>
       <div className='flex flex-col rounded-[16px] bg-[#fffcfc] px-4 py-4 shadow-[0px_0px_6px_0px_rgba(0,0,0,0.16)]'>
-        <ChatInfo />
-        {hasNotice && <PostNotice />}
+        <ChatInfo groupInfo={groupInfo} />
+        {hasNotice && <PostNotice className='mt-3.5' />}
         <ChatArea
           userId={userId.data?.userId}
           chatRoomId={groupInfo?.chatRoomId}
