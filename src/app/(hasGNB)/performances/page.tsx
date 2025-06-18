@@ -4,16 +4,14 @@ import {
   Search,
   SortDropdown,
   DatePicker,
+  LocationSelector,
 } from '@/components/pages/performances';
-import { LocationLabels } from '@/constants/locationLabels';
-import { LocationValues } from '@/constants/locationValues';
-import { Location } from '@/types/enums';
 
 type DropdownOption = {
   placeholder: string;
   queryKey: string;
   data: Array<{ label: string; value: string }>;
-  width?: 'full' | 'auto';
+  fullSize?: boolean;
 };
 
 const DROPDOWN_OPTIONS: Record<string, DropdownOption> = {
@@ -24,8 +22,8 @@ const DROPDOWN_OPTIONS: Record<string, DropdownOption> = {
       { label: '최신순', value: 'date_asc' },
       { label: '모임 많은 순', value: 'group_count_desc' },
       { label: '모임 적은 순', value: 'group_count_asc' },
-      { label: '이름순', value: 'name_asc' },
-      { label: '이름역순', value: 'name_desc' },
+      { label: '이름순', value: 'title_asc' },
+      { label: '이름역순', value: 'title_desc' },
     ],
   },
   CATEGORY: {
@@ -36,35 +34,31 @@ const DROPDOWN_OPTIONS: Record<string, DropdownOption> = {
       { label: '국내', value: '국내' },
     ],
   },
-  LOCATION: {
-    placeholder: '위치',
-    queryKey: 'location',
-    data: Object.values(Location).map((locationKey) => ({
-      label: `${LocationLabels[locationKey]}`,
-      value: `${LocationValues[locationKey]}`,
-    })),
-    width: 'full',
-  },
 };
 
 const PerformancesPage = () => (
-  <div className='flex flex-col gap-2'>
-    <Header title='공연 목록' />
-    <Search />
-    <div className='flex flex-col gap-2 px-4'>
-      <div className='z-1 flex w-full gap-4'>
-        {Object.values(DROPDOWN_OPTIONS).map((option) => (
-          <SortDropdown
-            key={option.queryKey}
-            queryKey={option.queryKey}
-            placeholder={option.placeholder}
-            options={option.data}
-            width={option.width}
-            className='w-fit'
-          />
-        ))}
-        <DatePicker />
+  <div className='flex flex-col'>
+    <div className='fixed top-0 right-0 left-0 z-[100] bg-white'>
+      <Header title='공연 목록' />
+      <Search />
+      <div className='px-4 py-2'>
+        <div className='z-20 flex w-full gap-4'>
+          {Object.values(DROPDOWN_OPTIONS).map((option) => (
+            <SortDropdown
+              key={option.queryKey}
+              queryKey={option.queryKey}
+              placeholder={option.placeholder}
+              options={option.data}
+              fullSize={option.fullSize ? option.fullSize : false}
+              className='w-fit'
+            />
+          ))}
+          <LocationSelector />
+          <DatePicker />
+        </div>
       </div>
+    </div>
+    <div className='flex flex-col gap-2 px-4 pt-32'>
       <div className='grow'>
         <PerformanceListContainer />
       </div>
