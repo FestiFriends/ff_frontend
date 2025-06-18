@@ -1,4 +1,5 @@
 import { setupWorker } from 'msw/browser';
+// import { chatHandlers } from './handlers/chatHandlers';
 import { groupsHandlers } from './handlers/groupsHandlers';
 import { nicknameHandlers } from './handlers/nicknameHandlers';
 import { notificationHandlers } from './handlers/notificationHandlers';
@@ -17,4 +18,5 @@ export const worker = setupWorker(
   ...usersHandlers,
   ...nicknameHandlers,
   ...reportHandlers
+  // ...chatHandlers
 );
