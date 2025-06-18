@@ -1,6 +1,15 @@
-const GroupMembers = () => (
-  // TODO: 모임원 목록 조회 api 연동
-  <div>모임원 목록</div>
+import MembersHeader from './Members/MembersHeader';
+import MembersList from './Members/MembersList';
+
+interface GroupMembersProps {
+  groupId: string;
+}
+
+const GroupMembers = ({ groupId }: GroupMembersProps) => (
+  <div className='flex flex-col gap-5 px-4'>
+    <MembersHeader groupId={groupId} />
+    <MembersList groupId={groupId} />
+  </div>
 );
 
 export default GroupMembers;
