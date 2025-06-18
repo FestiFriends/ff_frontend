@@ -35,11 +35,7 @@ const DEFAULT_VALUES: CreateGroupFormData = {
   tags: [],
 };
 
-interface Props {
-  performanceTitle?: string;
-}
-
-const CreateGroupPage = ({ performanceTitle }: Props) => {
+const CreateGroupPage = () => {
   const pathname = usePathname();
   const performanceId = pathname.split('/')[2];
   const { data: performanceDetail, isLoading } =
