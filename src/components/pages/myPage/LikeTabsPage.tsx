@@ -29,6 +29,7 @@ const LikeTabsPage = () => {
   const [activeTab, setActiveTab] = useState<TabLabelType>(initialTab);
 
   const handleTabChange = (tab: string) => {
+    if (!tabList.includes(tab as TabLabelType)) return;
     const typedTab = tab as TabLabelType;
     setActiveTab(typedTab);
     const queryValue = reverseTabMap[typedTab];
