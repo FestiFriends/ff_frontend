@@ -102,9 +102,9 @@ const ImageComponent = ({
           src={data.mainImage}
           alt={alt || MESSAGES.POSTER_ALT(data.title)}
           className={image}
-          width={96}
-          height={128}
-          sizes='96px'
+          width={150}
+          height={200}
+          sizes='150px'
           priority={priority}
         />
       ) : (
