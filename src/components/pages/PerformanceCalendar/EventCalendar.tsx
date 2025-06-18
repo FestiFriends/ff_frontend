@@ -1,6 +1,6 @@
 import CalendarBase from '@/components/common/EventCalendar/CalendarBase/CalendarBase';
+import PerformanceCell from '@/components/pages/PerformanceCalendar/PerformanceCell';
 import { Performance } from '@/types/performance';
-import PerformanceCell from './PerformanceCell';
 
 interface EventCalendarProps {
   month: Date;

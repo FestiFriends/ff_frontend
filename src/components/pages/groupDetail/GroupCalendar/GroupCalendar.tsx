@@ -3,11 +3,11 @@
 import { useMemo, useState } from 'react';
 import { endOfMonth, endOfWeek, startOfMonth, startOfWeek } from 'date-fns';
 import CalendarBase from '@/components/common/EventCalendar/CalendarBase/CalendarBase';
+import GroupCalendarCell from '@/components/pages/groupDetail/GroupCalendar/GroupCalendarCell';
+import ScheduleDetailModal from '@/components/pages/groupDetail/GroupCalendar/ScheduleDetailModal';
+import ScheduleFormModal from '@/components/pages/groupDetail/GroupCalendar/ScheduleFormModal';
 import { useSchedules } from '@/hooks/useSchedules/useSchedules';
-import { Schedule } from '@/types/group';
-import GroupCalendarCell from './GroupCalendarCell';
-import ScheduleDetailModal from './ScheduleDetailModal';
-import ScheduleFormModal from './ScheduleFormModal';
+import { GroupSchedule } from '@/types/group';
 
 interface GroupCalendarProps {
   groupId: string;
@@ -16,9 +16,8 @@ interface GroupCalendarProps {
 const GroupCalendar = ({ groupId }: GroupCalendarProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
-    null
-  );
+  const [selectedSchedule, setSelectedSchedule] =
+    useState<GroupSchedule | null>(null);
   const [isCreating, setIsCreating] = useState(false);
 
   const { start, end } = useMemo(() => {
@@ -36,7 +35,7 @@ const GroupCalendar = ({ groupId }: GroupCalendarProps) => {
 
   return (
     <>
-      <CalendarBase<Schedule>
+      <CalendarBase<GroupSchedule>
         month={currentMonth}
         events={schedules}
         weekdayLabels={['S', 'M', 'T', 'W', 'T', 'F', 'S']}

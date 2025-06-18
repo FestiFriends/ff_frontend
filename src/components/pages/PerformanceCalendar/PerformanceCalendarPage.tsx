@@ -10,12 +10,12 @@ import {
 } from 'date-fns';
 import { ArrowUp } from 'lucide-react';
 import LoadingOverlay from '@/components/common/LoadingOverlay/LoadingOverlay';
+import CalendarFilter from '@/components/pages/PerformanceCalendar/CalendarFilter';
+import PerformanceCalendar from '@/components/pages/PerformanceCalendar/PerformanceCalendar';
+import SelectedDatePerformances from '@/components/pages/PerformanceCalendar/SelectedDatePerformances';
 import { useGetPerformances } from '@/hooks/performanceHooks/performanceHooks';
 import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
 import { Performance } from '@/types/performance';
-import CalendarFilter from './CalendarFilter';
-import PerformanceCalendar from './PerformanceCalendar';
-import SelectedDatePerformances from './SelectedDatePerformances';
 
 const PerformanceCalendarPage = () => {
   const { getPerformanceQueryString, setMultipleQueryParams } = useQueryParam();

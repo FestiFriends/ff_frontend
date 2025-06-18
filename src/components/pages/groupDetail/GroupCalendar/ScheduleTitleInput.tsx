@@ -1,7 +1,7 @@
 'use client';
 
+import EventColorDropdown from '@/components/pages/groupDetail/GroupCalendar/EventColorDropdown';
 import { EventColorName } from '@/types/enums';
-import EventColorDropdown from './EventColorDropdown';
 
 interface ScheduleTitleInputProps {
   value: string;

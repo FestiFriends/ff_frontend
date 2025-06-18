@@ -1,6 +1,6 @@
 'use client';
 
-import GroupCalendar from './GroupCalendar';
+import GroupCalendar from '@/components/pages/groupDetail/GroupCalendar/GroupCalendar';
 
 interface GroupCalendarWrapperProps {
   groupId: string;

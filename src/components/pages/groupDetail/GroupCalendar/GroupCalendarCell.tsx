@@ -4,19 +4,19 @@ import { memo, useCallback } from 'react';
 import { format, isSameMonth, isToday, isSameDay } from 'date-fns';
 import { EVENT_COLOR_STYLE_MAP } from '@/constants/eventColors';
 import { cn } from '@/lib/utils';
-import { Schedule } from '@/types/group';
+import { GroupSchedule } from '@/types/group';
 
 interface GroupCellProps {
   date: Date;
-  schedules: Schedule[];
+  schedules: GroupSchedule[];
   currentMonth: Date;
   selectedDate?: Date | null;
   onDateClick?: (
     date: Date,
-    schedules: Schedule[],
+    schedules: GroupSchedule[],
     openCreator?: boolean
   ) => void;
-  onScheduleClick?: (schedule: Schedule) => void;
+  onScheduleClick?: (schedule: GroupSchedule) => void;
 }
 
 const GroupCalendarCell = ({

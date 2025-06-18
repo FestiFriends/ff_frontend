@@ -11,14 +11,14 @@ import ModalAction from '@/components/common/Modal/ModalAction';
 import ModalCancel from '@/components/common/Modal/ModalCancel';
 import ModalContent from '@/components/common/Modal/ModalContent';
 import TimePicker from '@/components/common/TimePicker/TimePicker';
+import AllDayToggle from '@/components/pages/groupDetail/GroupCalendar/AllDayToggle';
+import ScheduleLocationInput from '@/components/pages/groupDetail/GroupCalendar/ScheduleLocationInput';
+import ScheduleTitleInput from '@/components/pages/groupDetail/GroupCalendar/ScheduleTitleInput';
+import TimeInput from '@/components/pages/groupDetail/GroupCalendar/TimeInput';
 import { cn } from '@/lib/utils';
 import { groupsApi } from '@/services/groupsService';
 import { EventColorName } from '@/types/enums';
-import { Schedule, ScheduleRequest } from '@/types/group';
-import AllDayToggle from './AllDayToggle';
-import ScheduleLocationInput from './ScheduleLocationInput';
-import ScheduleTitleInput from './ScheduleTitleInput';
-import TimeInput from './TimeInput';
+import { GroupSchedule, ScheduleRequest } from '@/types/group';
 
 //TODO: 모달위로 달력 구현해야함, timepicker로 교체해야 함
 
@@ -26,7 +26,7 @@ interface ScheduleFormModalProps {
   groupId: string;
   defaultDate: Date;
   onClose: () => void;
-  initialData?: Schedule;
+  initialData?: GroupSchedule;
   isEdit?: boolean;
 }
 

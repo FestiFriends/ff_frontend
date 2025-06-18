@@ -10,13 +10,13 @@ import MoreDropdown from '@/components/common/MoreDropdown/MoreDropdown';
 import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
 import BackIcon from '@/components/icons/BackIcon';
 import MapPinIcon from '@/components/icons/MapPinIcon';
+import ScheduleFormModal from '@/components/pages/groupDetail/GroupCalendar/ScheduleFormModal';
 import { groupsApi } from '@/services/groupsService';
-import { Schedule } from '@/types/group';
-import ScheduleFormModal from './ScheduleFormModal';
+import { GroupSchedule } from '@/types/group';
 
 interface ScheduleDetailModalProps {
   groupId: string;
-  schedule: Schedule;
+  schedule: GroupSchedule;
   onClose: () => void;
 }
 
