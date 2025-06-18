@@ -43,3 +43,7 @@ export const formatPostDate = (dateStr: string): string => {
     return dateStr;
   }
 };
+
+// yy.MM.dd
+export const formatNormalDate = (date: string | Date) =>
+  format(new Date(date), 'yy.MM.dd', { locale: ko });
