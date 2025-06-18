@@ -13,7 +13,6 @@ interface PerformanceSortDropdownProps {
   placeholder?: string;
   defaultValue?: string;
   data?: unknown[];
-  fullSize?: boolean;
   className?: string;
 }
 
@@ -23,7 +22,6 @@ const PerformanceSortDropdown = ({
   placeholder = '정렬',
   defaultValue = '',
   data = [],
-  fullSize = false,
   className,
 }: PerformanceSortDropdownProps) => {
   const sortOptions = options || [];

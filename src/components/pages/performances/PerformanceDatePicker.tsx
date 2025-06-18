@@ -144,9 +144,8 @@ const PerformanceDatePicker = ({
     setMultipleQueryParams(queryParams);
   }, [startDateKey, endDateKey, resetPage, setMultipleQueryParams]);
 
-
   const datePickerTriggerClasses = cn(
-    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 transition-all select-none whitespace-nowrap',
+    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 whitespace-nowrap transition-all select-none',
     (isOpen || dateRange.startDate || dateRange.endDate)
       && 'border-gray-950 bg-gray-950 text-white'
   );
@@ -198,7 +197,7 @@ const PerformanceDatePicker = ({
       </button>
 
       {isOpen && (
-        <div 
+        <div
           className='fixed z-[9999] inline-flex w-[calc(100vw-2rem)] -translate-x-1/2 flex-col gap-5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white p-5 shadow-lg'
           style={{
             top: `${buttonPosition.top + 8}px`,
