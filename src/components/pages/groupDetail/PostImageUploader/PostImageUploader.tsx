@@ -55,8 +55,9 @@ const PostImageUploader = ({
               <Image
                 src={img.src}
                 alt={img.src.toString()}
-                fill
-                sizes='100%'
+                width={60}
+                height={60}
+                sizes='60px'
                 className='rounded-sm object-cover'
               />
               <button

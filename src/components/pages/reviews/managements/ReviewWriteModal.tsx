@@ -1,6 +1,7 @@
 'use client';
 import React, { useRef, useState } from 'react';
 import { Rating } from 'react-simple-star-rating';
+import { Button } from '@/components/common';
 import { ButtonGroup, ButtonGroupItem } from '@/components/common/ButtonGroup';
 import LoadingOverlay from '@/components/common/LoadingOverlay/LoadingOverlay';
 import {
@@ -163,23 +164,26 @@ const ReviewWriteModal = ({ review, groupId }: ReviewWriteModalProps) => {
             </div>
 
             <div className='flex gap-2'>
-              <ModalCancel
-                className='flex h-12 w-full items-center justify-center rounded-12 border border-primary-red'
-                onClick={handleReset}
-                disabled={isPending}
-              >
-                <span className='text-14_M text-primary-red'>취소</span>
+              <ModalCancel>
+                <Button
+                  variant='secondary'
+                  onClick={handleReset}
+                  disabled={isPending}
+                >
+                  취소
+                </Button>
               </ModalCancel>
-              <ModalAction
-                className='flex h-12 w-full items-center justify-center rounded-12 bg-primary-red disabled:cursor-no-drop disabled:opacity-70'
-                onClick={handleSubmit}
-                disabled={
-                  (data.defaultTag.length === 0 && data.content?.length === 0)
-                  || data.rating === 0
-                  || isPending
-                }
-              >
-                <span className='text-14_M text-white'>완료</span>
+              <ModalAction>
+                <Button
+                  onClick={handleSubmit}
+                  disabled={
+                    (data.defaultTag.length === 0 && data.content?.length === 0)
+                    || data.rating === 0
+                    || isPending
+                  }
+                >
+                  확인
+                </Button>
               </ModalAction>
             </div>
           </div>

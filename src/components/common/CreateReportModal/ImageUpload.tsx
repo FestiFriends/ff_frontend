@@ -62,7 +62,9 @@ const ImageUpload = ({ images, upload, remove, reset }: ImageUploadProps) => {
               <Image
                 src={img.url}
                 alt='이미지'
-                fill
+                width={96}
+                height={96}
+                sizes='96px'
                 className='object-contain'
               />
             </CarouselItem>

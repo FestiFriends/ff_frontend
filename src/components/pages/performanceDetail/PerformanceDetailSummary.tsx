@@ -71,6 +71,7 @@ const PerformanceDetailSummary = ({
               alt={performanceDetail.title || ''}
               width={imageWidth}
               height={imageHeight}
+              sizes={`${imageWidth}px`}
               className='rounded-[12px] object-contain'
             />
           </div>
