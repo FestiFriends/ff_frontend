@@ -4,7 +4,6 @@ import {
   useChatWebSocket,
   useGetChatHistory,
 } from '@/hooks/chatHooks/chatHooks';
-// import { CHAT_SAMPLE_DATA } from '@/mocks/handlers/chatHandlers';
 import { ChatMessage } from '@/types/chat';
 import ChatMessageInput from './ChatMessageInput';
 import ChatMessageList from './ChatMessageList';
@@ -26,9 +25,10 @@ const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
     data: chatHistory,
     fetchNextPage,
     hasNextPage,
+    isPending,
     isFetchingNextPage,
+    status,
   } = useGetChatHistory(chatRoomId, 20);
-
   if (!isConnected) {
     return (
       <div className='relative flex h-[60dvh] flex-col items-center justify-center gap-2'>
@@ -41,10 +41,35 @@ const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
     );
   }
 
+  if (status === 'error') {
+    return (
+      <div className='relative flex h-[60dvh] flex-col items-center justify-center gap-2'>
+        <p className='font-semibold text-gray-500'>
+          메세지를 불러오지 못했습니다.
+        </p>
+        <ChatMessageInput
+          disabled={true}
+          sendMessage={() => {}}
+        />
+      </div>
+    );
+  }
+
+  if (isPending) {
+    return (
+      <div className='relative flex h-[60dvh] flex-col items-center justify-center gap-2'>
+        <p className='font-semibold text-gray-500'>채팅방 연결 중...</p>
+        <ChatMessageInput
+          disabled={true}
+          sendMessage={() => {}}
+        />
+      </div>
+    );
+  }
+
   const historyMessages: ChatMessage[] = (chatHistory?.pages ?? [])
     .flatMap((page) => page.data ?? [])
     .reverse();
-  // const historyMessages = CHAT_SAMPLE_DATA;
 
   const allMessages = [...historyMessages, ...liveMessages];
 
@@ -57,6 +82,7 @@ const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
             messages={allMessages}
             fetchPrev={fetchNextPage}
             hasPrev={!!hasNextPage && !isFetchingNextPage}
+            isFetchingNextPage={isFetchingNextPage}
           />
           <ChatMessageInput
             disabled={!isConnected}

@@ -15,6 +15,7 @@ interface ChatMessageListProps {
   messages: ChatMessageType[];
   fetchPrev: () => void;
   hasPrev: boolean;
+  isFetchingNextPage: boolean;
 }
 
 const ChatMessageList = ({
@@ -22,6 +23,7 @@ const ChatMessageList = ({
   messages,
   fetchPrev,
   hasPrev,
+  isFetchingNextPage,
 }: ChatMessageListProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const topRef = useRef<HTMLDivElement | null>(null);
@@ -108,31 +110,38 @@ const ChatMessageList = ({
   return (
     <div
       ref={containerRef}
-      className='scrollbar-hide flex h-full flex-col gap-5 overflow-y-scroll pt-1 pb-12'
+      className='scrollbar-hide flex h-full flex-col overflow-y-scroll pt-1 pb-15'
     >
       <div ref={topRef} />
-      {messages.map((message: ChatMessageType, index) => {
-        const prevMessage = messages[index - 1];
-        const showDateDivider =
-          !prevMessage
-          || !isSameDay(
-            parseISO(message.createdAt),
-            parseISO(prevMessage.createdAt)
-          );
-
-        return (
-          <div
-            key={message.chatId}
-            className='flex flex-col gap-5'
-          >
-            {showDateDivider && <ChatDateDivider date={message.createdAt} />}
-            <ChatMessage
-              message={message}
-              isMine={message.senderId === userId}
-            />
+      <div className='flex flex-col gap-5'>
+        {isFetchingNextPage && (
+          <div className='mt-5 flex w-full items-center justify-center text-13_M text-gray-400'>
+            메세지 불러오는 중...
           </div>
-        );
-      })}
+        )}
+        {messages.map((message: ChatMessageType, index) => {
+          const prevMessage = messages[index - 1];
+          const showDateDivider =
+            !prevMessage
+            || !isSameDay(
+              parseISO(message.createdAt),
+              parseISO(prevMessage.createdAt)
+            );
+
+          return (
+            <div
+              key={message.chatId}
+              className='flex flex-col gap-5'
+            >
+              {showDateDivider && <ChatDateDivider date={message.createdAt} />}
+              <ChatMessage
+                message={message}
+                isMine={message.senderId === userId}
+              />
+            </div>
+          );
+        })}
+      </div>
       <div ref={bottomRef} />
     </div>
   );
