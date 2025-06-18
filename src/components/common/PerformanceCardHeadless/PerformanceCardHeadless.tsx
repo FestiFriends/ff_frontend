@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -102,9 +104,7 @@ const ImageComponent = ({
           src={data.mainImage}
           alt={alt || MESSAGES.POSTER_ALT(data.title)}
           className={image}
-          width={150}
-          height={200}
-          sizes='150px'
+          fill
           priority={priority}
         />
       ) : (
@@ -291,9 +291,9 @@ const LikeButton = ({
   );
 };
 
-export {
+const PerformanceCardHeadless = {
   Root,
-  ImageComponent as Image,
+  Image: ImageComponent,
   Title,
   Status,
   DateRange,
@@ -302,3 +302,5 @@ export {
   Price,
   LikeButton,
 };
+
+export default PerformanceCardHeadless;

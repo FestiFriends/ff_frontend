@@ -2,7 +2,7 @@ import { ErrorBoundary, Suspense } from '@suspensive/react';
 import { SuspenseQuery } from '@suspensive/react-query';
 import { UseSuspenseQueryOptions } from '@tanstack/react-query';
 import Link from 'next/link';
-import PerformanceCard from '@/components/common/PerformanceCard';
+import { PerformanceCard } from '@/components/common';
 import {
   Carousel,
   CarouselContent,

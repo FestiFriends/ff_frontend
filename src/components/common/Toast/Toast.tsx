@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useState } from 'react';
 import BellIcon from '@/components/icons/BellIcon';
 import CheckIcon from '@/components/icons/CheckIcon';

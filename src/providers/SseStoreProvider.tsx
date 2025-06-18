@@ -25,7 +25,7 @@ export const SseStoreProvider = ({ children }: SseStoreProviderProps) => {
     storeRef.current = createSseStore(initSseStore());
   }
 
-  const isLoggedIn = useAuthStore((state) => state.isLoggedin);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   useEffect(() => {
     if (isLoggedIn) {

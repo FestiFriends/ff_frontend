@@ -15,7 +15,7 @@ interface GroupInfoProps {
 }
 
 const GroupInfo = ({ isPending, groupInfo }: GroupInfoProps) => {
-  const isLoggedIn = useAuthStore((state) => state.isLoggedin);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const [showToast, setShowToast] = useState(false);
   const [toastContent, setToastContent] = useState<ToastContent>({
     message: '',

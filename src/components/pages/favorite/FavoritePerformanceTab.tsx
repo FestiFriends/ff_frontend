@@ -1,5 +1,5 @@
 import React from 'react';
-import PerformanceCard from '@/components/common/PerformanceCard';
+import { PerformanceCard } from '@/components/common';
 import { Performance } from '@/types/performance';
 import FavoriteTabPanelWrapper from './FavoriteTabPanelWrapper';
 
