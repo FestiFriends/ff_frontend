@@ -15,6 +15,7 @@ interface PerformanceDatePickerProps {
   endDateKey?: string;
   dateFormat?: string;
   resetPage?: boolean;
+  className?: string;
 }
 
 const parseDate = (
@@ -45,6 +46,7 @@ const PerformanceDatePicker = ({
   endDateKey = 'endDate',
   dateFormat = 'yyyy-MM-dd',
   resetPage = true,
+  className,
 }: PerformanceDatePickerProps) => {
   const { getQueryParam, setMultipleQueryParams } = useQueryParam();
   const datePickerRef = useRef<HTMLDivElement>(null);
@@ -144,7 +146,7 @@ const PerformanceDatePicker = ({
 
 
   const datePickerTriggerClasses = cn(
-    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 transition-all select-none',
+    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 transition-all select-none whitespace-nowrap',
     (isOpen || dateRange.startDate || dateRange.endDate)
       && 'border-gray-950 bg-gray-950 text-white'
   );
@@ -155,7 +157,7 @@ const PerformanceDatePicker = ({
   return (
     <div
       ref={datePickerRef}
-      className='relative inline-block'
+      className={cn('relative inline-block', className)}
     >
       <button
         ref={buttonRef}
