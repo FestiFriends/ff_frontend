@@ -1,17 +1,16 @@
 import Header from '@/components/common/Header/Header';
 import {
-  PerformanceListContainer,
-  Search,
-  SortDropdown,
+  CustomSortDropdown,
   DatePicker,
   LocationSelector,
+  PerformanceListContainer,
+  Search,
 } from '@/components/pages/performances';
 
 type DropdownOption = {
   placeholder: string;
   queryKey: string;
   data: Array<{ label: string; value: string }>;
-  fullSize?: boolean;
 };
 
 const DROPDOWN_OPTIONS: Record<string, DropdownOption> = {
@@ -44,16 +43,15 @@ const PerformancesPage = () => (
       <div className='px-4 py-2'>
         <div className='z-20 scrollbar-hide flex w-full gap-4 overflow-x-auto'>
           {Object.values(DROPDOWN_OPTIONS).map((option) => (
-            <SortDropdown
+            <CustomSortDropdown
               key={option.queryKey}
               queryKey={option.queryKey}
               placeholder={option.placeholder}
               options={option.data}
-              className='flex-shrink-0'
             />
           ))}
-          <LocationSelector className='flex-shrink-0' />
-          <DatePicker className='flex-shrink-0' />
+          <LocationSelector />
+          <DatePicker />
         </div>
       </div>
     </div>
