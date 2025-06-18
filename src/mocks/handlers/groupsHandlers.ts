@@ -1,9 +1,9 @@
 import { isAfter, isBefore, parseISO } from 'date-fns';
-import { http, HttpResponse } from 'msw';
+import { delay, http, HttpResponse } from 'msw';
 import { GenderLabels } from '@/constants/genderLabels';
 import { GroupCategoryLabels } from '@/constants/groupLabels';
 import { GenderType, GroupCategoryType } from '@/types/enums';
-import { CreateGroupApiRequest } from '@/types/group';
+import { CreateGroupApiRequest, Member } from '@/types/group';
 
 export const GROUPS_DATA = [
   {
@@ -659,6 +659,16 @@ export const GROUPS_DATA = [
   },
 ];
 
+export const GROUP_MEMBERS_DATA: Member[] = Array.from(
+  { length: 100 },
+  (_, i) => ({
+    memberId: `member-${i + 1}`,
+    name: `멤버 ${i + 1}`,
+    profileImage: `https://picsum.photos/seed/member${(i % 70) + 1}/200/300`,
+    role: i === 0 ? 'HOST' : 'MEMBER',
+  })
+);
+
 export const groupsHandlers = [
   http.get(
     'http://localhost:3000/api/v1/performances/:performanceId/groups',
@@ -776,4 +786,34 @@ export const groupsHandlers = [
       },
     });
   }),
+  http.get(
+    'http://localhost:3000/api/v1/groups/:groupId/members',
+    async ({ request }) => {
+      await delay(2000);
+      const url = new URL(request.url);
+      const groupId = url.searchParams.get('groupId');
+      const cursorId = Number(url.searchParams.get('cursorId'));
+      const size = Number(url.searchParams.get('size')) || 20;
+
+      const startIndex = isNaN(cursorId) ? cursorId : 0;
+      const endIndex = startIndex + size;
+      const slicedData = GROUP_MEMBERS_DATA.slice(startIndex, endIndex);
+
+      const hasNext = endIndex < GROUP_MEMBERS_DATA.length;
+      const nextCursorId = hasNext ? endIndex : undefined;
+
+      return HttpResponse.json({
+        success: true,
+        message: '그룹 멤버 조회 성공',
+        data: {
+          groupId,
+          performanceId: 'performance-123',
+          memberCount: GROUP_MEMBERS_DATA.length,
+          members: slicedData,
+        },
+        hasNext,
+        cursorId: nextCursorId,
+      });
+    }
+  ),
 ];
