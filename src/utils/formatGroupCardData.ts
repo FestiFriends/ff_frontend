@@ -56,7 +56,7 @@ export const formatPerformanceGroups = (
     host: {
       hostId: group.host.hostId,
       name: group.host.name,
-      rating: group.host.rating,
+      rating: Number(group.host.rating.toFixed(1)),
       profileImage: group.host.profileImage,
     },
     isHost: group.isHost,
@@ -117,7 +117,7 @@ export const formatJoinedGroups = (groups: JoinedGroupsApiResponse): Group[] =>
     host: {
       hostId: group.host.hostId,
       name: group.host.name,
-      rating: group.host.rating,
+      rating: Number(group.host.rating.toFixed(1)),
       profileImage: group.host.profileImage,
     },
     isHost: group.isHost,

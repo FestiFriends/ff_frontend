@@ -121,7 +121,6 @@ const Applications = () => {
       ))}
       {isFetchingNextPage && <p>로딩 중...</p>}
       <div ref={bottomRef} />
-
       <Modal>
         <ModalTrigger>
           <button ref={triggerRef}></button>
