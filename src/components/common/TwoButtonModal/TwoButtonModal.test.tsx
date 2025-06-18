@@ -1,7 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { renderHook, act } from '@testing-library/react';
-import TwoButtonModal, { useModalController } from './TwoButtonModal';
+import { useModalController } from '@/hooks';
+import TwoButtonModal from './TwoButtonModal';
 import type { ModalStyles } from './TwoButtonModal.style';
 
 interface MockModalProps {

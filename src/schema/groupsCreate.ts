@@ -11,7 +11,7 @@ const dateRangeSchema = z
 
 export const groupCreateSchema = z.object({
   name: z.string().min(1, '공연 이름을 입력해주세요'),
-  category: z.enum(['동행', '탐승', '숙박'], {
+  category: z.enum(['동행', '탑승', '숙박'], {
     required_error: '종류를 선택해주세요',
   }),
   title: z.string().min(1, '제목을 입력해주세요'),

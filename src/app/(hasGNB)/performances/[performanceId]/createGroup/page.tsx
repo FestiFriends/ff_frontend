@@ -42,8 +42,9 @@ interface Props {
 const CreateGroupPage = ({ performanceTitle }: Props) => {
   const pathname = usePathname();
   const performanceId = pathname.split('/')[2];
-  const { data: performanceDetail } = useGetPerformanceDetail(performanceId);
-  const performanceName = performanceTitle || performanceDetail?.data?.title;
+  const { data: performanceDetail, isLoading } =
+    useGetPerformanceDetail(performanceId);
+  const performanceName = performanceDetail?.data?.title;
   const createGroupMutation = useCreateGroup();
 
   const {
@@ -75,7 +76,11 @@ const CreateGroupPage = ({ performanceTitle }: Props) => {
           <FormTextInput
             name='name'
             control={control}
-            placeholder={performanceName}
+            placeholder={
+              isLoading
+                ? '공연 정보를 불러오는 중...'
+                : performanceName || '공연 이름'
+            }
             disabled={true}
           />
         </LabeledWrapper>

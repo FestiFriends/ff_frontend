@@ -52,7 +52,7 @@ export interface GetGroupsParams {
 
 export interface CreateGroupFormData {
   name: string;
-  category: '동행' | '탐승' | '숙박';
+  category: '동행' | '탑승' | '숙박';
   title: string;
   description: string;
   region: string;

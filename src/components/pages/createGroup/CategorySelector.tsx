@@ -26,7 +26,7 @@ const CategorySelector = <
   rules,
   className,
 }: CategorySelectorProps<TFieldValues, TName>) => {
-  const categories = ['동행', '탐승', '숙박'];
+  const categories = ['동행', '탑승', '숙박'];
 
   return (
     <div className={className}>
