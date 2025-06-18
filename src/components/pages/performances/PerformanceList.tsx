@@ -1,3 +1,5 @@
+'use client';
+
 import { PerformanceCard } from '@/components/common';
 import { Performance } from '@/types/performance';
 
