@@ -26,31 +26,14 @@ const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
     fetchNextPage,
     hasNextPage,
     isPending,
+    isError,
     isFetchingNextPage,
-    status,
   } = useGetChatHistory(chatRoomId, 20);
+
   if (!isConnected) {
     return (
       <div className='relative flex h-[60dvh] flex-col items-center justify-center gap-2'>
         <p className='font-semibold text-gray-500'>{statusMessage}</p>
-        <ChatMessageInput
-          disabled={true}
-          sendMessage={() => {}}
-        />
-      </div>
-    );
-  }
-
-  if (status === 'error') {
-    return (
-      <div className='relative flex h-[60dvh] flex-col items-center justify-center gap-2'>
-        <p className='font-semibold text-gray-500'>
-          메세지를 불러오지 못했습니다.
-        </p>
-        <ChatMessageInput
-          disabled={true}
-          sendMessage={() => {}}
-        />
       </div>
     );
   }
@@ -58,11 +41,21 @@ const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
   if (isPending) {
     return (
       <div className='relative flex h-[60dvh] flex-col items-center justify-center gap-2'>
-        <p className='font-semibold text-gray-500'>채팅방 연결 중...</p>
+        <p className='font-semibold text-gray-500'>메세지 불러오는 중...</p>
         <ChatMessageInput
           disabled={true}
           sendMessage={() => {}}
         />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className='relative flex h-[60dvh] flex-col items-center justify-center gap-2'>
+        <p className='font-semibold text-gray-500'>
+          예상치 못한 오류가 발생하였습니다.
+        </p>
       </div>
     );
   }
@@ -72,6 +65,7 @@ const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
     .reverse();
 
   const allMessages = [...historyMessages, ...liveMessages];
+  console.log(historyMessages);
 
   return (
     <div className='relative flex h-[60dvh] flex-col gap-2'>
