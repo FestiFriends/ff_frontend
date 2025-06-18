@@ -1,5 +1,6 @@
 import InstagramIcon from '@/components/icons/InstagramIcon';
 import { FullProfile } from '@/types/profiles';
+import ProfileHeaderTagList from './ProfileHeaderTagList';
 import ProfileInfoBox from './ProfileInfoBox';
 
 interface ProfileHeaderProps {
@@ -42,16 +43,7 @@ const ProfileHeader = ({ profile, onEditClick }: ProfileHeaderProps) => {
         </div>
       )}
 
-      <div className='mt-[14px] flex w-full max-w-xl flex-wrap gap-[6px]'>
-        {filteredTags.map((tag, i) => (
-          <span
-            key={i}
-            className='rounded-full bg-gray-25 px-[10px] py-[9px] text-12_M text-gray-700'
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
+      <ProfileHeaderTagList tags={filteredTags} />
     </section>
   );
 };
