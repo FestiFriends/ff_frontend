@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Toast from '@/components/common/Toast/Toast';
 import { Summary, Tabs } from '@/components/pages/performanceDetail';
-import { useGetPerformanceDetail } from '@/hooks/performanceHooks/performanceHooks';
+import { useGetPerformanceDetail } from '@/hooks';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import CreateGroupButton from './CreateGroupButton';
 

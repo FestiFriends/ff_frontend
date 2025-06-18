@@ -16,6 +16,7 @@ export const GROUP_QUERY_KEYS = {
   leaveGroup: 'leaveGroup',
   joinGroup: 'joinGroup',
   groupPosts: 'groupPosts',
+  createGroup: 'createGroup',
 };
 
 export const REVIEWS_QUERY_KEYS = {
