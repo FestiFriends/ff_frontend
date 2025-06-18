@@ -115,7 +115,7 @@ const ChatMessageList = ({
       <div ref={topRef} />
       <div className='flex flex-col gap-5'>
         {isFetchingNextPage && (
-          <div className='mt-5 flex w-full items-center justify-center text-13_M text-gray-400'>
+          <div className='flex w-full items-center justify-center pt-5 text-13_M text-gray-400'>
             메세지 불러오는 중...
           </div>
         )}
@@ -124,8 +124,8 @@ const ChatMessageList = ({
           const showDateDivider =
             !prevMessage
             || !isSameDay(
-              parseISO(message.createdAt),
-              parseISO(prevMessage.createdAt)
+              message.createdAt.split('T')[0],
+              parseISO(prevMessage.createdAt.split('T')[0])
             );
 
           return (
