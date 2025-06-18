@@ -62,3 +62,18 @@ export interface CreateGroupFormData {
   maxParticipants: number;
   tags: string[];
 }
+
+export interface CreateGroupApiRequest {
+  performanceId: string;
+  title: string;
+  category: string;
+  gender: 'MALE' | 'FEMALE' | 'ALL';
+  startAge: number;
+  endAge: number;
+  location: string;
+  startDate: string;
+  endDate: string;
+  maxMembers: number;
+  description: string;
+  hashtag?: string[];
+}

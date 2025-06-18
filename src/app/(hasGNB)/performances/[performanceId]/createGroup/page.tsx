@@ -18,13 +18,13 @@ import {
   LabeledWrapper,
   LocationSelector,
 } from '@/components/pages/createGroup';
-import { useGetPerformanceDetail } from '@/hooks';
+import { useGetPerformanceDetail, useCreateGroup } from '@/hooks';
 import { groupCreateSchema } from '@/schema/groupsCreate';
 import { CreateGroupFormData } from '@/types/group';
 
 const DEFAULT_VALUES: CreateGroupFormData = {
   name: '',
-  category: '탐승',
+  category: '동행',
   title: '',
   description: '',
   region: '',
@@ -44,24 +44,20 @@ const CreateGroupPage = ({ performanceTitle }: Props) => {
   const performanceId = pathname.split('/')[2];
   const { data: performanceDetail } = useGetPerformanceDetail(performanceId);
   const performanceName = performanceTitle || performanceDetail?.data?.title;
+  const createGroupMutation = useCreateGroup();
 
   const {
     control,
     handleSubmit,
     reset,
-    formState: { isSubmitting, isValid },
+    formState: { isValid },
   } = useForm<CreateGroupFormData>({
     resolver: zodResolver(groupCreateSchema),
     defaultValues: DEFAULT_VALUES,
   });
 
-  const onSubmit = async (data: CreateGroupFormData) => {
-    try {
-      console.log('Form submitted:', data);
-      // TODO: 서버 액션 추가
-    } catch (error) {
-      console.error('Error creating group:', error);
-    }
+  const onSubmit = (data: CreateGroupFormData) => {
+    createGroupMutation.mutate({ performanceId, data });
   };
 
   const onReset = () => {
@@ -202,7 +198,7 @@ const CreateGroupPage = ({ performanceTitle }: Props) => {
             onSubmit={handleSubmit(onSubmit)}
             onReset={onReset}
             isValid={isValid}
-            isSubmitting={isSubmitting}
+            isSubmitting={createGroupMutation.isPending}
           />
         </div>
       </form>

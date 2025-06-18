@@ -1,6 +1,7 @@
 import apiFetcher from '@/lib/apiFetcher';
-import { GetGroupsParams } from '@/types/group';
+import { GetGroupsParams, CreateGroupFormData, CreateGroupApiRequest } from '@/types/group';
 import { PerformanceGroupsApiResponse } from '@/utils/formatGroupCardData';
+import { ApiResponse } from '@/types/api';
 
 export const groupsApi = {
   getGroups: async ({
@@ -29,4 +30,26 @@ export const groupsApi = {
         },
       }
     ),
+  
+  createGroup: async (performanceId: string, data: CreateGroupFormData) => {
+    const apiRequest: CreateGroupApiRequest = {
+      performanceId,
+      title: data.title,
+      category: data.category === '동행' ? '같이 동행' : data.category === '탑승' ? '같이 탑승' : '같이 숙박',
+      gender: data.gender === '남성' ? 'MALE' : data.gender === '여성' ? 'FEMALE' : 'ALL',
+      startAge: data.ageRange[0],
+      endAge: data.ageRange[1],
+      location: data.region,
+      startDate: data.dateRange.startDate || '',
+      endDate: data.dateRange.endDate || '',
+      maxMembers: data.maxParticipants,
+      description: data.description,
+      hashtag: data.tags,
+    };
+
+    return await apiFetcher.post<ApiResponse<{ groupId: string; performanceId: string }>>(
+      `/api/v1/groups`,
+      apiRequest
+    );
+  },
 };
