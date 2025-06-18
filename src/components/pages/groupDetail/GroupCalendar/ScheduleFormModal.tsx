@@ -180,7 +180,9 @@ const ScheduleFormModal = ({
           >
             <XIcon className='h-[24px] w-[24px]' />
           </button>
-          <h2 className='text-16_B font-bold text-gray-900'>등록</h2>
+          <h2 className='text-16_B font-bold text-gray-900'>
+            {isEdit ? '수정' : '등록'}
+          </h2>
         </div>
 
         <section>

@@ -13,7 +13,7 @@ const ScheduleLocationInput = ({
     <input
       type='text'
       placeholder='일정 장소 입력 (예: 강남역 카페)'
-      value={value}
+      value={value ?? ''}
       onChange={(e) => onChange(e.target.value)}
       className='h-[54px] w-full border-b border-gray-100 pl-[10px] text-16_M text-gray-950 placeholder:text-gray-500 focus:outline-none'
     />
