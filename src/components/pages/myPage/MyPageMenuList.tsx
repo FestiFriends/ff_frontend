@@ -12,11 +12,11 @@ const MyPageMenuList = () => {
   }, [isDarkMode]);
 
   return (
-    <ul className='w-full max-w-md space-y-4 text-14_M text-gray-950'>
-      <li>리뷰 관리</li>
-      <li>1:1 문의</li>
-      <li>약관 및 정책</li>
-      <li className='flex items-center justify-between'>
+    <ul className='w-full max-w-md space-y-4 text-14_M'>
+      <li className='flex h-10 w-full items-center px-[4px]'>리뷰 관리</li>
+      <li className='flex h-10 w-full items-center px-[4px]'>1:1 문의</li>
+      <li className='flex h-10 w-full items-center px-[4px]'>약관 및 정책</li>
+      <li className='flex h-10 items-center justify-between px-[4px]'>
         <span>다크 모드 전환</span>
         <label className='relative inline-flex cursor-pointer items-center'>
           <span className='sr-only'>다크 모드 전환</span>
