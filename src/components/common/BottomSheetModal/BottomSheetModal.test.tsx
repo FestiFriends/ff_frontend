@@ -3,7 +3,6 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import BottomSheetModal from './BottomSheetModal';
 
-// Modal 컴포넌트 모킹
 jest.mock('@/components/common/Modal', () => ({
   Modal: ({
     children,
@@ -38,7 +37,6 @@ jest.mock('@/components/common/Modal', () => ({
   ),
 }));
 
-// BottomSheetContent 모킹
 jest.mock('./BottomSheetContent', () => {
   const MockBottomSheetContent = ({
     children,
@@ -278,8 +276,6 @@ describe('BottomSheetModal', () => {
 
   describe('타입 안전성', () => {
     it('height prop이 올바른 타입만 허용된다', () => {
-      // 이 테스트는 TypeScript 컴파일 시점에서 확인됨
-      // 런타임에서는 유효한 값들만 테스트
       const validHeights = ['half', 'full', 'auto'] as const;
 
       validHeights.forEach((height) => {
