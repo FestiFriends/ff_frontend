@@ -1,11 +1,12 @@
 import { CursorResponse } from '@/types/api';
-import { Application } from '@/types/application';
+import { Application, AppliedGroup } from '@/types/application';
 import {
   ApplicationStatusType,
   GenderType,
   GroupCategoryType,
 } from '@/types/enums';
 import { ApplicationGroupInfo } from '../types/application';
+import { formatNormalDate } from './date';
 
 // 신청한 모임 목록
 export interface AppliedGroupsApiResponse extends CursorResponse {
@@ -30,21 +31,23 @@ export interface AppliedGroupsApiResponse extends CursorResponse {
 
 export const formatAppliedGroups = (
   groups: AppliedGroupsApiResponse
-): Application[] =>
+): AppliedGroup[] =>
   groups.data.map((group) => ({
     applicationId: group.applicationId,
-    userId: group.hostName,
-    userName: group.hostName,
-    rating: group.hostRating,
-    gender: group.gender as GenderType,
-    age: 0,
-    profileImage: {
-      id: '0',
+    performanceId: group.performanceId,
+    poster: group.poster,
+    groupId: group.groupId,
+    groupName: group.groupName,
+    category: group.category as GroupCategoryType,
+    hostName: group.hostName,
+    hostRating: Number(group.hostRating.toFixed(1)),
+    hostProfileImage: {
       src: group.hostProfileImage,
       alt: group.hostName,
     },
+    gender: group.gender as GenderType,
     applicationText: group.applicationText,
-    createdAt: group.createdAt,
+    createdAt: formatNormalDate(group.createdAt),
     status: group.status as ApplicationStatusType,
   }));
 
@@ -103,6 +106,7 @@ export const formatApplications = (
     endDate: item.endDate,
     applications: item.applications.map((application) => ({
       ...application,
+      rating: Number(application.rating.toFixed(1)),
       gender: application.gender as GenderType,
       status: application.status as ApplicationStatusType,
     })),
