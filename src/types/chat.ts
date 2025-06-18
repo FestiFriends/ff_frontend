@@ -5,9 +5,9 @@ export interface ChatMessage {
   senderId: number;
   senderName: string;
   senderImage?: {
-    id: number;
-    src: string;
-    alt: string;
+    id?: number;
+    src?: string;
+    alt?: string;
   };
   content: string;
   createdAt: string;
@@ -18,5 +18,7 @@ export type GetChatHistoryRequest = {
   chatRoomId: number;
 } & CursorRequest;
 
-export type GetChatHistoryResponse = ApiResponse<ChatMessage[]>
-  & CursorResponse;
+export type GetChatHistoryResponse = {
+  data: ChatMessage[];
+} & CursorResponse
+  & ApiResponse;
