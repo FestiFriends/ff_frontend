@@ -20,7 +20,7 @@ import { ApplicationStatus } from '@/types/enums';
 import {
   AppliedGroupsApiResponse,
   formatAppliedGroups,
-} from '@/utils/formatApplicationCardData';
+} from '@/utils/formatApplicationData';
 import ApplicationCard from './ApplicationCard/ApplicationCard';
 
 const size = 20;

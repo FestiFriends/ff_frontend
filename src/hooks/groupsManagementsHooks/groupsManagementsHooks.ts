@@ -1,7 +1,15 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { InfiniteData } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQueryClient,
+  useInfiniteQuery,
+} from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
 import { GROUPS_MANAGEMENTS_QUERY_KEYS } from '@/constants/queryKeys';
 import { groupsManagementsApi } from '@/services/groupsManagementsService';
 import { ApiResponse } from '@/types/api';
+import { ApplicationStatusType } from '@/types/enums';
+import { ApplicationsApiResponse } from '@/utils/formatApplicationData';
 
 // 신청 취소
 export const useCancelApplication = () => {
@@ -46,6 +54,45 @@ export const useLeaveGroup = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [GROUPS_MANAGEMENTS_QUERY_KEYS.joinedGroups],
+      });
+    },
+  });
+};
+
+// 받은 신청서 목록
+export const useGetApplications = () => {
+  const size = 20;
+  return useInfiniteQuery<
+    AxiosResponse<ApplicationsApiResponse>,
+    ApiResponse,
+    InfiniteData<AxiosResponse<ApplicationsApiResponse>>,
+    string[],
+    number | undefined
+  >({
+    queryKey: [GROUPS_MANAGEMENTS_QUERY_KEYS.applications],
+    queryFn: ({ pageParam }) =>
+      groupsManagementsApi.getApplications({ cursorId: pageParam, size }),
+    getNextPageParam: (lastPage) =>
+      lastPage.data?.hasNext ? lastPage.data?.cursorId : undefined,
+    initialPageParam: undefined,
+  });
+};
+
+// 신청서 수락, 거절
+export const usePatchApplication = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<
+    ApiResponse,
+    ApiResponse,
+    { applicationId: string; status: ApplicationStatusType }
+  >({
+    mutationFn: ({ applicationId, status }) =>
+      groupsManagementsApi.patchApplication(applicationId, status),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [GROUPS_MANAGEMENTS_QUERY_KEYS.applications],
       });
     },
   });

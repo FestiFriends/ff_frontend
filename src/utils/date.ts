@@ -53,3 +53,7 @@ export const formatToKST = (isoString: string) => {
   const minute = timeString.split(':')[1];
   return `${meridiem} ${paddedHour}:${minute}`;
 };
+
+// yy.MM.dd
+export const formatNormalDate = (date: string | Date) =>
+  format(new Date(date), 'yy.MM.dd', { locale: ko });
