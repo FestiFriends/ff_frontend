@@ -66,3 +66,13 @@ export type WrittenReviewsResponse = {
   data: WrittenReviewsData[];
 } & CursorResponse
   & ApiResponse;
+
+export interface SelectedWrittenReview {
+  groupId: string;
+  targetUserId: string;
+  targetUserName: string;
+  targetUserProfileImage: string;
+  defaultTag: ReviewTagType[];
+  content?: string;
+  rating: number;
+}
