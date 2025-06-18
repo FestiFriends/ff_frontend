@@ -20,7 +20,7 @@ const PerformanceDetailSummary = ({
   isPending,
   performanceDetail,
 }: PerformanceDetailSummaryProps) => {
-  const isLoggedIn = useAuthStore((state) => state.isLoggedin);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const [showToast, setShowToast] = useState(false);
   const { mutate } = usePatchPerformanceLiked();
   const imageWidth = 500;

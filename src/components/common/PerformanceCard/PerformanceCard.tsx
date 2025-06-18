@@ -2,28 +2,33 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import PerformanceCardHeadless from '@/components/common/PerformanceCardHeadless';
-import Toast from '@/components/common/Toast/Toast';
+import { PerformanceCardHeadless, Toast } from '@/components/common';
 import LikeIcon from '@/components/icons/LikeIcon';
-import { usePatchPerformanceLiked } from '@/hooks/performanceHooks/performanceHooks';
+import { usePatchPerformanceLiked } from '@/hooks';
+import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import { Performance } from '@/types/performance';
 
 interface PerformanceCardProps {
   performance: Performance;
   ranking?: number;
+  size?: 'fixed' | 'auto';
 }
 
-const { Image, LikeButton, Location, Root, Title } = PerformanceCardHeadless;
+const PerformanceCard = ({
+  performance,
+  ranking,
+  size = 'fixed',
+}: PerformanceCardProps) => {
+  const { Image, LikeButton, Location, Root, Title } = PerformanceCardHeadless;
 
-const PerformanceCard = ({ performance, ranking }: PerformanceCardProps) => {
-  const isLoggedin = useAuthStore((state) => state.isLoggedin);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const [showToast, setShowToast] = useState(false);
   const { mutate } = usePatchPerformanceLiked();
   const router = useRouter();
 
   const toggleLike = () => {
-    if (!isLoggedin) {
+    if (!isLoggedIn) {
       setShowToast(true);
       return;
     }
@@ -44,7 +49,10 @@ const PerformanceCard = ({ performance, ranking }: PerformanceCardProps) => {
         onCardClick={() => router.push(`/performances/${performance.id}`)}
         onLikeClick={toggleLike}
         performance={performance}
-        className='relative flex w-[150px] flex-col gap-3 border-0'
+        className={cn(
+          'relative flex flex-col gap-3 border-0',
+          size === 'fixed' ? 'w-[150px]' : 'w-full'
+        )}
       >
         <LikeButton
           isLiked={performance.isLiked}
@@ -65,14 +73,29 @@ const PerformanceCard = ({ performance, ranking }: PerformanceCardProps) => {
           className='top-2.5 right-2.5 h-fit w-fit cursor-pointer bg-transparent hover:bg-transparent'
         />
         <div className='relative'>
-          <Image className='h-[200px] w-[150px] rounded-[12px]' />
+          <Image
+            className={cn(
+              'rounded-[12px]',
+              size === 'fixed' ? 'h-[200px] w-[150px]' : 'aspect-[3/4] w-full'
+            )}
+          />
           <span className='absolute bottom-[13px] left-[17px] flex h-[38px] items-center text-32_B text-white'>
             {ranking}
           </span>
         </div>
         <div className='flex flex-col gap-2'>
-          <Title className='mb-0 h-[19px] w-[150px] truncate !text-16_B text-gray-950' />
-          <Location className='h-[17px] w-[150px] truncate to-gray-600 !text-14_M' />
+          <Title
+            className={cn(
+              'mb-0 h-[19px] truncate !text-16_B text-gray-950',
+              size === 'fixed' ? 'w-[150px]' : 'w-full'
+            )}
+          />
+          <Location
+            className={cn(
+              'h-[17px] truncate to-gray-600 !text-14_M',
+              size === 'fixed' ? 'w-[150px]' : 'w-full'
+            )}
+          />
         </div>
       </Root>
     </>
