@@ -173,6 +173,7 @@ const PerformanceDetailInfo = ({
               alt={image.alt || ''}
               width={imageWidth}
               height={imageHeight}
+              sizes={`${imageWidth}px`}
             />
           </div>
         ))}

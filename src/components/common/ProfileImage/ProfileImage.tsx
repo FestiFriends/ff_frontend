@@ -12,10 +12,10 @@ interface ProfileImageProps {
 }
 
 const sizeMap = {
-  xs: 'w-4 h-4',
-  sm: 'w-10 h-10',
-  md: 'w-12 h-12',
-  lg: 'w-16 h-16',
+  xs: { width: 16, height: 16, className: 'w-4 h-4' },
+  sm: { width: 40, height: 40, className: 'w-10 h-10' },
+  md: { width: 48, height: 48, className: 'w-12 h-12' },
+  lg: { width: 64, height: 64, className: 'w-16 h-16' },
 };
 
 const ProfileImage = ({
@@ -26,13 +26,13 @@ const ProfileImage = ({
   border = true,
   className,
 }: ProfileImageProps) => {
-  const sizeClass = sizeMap[size] || sizeMap['md'];
+  const sizeConfig = sizeMap[size] || sizeMap['md'];
 
   return (
     <div
       className={cn(
         'relative overflow-hidden bg-gray-100',
-        sizeClass,
+        sizeConfig.className,
         rounded ? 'rounded-full' : 'rounded-md',
         border && 'border border-gray-300',
         className
@@ -42,8 +42,9 @@ const ProfileImage = ({
         <Image
           src={src}
           alt={alt}
-          fill
-          sizes='100%'
+          width={sizeConfig.width}
+          height={sizeConfig.height}
+          sizes={`${sizeConfig.width}px`}
           className='object-cover'
         />
       ) : (

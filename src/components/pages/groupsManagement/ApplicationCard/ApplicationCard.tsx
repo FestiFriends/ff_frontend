@@ -105,7 +105,9 @@ const ApplicationCard = ({
             <Image
               src={applicationData.poster}
               alt={'공연 포스터'}
-              fill
+              width={102}
+              height={136}
+              sizes='102px'
               className='object-cover'
             />
           </div>

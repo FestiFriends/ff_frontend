@@ -52,7 +52,9 @@ const SlideCard = (props: SlideCardProps) => {
           <Image
             src={groupInfo.performance.poster}
             alt={groupInfo.performance.title}
-            fill
+            width={84}
+            height={112}
+            sizes='84px'
             className='object-cover'
           />
         </div>

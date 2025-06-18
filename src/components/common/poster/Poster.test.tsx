@@ -61,7 +61,7 @@ test.each([
   }
 );
 
-test('size props가 잘못된 값일 경우 size 관련 클래스가 적용되지 않아야 한다', () => {
+test('size props가 잘못된 값일 경우 기본 사이즈(md)가 적용되어야 한다', () => {
   const { container } = render(
     <Poster
       src='/poster.jpg'
@@ -72,8 +72,8 @@ test('size props가 잘못된 값일 경우 size 관련 클래스가 적용되�
   );
   const wrapper = container.firstChild as HTMLElement;
 
-  expect(wrapper.className).not.toMatch(/\bw-\d+/);
-  expect(wrapper.className).not.toMatch(/\bh-\d+/);
+  expect(wrapper.className).toMatch(/\bw-28\b/);
+  expect(wrapper.className).toMatch(/\bh-40\b/);
 });
 
 test('className props가 전달되면 해당 클래스가 포함되어야 한다', () => {

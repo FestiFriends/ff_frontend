@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { callLogout } from '@/providers/AuthStoreProvider';
 import { ApiResponse } from '@/types/api';
 import { getNewAccessToken } from '@/utils/getNewAccessToken';
 
@@ -46,6 +47,12 @@ instance.interceptors.response.use(
       } catch (refreshErr) {
         return Promise.reject(refreshErr);
       }
+    }
+
+    if (error.response?.status === 403) {
+      callLogout();
+
+      return Promise.reject(error);
     }
 
     return Promise.reject(error);
