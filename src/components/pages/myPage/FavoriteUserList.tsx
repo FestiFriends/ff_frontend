@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import ProfileCard from '@/components/common/ProfileCard/ProfileCard';
 import { usersApi } from '@/services/usersService';
 
 const FavoriteUserList = () => {
@@ -10,8 +11,12 @@ const FavoriteUserList = () => {
   if (isLoading) return <div>로딩 중...</div>;
 
   return (
-    <ul className='space-y-4'>
-      {data?.data.map((user) => <li key={user.id}>{user.name}</li>)}
+    <ul className='flex flex-col gap-4'>
+      {data?.data.map((user) => (
+        <li key={user.id}>
+          <ProfileCard profile={{ ...user, isMyProfile: false }} />
+        </li>
+      ))}
     </ul>
   );
 };
