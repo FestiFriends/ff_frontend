@@ -42,7 +42,7 @@ const PerformancesPage = () => (
       <Header title='공연 목록' />
       <Search />
       <div className='px-4 py-2'>
-        <div className='z-20 flex w-full gap-4'>
+        <div className='z-20 scrollbar-hide flex w-full gap-4 overflow-x-auto'>
           {Object.values(DROPDOWN_OPTIONS).map((option) => (
             <SortDropdown
               key={option.queryKey}
@@ -50,11 +50,11 @@ const PerformancesPage = () => (
               placeholder={option.placeholder}
               options={option.data}
               fullSize={option.fullSize ? option.fullSize : false}
-              className='w-fit'
+              className='flex-shrink-0'
             />
           ))}
-          <LocationSelector />
-          <DatePicker />
+          <LocationSelector className='flex-shrink-0' />
+          <DatePicker className='flex-shrink-0' />
         </div>
       </div>
     </div>

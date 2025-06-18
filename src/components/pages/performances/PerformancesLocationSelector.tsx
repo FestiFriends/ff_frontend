@@ -71,7 +71,7 @@ const PerformancesLocationSelector = ({
   }, [queryKey, resetPage, setMultipleQueryParams]);
 
   const selectorTriggerClasses = cn(
-    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 transition-all select-none',
+    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 transition-all select-none whitespace-nowrap',
     (isOpen || selectedLocation) && 'border-gray-950 bg-gray-950 text-white'
   );
 
