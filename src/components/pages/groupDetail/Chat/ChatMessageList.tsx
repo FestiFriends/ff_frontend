@@ -121,7 +121,10 @@ const ChatMessageList = ({
           );
 
         return (
-          <div key={message.chatId}>
+          <div
+            key={message.chatId}
+            className='flex flex-col gap-5'
+          >
             {showDateDivider && <ChatDateDivider date={message.createdAt} />}
             <ChatMessage
               message={message}

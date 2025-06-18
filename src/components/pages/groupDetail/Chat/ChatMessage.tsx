@@ -14,9 +14,9 @@ const ChatMessage = ({ message, isMine }: ChatMessageProps) => {
         <span className='text-right text-12_M leading-normal tracking-[-0.3px] text-gray-500'>
           {formatToKST(message.createdAt)}
         </span>
-        <div className='rounded-l-[20px] rounded-tr-[2px] rounded-br-[20px] bg-[#ececec] p-3.5'>
+        <div className='rounded-l-[20px] rounded-tr-[2px] rounded-br-[20px] bg-[#ececec] px-4 py-2.5'>
           <span className='text-16_M leading-normal tracking-[-0.4px] text-gray-950'>
-            {message.chatId}: {message.content}
+            {message.content}
           </span>
         </div>
       </div>
@@ -36,9 +36,9 @@ const ChatMessage = ({ message, isMine }: ChatMessageProps) => {
           {message.senderName}
         </span>
         <div className='flex items-end gap-1.5'>
-          <div className='rounded-tl-[2px] rounded-r-[20px] rounded-bl-[20px] bg-[#ececec] p-3.5'>
+          <div className='rounded-tl-[2px] rounded-r-[20px] rounded-bl-[20px] bg-[#ececec] px-4 py-2.5'>
             <span className='text-16_M leading-normal tracking-[-0.4px] text-gray-950'>
-              {message.chatId}: {message.content}
+              {message.content}
             </span>
           </div>
           <span className='text-left text-12_M leading-normal tracking-[-0.3px] text-gray-500'>
