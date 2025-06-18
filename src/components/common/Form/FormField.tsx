@@ -1,6 +1,6 @@
 import React from 'react';
 import { Controller, Control, FieldPath, FieldValues } from 'react-hook-form';
-import { LabeledWrapper } from '@/components/pages/groupCreate';
+import { LabeledWrapper } from '@/components/pages/createGroup';
 
 interface FormFieldProps<T extends FieldValues> {
   name: FieldPath<T>;

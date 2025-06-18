@@ -50,7 +50,7 @@ export interface GetGroupsParams {
   gender?: GenderType | string;
 }
 
-export interface GroupCreateFormData {
+export interface CreateGroupFormData {
   name: string;
   category: '동행' | '탐승' | '숙박';
   title: string;

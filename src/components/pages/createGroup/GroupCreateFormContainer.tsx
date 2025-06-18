@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { LabeledWrapper } from '@/components/pages/groupCreate';
+import { LabeledWrapper } from '@/components/pages/createGroup';
 import { useStyles } from '@/hooks';
 
 const GroupCreateFormContainer = () => {
