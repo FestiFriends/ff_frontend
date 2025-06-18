@@ -13,7 +13,7 @@ interface PerformanceSortDropdownProps {
   placeholder?: string;
   defaultValue?: string;
   data?: unknown[];
-  width?: 'full' | 'auto';
+  fullSize?: boolean;
   className?: string;
 }
 
@@ -23,7 +23,7 @@ const PerformanceSortDropdown = ({
   placeholder = '정렬',
   defaultValue = '',
   data = [],
-  width = 'auto',
+  fullSize = false,
   className,
 }: PerformanceSortDropdownProps) => {
   const sortOptions = options || [];
@@ -43,10 +43,8 @@ const PerformanceSortDropdown = ({
     setSortKey(value);
   };
 
-  const widthClass = width === 'full' ? 'w-full' : 'w-auto';
-
   return (
-    <div className={cn(widthClass, className)}>
+    <div className={cn('z-20', className)}>
       <SortDropdown
         options={sortOptions}
         defaultValue={sortKey}
