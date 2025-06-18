@@ -7,7 +7,7 @@ interface ChatInfoProps {
 }
 
 const ChatInfo = ({ groupInfo }: ChatInfoProps) => (
-  <div className='flex items-center gap-2.5'>
+  <div className='mb-2.5 flex items-center gap-2.5'>
     <ProfileImage
       size='sm'
       src={groupInfo?.performance?.poster}
