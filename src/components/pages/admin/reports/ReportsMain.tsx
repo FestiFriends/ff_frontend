@@ -32,20 +32,22 @@ const ReportsMain = () => {
             } else {
               return (
                 <>
-                  <ul className='flex h-full flex-col justify-between gap-3 p-5'>
-                    {data.data.map((item) => (
-                      <ReportCard
-                        key={item.id}
-                        data={item}
-                      />
-                    ))}
+                  <div className='flex h-full flex-col justify-between p-5'>
+                    <ul className='flex flex-col gap-3'>
+                      {data.data.map((item) => (
+                        <ReportCard
+                          key={item.id}
+                          data={item}
+                        />
+                      ))}
+                    </ul>
 
                     <QueryPagination
                       totalPages={data.totalPages}
                       maxVisiblePages={5}
                       className='mt-4'
                     />
-                  </ul>
+                  </div>
                 </>
               );
             }
