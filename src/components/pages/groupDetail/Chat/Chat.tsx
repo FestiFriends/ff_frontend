@@ -2,14 +2,18 @@
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGetUserId } from '@/hooks/userHooks/userHooks';
+import { GroupInfo } from '@/types/group';
 import PostNotice from '../PostNotice/PostNotice';
 import ChatArea from './ChatArea';
 import ChatInfo from './ChatInfo';
 
 const hasNotice = true;
-const chatRoomId = 1;
 
-const Chat = () => {
+interface ChatProps {
+  groupInfo?: GroupInfo;
+}
+
+const Chat = ({ groupInfo }: ChatProps) => {
   const { data: userId, isPending, isError } = useGetUserId();
 
   if (isPending)
@@ -20,7 +24,7 @@ const Chat = () => {
       </div>
     );
 
-  if (isError || !userId) {
+  if (isError || !userId || !groupInfo?.isMember) {
     return (
       <div className='flex flex-col items-center justify-center px-4 py-5'>
         <p className='font-semibold text-gray-500'>
@@ -31,13 +35,13 @@ const Chat = () => {
   }
 
   return (
-    <div className='px-4'>
+    <div className='px-4 pt-4 pb-6'>
       <div className='flex flex-col rounded-[16px] bg-[#fffcfc] px-4 py-4 shadow-[0px_0px_6px_0px_rgba(0,0,0,0.16)]'>
-        <ChatInfo />
-        {hasNotice && <PostNotice />}
+        <ChatInfo groupInfo={groupInfo} />
+        {hasNotice && <PostNotice className='mt-3.5' />}
         <ChatArea
           userId={userId.data?.userId}
-          chatRoomId={chatRoomId}
+          chatRoomId={groupInfo?.chatRoomId}
         />
       </div>
     </div>

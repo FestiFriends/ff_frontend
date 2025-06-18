@@ -1,20 +1,28 @@
-import ProfileIcon from '@/components/icons/ProfileIcon';
+import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
 import UserIcon from '@/components/icons/UserIcon';
+import { GroupInfo } from '@/types/group';
 
-const title = '8/16 공연 같이 가요';
-const memberCount = 8;
+interface ChatInfoProps {
+  groupInfo?: GroupInfo;
+}
 
-const ChatInfo = () => (
-  <div className='mb-3.5 flex items-center gap-2.5'>
-    <ProfileIcon className='aspect-square h-10 w-10 shrink-0' />
+const ChatInfo = ({ groupInfo }: ChatInfoProps) => (
+  <div className='mb-2.5 flex items-center gap-2.5'>
+    <ProfileImage
+      size='sm'
+      src={groupInfo?.performance?.poster}
+      alt={groupInfo?.performance?.title}
+      border={false}
+      className='aspect-square shrink-0'
+    />
     <div className='flex flex-col gap-2'>
       <span className='text-14_B leading-normal tracking-[-0.35px] text-gray-950'>
-        {title}
+        {groupInfo?.title}
       </span>
       <div className='flex items-center gap-0.5'>
         <UserIcon className='aspect-square h-4 w-4 text-gray-600' />
         <span className='shrink-0 text-13_M leading-normal tracking-[-0.325px] text-gray-600'>
-          {memberCount}
+          {groupInfo?.memberCount}
         </span>
       </div>
     </div>

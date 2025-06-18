@@ -5,21 +5,28 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import ChevronDownIcon from '@/components/icons/ChevronDownIcon';
 import MegaphoneIcon from '@/components/icons/MegaphoneIcon';
+import { useGetGroupPosts } from '@/hooks/groupHooks/groupHooks';
+import { cn } from '@/lib/utils';
 
-const postId = 'post123';
-const content =
-  '하고 싶은 곡 여기 댓글에 달아주세요~\n(라이브나 공연영상 등 참고 영상 링크 다셔도 좋습니당)\n\n<4월까지 인당 1곡 이상>';
+interface PostNoticeProps {
+  className?: string;
+}
 
-const PostNotice = () => {
+const PostNotice = ({ className }: PostNoticeProps) => {
   const { groupId } = useParams<{ groupId: string }>();
+  const { data: posts } = useGetGroupPosts({ groupId });
   const [isOpen, setIsOpen] = useState(false);
+
+  if (posts?.posts.length === 0 || !posts?.posts[0].isPinned) {
+    return null;
+  }
 
   const toggleNotice = () => {
     setIsOpen((prev) => !prev);
   };
 
   return (
-    <div className='relative mb-11'>
+    <div className={cn('relative mb-11', className)}>
       <div className='absolute top-0 z-1 rounded-[12px] bg-primary-100 px-4.5 py-2.5'>
         <div className='flex items-start justify-between gap-2'>
           <div className='flex w-full flex-1 items-start gap-2 overflow-hidden'>
@@ -31,7 +38,9 @@ const PostNotice = () => {
                   : 'line-clamp-1 overflow-hidden text-ellipsis'
               }`}
             >
-              <Link href={`/groups/${groupId}/posts/${postId}`}>{content}</Link>
+              <Link href={`/groups/${groupId}/posts/${posts?.posts[0].id}`}>
+                {posts?.posts[0].content}
+              </Link>
             </div>
           </div>
 
