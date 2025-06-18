@@ -1,12 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Button from '@/components/common/Button/Button';
 import DetailHeader from '@/components/common/DetailHeader/DetailHeader';
 import MessageInput from '@/components/common/MessageInput/MessageInput';
 import BackIcon from '@/components/icons/BackIcon';
-import SendIcon from '@/components/icons/SendIcon';
 import {
   useCreateComment,
   useGetPost,
