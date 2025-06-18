@@ -13,6 +13,7 @@ import {
   ApplicationsApiResponse,
   AppliedGroupsApiResponse,
 } from '@/utils/formatApplicationData';
+import { JoinedGroupsApiResponse } from '@/utils/formatGroupCardData';
 
 // 신청한 모임 목록
 export const useGetAppliedGroups = () => {
@@ -62,6 +63,25 @@ export const useConfirmApplication = () => {
         queryKey: [GROUPS_MANAGEMENTS_QUERY_KEYS.appliedGroups],
       });
     },
+  });
+};
+
+// 참가중인 모임 목록
+export const useGetJoinedGroups = () => {
+  const size = 20;
+  return useInfiniteQuery<
+    AxiosResponse<JoinedGroupsApiResponse>,
+    ApiResponse,
+    InfiniteData<AxiosResponse<JoinedGroupsApiResponse>>,
+    string[],
+    number | undefined
+  >({
+    queryKey: [GROUPS_MANAGEMENTS_QUERY_KEYS.joinedGroups],
+    queryFn: ({ pageParam }) =>
+      groupsManagementsApi.getJoinedGroups({ cursorId: pageParam, size }),
+    getNextPageParam: (lastPage) =>
+      lastPage.data?.hasNext ? lastPage.data?.cursorId : undefined,
+    initialPageParam: undefined,
   });
 };
 
