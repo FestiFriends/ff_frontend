@@ -8,3 +8,4 @@ export { default as DateSelector } from './DateSelector';
 export { default as AgeRangeSlider } from './AgeRangeSlider';
 export { default as TagInput } from './TagInput';
 export { default as FormActions } from './FormActions';
+export { default as LocationSelector } from './LocationSelector';

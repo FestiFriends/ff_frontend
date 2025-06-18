@@ -1,9 +1,6 @@
 import React from 'react';
-import { Button } from '@/components/common';
-import {
-  TwoButtonModal,
-  useModalController,
-} from '@/components/common/TwoButtonModal';
+import { Button, TwoButtonModal } from '@/components/common';
+import { useModalController } from '@/hooks';
 
 interface FormActionProps {
   onSubmit: () => void;

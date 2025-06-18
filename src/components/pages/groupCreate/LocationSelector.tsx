@@ -1,0 +1,142 @@
+import React from 'react';
+import {
+  useController,
+  Control,
+  FieldPath,
+  FieldValues,
+  RegisterOptions,
+} from 'react-hook-form';
+import { BottomSheetModal } from '@/components/common';
+import ChevronRightIcon from '@/components/icons/ChevronRightIcon';
+import { LocationLabels } from '@/constants/locationLabels';
+import { cn } from '@/lib/utils';
+import { generateFilterOptions } from '@/utils';
+const LOCATION_OPTIONS = generateFilterOptions(LocationLabels);
+
+interface FormLocationSelectorProps<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+> {
+  name: TName;
+  control: Control<TFieldValues>;
+  placeholder?: string;
+  rules?: RegisterOptions<TFieldValues, TName>;
+  disabled?: boolean;
+  className?: string;
+  triggerClassName?: string;
+}
+
+const FormLocationSelector = <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>({
+  name,
+  control,
+  placeholder = '지역을 선택해주세요',
+  rules,
+  disabled = false,
+  className,
+  triggerClassName,
+}: FormLocationSelectorProps<TFieldValues, TName>) => {
+  const {
+    field,
+    fieldState: { error },
+  } = useController({
+    name,
+    control,
+    rules,
+  });
+
+  const selectedOption = LOCATION_OPTIONS.find(
+    (option) => option.value === field.value
+  );
+  const displayText = selectedOption?.label || placeholder;
+
+  const handleLocationSelect = (selectedValue: string) => {
+    field.onChange(selectedValue);
+  };
+
+  const TriggerButton = ({ onClick }: { onClick?: () => void }) => (
+    <button
+      type='button'
+      onClick={onClick}
+      disabled={disabled}
+      className={cn(
+        'flex w-full items-center gap-2 rounded-md border bg-white p-3 text-left transition-colors duration-200',
+        'hover:bg-gray-50',
+        'focus:ring-2',
+        'disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-50',
+        error && 'border-red-300 focus:ring-red-500',
+        triggerClassName
+      )}
+    >
+      <span
+        className={cn(
+          'flex-1 whitespace-nowrap',
+          selectedOption ? 'text-gray-900' : 'text-gray-500'
+        )}
+      >
+        {displayText}
+      </span>
+      <ChevronRightIcon className='h-4 w-4 flex-shrink-0' />
+    </button>
+  );
+
+  return (
+    <div className={className}>
+      <BottomSheetModal
+        trigger={<TriggerButton />}
+        height='auto'
+        title='지역 선택'
+        hasHandle={true}
+        hasClose={true}
+      >
+        <div className='p-5'>
+          <div className='grid grid-cols-4 place-items-stretch gap-4'>
+            {LOCATION_OPTIONS.map((option) => (
+              <button
+                key={option.value}
+                onClick={() => handleLocationSelect(option.value)}
+                className={cn(
+                  'flex items-center justify-center gap-2 rounded-[80px]',
+                  'border-1 border-gray-100 px-5 py-3',
+                  'text-14_M leading-normal tracking-[-0.35px] whitespace-nowrap',
+                  'transition-colors duration-200',
+                  'hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:outline-none',
+                  option.value === field.value
+                    ? 'border-blue-200 bg-blue-50 text-blue-700'
+                    : 'bg-white text-gray-700'
+                )}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+
+          {/* 선택된 항목이 있을 때 초기화 버튼 */}
+          {field.value && (
+            <div className='mt-4 border-t border-gray-100 pt-4'>
+              <button
+                onClick={() => handleLocationSelect('')}
+                className='w-full py-2 text-sm text-red-500 transition-colors hover:text-red-700'
+              >
+                선택 초기화
+              </button>
+            </div>
+          )}
+        </div>
+      </BottomSheetModal>
+
+      {error && (
+        <p
+          className='mt-1 text-sm text-red-500'
+          role='alert'
+        >
+          {error.message}
+        </p>
+      )}
+    </div>
+  );
+};
+
+export default FormLocationSelector;

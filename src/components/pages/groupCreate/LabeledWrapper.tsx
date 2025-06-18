@@ -16,11 +16,11 @@ const LabeledWrapper = ({
   className,
   labelClassName,
 }: Props) => {
-  const LABEL_CLASS = 'text-sm font-bold text-black ';
+  const LABEL_CLASS = 'text-sm font-bold text-black whitespace-nowrap w-fit';
 
   const CONTENT_CLASS = {
-    right: 'flex-row justify-between items-center',
-    bottom: 'flex-col gap-2.5',
+    right: 'flex-row justify-between items-center gap-3',
+    bottom: 'flex-col gap-3',
   };
   const Label = () => (
     <div className={cn(LABEL_CLASS, labelClassName)}>{label}</div>
