@@ -1,7 +1,5 @@
-// components/common/EventCalendar/EventCalendar/EventCalendar.tsx
-
+import CalendarBase from '@/components/common/EventCalendar/CalendarBase/CalendarBase';
 import { Performance } from '@/types/performance';
-import CalendarBase from '../CalendarBase/CalendarBase';
 import PerformanceCell from './PerformanceCell';
 
 interface EventCalendarProps {
