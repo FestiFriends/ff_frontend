@@ -3,8 +3,20 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import { Performance } from '@/types/performance';
-import * as PerformanceCard from './PerformanceCardHeadless';
+import PerformanceCardHeadless from './PerformanceCardHeadless';
 import { MESSAGES } from './PerformanceCardHeadless.messages';
+
+const {
+  Image,
+  LikeButton,
+  Location,
+  Root,
+  Title,
+  Status,
+  DateRange,
+  Cast,
+  Price,
+} = PerformanceCardHeadless;
 
 jest.mock('next/image', () => ({
   __esModule: true,
@@ -47,13 +59,13 @@ const mockPerformance: Performance = {
   isLiked: false,
 };
 
-describe('PerformanceCard', () => {
+describe('PerformanceCardHeadless', () => {
   describe('Root Component', () => {
     it('기본 렌더링이 정상적으로 동작한다', () => {
       render(
-        <PerformanceCard.Root performance={mockPerformance}>
+        <Root performance={mockPerformance}>
           <div>Test Content</div>
-        </PerformanceCard.Root>
+        </Root>
       );
 
       expect(screen.getByText('Test Content')).toBeInTheDocument();
@@ -84,12 +96,12 @@ describe('PerformanceCard', () => {
       const mockOnCardClick = jest.fn();
 
       render(
-        <PerformanceCard.Root
+        <Root
           performance={mockPerformance}
           onCardClick={mockOnCardClick}
         >
           <div>Clickable Content</div>
-        </PerformanceCard.Root>
+        </Root>
       );
 
       const cardElement = screen.getByRole('button');
@@ -102,12 +114,12 @@ describe('PerformanceCard', () => {
       const mockOnCardClick = jest.fn();
 
       render(
-        <PerformanceCard.Root
+        <Root
           performance={mockPerformance}
           onCardClick={mockOnCardClick}
         >
           <div>Keyboard Accessible</div>
-        </PerformanceCard.Root>
+        </Root>
       );
 
       const cardElement = screen.getByRole('button');
@@ -120,9 +132,9 @@ describe('PerformanceCard', () => {
 
     it('onCardClick이 없으면 button role이 없다', () => {
       render(
-        <PerformanceCard.Root performance={mockPerformance}>
+        <Root performance={mockPerformance}>
           <div>Non-clickable Content</div>
-        </PerformanceCard.Root>
+        </Root>
       );
 
       expect(screen.queryByRole('button')).not.toBeInTheDocument();
@@ -131,31 +143,25 @@ describe('PerformanceCard', () => {
 
   describe('Individual Components', () => {
     const renderWithContext = (children: React.ReactNode) =>
-      render(
-        <PerformanceCard.Root performance={mockPerformance}>
-          {children}
-        </PerformanceCard.Root>
-      );
+      render(<Root performance={mockPerformance}>{children}</Root>);
 
     it('Title 컴포넌트가 제목을 렌더링한다', () => {
-      renderWithContext(<PerformanceCard.Title />);
+      renderWithContext(<Title />);
       expect(screen.getByText('레미제라블')).toBeInTheDocument();
     });
 
     it('Title 컴포넌트에 custom children을 전달할 수 있다', () => {
-      renderWithContext(
-        <PerformanceCard.Title>커스텀 제목</PerformanceCard.Title>
-      );
+      renderWithContext(<Title>커스텀 제목</Title>);
       expect(screen.getByText('커스텀 제목')).toBeInTheDocument();
     });
 
     it('Status 컴포넌트가 상태를 렌더링한다', () => {
-      renderWithContext(<PerformanceCard.Status />);
+      renderWithContext(<Status />);
       expect(screen.getByText('공연 중')).toBeInTheDocument();
     });
 
     it('Status 컴포넌트가 올바른 스타일 클래스를 적용한다', () => {
-      renderWithContext(<PerformanceCard.Status />);
+      renderWithContext(<Status />);
       const statusElement = screen.getByText('공연 중');
 
       // 진행중인 공연이므로 ongoing 스타일이 적용되어야 함
@@ -163,29 +169,29 @@ describe('PerformanceCard', () => {
     });
 
     it('DateRange 컴포넌트가 날짜를 렌더링한다', () => {
-      renderWithContext(<PerformanceCard.DateRange />);
+      renderWithContext(<DateRange />);
       const currentYear = new Date().getFullYear();
       const dateRangeElement = screen.getByText(new RegExp(`${currentYear}`));
       expect(dateRangeElement).toBeInTheDocument();
     });
 
     it('Location 컴포넌트가 장소를 렌더링한다', () => {
-      renderWithContext(<PerformanceCard.Location />);
+      renderWithContext(<Location />);
       expect(screen.getByText('블루스퀘어 신한카드홀')).toBeInTheDocument();
     });
 
     it('Cast 컴포넌트가 출연진을 렌더링한다', () => {
-      renderWithContext(<PerformanceCard.Cast />);
+      renderWithContext(<Cast />);
       expect(screen.getByText('홍광호, 김소향 외 1명')).toBeInTheDocument();
     });
 
     it('Price 컴포넌트가 가격을 렌더링한다', () => {
-      renderWithContext(<PerformanceCard.Price />);
+      renderWithContext(<Price />);
       expect(screen.getByText('77,000원 - 121,000원')).toBeInTheDocument();
     });
 
     it('Image 컴포넌트가 이미지를 렌더링한다', () => {
-      renderWithContext(<PerformanceCard.Image />);
+      renderWithContext(<Image />);
       const image = screen.getByAltText(MESSAGES.POSTER_ALT('레미제라블'));
       expect(image).toBeInTheDocument();
       expect(image.getAttribute('src')).toContain(
@@ -196,9 +202,9 @@ describe('PerformanceCard', () => {
     it('Image 컴포넌트가 fallback을 렌더링한다', () => {
       const performanceWithoutImage = { ...mockPerformance, poster: '' };
       render(
-        <PerformanceCard.Root performance={performanceWithoutImage}>
-          <PerformanceCard.Image />
-        </PerformanceCard.Root>
+        <Root performance={performanceWithoutImage}>
+          <Image />
+        </Root>
       );
       expect(screen.getByText(MESSAGES.NO_IMAGE_FALLBACK)).toBeInTheDocument();
     });
@@ -206,9 +212,9 @@ describe('PerformanceCard', () => {
     it('Image 컴포넌트에 custom fallback을 전달할 수 있다', () => {
       const performanceWithoutImage = { ...mockPerformance, poster: '' };
       render(
-        <PerformanceCard.Root performance={performanceWithoutImage}>
-          <PerformanceCard.Image fallback={<div>커스텀 Fallback</div>} />
-        </PerformanceCard.Root>
+        <Root performance={performanceWithoutImage}>
+          <Image fallback={<div>커스텀 Fallback</div>} />
+        </Root>
       );
       expect(screen.getByText('커스텀 Fallback')).toBeInTheDocument();
     });
@@ -216,9 +222,9 @@ describe('PerformanceCard', () => {
     it('각 컴포넌트에 custom className이 적용된다', () => {
       renderWithContext(
         <>
-          <PerformanceCard.Title className='custom-title' />
-          <PerformanceCard.Status className='custom-status' />
-          <PerformanceCard.Image className='custom-image' />
+          <Title className='custom-title' />
+          <Status className='custom-status' />
+          <Image className='custom-image' />
         </>
       );
 
@@ -234,10 +240,10 @@ describe('PerformanceCard', () => {
       };
 
       render(
-        <PerformanceCard.Root performance={performanceWithMissingData}>
-          <PerformanceCard.Title fallback='제목 없음' />
-          <PerformanceCard.Location fallback='장소 미정' />
-        </PerformanceCard.Root>
+        <Root performance={performanceWithMissingData}>
+          <Title fallback='제목 없음' />
+          <Location fallback='장소 미정' />
+        </Root>
       );
 
       expect(screen.getByText('제목 없음')).toBeInTheDocument();
@@ -247,18 +253,18 @@ describe('PerformanceCard', () => {
 
   describe('LikeButton Component', () => {
     const renderLikeButtonWithContext = (
-      props: Parameters<typeof PerformanceCard.LikeButton>[0] = {}
+      props: Parameters<typeof LikeButton>[0] = {}
     ) => {
       const mockOnLikeClick = jest.fn();
       return {
         mockOnLikeClick,
         ...render(
-          <PerformanceCard.Root
+          <Root
             performance={mockPerformance}
             onLikeClick={mockOnLikeClick}
           >
-            <PerformanceCard.LikeButton {...props} />
-          </PerformanceCard.Root>
+            <LikeButton {...props} />
+          </Root>
         ),
       };
     };
@@ -305,13 +311,13 @@ describe('PerformanceCard', () => {
       const mockOnLikeClick = jest.fn();
 
       render(
-        <PerformanceCard.Root
+        <Root
           performance={mockPerformance}
           onCardClick={mockOnCardClick}
           onLikeClick={mockOnLikeClick}
         >
-          <PerformanceCard.LikeButton />
-        </PerformanceCard.Root>
+          <LikeButton />
+        </Root>
       );
 
       const likeButton = screen.getByRole('button', {
@@ -325,9 +331,9 @@ describe('PerformanceCard', () => {
 
     it('onLikeClick이 없으면 좋아요 버튼이 렌더링되지 않는다', () => {
       render(
-        <PerformanceCard.Root performance={mockPerformance}>
-          <PerformanceCard.LikeButton />
-        </PerformanceCard.Root>
+        <Root performance={mockPerformance}>
+          <LikeButton />
+        </Root>
       );
 
       expect(screen.queryByRole('button')).not.toBeInTheDocument();
@@ -358,15 +364,15 @@ describe('PerformanceCard', () => {
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
       expect(() => {
-        render(<PerformanceCard.Title />);
+        render(<Title />);
       }).toThrow(MESSAGES.CONTEXT_ERROR);
 
       expect(() => {
-        render(<PerformanceCard.Status />);
+        render(<Status />);
       }).toThrow(MESSAGES.CONTEXT_ERROR);
 
       expect(() => {
-        render(<PerformanceCard.Image />);
+        render(<Image />);
       }).toThrow(MESSAGES.CONTEXT_ERROR);
 
       consoleSpy.mockRestore();
@@ -376,12 +382,12 @@ describe('PerformanceCard', () => {
   describe('Accessibility', () => {
     it('클릭 가능한 카드에 적절한 aria-label이 설정된다', () => {
       render(
-        <PerformanceCard.Root
+        <Root
           performance={mockPerformance}
           onCardClick={jest.fn()}
         >
           <div>Content</div>
-        </PerformanceCard.Root>
+        </Root>
       );
 
       const button = screen.getByRole('button');
@@ -393,12 +399,12 @@ describe('PerformanceCard', () => {
 
     it('좋아요 버튼에 적절한 aria-label이 설정된다', () => {
       render(
-        <PerformanceCard.Root
+        <Root
           performance={mockPerformance}
           onLikeClick={jest.fn()}
         >
-          <PerformanceCard.LikeButton isLiked={false} />
-        </PerformanceCard.Root>
+          <LikeButton isLiked={false} />
+        </Root>
       );
 
       const likeButton = screen.getByRole('button');
@@ -410,12 +416,12 @@ describe('PerformanceCard', () => {
 
     it('키보드 접근성이 올바르게 동작한다', () => {
       render(
-        <PerformanceCard.Root
+        <Root
           performance={mockPerformance}
           onCardClick={jest.fn()}
         >
           <div>Content</div>
-        </PerformanceCard.Root>
+        </Root>
       );
 
       const button = screen.getByRole('button');
@@ -426,12 +432,12 @@ describe('PerformanceCard', () => {
   describe('Custom Props', () => {
     it('Root에 className이 적절히 적용된다', () => {
       const { container } = render(
-        <PerformanceCard.Root
+        <Root
           performance={mockPerformance}
           className='custom-class'
         >
           <div>Content</div>
-        </PerformanceCard.Root>
+        </Root>
       );
 
       expect(container.firstChild).toHaveClass('custom-class');
@@ -439,12 +445,12 @@ describe('PerformanceCard', () => {
 
     it('Root에 data-testid 같은 custom props가 전달된다', () => {
       render(
-        <PerformanceCard.Root
+        <Root
           performance={mockPerformance}
           data-testid='performance-card'
         >
           <div>Content</div>
-        </PerformanceCard.Root>
+        </Root>
       );
 
       expect(screen.getByTestId('performance-card')).toBeInTheDocument();
@@ -452,9 +458,9 @@ describe('PerformanceCard', () => {
 
     it('Image에 priority prop이 전달된다', () => {
       render(
-        <PerformanceCard.Root performance={mockPerformance}>
-          <PerformanceCard.Image priority={true} />
-        </PerformanceCard.Root>
+        <Root performance={mockPerformance}>
+          <Image priority={true} />
+        </Root>
       );
 
       // Image 컴포넌트가 렌더링되는지 확인
@@ -464,11 +470,11 @@ describe('PerformanceCard', () => {
 
     it('각 컴포넌트에 추가 HTML 속성들이 전달된다', () => {
       render(
-        <PerformanceCard.Root performance={mockPerformance}>
-          <PerformanceCard.Title data-testid='title-component' />
-          <PerformanceCard.Status data-testid='status-component' />
-          <PerformanceCard.Price data-testid='price-component' />
-        </PerformanceCard.Root>
+        <Root performance={mockPerformance}>
+          <Title data-testid='title-component' />
+          <Status data-testid='status-component' />
+          <Price data-testid='price-component' />
+        </Root>
       );
 
       expect(screen.getByTestId('title-component')).toBeInTheDocument();
@@ -488,9 +494,9 @@ describe('PerformanceCard', () => {
       };
 
       render(
-        <PerformanceCard.Root performance={endedPerformance}>
-          <PerformanceCard.Status />
-        </PerformanceCard.Root>
+        <Root performance={endedPerformance}>
+          <Status />
+        </Root>
       );
 
       const statusElement = screen.getByText(/종료|완료/);
@@ -510,9 +516,9 @@ describe('PerformanceCard', () => {
       };
 
       render(
-        <PerformanceCard.Root performance={upcomingPerformance}>
-          <PerformanceCard.Status />
-        </PerformanceCard.Root>
+        <Root performance={upcomingPerformance}>
+          <Status />
+        </Root>
       );
 
       const statusElement = screen.getByText(/예정|공연 예정/);
