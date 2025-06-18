@@ -6,7 +6,7 @@ export { default as DatePicker } from './DatePicker/DatePicker';
 export { default as MultiSlider } from './MultiSlider/MultiSlider';
 export { default as LoadingOverlay } from './LoadingOverlay/LoadingOverlay';
 export { default as PerformanceCard } from './PerformanceCard/PerformanceCard';
-export { default as PerformanceCardHeadless } from './PerformanceCardHeadless';
+export { default as PerformanceCardHeadless } from './PerformanceCardHeadless/PerformanceCardHeadless';
 export { default as QueryTabs } from './QueryTabs/QueryTabs';
 export { default as SortDropdown } from './SortDropdown/SortDropdown';
 export { default as Spinner } from './Spinner/Spinner';

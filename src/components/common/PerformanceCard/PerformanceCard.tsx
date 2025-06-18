@@ -9,8 +9,6 @@ import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import { Performance } from '@/types/performance';
 
-const { Image, LikeButton, Location, Root, Title } = PerformanceCardHeadless;
-
 interface PerformanceCardProps {
   performance: Performance;
   ranking?: number;
@@ -24,6 +22,8 @@ const PerformanceCard = ({
   width = 'full',
   size = 'fixed',
 }: PerformanceCardProps) => {
+  const { Image, LikeButton, Location, Root, Title } = PerformanceCardHeadless;
+
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const [showToast, setShowToast] = useState(false);
   const { mutate } = usePatchPerformanceLiked();

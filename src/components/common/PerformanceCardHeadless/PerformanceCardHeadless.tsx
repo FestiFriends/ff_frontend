@@ -289,9 +289,9 @@ const LikeButton = ({
   );
 };
 
-export {
+const PerformanceCardHeadless = {
   Root,
-  ImageComponent as Image,
+  Image: ImageComponent,
   Title,
   Status,
   DateRange,
@@ -300,3 +300,5 @@ export {
   Price,
   LikeButton,
 };
+
+export default PerformanceCardHeadless;
