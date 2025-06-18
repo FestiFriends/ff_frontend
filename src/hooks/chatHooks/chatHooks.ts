@@ -16,9 +16,9 @@ import {
 import { getNewAccessToken } from '@/utils/getNewAccessToken';
 
 /**
- * 채팅 웹소켓 연결
+ * [WebSocket] 채팅 웹소켓 구독, 연결, 메세지 전송
  * @param chatRoomId
- * @returns { messages, sendMessage, isConnected }
+ * @returns { messages, sendMessage, isConnected, statusMessage }
  */
 export const useChatWebSocket = (
   userId: number | undefined,
@@ -120,6 +120,12 @@ export const useChatWebSocket = (
   return { messages, sendMessage, isConnected, statusMessage };
 };
 
+/**
+ * [Http] 채팅방 메세지 목록 조회 (무한스크롤)
+ * @param chatRoomId
+ * @param size
+ * @returns
+ */
 export const useGetChatHistory = (
   chatRoomId: GetChatHistoryRequest['chatRoomId'],
   size?: CursorRequest['size']
