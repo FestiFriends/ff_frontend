@@ -1,6 +1,5 @@
 import {
   InfiniteData,
-  useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
@@ -110,19 +109,10 @@ export const useGetGroupMembers = (
   groupId: GetGroupMembersRequest['groupId'],
   size: CursorRequest['size']
 ) =>
-  useInfiniteQuery<
-    GetGroupMembersResponse,
-    ApiResponse,
-    InfiniteData<GetGroupMembersResponse>,
-    string[],
-    number | undefined
-  >({
-    queryKey: [GROUP_QUERY_KEYS.groupMembers, groupId],
-    queryFn: ({ pageParam }) =>
-      groupsApi.getGroupMembers({ groupId, cursorId: pageParam, size }),
-    getNextPageParam: (lastPage) =>
-      lastPage.hasNext ? lastPage.cursorId : undefined,
-    initialPageParam: undefined,
+  useQuery<GetGroupMembersResponse>({
+    queryKey: [GROUP_QUERY_KEYS.groupMembers, groupId, size],
+    queryFn: () =>
+      groupsApi.getGroupMembers({ groupId, cursorId: undefined, size }),
   });
 
 export const infiniteGroupMembersOptions = (
@@ -136,7 +126,7 @@ export const infiniteGroupMembersOptions = (
   string[],
   number | undefined
 > => ({
-  queryKey: [GROUP_QUERY_KEYS.groupMembers, groupId],
+  queryKey: [GROUP_QUERY_KEYS.groupMembers, groupId, (size ?? 20).toString()],
   queryFn: async ({ pageParam }) => {
     const res = await groupsApi.getGroupMembers({
       groupId,
