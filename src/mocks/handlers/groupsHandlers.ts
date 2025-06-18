@@ -795,7 +795,7 @@ export const groupsHandlers = [
       const cursorId = Number(url.searchParams.get('cursorId'));
       const size = Number(url.searchParams.get('size')) || 20;
 
-      const startIndex = isNaN(cursorId) ? cursorId : 0;
+      const startIndex = isNaN(cursorId) ? 0 : cursorId;
       const endIndex = startIndex + size;
       const slicedData = GROUP_MEMBERS_DATA.slice(startIndex, endIndex);
 
