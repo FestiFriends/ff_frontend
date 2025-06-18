@@ -15,7 +15,8 @@ const SCHEDULES_DATA: Schedule[] = [
       name: '이수연',
       profileImage: 'https://example.com/profiles/user101.jpg',
     },
-    isMine: false,
+    isMine: true,
+    eventColor: 'red',
   },
   {
     id: 's2',
@@ -30,6 +31,7 @@ const SCHEDULES_DATA: Schedule[] = [
       profileImage: 'https://example.com/profiles/user102.jpg',
     },
     isMine: true,
+    eventColor: 'blue',
   },
   {
     id: 's3',
@@ -43,7 +45,8 @@ const SCHEDULES_DATA: Schedule[] = [
       name: '최가영',
       profileImage: 'https://example.com/profiles/user103.jpg',
     },
-    isMine: false,
+    isMine: true,
+    eventColor: 'green',
   },
   {
     id: 's4',
@@ -58,6 +61,7 @@ const SCHEDULES_DATA: Schedule[] = [
       profileImage: 'https://example.com/profiles/user104.jpg',
     },
     isMine: true,
+    eventColor: 'pink',
   },
   {
     id: 's5',
@@ -71,7 +75,8 @@ const SCHEDULES_DATA: Schedule[] = [
       name: '김지수',
       profileImage: 'https://example.com/profiles/user105.jpg',
     },
-    isMine: false,
+    isMine: true,
+    eventColor: 'yellow',
   },
 ];
 

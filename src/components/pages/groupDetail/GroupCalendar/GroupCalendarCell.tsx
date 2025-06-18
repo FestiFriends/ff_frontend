@@ -2,6 +2,7 @@
 
 import { memo, useCallback } from 'react';
 import { format, isSameMonth, isToday, isSameDay } from 'date-fns';
+import { EVENT_COLOR_STYLE_MAP } from '@/constants/eventColors';
 import { cn } from '@/lib/utils';
 import { Schedule } from '@/types/group';
 
@@ -63,18 +64,25 @@ const GroupCalendarCell = ({
 
       {schedules.length > 0 && (
         <div className='mt-1 flex w-full flex-col space-y-0.5'>
-          {schedules.slice(0, 2).map((schedule) => (
-            <button
-              key={schedule.id}
-              onClick={(e) => {
-                e.stopPropagation();
-                onScheduleClick?.(schedule);
-              }}
-              className='block w-full truncate rounded bg-blue-100 px-1 text-left text-xs text-blue-700 hover:underline'
-            >
-              {schedule.description}
-            </button>
-          ))}
+          {schedules.slice(0, 2).map((schedule) => {
+            const color = EVENT_COLOR_STYLE_MAP[schedule.eventColor ?? 'red'];
+            return (
+              <button
+                key={schedule.id}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onScheduleClick?.(schedule);
+                }}
+                className={cn(
+                  'block w-full truncate rounded px-1 text-left text-xs hover:underline',
+                  color.bgClass,
+                  color.textClass
+                )}
+              >
+                {schedule.description}
+              </button>
+            );
+          })}
           {schedules.length > 2 && (
             <button
               onClick={(e) => {
