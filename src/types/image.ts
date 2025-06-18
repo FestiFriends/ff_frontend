@@ -1,4 +1,5 @@
 import { StaticImageData } from 'next/image';
+import { ApiResponse } from './api';
 
 export interface Image {
   id?: string;
@@ -7,3 +8,7 @@ export interface Image {
   name?: string; //S3
   file?: File; // S3
 }
+
+export type PresignedUrlResponse = ApiResponse & {
+  data: { presignedUrl: string };
+};

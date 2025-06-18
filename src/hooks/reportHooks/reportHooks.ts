@@ -5,7 +5,11 @@ import {
 } from '@tanstack/react-query';
 import { PatchReportProps, reportApi } from '@/services/reportService';
 import { ApiResponse } from '@/types/api';
-import { ReportDetailResponse, ReportListResponse } from '@/types/report';
+import {
+  CreateReportRequest,
+  ReportDetailResponse,
+  ReportListResponse,
+} from '@/types/report';
 
 export const reportListOption = (
   page: number
@@ -33,3 +37,8 @@ export const usePatchReport = () => {
     },
   });
 };
+
+export const usePostReport = () =>
+  useMutation<ApiResponse, ApiResponse, CreateReportRequest>({
+    mutationFn: reportApi.postReport,
+  });
