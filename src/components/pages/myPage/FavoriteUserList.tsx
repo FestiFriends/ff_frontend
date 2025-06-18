@@ -11,10 +11,22 @@ const FavoriteUserList = () => {
   if (isLoading) return <div>로딩 중...</div>;
 
   return (
-    <ul className='flex flex-col gap-4'>
+    <ul className='flex flex-col gap-[36px]'>
       {data?.data.map((user) => (
         <li key={user.id}>
-          <ProfileCard profile={{ ...user, isMyProfile: false }} />
+          <ProfileCard
+            profile={{
+              ...user,
+              isMine: false,
+              reviewCount: 0,
+              groupSummary: {
+                joinedCount: 0,
+                totalJoinedCount: 0,
+                createdCount: 0,
+              },
+              reviewSummary: {},
+            }}
+          />
         </li>
       ))}
     </ul>

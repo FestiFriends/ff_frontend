@@ -22,7 +22,6 @@ const ProfileInfoBox = ({
   gender,
   age,
   rating,
-  reviewCount,
   profileImage,
   isMine = false,
   isLiked = false,
@@ -45,16 +44,16 @@ const ProfileInfoBox = ({
         <div className='flex items-center justify-between'>
           <div className='flex items-center gap-[5px]'>
             <span className='text-16_B text-gray-950'>{name}</span>
-            {reviewCount > 0 && (
-              <span className='flex items-center gap-[1px] text-12_M text-gray-700'>
-                (
-                <Star
-                  className='h-[12px] w-[12px] text-yellow-500'
-                  fill='currentColor'
-                />
-                {rating.toFixed(1)})
-              </span>
-            )}
+
+            <span className='flex items-center gap-[1px] text-12_M text-gray-700'>
+              (
+              <Star
+                className='h-[12px] w-[12px] text-yellow-500'
+                fill='currentColor'
+              />
+              {rating.toFixed(1)})
+            </span>
+
             {isMine && (
               <button onClick={onEditClick}>
                 <EditIcon className='h-4 w-4 text-gray-600 hover:text-gray-400' />
