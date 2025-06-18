@@ -1,3 +1,4 @@
+import { DateRange } from '@/types/dateRange';
 import { ApiResponse, PageResponse } from './api';
 import { GroupCategoryType, GenderType, LocationType } from './enums';
 
@@ -47,4 +48,32 @@ export interface GetGroupsParams {
   endDate?: string;
   location?: LocationType | string;
   gender?: GenderType | string;
+}
+
+export interface CreateGroupFormData {
+  name: string;
+  category: '동행' | '탑승' | '숙박';
+  title: string;
+  description: string;
+  region: string;
+  dateRange: DateRange; // location에서 dateRange로 변경
+  gender: '여성' | '남성' | '혼성';
+  ageRange: [number, number];
+  maxParticipants: number;
+  tags: string[];
+}
+
+export interface CreateGroupApiRequest {
+  performanceId: string;
+  title: string;
+  category: string;
+  gender: 'MALE' | 'FEMALE' | 'ALL';
+  startAge: number;
+  endAge: number;
+  location: string;
+  startDate: string;
+  endDate: string;
+  maxMembers: number;
+  description: string;
+  hashtag?: string[];
 }

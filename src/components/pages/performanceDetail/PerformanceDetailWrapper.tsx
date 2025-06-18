@@ -1,7 +1,7 @@
 'use client';
 
 import { Summary, Tabs } from '@/components/pages/performanceDetail';
-import { useGetPerformanceDetail } from '@/hooks/performanceHooks/performanceHooks';
+import { useGetPerformanceDetail } from '@/hooks';
 
 type PerformanceDetailWrapperProps = {
   performanceId: string;

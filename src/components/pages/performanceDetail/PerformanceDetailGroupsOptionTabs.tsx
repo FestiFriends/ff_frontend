@@ -13,7 +13,7 @@ import { GenderLabels } from '@/constants/genderLabels';
 import { GroupCategoryLabels } from '@/constants/groupLabels';
 import { LocationLabels } from '@/constants/locationLabels';
 import { DateRange } from '@/types/dateRange';
-import { generateFilterOptions } from '@/utils/generateFilterOptions';
+import { generateFilterOptions } from '@/utils';
 
 interface Props {
   isPending: boolean;
