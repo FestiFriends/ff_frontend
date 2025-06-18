@@ -1,15 +1,42 @@
-import { useState } from 'react';
+'use client';
 
-const MAX_VISIBLE_TAGS = 5;
+import { useEffect, useRef, useState } from 'react';
 
 const ProfileHeaderTagList = ({ tags }: { tags: string[] }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [visibleCount, setVisibleCount] = useState(tags.length);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const visibleTags = isExpanded ? tags : tags.slice(0, MAX_VISIBLE_TAGS);
-  const hiddenCount = tags.length - MAX_VISIBLE_TAGS;
+  useEffect(() => {
+    if (!containerRef.current || isExpanded) return;
+
+    requestAnimationFrame(() => {
+      const container = containerRef.current!;
+      const children = Array.from(container.children) as HTMLElement[];
+
+      if (children.length === 0) return;
+
+      const baseTop = children[0].getBoundingClientRect().top;
+      let count = 0;
+
+      for (let i = 0; i < children.length; i++) {
+        const tagTop = children[i].getBoundingClientRect().top;
+        if (tagTop > baseTop) break;
+        count++;
+      }
+
+      setVisibleCount(count - 1);
+    });
+  }, [tags, isExpanded]);
+
+  const visibleTags = isExpanded ? tags : tags.slice(0, visibleCount);
+  const hiddenCount = tags.length - visibleTags.length;
 
   return (
-    <div className='mt-[14px] flex w-full max-w-xl flex-wrap gap-[6px]'>
+    <div
+      className='mt-[14px] flex w-full max-w-xl flex-wrap gap-[6px]'
+      ref={containerRef}
+    >
       {visibleTags.map((tag, i) => (
         <span
           key={i}
@@ -28,7 +55,7 @@ const ProfileHeaderTagList = ({ tags }: { tags: string[] }) => {
         </button>
       )}
 
-      {isExpanded && tags.length > MAX_VISIBLE_TAGS && (
+      {isExpanded && tags.length > visibleCount && (
         <button
           onClick={() => setIsExpanded(false)}
           className='text-12_M text-gray-400 hover:underline'
