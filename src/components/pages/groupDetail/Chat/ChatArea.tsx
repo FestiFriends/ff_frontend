@@ -65,7 +65,6 @@ const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
     .reverse();
 
   const allMessages = [...historyMessages, ...liveMessages];
-  console.log(historyMessages);
 
   return (
     <div className='relative flex h-[60dvh] flex-col gap-2'>
