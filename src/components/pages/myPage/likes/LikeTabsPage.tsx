@@ -3,20 +3,23 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Tabs } from '@/components/common';
-import { TabLabel, TabLabelType } from '@/types/enums';
+import { favoriteTabLabel, TabLabelType } from '@/types/tabs';
 import FavoritePerformanceList from './FavoritePerformanceList';
 import FavoriteUserList from './FavoriteUserList';
 
-const tabList: TabLabelType[] = [TabLabel.USERS, TabLabel.PERFORMANCES];
+const tabList: TabLabelType[] = [
+  favoriteTabLabel.USERS,
+  favoriteTabLabel.PERFORMANCES,
+];
 
 const tabMap: Record<string, TabLabelType> = {
-  users: TabLabel.USERS,
-  performances: TabLabel.PERFORMANCES,
+  users: favoriteTabLabel.USERS,
+  performances: favoriteTabLabel.PERFORMANCES,
 };
 
 const reverseTabMap: Record<TabLabelType, string> = {
-  [TabLabel.USERS]: 'users',
-  [TabLabel.PERFORMANCES]: 'performances',
+  [favoriteTabLabel.USERS]: 'users',
+  [favoriteTabLabel.PERFORMANCES]: 'performances',
 };
 
 const LikeTabsPage = () => {
@@ -24,7 +27,7 @@ const LikeTabsPage = () => {
   const router = useRouter();
 
   const tabQuery = searchParams.get('tab') ?? 'users';
-  const initialTab = tabMap[tabQuery] ?? TabLabel.USERS;
+  const initialTab = tabMap[tabQuery] ?? favoriteTabLabel.USERS;
 
   const [activeTab, setActiveTab] = useState<TabLabelType>(initialTab);
 
@@ -37,7 +40,7 @@ const LikeTabsPage = () => {
   };
 
   useEffect(() => {
-    const newTab = tabMap[tabQuery] ?? TabLabel.USERS;
+    const newTab = tabMap[tabQuery] ?? favoriteTabLabel.USERS;
     setActiveTab(newTab);
   }, [tabQuery]);
 
@@ -51,8 +54,10 @@ const LikeTabsPage = () => {
       />
 
       <div className='mt-4 w-full max-w-md'>
-        {activeTab === TabLabel.USERS && <FavoriteUserList />}
-        {activeTab === TabLabel.PERFORMANCES && <FavoritePerformanceList />}
+        {activeTab === favoriteTabLabel.USERS && <FavoriteUserList />}
+        {activeTab === favoriteTabLabel.PERFORMANCES && (
+          <FavoritePerformanceList />
+        )}
       </div>
     </main>
   );
