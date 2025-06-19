@@ -3,26 +3,15 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { usersApi } from '@/services/usersService';
-import { FullProfile } from '@/types/profiles';
-import ProfileCardSkeleton from './ProfileCardSkeleton';
+import { ProfileCardType } from '@/types/profiles';
 import ProfileInfoBox from './ProfileInfoBox';
 
 interface ProfileCardProps {
-  profile: FullProfile;
-  isLoading?: boolean;
-  error?: string;
+  profile: ProfileCardType;
   onEditClick?: () => void;
 }
-
-const ProfileCard = ({
-  profile,
-  isLoading,
-  error,
-  onEditClick,
-}: ProfileCardProps) => {
-  const { isLiked: initialIsLiked, id: userId } = profile;
-
-  const [isLiked, setIsLiked] = useState(initialIsLiked ?? false);
+const ProfileCard = ({ profile, onEditClick }: ProfileCardProps) => {
+  const [isLiked, setIsLiked] = useState(profile.isLiked);
 
   const { mutate: toggleLike, isPending } = useMutation({
     mutationFn: ({ isLiked, userId }: { isLiked: boolean; userId: string }) =>
@@ -33,24 +22,13 @@ const ProfileCard = ({
   });
 
   const handleLikeClick = () => {
-    if (!isPending) toggleLike({ isLiked: !isLiked, userId });
+    if (!isPending) toggleLike({ isLiked: !isLiked, userId: profile.id });
   };
-
-  if (isLoading) return <ProfileCardSkeleton />;
-  if (error || !profile)
-    return <ProfileCardSkeleton error={error ?? '존재하지 않는 유저입니다.'} />;
 
   return (
     <ProfileInfoBox
-      name={profile.name}
-      gender={profile.gender}
-      age={profile.age}
-      rating={profile.rating}
-      reviewCount={profile.reviewCount}
-      profileImage={profile.profileImage?.src}
-      isMine={profile.isMine}
+      profile={profile}
       onEditClick={onEditClick}
-      isLiked={isLiked}
       onLikeClick={handleLikeClick}
     />
   );

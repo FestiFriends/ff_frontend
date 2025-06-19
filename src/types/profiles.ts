@@ -41,3 +41,7 @@ export interface FullProfile extends Profile {
   cursorId?: number | null;
   hasNext?: boolean;
 }
+
+export interface ProfileCardType extends Profile {
+  isMine: boolean;
+}

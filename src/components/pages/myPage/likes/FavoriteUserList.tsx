@@ -18,13 +18,6 @@ const FavoriteUserList = () => {
             profile={{
               ...user,
               isMine: false,
-              reviewCount: 0,
-              groupSummary: {
-                joinedCount: 0,
-                totalJoinedCount: 0,
-                createdCount: 0,
-              },
-              reviewSummary: {},
             }}
           />
         </li>
