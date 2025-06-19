@@ -1,5 +1,5 @@
 import { ReactNode, RefObject } from 'react';
-import InfiniteList from '@/components/common/InfiniteList/InfiniteList ';
+import { InfiniteList } from '@/components/common';
 import {
   Modal,
   ModalClose,
