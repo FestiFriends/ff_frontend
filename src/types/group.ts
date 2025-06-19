@@ -70,7 +70,8 @@ export interface GroupInfo {
   description?: string;
   hashtag?: string[];
   host: {
-    hostId: string;
+    hostId?: string;
+    id?: string;
     name: string;
     rating?: number;
     profileImage?: string;
@@ -101,6 +102,20 @@ export interface CreateGroupFormData {
 
 export interface CreateGroupApiRequest {
   performanceId: string;
+  title: string;
+  category: string;
+  gender: 'MALE' | 'FEMALE' | 'ALL';
+  startAge: number;
+  endAge: number;
+  location: string;
+  startDate: string;
+  endDate: string;
+  maxMembers: number;
+  description: string;
+  hashtag?: string[];
+}
+
+export interface UpdateGroupApiRequest {
   title: string;
   category: string;
   gender: 'MALE' | 'FEMALE' | 'ALL';
