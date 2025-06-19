@@ -60,7 +60,7 @@ const MultiSlider = ({
   // TODO: 디자인 시안 나오면 스타일 수정 필요
   const rangeClasses = cn(
     // default style
-    'absolute top-0 right-0 bottom-0 left-0 z-2 rounded-full bg-blue-400',
+    'absolute top-0 right-0 bottom-0 left-0 z-2 rounded-full bg-primary-red',
 
     // disabled style
     disabled && 'bg-gray-400'
@@ -68,7 +68,7 @@ const MultiSlider = ({
 
   const thumbClasses = cn(
     // default style
-    'absolute top-1/2 z-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-blue-400 bg-white',
+    'absolute top-1/2 z-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-primary-red bg-white',
 
     // disabled style
     disabled && 'border-gray-400'
@@ -114,7 +114,7 @@ const MultiSlider = ({
 
       <div
         id='slider'
-        className='relative z-1 h-3'
+        className='relative z-1 mb-3 h-3'
       >
         <span
           id='track'
@@ -169,18 +169,19 @@ const MultiSlider = ({
       </div>
 
       {marks && (
-        <div className='relative'>
+        <div className='relative mt-1'>
           <div
-            className='absolute text-gray-600 select-none'
-            style={{ left: `${thumbSize / 2}px`, right: `${thumbSize / 2}px` }}
+            className='flex justify-between text-11_M text-gray-600 select-none'
+            style={{
+              paddingLeft: `${thumbSize / 2}px`,
+              paddingRight: `${thumbSize / 2}px`,
+            }}
           >
             {Object.entries(marks).map(([key, label]) => (
               <span
                 key={key}
-                className='absolute inline-flex -translate-x-1/2 flex-col items-center text-center text-xs text-gray-600'
-                style={{ left: `${getPercent(Number(key))}%` }}
+                className='flex flex-col items-center text-center whitespace-nowrap'
               >
-                <span className='mb-0.5 h-0.75 w-px bg-gray-400' />
                 <span className='whitespace-nowrap'>{label}</span>
               </span>
             ))}

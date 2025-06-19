@@ -7,7 +7,7 @@ import {
   RegisterOptions,
 } from 'react-hook-form';
 import { BottomSheetModal } from '@/components/common';
-import ChevronRightIcon from '@/components/icons/ChevronRightIcon';
+import { AltArrowUpIcon } from '@/components/icons';
 import { LocationLabels } from '@/constants/locationLabels';
 import { cn } from '@/lib/utils';
 import { generateFilterOptions } from '@/utils';
@@ -62,7 +62,7 @@ const FormLocationSelector = <
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        'flex w-full items-center gap-2 rounded-md border bg-white p-3 text-left transition-colors duration-200',
+        'flex w-full items-center gap-2 rounded-2xl border border-gray-100 bg-white px-5 py-4 text-left transition-colors duration-200',
         'hover:bg-gray-50',
         'focus:ring-2',
         'disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-50',
@@ -78,7 +78,7 @@ const FormLocationSelector = <
       >
         {displayText}
       </span>
-      <ChevronRightIcon className='h-4 w-4 flex-shrink-0' />
+      <AltArrowUpIcon className='h-6 w-6 flex-shrink-0 rotate-90' />
     </button>
   );
 

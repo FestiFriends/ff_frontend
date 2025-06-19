@@ -7,6 +7,7 @@ interface Props {
   contentPosition?: 'right' | 'bottom';
   className?: string;
   labelClassName?: string;
+  gap?: number;
 }
 
 const LabeledWrapper = ({
@@ -15,12 +16,14 @@ const LabeledWrapper = ({
   contentPosition = 'right',
   className,
   labelClassName,
+  gap,
 }: Props) => {
-  const LABEL_CLASS = 'text-sm font-bold text-black whitespace-nowrap w-fit';
+  const LABEL_CLASS =
+    'text-14_B font-bold text-gray-950 whitespace-nowrap w-fit';
 
   const CONTENT_CLASS = {
-    right: 'flex-row justify-between items-center gap-3',
-    bottom: 'flex-col gap-3',
+    right: `flex-row justify-between items-center gap-${gap ? gap : '2.5'}`,
+    bottom: `flex-col gap-${gap ? gap : '2.5'}`,
   };
   const Label = () => (
     <div className={cn(LABEL_CLASS, labelClassName)}>{label}</div>

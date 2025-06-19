@@ -46,15 +46,19 @@ const Counter: React.FC<CounterProps> = ({
         -
       </button>
       {/* ! type='number' 일경우 webkit으로 기본 버튼이 제거가 가능했으나 firefox에서는 제거가 불가능해 text를 사용 */}
-      <input
-        type='text'
-        value={value}
-        min={min}
-        max={max}
-        onChange={handleInputChange}
-        disabled={disabled}
-        className='w-16 border-0 px-2 py-2 text-center focus:outline-none disabled:bg-gray-50'
-      />
+      <div className='flex max-w-16 items-center gap-[2px] border-0 px-2 py-2 pr-4 text-center text-16_B focus:outline-none disabled:bg-gray-50'>
+        <input
+          type='text'
+          value={value}
+          min={min}
+          max={max}
+          onChange={handleInputChange}
+          disabled={disabled}
+          size={2}
+          className='w-full text-right'
+        />
+        <span>명</span>
+      </div>
       <button
         type='button'
         onClick={increment}

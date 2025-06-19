@@ -46,23 +46,36 @@ const AgeRangeSlider = <
     80: '80대 이상',
   };
 
+  const currentValue = field.value || [20, 80];
+  const [minAge, maxAge] = currentValue;
+
+  const formatAgeRange = () => {
+    if (minAge === maxAge) {
+      return `${minAge}세`;
+    }
+    return `${minAge}세 - ${maxAge}세`;
+  };
+
   return (
     <div className={className}>
-      <div className='space-y-4'>
+      <div className='space-y-2'>
         <MultiSlider
           min={20}
           max={80}
           step={1}
-          value={field.value || [20, 80]}
+          value={[minAge, maxAge]}
           onChange={field.onChange}
           valuePosition='none'
           marks={AGE_MARKS}
         />
+        <div className='text-center text-xs text-gray-500'>
+          {formatAgeRange()}
+        </div>
       </div>
 
       {error && (
         <p
-          className='mt-1 text-sm text-red-500'
+          className='mt-1 text-sm text-primary-red'
           role='alert'
         >
           {error.message}
