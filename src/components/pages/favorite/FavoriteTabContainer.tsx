@@ -41,11 +41,14 @@ const FavoriteTabContainer: React.FC = () => {
             options={favoritePerformancesOptions(DEFAULT_SIZE)}
             getDataId={(performance) => performance.id}
             renderData={(performance) => (
-              <PerformanceCard performance={performance} />
+              <PerformanceCard
+                performance={performance}
+                size='auto'
+              />
             )}
             fallback={<Spinner />}
             isFetchingFallback={<Spinner />}
-            className='mx-auto grid w-fit grid-cols-2 gap-4'
+            className='mx-auto grid grid-cols-2 gap-4'
             emptyFallback={
               <div className='col-span-2 py-8 text-center text-gray-500'>
                 찜한 공연이 없습니다.
