@@ -10,13 +10,13 @@ const tabs = ['작성 가능한 리뷰', '작성한 리뷰'];
 const ReviewTabs = () => {
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
   return (
-    <div>
+    <div className='h-[calc(100dvh-44px)]'>
       <Tabs
         tabs={tabs}
         activeTab={selectedTab}
         onTabChange={setSelectedTab}
       />
-      <div className='px-4 pt-5'>
+      <div className='h-full px-4 pt-5'>
         {selectedTab === '작성 가능한 리뷰' && <WritableReviews />}
         {selectedTab === '작성한 리뷰' && <WrittenReviews />}
       </div>
