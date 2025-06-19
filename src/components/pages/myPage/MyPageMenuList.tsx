@@ -33,7 +33,7 @@ const MyPageMenuList = () => {
       <Modal>
         <li className='flex h-10 w-full items-center px-[4px]'>
           <Link
-            href='/mypage/reviews?tab=writable'
+            href='/reviews/managements'
             className='w-full'
           >
             리뷰 관리

@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import ProfileInfoBox from '@/components/common/ProfileCard/ProfileInfoBox';
 import { useMyProfile } from '@/hooks/useMyProfile/useMyProfile';
 import MyPageButtonGroup from './MyPageButtonGroup';
@@ -7,6 +8,7 @@ import MyPageMenuList from './MyPageMenuList';
 
 const MyPageMain = () => {
   const { data: profile } = useMyProfile();
+  const router = useRouter();
 
   if (!profile) return null;
 
@@ -16,7 +18,7 @@ const MyPageMain = () => {
         <ProfileInfoBox
           profile={profile}
           onEditClick={() => {
-            window.location.href = '/profiles/me/edit';
+            router.push('/profiles/me/edit');
           }}
         />
       </div>
