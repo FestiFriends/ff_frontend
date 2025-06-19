@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useGetGroupMembers } from '@/hooks/groupHooks/groupHooks';
 import MembersHeader from './Members/MembersHeader';
 import MembersList from './Members/MembersList';
@@ -7,6 +8,7 @@ interface GroupMembersProps {
 }
 
 const GroupMembers = ({ groupId }: GroupMembersProps) => {
+  const modalTriggerRef = useRef<HTMLButtonElement>(null);
   const {
     data: groupMembers,
     isPending,
@@ -19,11 +21,14 @@ const GroupMembers = ({ groupId }: GroupMembersProps) => {
         groupId={groupId}
         memberCount={groupMembers?.data.memberCount}
         isHost={groupMembers?.data.isHost}
+        modalTriggerRef={modalTriggerRef}
       />
       <MembersList
         members={groupMembers?.data.members}
+        memberCount={groupMembers?.data.memberCount}
         isPending={isPending}
         isError={isError}
+        modalTriggerRef={modalTriggerRef}
       />
     </div>
   );

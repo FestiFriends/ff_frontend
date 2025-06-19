@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, RefObject } from 'react';
 import InfiniteList from '@/components/common/InfiniteList/InfiniteList ';
 import {
   Modal,
@@ -15,12 +15,14 @@ interface MembersHeaderProps {
   groupId: string;
   memberCount?: number;
   isHost?: boolean;
+  modalTriggerRef: RefObject<HTMLButtonElement | null>;
 }
 
 const MembersHeader = ({
   groupId,
   memberCount,
   isHost,
+  modalTriggerRef,
 }: MembersHeaderProps) => (
   <div className='flex justify-between'>
     <span className='text-16_B leading-normal tracking-[-0.4px] text-gray-950'>
@@ -29,18 +31,20 @@ const MembersHeader = ({
 
     <Modal>
       <ModalTrigger>
-        <span
-          className='text-sm leading-normal font-medium tracking-[-0.35px] text-gray-500 underline decoration-solid decoration-1 underline-offset-auto'
-          style={{
-            textDecorationSkipInk: 'none',
-            textUnderlinePosition: 'from-font',
-          }}
-        >
-          더보기
-        </span>
+        <button ref={modalTriggerRef}>
+          <span
+            className='text-sm leading-normal font-medium tracking-[-0.35px] text-gray-500 underline decoration-solid decoration-1 underline-offset-auto'
+            style={{
+              textDecorationSkipInk: 'none',
+              textUnderlinePosition: 'from-font',
+            }}
+          >
+            더보기
+          </span>
+        </button>
       </ModalTrigger>
-      <ModalContent className='relative scrollbar-hide w-full rounded-[16px] p-5'>
-        <ModalClose className='sticky top-0 right-0 ml-auto block' />
+      <ModalContent className='relative scrollbar-hide h-full w-full rounded-[16px] p-5'>
+        <ModalClose className='sticky top-0 right-0 mb-4 ml-auto block' />
         <InfiniteList<
           GetGroupMembersFormattedResponse,
           GetGroupMembersFormattedResponse['data'][number]
