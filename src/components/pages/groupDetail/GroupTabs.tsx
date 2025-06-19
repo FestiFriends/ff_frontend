@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Tabs } from '@/components/common';
 import { GroupInfo } from '@/types/group';
 import Chat from './Chat/Chat';
+import GroupCalendar from './GroupCalendar/GroupCalendar';
 import GroupPosts from './GroupPosts';
 
 const groupTabs = ['게시글', '채팅', '캘린더'];
@@ -25,7 +26,9 @@ const GroupTabs = ({ groupInfo }: GroupTabsProps) => {
       <>
         {selectedTab === '게시글' && <GroupPosts />}
         {selectedTab === '채팅' && <Chat groupInfo={groupInfo} />}
-        {/* {selectedTab === '캘린더' && <캘린더 />} */}
+        {selectedTab === '캘린더' && groupInfo?.id && (
+          <GroupCalendar groupId={groupInfo?.id} />
+        )}
       </>
     </div>
   );
