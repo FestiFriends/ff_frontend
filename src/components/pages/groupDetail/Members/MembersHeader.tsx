@@ -13,12 +13,18 @@ import MemberCard from './MemberCard';
 
 interface MembersHeaderProps {
   groupId: string;
+  memberCount?: number;
+  isHost?: boolean;
 }
 
-const MembersHeader = ({ groupId }: MembersHeaderProps) => (
+const MembersHeader = ({
+  groupId,
+  memberCount,
+  isHost,
+}: MembersHeaderProps) => (
   <div className='flex justify-between'>
     <span className='text-16_B leading-normal tracking-[-0.4px] text-gray-950'>
-      멤버
+      멤버 <span>{memberCount}</span>명
     </span>
 
     <Modal>
@@ -41,7 +47,12 @@ const MembersHeader = ({ groupId }: MembersHeaderProps) => (
         >
           options={infiniteGroupMembersOptions(groupId, 20)}
           getDataId={(member) => member.memberId}
-          renderData={(member): ReactNode => <MemberCard member={member} />}
+          renderData={(member): ReactNode => (
+            <MemberCard
+              member={member}
+              isHost={isHost}
+            />
+          )}
           fallback={<Skeleton className='mt-5 h-20 w-full rounded-[16px]' />}
           isFetchingFallback={
             <Skeleton className='mt-5 h-20 w-full rounded-[16px]' />
