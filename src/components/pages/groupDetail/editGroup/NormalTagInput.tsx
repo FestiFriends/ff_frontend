@@ -18,6 +18,12 @@ const NormalTagInput: React.FC<TagSelectorProps> = ({
   className,
 }) => {
   const [input, setInput] = useState('');
+  const handleAdd = () => {
+    if (input.trim() && !tags.includes(input.trim())) {
+      onAdd(input.trim());
+      setInput('');
+    }
+  };
   return (
     <div className={className}>
       <div className='mb-2.5 text-14_B text-black'>태그 추가</div>
@@ -27,16 +33,16 @@ const NormalTagInput: React.FC<TagSelectorProps> = ({
             type='text'
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder='태그를 추가해 주세요.'
+            onKeyUp={(e) => {
+              if (e.key === 'Enter') {
+                handleAdd();
+              }
+            }}
+            placeholder='태그를 추가해 주세요'
             className='flex-1 rounded-2xl border border-gray-100 px-5 py-4 placeholder-gray-400'
           />
           <Button
-            onClick={() => {
-              if (input.trim() && !tags.includes(input.trim())) {
-                onAdd(input.trim());
-                setInput('');
-              }
-            }}
+            onClick={handleAdd}
             disabled={!input.trim()}
             size='sm'
             color={!input.trim() ? 'disable' : 'normal'}
