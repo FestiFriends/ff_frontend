@@ -140,6 +140,7 @@ export const infiniteGroupMembersOptions = (
       groupId: res.data.groupId,
       performanceId: res.data.performanceId,
       memberCount: res.data.memberCount,
+      isHost: res.data.isHost,
       cursorId: res.cursorId,
       hasNext: res.hasNext,
       code: res.code,
