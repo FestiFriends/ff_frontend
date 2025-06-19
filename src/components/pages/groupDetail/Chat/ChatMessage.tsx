@@ -1,6 +1,6 @@
 import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
 import { ChatMessage as ChatMessageType } from '@/types/chat';
-import { formatToKST } from '@/utils/date';
+import { formatToKSTTime } from '@/utils/date';
 
 interface ChatMessageProps {
   message: ChatMessageType;
@@ -12,7 +12,7 @@ const ChatMessage = ({ message, isMine }: ChatMessageProps) => {
     return (
       <div className='flex items-end justify-end gap-1.5'>
         <span className='text-right text-12_M leading-normal tracking-[-0.3px] text-gray-500'>
-          {formatToKST(message.createdAt)}
+          {formatToKSTTime(message.createdAt)}
         </span>
         <div className='rounded-l-[20px] rounded-tr-[2px] rounded-br-[20px] bg-[#ececec] px-4 py-2.5'>
           <span className='text-16_M leading-normal tracking-[-0.4px] text-gray-950'>
@@ -42,7 +42,7 @@ const ChatMessage = ({ message, isMine }: ChatMessageProps) => {
             </span>
           </div>
           <span className='text-left text-12_M leading-normal tracking-[-0.3px] text-gray-500'>
-            {formatToKST(message.createdAt)}
+            {formatToKSTTime(message.createdAt)}
           </span>
         </div>
       </div>
