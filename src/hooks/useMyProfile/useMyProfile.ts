@@ -5,7 +5,7 @@ import { FullProfile } from '@/types/profiles';
 
 export const useMyProfile = () =>
   useQuery<FullProfile, Error>({
-    queryKey: [USERS_QUERY_KEYS.myProfile] as const,
+    queryKey: [USERS_QUERY_KEYS.myProfile],
     queryFn: () => profilesApi.getProfile('me'),
     staleTime: 1000 * 60 * 5,
     retry: (failureCount, error) => {

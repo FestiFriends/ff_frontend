@@ -21,3 +21,15 @@ export const useUploadMultipleFiles = () =>
       return uploadedUrls;
     },
   });
+
+export const useUploadSingleFile = () =>
+  useMutation({
+    mutationFn: async (file: File) => {
+      const { presignedUrl } = (await imagesApi.getPresignedURL(file.name))
+        .data;
+      await imagesApi.uploadImage(presignedUrl, file);
+      const uploadedUrls = presignedUrl.split('?')[0];
+
+      return uploadedUrls;
+    },
+  });

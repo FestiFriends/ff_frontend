@@ -1,33 +1,34 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import TextInput from '@/components/common/TextInput/TextInput';
 import { USERS_QUERY_KEYS } from '@/constants/queryKeys';
-import { useMyProfile } from '@/hooks/useMyProfile/useMyProfile';
+import { useUploadSingleFile } from '@/hooks/useGetPresignedUrl/useGetPresignedUrl';
+import { useImageUploader } from '@/hooks/useImageUploader/useImageUploader';
 import { useNicknameValidator } from '@/hooks/useNicknameValidator/useNicknameValidator';
 import { hasProfanity } from '@/lib/utils';
 import { profilesApi } from '@/services/profileService';
-import { GenderType } from '@/types/enums';
-import { validateAge } from '@/utils/InputValidators/InputValidators';
+import { FullProfile, ProfileEditRequest } from '@/types/profiles';
+import {
+  validateAge,
+  validateNickname,
+} from '@/utils/InputValidators/InputValidators';
 import FormSection from './FormSection';
 import GenderSelect from './GenderSelect';
 import ProfileImageInput from './ProfileImageInput';
 
-interface EditProfileFormValues {
-  profileImage: string | undefined;
-  name: string;
-  gender: GenderType | undefined;
-  age: number;
-  description: string;
-  sns: string;
+interface EditProfileFormProps {
+  profile: FullProfile;
 }
 
-const EditProfileForm = () => {
-  const { data: profile } = useMyProfile();
+const EditProfileForm = ({ profile }: EditProfileFormProps) => {
+  const { images, upload, defaultUrlUpload } = useImageUploader('single');
+  const { mutateAsync: imaegMutate, isPending: imageIsPending } =
+    useUploadSingleFile();
+
   const {
     isChecking,
     isAvailable,
@@ -37,42 +38,24 @@ const EditProfileForm = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const { handleSubmit, setValue, reset, watch, control } =
-    useForm<EditProfileFormValues>({
+  const { handleSubmit, setValue, watch, control } =
+    useForm<ProfileEditRequest>({
       defaultValues: {
-        profileImage: '',
-        name: '',
-        gender: undefined,
-        age: 20,
-        description: '',
-        sns: '',
+        age: profile.age,
+        description: profile.description,
+        gender: profile.gender,
+        hashtag: profile.hashtag,
+        name: profile.name,
+        profileImage: profile.profileImage || {},
+        sns: profile.sns,
       },
       mode: 'onBlur',
     });
 
-  useEffect(() => {
-    if (profile) {
-      reset({
-        profileImage: profile.profileImage?.src ?? undefined,
-        name: profile.name ?? '',
-        gender: profile.gender ?? undefined,
-        age: profile.age ?? 20,
-        description: profile.description ?? '',
-        sns: profile.sns ?? '',
-      });
-    }
-  }, [profile, reset]);
-
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (data: EditProfileFormValues) =>
-      profilesApi.updateProfile({
-        ...data,
-        profileImage: data.profileImage
-          ? { src: data.profileImage }
-          : undefined,
-      }),
+    mutationFn: (data: ProfileEditRequest) => profilesApi.updateProfile(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [USERS_QUERY_KEYS.myProfile] });
+      queryClient.refetchQueries({ queryKey: [USERS_QUERY_KEYS.myProfile] });
       router.replace('/profiles/me');
     },
     onError: (error) => {
@@ -81,12 +64,25 @@ const EditProfileForm = () => {
     },
   });
 
-  const onSubmit = async (data: EditProfileFormValues) => {
+  const onSubmit = async (data: ProfileEditRequest) => {
     if (hasProfanity(data.description)) {
       alert('소개글에 부적절한 표현이 포함되어 있습니다.');
       return;
     }
-    await mutateAsync(data);
+    let imageData: ProfileEditRequest['profileImage'] = {};
+    if (images?.file) {
+      await imaegMutate(images?.file, {
+        onSuccess: (url) => {
+          imageData = { src: url, alt: '프로필 이미지' };
+        },
+      });
+    }
+
+    const submitData: ProfileEditRequest = {
+      ...data,
+      profileImage: imageData,
+    };
+    await mutateAsync(submitData);
   };
 
   const handleFormKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
@@ -118,13 +114,6 @@ const EditProfileForm = () => {
     return 'text-gray-500';
   };
 
-  const handleImageChange = useCallback(
-    (url: string) => {
-      setValue('profileImage', url);
-    },
-    [setValue]
-  );
-
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <form
@@ -133,8 +122,10 @@ const EditProfileForm = () => {
     >
       <div className='flex justify-center'>
         <ProfileImageInput
+          images={images}
+          upload={upload}
+          defaultUrlUpload={defaultUrlUpload}
           initialImageUrl={watch('profileImage')}
-          onChange={handleImageChange}
         />
       </div>
 
@@ -142,6 +133,10 @@ const EditProfileForm = () => {
         <Controller
           name='name'
           control={control}
+          rules={{
+            required: '닉네임을 입력해주세요.',
+            validate: (v) => validateNickname(v),
+          }}
           render={({ field }) => (
             <TextInput
               {...field}
@@ -159,9 +154,28 @@ const EditProfileForm = () => {
       </FormSection>
 
       <FormSection label='성별'>
-        <GenderSelect
-          value={watch('gender') ?? ''}
-          onChange={(val) => setValue('gender', val)}
+        <Controller
+          name='gender'
+          control={control}
+          rules={{
+            validate: (value) =>
+              value === 'MALE' || value === 'FEMALE'
+                ? true
+                : '성별을 선택해주세요.',
+          }}
+          render={({ field, fieldState }) => (
+            <>
+              <GenderSelect
+                value={field.value ?? ''}
+                onChange={field.onChange}
+              />
+              {fieldState.error && (
+                <p className='mt-1 text-sm text-red-500'>
+                  {fieldState.error.message}
+                </p>
+              )}
+            </>
+          )}
         />
       </FormSection>
 
@@ -185,7 +199,7 @@ const EditProfileForm = () => {
 
       <FormSection label='소개글'>
         <TextareaInput
-          value={watch('description')}
+          value={watch('description') || ''}
           onChange={(val) => setValue('description', val)}
           placeholder='자기소개를 입력해주세요'
           maxLength={150}
@@ -201,6 +215,7 @@ const EditProfileForm = () => {
             <TextInput
               placeholder='인스타그램 아이디'
               {...field}
+              value={watch('sns') || ''}
             />
           )}
         />
@@ -210,15 +225,17 @@ const EditProfileForm = () => {
         <button
           type='button'
           className='flex-1 rounded-[12px] border border-gray-300 py-3 text-16_M text-gray-800'
+          onClick={() => router.back()}
+          disabled={isPending || imageIsPending}
         >
           취소
         </button>
         <button
           type='submit'
-          disabled={isPending}
+          disabled={isPending || imageIsPending}
           className='flex-1 rounded-[12px] bg-red-500 py-3 text-16_M text-white disabled:cursor-not-allowed disabled:opacity-50'
         >
-          {isPending ? '저장 중...' : '확인'}
+          {isPending || imageIsPending ? '저장 중...' : '확인'}
         </button>
       </div>
     </form>
