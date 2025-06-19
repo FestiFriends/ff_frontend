@@ -21,7 +21,7 @@ const FavoriteUserTabContent: React.FC<{ users: User[] }> = ({ users }) => (
     {users.map((user) => (
       <ProfileCard
         key={user.id}
-        profile={user}
+        profile={{ ...user, isMine: false }}
         onEditClick={() => handleProfileEdit(user.id)}
       />
     ))}

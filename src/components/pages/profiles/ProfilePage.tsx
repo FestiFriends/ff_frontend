@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useProfile } from '@/hooks/useProfile/useProfile';
+import ProfileHeader from '../../common/ProfileCard/ProfileHeader';
 import ProfileBody from './ProfileBody';
 import ProfileBodySkeleton from './ProfileBodySkeleton';
-import ProfileHeader from './ProfileHeader';
 import ProfileNotFoundHeader from './ProfileHeaderNotFound';
 import ProfileHeaderSkeleton from './ProfileHeaderSkeleton';
 import ProfileWrapper from './ProfileWrapper';

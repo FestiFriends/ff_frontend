@@ -27,6 +27,7 @@ export interface Profile {
   hashtag?: string[];
   sns?: string;
   rating: number;
+  isLiked?: boolean;
 }
 
 export interface FullProfile extends Profile {
@@ -39,4 +40,8 @@ export interface FullProfile extends Profile {
   joinedGroups?: Group[];
   cursorId?: number | null;
   hasNext?: boolean;
+}
+
+export interface ProfileCardType extends Profile {
+  isMine: boolean;
 }
