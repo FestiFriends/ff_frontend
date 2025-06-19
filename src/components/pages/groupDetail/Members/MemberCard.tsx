@@ -14,7 +14,7 @@ interface MemberCardProps {
 }
 
 const MemberCard = ({ member, isHost }: MemberCardProps) => {
-  const isLoggedIn = useAuthStore((state) => state.isLoggedin);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   return (
     <div
