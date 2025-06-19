@@ -20,7 +20,7 @@ const NAV_ITEM = [
 
 const INVISIBLE_ROUTE = [
   '/groups/create',
-  '/proflies/me/edit',
+  '/profiles/me/edit',
   '/reviews/managements',
   '/groups/:groupId/edit',
   '/groups/:groupId/posts/:postId',
