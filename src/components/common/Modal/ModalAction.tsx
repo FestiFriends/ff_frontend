@@ -15,11 +15,18 @@ const ModalAction = ({
   children,
   onClick,
   ...props
-}: PropsWithChildren<ButtonHTMLAttributes<HTMLButtonElement>>) => {
+}: PropsWithChildren<
+  ButtonHTMLAttributes<HTMLButtonElement> & {
+    onClick?: (
+      e: MouseEvent<HTMLButtonElement>
+    ) => void | boolean | Promise<void | boolean>;
+  }
+>) => {
   const { closeModal } = useModalContext();
-  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-    const result = onClick?.(e);
-    Promise.resolve(result).then(() => closeModal());
+  const handleClick = async (e: MouseEvent<HTMLButtonElement>) => {
+    const result = await onClick?.(e);
+    if (typeof result === 'boolean' && result === false) return;
+    closeModal();
   };
 
   if (isValidElement(children)) {
@@ -29,7 +36,10 @@ const ModalAction = ({
       'aria-label': '모달 제출',
       onClick: (e: MouseEvent<HTMLElement>) => {
         const result = child.props.onClick?.(e);
-        Promise.resolve(result).then(() => closeModal());
+        Promise.resolve(result).then((res) => {
+          if (typeof res === 'boolean' && res === false) return;
+          closeModal();
+        });
       },
     });
   }

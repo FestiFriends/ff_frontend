@@ -1,15 +1,21 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { endOfMonth, format, startOfMonth } from 'date-fns';
+import {
+  endOfMonth,
+  endOfWeek,
+  format,
+  startOfMonth,
+  startOfWeek,
+} from 'date-fns';
 import { ArrowUp } from 'lucide-react';
 import LoadingOverlay from '@/components/common/LoadingOverlay/LoadingOverlay';
+import CalendarFilter from '@/components/pages/PerformanceCalendar/CalendarFilter';
+import PerformanceCalendar from '@/components/pages/PerformanceCalendar/PerformanceCalendar';
+import SelectedDatePerformances from '@/components/pages/PerformanceCalendar/SelectedDatePerformances';
 import { useGetPerformances } from '@/hooks/performanceHooks/performanceHooks';
 import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
 import { Performance } from '@/types/performance';
-import CalendarFilter from './CalendarFilter';
-import PerformanceCalendar from './PerformanceCalendar';
-import SelectedDatePerformances from './SelectedDatePerformances';
 
 const PerformanceCalendarPage = () => {
   const { getPerformanceQueryString, setMultipleQueryParams } = useQueryParam();
@@ -21,8 +27,11 @@ const PerformanceCalendarPage = () => {
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const detailRef = useRef<HTMLDivElement>(null);
 
-  const startDate = format(startOfMonth(currentMonth), 'yyyy-MM-dd');
-  const endDate = format(endOfMonth(currentMonth), 'yyyy-MM-dd');
+  const start = startOfWeek(startOfMonth(currentMonth), { weekStartsOn: 0 });
+  const end = endOfWeek(endOfMonth(currentMonth), { weekStartsOn: 0 });
+
+  const startDate = format(start, 'yyyy-MM-dd');
+  const endDate = format(end, 'yyyy-MM-dd');
 
   const {
     data: allPerformances,

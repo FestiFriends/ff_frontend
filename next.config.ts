@@ -38,6 +38,11 @@ const nextConfig: NextConfig = {
         hostname: 'festi-friends.s3.ap-northeast-2.amazonaws.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'example.com',
+        pathname: '/**',
+      },
     ],
   },
   async rewrites() {

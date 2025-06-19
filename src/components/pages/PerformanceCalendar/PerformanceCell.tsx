@@ -1,12 +1,14 @@
+'use client';
+
 import { memo, useCallback } from 'react';
 import { format, isSameMonth, isToday, isSameDay } from 'date-fns';
+import PerformanceHoverCard from '@/components/pages/PerformanceCalendar/PerformanceHoverCard';
 import { cn } from '@/lib/utils';
 import { Performance } from '@/types/performance';
-import PerformanceHoverCard from './PerformanceHoverCard';
 
-interface CalendarCellProps {
+interface PerformanceCellProps {
   date: Date;
-  events: Performance[];
+  performances: Performance[];
   currentMonth: Date;
   selectedDate?: Date;
   onDateClick?: (
@@ -22,64 +24,66 @@ const visitStyles: Record<string, string> = {
   국내: 'bg-red-100 text-red-700',
 };
 
-const CalendarCell: React.FC<CalendarCellProps> = ({
+const PerformanceCell = ({
   date,
-  events,
+  performances,
   currentMonth,
   selectedDate,
   onDateClick,
   onPerformanceClick,
-}: CalendarCellProps) => {
+}: PerformanceCellProps) => {
   const isCurrentMonth = isSameMonth(date, currentMonth);
   const isTodayDate = isToday(date);
   const isSelected = selectedDate && isSameDay(date, selectedDate);
 
-  const cellBaseClass =
+  const handleClick = useCallback(() => {
+    onDateClick?.(date, performances, false);
+  }, [onDateClick, date, performances]);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        onDateClick?.(date, performances, false);
+      }
+    },
+    [onDateClick, date, performances]
+  );
+
+  const cellBase =
     'flex min-h-[100px] flex-col items-start justify-start overflow-hidden rounded border-b bg-white p-2';
 
   const cellClasses = cn(
-    cellBaseClass,
+    cellBase,
     'border-gray-200',
     !isCurrentMonth && 'text-gray-400',
     isTodayDate && 'border-gray-600 bg-gray-50',
     isSelected && 'border-red-400 bg-red-50'
   );
 
-  const handleDateClick = useCallback(() => {
-    onDateClick?.(date, events, false);
-  }, [onDateClick, date, events]);
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        onDateClick?.(date, events, false);
-      }
-    },
-    [onDateClick, date, events]
-  );
-
   return (
     <div
       role='button'
       tabIndex={0}
-      onClick={handleDateClick}
-      onKeyDown={handleKeyDown}
       className={cellClasses}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
     >
       <button className='w-full rounded text-sm font-medium'>
         {format(date, 'd')}
       </button>
 
-      {events.length > 0 && (
-        <div className='mt-1 flex flex-col space-y-0.5'>
-          {events.slice(0, 2).map((perf) => (
+      {performances.length > 0 && (
+        <div className='mt-1 flex w-full flex-col space-y-0.5'>
+          {performances.slice(0, 2).map((perf) => (
             <PerformanceHoverCard
               key={perf.id}
               performance={perf}
             >
               <button
-                key={perf.id}
-                onClick={() => onPerformanceClick?.(perf)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onPerformanceClick?.(perf);
+                }}
                 className={cn(
                   'block w-full truncate overflow-hidden rounded px-1 text-left text-xs text-ellipsis whitespace-nowrap hover:underline',
                   visitStyles[perf.visit] || 'bg-gray-100 text-gray-700'
@@ -89,15 +93,15 @@ const CalendarCell: React.FC<CalendarCellProps> = ({
               </button>
             </PerformanceHoverCard>
           ))}
-          {events.length > 2 && (
+          {performances.length > 2 && (
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                onDateClick?.(date, events, true);
+                onDateClick?.(date, performances, true);
               }}
               className='w-fit text-xs text-gray-400 hover:underline'
             >
-              +{events.length - 2}개
+              +{performances.length - 2}개
             </button>
           )}
         </div>
@@ -106,21 +110,4 @@ const CalendarCell: React.FC<CalendarCellProps> = ({
   );
 };
 
-const areEqual = (
-  prev: Readonly<CalendarCellProps>,
-  next: Readonly<CalendarCellProps>
-): boolean => {
-  const sameDate = isSameDay(prev.date, next.date);
-  const sameMonth = isSameMonth(prev.currentMonth, next.currentMonth);
-  const sameSelected = Boolean(
-    (!prev.selectedDate && !next.selectedDate)
-      || (prev.selectedDate
-        && next.selectedDate
-        && isSameDay(prev.selectedDate, next.selectedDate))
-  );
-  const sameEvents = prev.events.length === next.events.length;
-
-  return sameDate && sameMonth && sameSelected && sameEvents;
-};
-
-export default memo(CalendarCell, areEqual);
+export default memo(PerformanceCell);

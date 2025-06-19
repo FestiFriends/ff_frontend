@@ -1,3 +1,5 @@
+'use client';
+
 import { useMemo, useState } from 'react';
 import {
   eachDayOfInterval,
@@ -5,31 +7,30 @@ import {
   endOfWeek,
   startOfMonth,
   startOfWeek,
+  format,
 } from 'date-fns';
-import { Performance } from '@/types/performance';
-import getEventsByDate from '@/utils/getEventsByDate';
-import CalendarGrid from './CalendarGrid';
 import CalendarHeader from './CalendarHeader';
 import WeekdayHeader from './WeekdayHeader';
 
-interface EventCalendarProps {
+interface CalendarBaseProps<T> {
   month: Date;
-  performances: Performance[];
-  selectedDate?: Date;
-  onPerformanceClick?: (performance: Performance) => void;
-  onDateClick?: (date: Date, performances: Performance[]) => void;
+  events: T[];
+  getDate: (event: T) => Date;
+  renderCell: (date: Date, events: T[]) => React.ReactNode;
   onMonthChange?: (month: Date) => void;
+  weekdayLabels?: string[];
 }
 
-const EventCalendar = ({
+const CalendarBase = <T,>({
   month,
-  performances,
-  selectedDate,
-  onPerformanceClick,
-  onDateClick,
+  events,
+  getDate,
+  renderCell,
   onMonthChange,
-}: EventCalendarProps) => {
+  weekdayLabels,
+}: CalendarBaseProps<T>) => {
   const [internalMonth, setInternalMonth] = useState(month);
+
   const currentMonth = internalMonth;
 
   const days = useMemo(() => {
@@ -39,14 +40,19 @@ const EventCalendar = ({
   }, [currentMonth]);
 
   const eventsByDate = useMemo(() => {
-    const result = getEventsByDate(performances);
-    return result;
-  }, [performances]);
+    const grouped: Record<string, T[]> = {};
+    for (const event of events) {
+      const key = format(getDate(event), 'yyyy-MM-dd');
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push(event);
+    }
+    return grouped;
+  }, [events, getDate]);
 
   const handlePrevMonth = () => {
     const newMonth = new Date(
-      internalMonth.getFullYear(),
-      internalMonth.getMonth() - 1
+      currentMonth.getFullYear(),
+      currentMonth.getMonth() - 1
     );
     setInternalMonth(newMonth);
     onMonthChange?.(newMonth);
@@ -54,8 +60,8 @@ const EventCalendar = ({
 
   const handleNextMonth = () => {
     const newMonth = new Date(
-      internalMonth.getFullYear(),
-      internalMonth.getMonth() + 1
+      currentMonth.getFullYear(),
+      currentMonth.getMonth() + 1
     );
     setInternalMonth(newMonth);
     onMonthChange?.(newMonth);
@@ -68,17 +74,16 @@ const EventCalendar = ({
         onPrev={handlePrevMonth}
         onNext={handleNextMonth}
       />
-      <WeekdayHeader />
-      <CalendarGrid
-        days={days}
-        currentMonth={currentMonth}
-        eventsByDate={eventsByDate}
-        selectedDate={selectedDate}
-        onDateClick={onDateClick}
-        onPerformanceClick={onPerformanceClick}
-      />
+      <WeekdayHeader labels={weekdayLabels} />
+      <div className='grid grid-cols-7'>
+        {days.map((day) => {
+          const key = format(day, 'yyyy-MM-dd');
+          const dayEvents = eventsByDate[key] ?? [];
+          return <div key={key}>{renderCell(day, dayEvents)}</div>;
+        })}
+      </div>
     </div>
   );
 };
 
-export default EventCalendar;
+export default CalendarBase;

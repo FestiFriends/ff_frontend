@@ -1,5 +1,4 @@
 'use client';
-/* eslint-disable arrow-body-style */
 
 import dynamic from 'next/dynamic';
 
@@ -12,8 +11,8 @@ const ProfilePage = dynamic<ProfileContentProps>(
   { ssr: false }
 );
 
-const ClientProfileWrapper = ({ userId }: { userId: string }) => {
-  return <ProfilePage userId={userId} />;
-};
+const ClientProfileWrapper = ({ userId }: { userId: string }) => (
+  <ProfilePage userId={userId} />
+);
 
 export default ClientProfileWrapper;

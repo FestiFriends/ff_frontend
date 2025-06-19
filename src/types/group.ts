@@ -1,6 +1,6 @@
 import { DateRange } from '@/types/dateRange';
 import { ApiResponse, PageResponse } from './api';
-import { GroupCategoryType, GenderType } from './enums';
+import { GroupCategoryType, GenderType, EventColorName } from './enums';
 
 export interface Group {
   id: string;
@@ -112,4 +112,30 @@ export interface CreateGroupApiRequest {
   maxMembers: number;
   description: string;
   hashtag?: string[];
+}
+
+export interface GroupSchedule {
+  id: string;
+  description: string;
+  startAt: string;
+  endAt: string;
+  location: string;
+  createdAt: string;
+
+  author: {
+    id: string;
+    name: string;
+    profileImage?: string;
+  };
+
+  isMine: boolean;
+  eventColor?: EventColorName;
+}
+
+export interface ScheduleRequest {
+  description: string;
+  startAt: string;
+  endAt: string;
+  location: string;
+  eventColor?: EventColorName;
 }
