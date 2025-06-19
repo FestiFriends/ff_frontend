@@ -59,3 +59,21 @@ export const useLogout = () => {
     },
   });
 };
+
+export const useWithdraw = () => {
+  const logout = useAuthStore((state) => state.logout);
+  const disconnect = useSseStore((state) => state.disconnect);
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: authApi.withdraw,
+    onSuccess: () => {
+      logout();
+      disconnect();
+      router.replace('/');
+    },
+    onError: (error) => {
+      alert(error.message ?? '회원 탈퇴 중 오류가 발생했습니다.');
+    },
+  });
+};
