@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BottomSheetModal, Button } from '@/components/common';
 import { useModalContext } from '@/components/common/Modal/ModalContext';
 import BlankIcon from '@/components/icons/BlankIcon';
@@ -15,14 +15,17 @@ interface LocationSelectorProps {
   className?: string;
   triggerClassName?: string;
   value: string;
+  originalValue: string;
 }
 
 const LocationSelectorContent = ({
   value,
   onChange,
+  originalValue,
 }: {
   value: string;
   onChange: (value: string) => void;
+  originalValue: string;
 }) => {
   const { closeModal } = useModalContext();
 
@@ -55,10 +58,10 @@ const LocationSelectorContent = ({
         ))}
       </div>
 
-      {value && (
+      {value !== undefined && (
         <div className='flex justify-between gap-2.5 pt-4'>
           <Button
-            onClick={() => handleSelect('')}
+            onClick={() => handleSelect(originalValue)}
             variant='secondary'
           >
             초기화
@@ -74,6 +77,7 @@ const NormalLocationSelector: React.FC<LocationSelectorProps> = ({
   onChange,
   className,
   triggerClassName,
+  originalValue,
   value,
 }) => {
   const selectedOption = LOCATION_OPTIONS.find(
@@ -111,6 +115,7 @@ const NormalLocationSelector: React.FC<LocationSelectorProps> = ({
         <LocationSelectorContent
           value={value}
           onChange={onChange}
+          originalValue={originalValue}
         />
       </BottomSheetModal>
     </div>
