@@ -1,6 +1,4 @@
 import { useRef } from 'react';
-import { format } from 'date-fns';
-import { ko } from 'date-fns/locale';
 import { useRouter } from 'next/navigation';
 import Badge from '@/components/common/Badge/Badge';
 import Button from '@/components/common/Button/Button';
@@ -13,8 +11,7 @@ import StarIcon from '@/components/icons/StarIcon';
 import { useGetUserId } from '@/hooks/userHooks/userHooks';
 import { ReportTarget } from '@/types/enums';
 import { GroupInfo } from '@/types/group';
-
-const DATE_FORMAT = 'yy.MM.dd';
+import { formatNormalDate } from '@/utils/date';
 
 interface GroupInfoCardProps {
   groupInfo: GroupInfo;
@@ -48,14 +45,8 @@ const GroupInfoCard = ({
             />
           </div>
           <span className='text-12_M text-gray-600'>
-            {/* TODO: date.ts 파일 추가 후 수정 */}
-            {format(new Date(groupInfo.startDate), DATE_FORMAT, {
-              locale: ko,
-            })}
-            ~
-            {format(new Date(groupInfo.endDate), DATE_FORMAT, {
-              locale: ko,
-            })}
+            {formatNormalDate(groupInfo.startDate)}~
+            {formatNormalDate(groupInfo.endDate)}
           </span>
           <MoreDropdown
             items={[
@@ -76,7 +67,6 @@ const GroupInfoCard = ({
             ]}
           />
         </div>
-
         <div className='flex w-full justify-between gap-4'>
           <div className='flex flex-1 flex-col justify-between overflow-hidden'>
             <h4 className='mb-1.5 truncate text-16_B text-black'>
@@ -91,36 +81,39 @@ const GroupInfoCard = ({
                 {groupInfo.startAge}~{groupInfo.endAge}세
               </span>
             </div>
-            <div className='flex items-center gap-0.5'>
-              <ProfileImage
-                size='xs'
-                src={groupInfo.host.profileImage}
-                alt={groupInfo.host.name}
-                border={false}
-              />
-              <span className='text-12_M text-gray-700'>
-                {groupInfo.host.name}
-              </span>
-              <span className='flex text-12_M text-gray-700'>
-                (<StarIcon className='h-3 w-3' />
-                {groupInfo.host.rating})
-              </span>
+            <div>
+              <button
+                type='button'
+                className='flex items-center gap-0.5'
+                onClick={() => router.push(`/profiles/${groupInfo.host.id}`)}
+              >
+                <ProfileImage
+                  size='xs'
+                  src={groupInfo.host.profileImage}
+                  alt={groupInfo.host.name}
+                  border={false}
+                />
+                <span className='text-12_M text-gray-700'>
+                  {groupInfo.host.name}
+                </span>
+                <span className='flex text-12_M text-gray-700'>
+                  (<StarIcon className='h-3 w-3' />
+                  {groupInfo.host.rating})
+                </span>
+              </button>
             </div>
             <p className='line-clamp-2 w-full text-14_body_M text-gray-950'>
               {groupInfo.description}
             </p>
           </div>
         </div>
-
         <ProgressBar
           current={groupInfo.memberCount}
           total={groupInfo.maxMembers}
         />
-
         {groupInfo.hashtag && (
           <HashtagBadgeGroup hashtags={groupInfo.hashtag} />
         )}
-
         <div className='flex w-full gap-2'>
           <Button
             variant='primary'
