@@ -8,6 +8,7 @@ import {
   PostJoinGroupRequest,
   CreateGroupApiRequest,
   CreateGroupFormData,
+  UpdateGroupApiRequest,
 } from '@/types/group';
 import { Post } from '@/types/post';
 import { formatPostDate } from '@/utils/date';
@@ -84,5 +85,17 @@ export const groupsApi = {
     return await apiFetcher.post<
       ApiResponse<{ groupId: string; performanceId: string }>
     >(`/api/v1/groups`, apiRequest);
+  },
+
+  patchUpdateGroup: async (
+    groupId: string,
+    groupData: UpdateGroupApiRequest
+  ) => {
+    const response = await apiFetcher.patch<ApiResponse>(
+      `/api/v1/groups/${groupId}`,
+      groupData
+    );
+
+    return response.data;
   },
 };
