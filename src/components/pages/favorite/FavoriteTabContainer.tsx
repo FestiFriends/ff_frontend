@@ -57,7 +57,9 @@ const FavoriteTabContainer: React.FC = () => {
           >
             options={favoriteUsersOptions(DEFAULT_SIZE)}
             getDataId={(user) => user.id}
-            renderData={(user) => <ProfileCard profile={user} />}
+            renderData={(user) => (
+              <ProfileCard profile={{ ...user, isMine: false }} />
+            )}
             fallback={<Spinner />}
             isFetchingFallback={<Spinner />}
             className='mx-auto grid w-fit grid-cols-2 gap-4'

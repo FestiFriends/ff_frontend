@@ -14,13 +14,7 @@ const MyPageMain = () => {
     <main className='flex min-h-screen flex-col items-center px-[16px] pt-[20px]'>
       <div className='w-full max-w-md'>
         <ProfileInfoBox
-          name={profile.name}
-          gender={profile.gender}
-          age={profile.age}
-          rating={profile.rating}
-          reviewCount={profile.reviewCount}
-          profileImage={profile.profileImage?.src}
-          isMine={true}
+          profile={profile}
           onEditClick={() => {
             window.location.href = '/profiles/me/edit';
           }}

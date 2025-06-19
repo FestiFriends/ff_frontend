@@ -42,15 +42,8 @@ const ProfileHeader = ({ profile, onEditClick }: ProfileHeaderProps) => {
     <section className='flex flex-col items-center'>
       <div className='mb-[10px] w-full max-w-xl'>
         <ProfileInfoBox
-          name={profile.name}
-          gender={profile.gender}
-          age={profile.age}
-          rating={profile.rating}
-          reviewCount={profile.reviewCount}
-          profileImage={profile.profileImage?.src}
-          isMine={profile.isMine}
+          profile={profile}
           onEditClick={onEditClick}
-          isLiked={isLiked}
           onLikeClick={handleLikeClick}
         />
       </div>
