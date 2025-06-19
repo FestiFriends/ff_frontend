@@ -2,6 +2,7 @@ import apiFetcher from '@/lib/apiFetcher';
 import { ApiResponse, CursorRequest } from '@/types/api';
 import {
   PostReviewRequest,
+  ReceivedSimpleReview,
   WritableReviewsResponse,
   WrittenReviewsResponse,
 } from '@/types/reviews';
@@ -29,4 +30,11 @@ export const reviewsApi = {
       '/api/v1/reviews',
       data
     ),
+
+  getReceivedSimpleReviews: async (userId: string) =>
+    (
+      await apiFetcher.get<ApiResponse<ReceivedSimpleReview[]>>(
+        `/api/v1/reviews/${userId}`
+      )
+    ).data,
 };

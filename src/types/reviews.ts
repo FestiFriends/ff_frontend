@@ -76,3 +76,11 @@ export interface SelectedWrittenReview {
   content?: string;
   rating: number;
 }
+
+export interface ReceivedSimpleReview {
+  reviewId: string;
+  reviewerId: string;
+  rating: number;
+  content?: string;
+  createdAt: string;
+}

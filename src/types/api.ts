@@ -28,3 +28,10 @@ export interface PageResponse {
   first: boolean;
   last: boolean;
 }
+
+export interface CursorDataResponse<T = unknown> {
+  data: T[];
+  cursorId?: number;
+  hasNext: boolean;
+  firstPage?: boolean;
+}

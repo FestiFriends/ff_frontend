@@ -37,9 +37,6 @@ export interface FullProfile extends Profile {
   reviewSummary: ReviewSummary;
   reviewCount: number;
   reviewList?: string[];
-  joinedGroups?: Group[];
-  cursorId?: number | null;
-  hasNext?: boolean;
 }
 
 export interface ProfileEditRequest {
@@ -58,4 +55,10 @@ export interface ProfileEditRequest {
 
 export interface ProfileCardType extends Profile {
   isMine: boolean;
+}
+
+export interface JoinedGroupsResponse {
+  data: Group[];
+  cursorId?: number;
+  hasNext: boolean;
 }
