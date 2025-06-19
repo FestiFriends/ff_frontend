@@ -6,6 +6,7 @@ import ModalContent from '@/components/common/Modal/ModalContent';
 import ModalTrigger from '@/components/common/Modal/ModalTrigger';
 import { useLogout, useWithdraw } from '@/hooks/useAuth/useAuth';
 import { cn } from '@/lib/utils';
+import DrawModal from './DrawModal';
 import PrivacyPolicyContent from './legal/PrivacyPolicyContent';
 import TermsContent from './legal/TermsContent';
 
@@ -22,18 +23,12 @@ const MyPageMenuList = () => {
   //   document.documentElement.classList.toggle('dark', isDarkMode);
   // }, [isDarkMode]);
 
-  const handleWithdraw = () => {
-    if (confirm('정말로 회원 탈퇴하시겠습니까?')) {
-      withdraw();
-    }
-  };
-
   return (
     <ul className='w-full max-w-md space-y-4 text-14_M'>
       <Modal>
         <li className='flex h-10 w-full items-center px-[4px]'>
           <Link
-            href='/mypage/reviews?tab=writable'
+            href='/reviews/managements'
             className='w-full'
           >
             리뷰 관리
@@ -74,13 +69,14 @@ const MyPageMenuList = () => {
             isWithdrawing && 'cursor-not-allowed opacity-60'
           )}
         >
-          <button
-            onClick={handleWithdraw}
-            disabled={isWithdrawing}
-            className='w-full text-left'
-          >
-            {isWithdrawing ? '회원 탈퇴 중...' : '회원 탈퇴'}
-          </button>
+          <DrawModal onAction={withdraw}>
+            <button
+              disabled={isWithdrawing}
+              className='w-full text-left'
+            >
+              {isWithdrawing ? '회원 탈퇴 중...' : '회원 탈퇴'}
+            </button>
+          </DrawModal>
         </li>
 
         <ModalContent className='max-h-[80vh] w-[90vw] max-w-2xl overflow-y-auto rounded-xl bg-white p-6 text-sm leading-relaxed shadow-xl'>
@@ -93,7 +89,7 @@ const MyPageMenuList = () => {
           </p>
         </ModalContent>
       </Modal>
-      <div className='sticky bottom-0 w-full border-t bg-white px-4 py-4'>
+      <div className='w-full border-t bg-white px-4 py-4'>
         <Button
           onClick={() => logout()}
           disabled={isLoggingOut}

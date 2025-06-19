@@ -76,7 +76,7 @@ const MainBanner = () => {
         ]}
         className='relative'
       >
-        <CarouselContent className='m-0 h-[170px]'>
+        <CarouselContent className='m-0 h-fit'>
           {BANNER_INFO.map((item) => (
             <CarouselItem
               key={item.id}
@@ -84,7 +84,7 @@ const MainBanner = () => {
             >
               <Link
                 href={''}
-                className='relative block h-full w-full'
+                className='relative block aspect-[2/1] h-full w-full md:aspect-[3/1]'
               >
                 <Image
                   src={item.src}

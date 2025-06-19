@@ -31,8 +31,10 @@ export const useKakaoLogin = (redirectPath: string) => {
       const resData = res.data;
       if (resData.data) {
         login(resData.data.accessToken);
+        router.push(
+          resData.data.isNewUser ? '/profiles/me/edit' : redirectPath
+        );
       }
-      router.push(redirectPath);
     },
     onError: (error: ApiResponse) => {
       alert(error.message ?? '로그인 중 문제가 발생했습니다.');

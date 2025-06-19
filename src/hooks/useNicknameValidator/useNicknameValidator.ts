@@ -25,8 +25,12 @@ export const useNicknameValidator = () => {
     setIsChecking(true);
     try {
       const available = await getCheckNickname(value);
-      setIsAvailable(available);
-      setError(available ? undefined : '이미 사용 중인 닉네임입니다.');
+      setIsAvailable(true);
+      setError(
+        available
+          ? undefined
+          : '이미 사용 중인 닉네임입니다. 사용하실 수 있지만, 구별을 위해 고유한 닉네임을 고려해보세요'
+      );
     } catch {
       setIsAvailable(null);
       setError('닉네임 중복 확인에 실패했습니다.');
