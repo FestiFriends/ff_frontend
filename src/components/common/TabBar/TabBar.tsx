@@ -1,27 +1,30 @@
 'use client';
 
 import React, { ReactNode } from 'react';
-import { useMediaQuery } from 'react-responsive';
-import { CalendarIcon } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { match } from 'path-to-regexp';
-import GroupIcon from '@/components/icons/GroupIcon';
-import HomeIcon from '@/components/icons/HomeIcon';
-import LikeIcon from '@/components/icons/LikeIcon';
-import UserIcon from '@/components/icons/UserIcon';
+import { NavLink } from '@/components/common';
+import {
+  CalendarIcon,
+  GroupIcon,
+  HomeIcon,
+  LikeIcon,
+  UserIcon,
+} from '@/components/icons';
+import { useIsMobile } from '@/hooks';
 import { cn } from '@/lib/utils';
-import NavLink from '../NavLink/NavLink';
+
 const NAV_ITEM = [
-  { herf: '/', name: '홈', Icon: HomeIcon },
-  { herf: '/calendar', name: '캘린더', Icon: CalendarIcon },
-  { herf: '/groups/managements', name: '나의모임', Icon: GroupIcon },
-  { herf: '/favorite', name: '찜', Icon: LikeIcon },
-  { herf: '/profiles/me', name: '마이', Icon: UserIcon },
+  { href: '/', name: '홈', Icon: HomeIcon },
+  { href: '/calendar', name: '캘린더', Icon: CalendarIcon },
+  { href: '/groups/managements', name: '나의모임', Icon: GroupIcon },
+  { href: '/favorite', name: '찜', Icon: LikeIcon },
+  { href: '/profiles/me', name: '마이', Icon: UserIcon },
 ];
 
 const INVISIBLE_ROUTE = [
   '/groups/create',
-  '/proflies/me/edit',
+  '/profiles/me/edit',
   '/reviews/managements',
   '/groups/:groupId/edit',
   '/groups/:groupId/posts/:postId',
@@ -38,7 +41,7 @@ interface TabBarProps {
 }
 
 const TabBar = ({ children }: TabBarProps) => {
-  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const isMobile = useIsMobile();
   const pathname = usePathname();
 
   if (tabBarHide(pathname)) {
@@ -55,7 +58,7 @@ const TabBar = ({ children }: TabBarProps) => {
           {NAV_ITEM.map((item) => (
             <NavLink
               key={item.name}
-              href={item.herf}
+              href={item.href}
               className='flex h-11 w-11 flex-col items-center gap-1.5 text-gray-400'
               activeClassName='text-primary-red'
               end

@@ -1,13 +1,12 @@
 'use client';
 import React, { useState } from 'react';
-import { useMediaQuery } from 'react-responsive';
-import SearchInput from '@/components/common/SearchInput/SearchInput';
-import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
+import { SearchInput } from '@/components/common';
+import { useIsMobile, useQueryParam } from '@/hooks';
 
 const PerformancesSearchInput = () => {
   const { setMultipleQueryParams, getQueryParam } = useQueryParam();
   const [keyword, setKeyword] = useState(getQueryParam('keyword') || '');
-  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const isMobile = useIsMobile();
 
   const handleSubmit = () => {
     setMultipleQueryParams({

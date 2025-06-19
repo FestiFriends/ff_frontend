@@ -17,16 +17,18 @@ const RootLayout = ({
   <html lang='ko'>
     <body className='touch-manipulation'>
       <div id='portal' />
-      <AuthStoreProvider>
-        <SseStoreProvider>
-          <MSWComponent>
-            <QueryProvider>
-              <TabBar>{children}</TabBar>
-              <NotificationToast />
-            </QueryProvider>
-          </MSWComponent>
-        </SseStoreProvider>
-      </AuthStoreProvider>
+      <div className='mx-auto max-w-lg shadow-xl contain-layout'>
+        <AuthStoreProvider>
+          <SseStoreProvider>
+            <MSWComponent>
+              <QueryProvider>
+                <TabBar>{children}</TabBar>
+                <NotificationToast />
+              </QueryProvider>
+            </MSWComponent>
+          </SseStoreProvider>
+        </AuthStoreProvider>
+      </div>
     </body>
   </html>
 );
