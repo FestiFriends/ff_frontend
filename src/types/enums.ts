@@ -95,6 +95,7 @@ export const ReportStatus = {
 } as const;
 
 export type ReportStatusType = (typeof ReportStatus)[keyof typeof ReportStatus];
+
 export const EventColor = {
   RED: 'red',
   BLUE: 'blue',
@@ -105,3 +106,10 @@ export const EventColor = {
 } as const;
 
 export type EventColorName = (typeof EventColor)[keyof typeof EventColor];
+
+export const Role = {
+  HOST: 'HOST', // 모임장
+  MEMBER: 'MEMBER', // 모임원
+} as const;
+
+export type RoleType = (typeof Role)[keyof typeof Role];

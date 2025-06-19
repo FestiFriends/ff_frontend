@@ -1,5 +1,10 @@
 import { DateRange } from '@/types/dateRange';
-import { ApiResponse, PageResponse } from './api';
+import {
+  ApiResponse,
+  CursorRequest,
+  CursorResponse,
+  PageResponse,
+} from './api';
 import { GroupCategoryType, GenderType, EventColorName } from './enums';
 
 export interface Group {
@@ -70,7 +75,7 @@ export interface GroupInfo {
   description?: string;
   hashtag?: string[];
   host: {
-    hostId: string;
+    id: string;
     name: string;
     rating?: number;
     profileImage?: string;
@@ -139,3 +144,45 @@ export interface ScheduleRequest {
   location: string;
   eventColor?: EventColorName;
 }
+
+export interface Member {
+  memberId: string; // 모임원 ID
+  name: string; // 이름
+  profileImage?: string; // 프로필 이미지
+  role: string; // 역할
+}
+
+export type GetGroupMembersRequest = {
+  groupId: string;
+} & CursorRequest;
+
+export type GetGroupMembersResponse = {
+  data: {
+    groupId: string;
+    performanceId: string;
+    memberCount: number;
+    isHost: boolean;
+    members: Member[];
+  };
+} & CursorResponse
+  & ApiResponse;
+
+export type GetGroupMembersFormattedResponse = {
+  data: Member[];
+  groupId: string;
+  performanceId: string;
+  isHost: boolean;
+  memberCount: number;
+} & CursorResponse
+  & ApiResponse;
+
+export type PatchGroupMemberRoleRequest = {
+  groupId: string;
+  memberId: string;
+  role: string;
+};
+
+export type DeleteGroupMemberRequest = {
+  groupId: string;
+  memberId: string;
+};

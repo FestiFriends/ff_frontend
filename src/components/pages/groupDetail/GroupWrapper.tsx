@@ -32,7 +32,7 @@ const GroupWrapper = ({ groupId }: GroupWrapperProps) => {
 
       {isLoggedIn && isMember && (
         <>
-          <GroupMembers />
+          <GroupMembers groupId={groupId} />
           <GroupTabs groupInfo={groupInfo?.data} />
         </>
       )}
