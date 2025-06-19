@@ -2,7 +2,7 @@ import { memo, useCallback } from 'react';
 import { format, isSameMonth, isToday, isSameDay } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Performance } from '@/types/performance';
-import PerformanceHoverCard from './PerformanceHoverCard';
+import { PerformanceHoverCard } from './';
 
 interface CalendarCellProps {
   date: Date;

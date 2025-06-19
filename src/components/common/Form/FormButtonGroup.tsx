@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import {
   useController,
@@ -6,7 +8,7 @@ import {
   FieldValues,
   RegisterOptions,
 } from 'react-hook-form';
-import { ButtonGroup, ButtonGroupItem } from '@/components/common/ButtonGroup';
+import { ButtonGroup, ButtonGroupItem } from '@/components/common';
 import { useStyles } from '@/hooks';
 
 interface FormButtonGroupProps<

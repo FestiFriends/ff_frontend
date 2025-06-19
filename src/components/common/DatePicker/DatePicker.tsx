@@ -3,12 +3,11 @@
 import { useCallback, useRef, useState } from 'react';
 import { addMonths, format, subMonths } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import AltArrowUpIcon from '@/components/icons/AltArrowUpIcon';
-import DeleteIcon from '@/components/icons/DeleteIcon';
-import useClickOutside from '@/hooks/useClickOutside/useClickOutside';
+import { Calendar } from '@/components/common';
+import { AltArrowUpIcon, DeleteIcon } from '@/components/icons';
+import { useClickOutside } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { DateRange } from '@/types/dateRange';
-import Calendar from '../Calendar/Calendar';
 
 interface DatePickerProps {
   startDate: Date | null;

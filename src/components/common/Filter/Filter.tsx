@@ -1,9 +1,7 @@
 'use client';
+
 import { useCallback } from 'react';
-import {
-  MultiLevelData,
-  useMultiLevelFilter,
-} from '@/hooks/useMultiLevelFilter/useMultiLevelFilter';
+import { MultiLevelData, useMultiLevelFilter } from '@/hooks';
 import FilterUi from './FilterUi';
 
 interface FilterProps {

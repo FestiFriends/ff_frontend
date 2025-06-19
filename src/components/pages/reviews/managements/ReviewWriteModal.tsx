@@ -2,7 +2,7 @@
 import React, { useRef, useState } from 'react';
 import { Rating } from 'react-simple-star-rating';
 import { Button } from '@/components/common';
-import { ButtonGroup, ButtonGroupItem } from '@/components/common/ButtonGroup';
+import { ButtonGroup, ButtonGroupItem } from '@/components/common';
 import LoadingOverlay from '@/components/common/LoadingOverlay/LoadingOverlay';
 import {
   Modal,

@@ -7,10 +7,8 @@ import {
   startOfWeek,
 } from 'date-fns';
 import { Performance } from '@/types/performance';
-import getEventsByDate from '@/utils/getEventsByDate';
-import CalendarGrid from './CalendarGrid';
-import CalendarHeader from './CalendarHeader';
-import WeekdayHeader from './WeekdayHeader';
+import { getEventsByDate } from '@/utils';
+import { CalendarGrid, CalendarHeader, WeekdayHeader } from './';
 
 interface EventCalendarProps {
   month: Date;

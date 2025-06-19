@@ -14,7 +14,7 @@ import {
   startOfWeek,
 } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import AltArrowUpIcon from '@/components/icons/AltArrowUpIcon';
+import { AltArrowUpIcon } from '@/components/icons';
 import { cn } from '@/lib/utils';
 
 interface CalendarProps {

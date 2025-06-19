@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import { Performance } from '@/types/performance';
-import CalendarCell from './CalendarCell';
+import { CalendarCell } from './';
 
 interface CalendarGridProps {
   days: Date[];
