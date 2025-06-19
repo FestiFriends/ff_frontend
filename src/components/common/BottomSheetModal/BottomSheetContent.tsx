@@ -134,8 +134,8 @@ const BottomSheetContent: React.FC<Props> = ({
       <Overlay />
       <div
         className={cn(
-          'ease fixed right-0 bottom-0 left-0 z-50 flex w-full transform flex-col rounded-t-2xl bg-white shadow-2xl transition-all duration-300',
-          isAnimating ? 'translate-y-0' : 'translate-y-full',
+          'easy fixed bottom-0 left-1/2 z-50 flex w-full max-w-lg -translate-x-1/2 transform flex-col rounded-t-2xl bg-white shadow-2xl transition-all duration-300',
+          isAnimating ? 'translate-y-0 -translate-x-1/2' : 'translate-y-full -translate-x-1/2',
           HEIGHT_CLASS[height],
           className
         )}
