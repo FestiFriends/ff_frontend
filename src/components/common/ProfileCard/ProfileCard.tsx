@@ -1,27 +1,35 @@
-import { ProfileData } from '@/types/profile';
-import ProfileCardSkeleton from './ProfileCardSkeleton';
-import ProfileCardUi from './ProfileCardUi';
+'use client';
+
+import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { usersApi } from '@/services/usersService';
+import { ProfileCardType } from '@/types/profiles';
+import ProfileInfoBox from './ProfileInfoBox';
 
 interface ProfileCardProps {
-  profile?: ProfileData;
-  isLoading?: boolean;
-  error?: string;
+  profile: ProfileCardType;
   onEditClick?: () => void;
 }
+const ProfileCard = ({ profile, onEditClick }: ProfileCardProps) => {
+  const [isLiked, setIsLiked] = useState(profile.isLiked);
 
-const ProfileCard = ({
-  profile,
-  isLoading,
-  error,
-  onEditClick,
-}: ProfileCardProps) => {
-  if (isLoading) return <ProfileCardSkeleton />;
-  if (error || !profile)
-    return <ProfileCardSkeleton error={error ?? '존재하지 않는 유저입니다.'} />;
+  const { mutate: toggleLike, isPending } = useMutation({
+    mutationFn: ({ isLiked, userId }: { isLiked: boolean; userId: string }) =>
+      usersApi.updateLikeUser(userId, isLiked),
+    onSuccess: (res) => {
+      setIsLiked(res.isLiked);
+    },
+  });
+
+  const handleLikeClick = () => {
+    if (!isPending) toggleLike({ isLiked: !isLiked, userId: profile.id });
+  };
+
   return (
-    <ProfileCardUi
-      {...profile}
+    <ProfileInfoBox
+      profile={profile}
       onEditClick={onEditClick}
+      onLikeClick={handleLikeClick}
     />
   );
 };

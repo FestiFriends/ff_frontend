@@ -18,4 +18,7 @@ export const authApi = {
     const res = await apiFetcher.post<ApiResponse>('/api/v1/auth/logout');
     return res;
   },
+
+  withdraw: async () =>
+    await apiFetcher.delete<ApiResponse>('/api/v1/users/me'),
 };

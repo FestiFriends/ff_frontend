@@ -1,5 +1,6 @@
 import apiFetcher from '@/lib/apiFetcher';
 import { ApiResponse, CursorRequest } from '@/types/api';
+import { ToggleUserLikeResponse } from '@/types/users';
 import { GetFavoriteUsersResponse, UserIdResponse } from '@/types/users';
 
 export const usersApi = {
@@ -14,6 +15,18 @@ export const usersApi = {
     ).data,
   getUserId: async () =>
     (await apiFetcher.get<UserIdResponse>('/api/v1/users/id')).data,
+
+  updateLikeUser: async (
+    userId: string,
+    isLiked: boolean
+  ): Promise<ToggleUserLikeResponse> => {
+    const res = await apiFetcher.patch<ApiResponse<ToggleUserLikeResponse>>(
+      `/api/v1/users/favorites/${userId}`,
+      { isLiked }
+    );
+
+    return res.data.data ?? { isLiked: false, userId: userId };
+  },
 };
 
 export const getCheckNickname = async (nickname: string): Promise<boolean> => {
