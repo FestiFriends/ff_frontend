@@ -8,7 +8,7 @@ import { LocationLabels } from '@/constants/locationLabels';
 import { cn } from '@/lib/utils';
 import { generateFilterOptions } from '@/utils';
 
-const LOCATION_OPTIONS = generateFilterOptions(LocationLabels);
+const LOCATION_OPTIONS = generateFilterOptions(LocationLabels, false);
 
 interface LocationSelectorProps {
   onChange: (value: string) => void;

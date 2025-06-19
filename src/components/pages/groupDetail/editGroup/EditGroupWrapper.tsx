@@ -108,13 +108,14 @@ const EditGroupWrapper = () => {
 
   const handleSubmit = async () => {
     if (!groupDetail) return;
+
     const payload = {
       title,
       category: category,
       gender: genderLabelToKey(originalGender as string),
       startAge: originalStartAge!,
       endAge: originalEndAge!,
-      location: region === '' ? '전체' : LocationLabels[region as LocationType],
+      location: LocationLabels[region as LocationType],
       startDate: dateRange.startDate!.toISOString().replace('.000', ''),
       endDate: dateRange.endDate!.toISOString().replace('.000', ''),
       maxMembers: participants,
