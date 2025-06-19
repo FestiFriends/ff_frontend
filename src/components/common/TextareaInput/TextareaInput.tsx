@@ -1,5 +1,6 @@
 'use client';
 import { cn } from '@/lib/utils';
+import Toast from '../Toast/Toast';
 
 interface TextareaInputProps {
   value: string;
@@ -12,6 +13,8 @@ interface TextareaInputProps {
   isValidText?: boolean;
   hasBorder?: boolean;
   showLength?: boolean;
+  showToast?: boolean;
+  showWarning?: boolean;
 }
 
 const TextareaInput = ({
@@ -25,6 +28,8 @@ const TextareaInput = ({
   isValidText = true,
   hasBorder = true,
   showLength = true,
+  showToast = false,
+  showWarning = true,
 }: TextareaInputProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = e.target.value;
@@ -60,8 +65,15 @@ const TextareaInput = ({
           !isValidText && 'justify-between'
         )}
       >
-        {!isValidText && (
+        {showWarning && !isValidText && (
           <p className='text-red-500'>부적절한 단어가 포함되어 있습니다</p>
+        )}
+        {showToast && !isValidText && (
+          <Toast
+            message='부적절한 단어가 포함되어 있습니다'
+            onClose={() => {}}
+            className='bottom-1/2'
+          />
         )}
         {showLength && (
           <div className='text-right text-gray-500'>

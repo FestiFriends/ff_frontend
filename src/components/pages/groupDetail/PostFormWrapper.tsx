@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import DetailHeader from '@/components/common/DetailHeader/DetailHeader';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import { useCreatePost } from '@/hooks/postHooks/postHook';
 import { useGetPresignedURL } from '@/hooks/useGetPresignedUrl/useGetPresignedUrl';
@@ -9,6 +10,10 @@ import { hasProfanity } from '@/lib/utils';
 import { imagesApi } from '@/services/imagesService';
 import { Image } from '@/types/image';
 import PostImageUploader from './PostImageUploader/PostImageUploader';
+
+// 최소/최대 줄 수 상수 정의
+const MAX_TEXTAREA_ROWS = 33; // 최대 20줄까지 늘어남
+const MAX_TEXTAREA_LENGTH = 500;
 
 const PostFormWrapper = () => {
   const params = useParams();
@@ -78,35 +83,37 @@ const PostFormWrapper = () => {
   };
 
   return (
-    <div className='flex h-full flex-col gap-4'>
-      {/* TODO: 헤더 컴포넌트로 추후 변경*/}
-      <header>
-        <button
-          className='h-10 w-10 bg-blue-500'
-          onClick={handleSubmit}
-          disabled={!canSubmit}
-        >
-          완료
-        </button>
-      </header>
-      <form>
+    <div className='flex h-full flex-col'>
+      <DetailHeader
+        title='게시글 작성'
+        hasRightText='등록'
+        onRightClick={handleSubmit}
+        rightDisabled={!canSubmit}
+      />
+
+      <div className='h-full flex-1 px-4 pt-16 pb-20'>
         <TextareaInput
           value={content}
           onChange={handleChange}
-          className='h-full border-none px-4 py-2.5 text-16_M placeholder:text-gray-400'
+          maxLength={MAX_TEXTAREA_LENGTH}
+          rows={MAX_TEXTAREA_ROWS}
+          className='border-none px-4 py-2.5 text-16_M placeholder:text-gray-400'
           hasBorder={false}
           isValidText={isValidText}
           showLength={false}
           placeholder='내용을 입력해 주세요'
+          showToast={true}
+          showWarning={false}
         />
-        <div className='fixed bottom-[80px] w-full'>
-          <PostImageUploader
-            images={images}
-            onImageUpload={handleImageUpload}
-            onImageRemove={handleImageRemove}
-          />
-        </div>
-      </form>
+      </div>
+
+      <div className='fixed bottom-0 w-full'>
+        <PostImageUploader
+          images={images}
+          onImageUpload={handleImageUpload}
+          onImageRemove={handleImageRemove}
+        />
+      </div>
     </div>
   );
 };
