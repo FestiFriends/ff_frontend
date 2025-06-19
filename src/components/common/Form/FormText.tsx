@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import {
   useController,
@@ -6,30 +8,31 @@ import {
   FieldValues,
   RegisterOptions,
 } from 'react-hook-form';
+import { cn } from '@/lib/utils';
 
-interface FormTextInputProps<
+interface FormTextProps<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > {
   name: TName;
   control: Control<TFieldValues>;
-  placeholder?: string;
+  value: string;
   rules?: RegisterOptions<TFieldValues, TName>;
-  disabled?: boolean;
   className?: string;
+  showError?: boolean;
 }
 
-const FormTextInput = <
+const FormText = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
   name,
   control,
-  placeholder,
+  value,
   rules,
-  disabled = false,
   className,
-}: FormTextInputProps<TFieldValues, TName>) => {
+  showError = true,
+}: FormTextProps<TFieldValues, TName>) => {
   const {
     field,
     fieldState: { error },
@@ -39,16 +42,14 @@ const FormTextInput = <
     rules,
   });
 
+  React.useEffect(() => {
+    field.onChange(value);
+  }, [value, field]);
+
   return (
-    <div className={className}>
-      <input
-        {...field}
-        type='text'
-        placeholder={placeholder}
-        disabled={disabled}
-        className='w-full rounded-2xl border border-gray-100 px-5 py-4 focus:border-transparent focus:ring-2 focus:ring-blue-100 focus:outline-none disabled:bg-gray-100'
-      />
-      {error && (
+    <div className={cn('flex flex-col', className)}>
+      <span className='text-gray-900'>{value}</span>
+      {showError && error && (
         <p
           className='mt-1 text-sm text-red-500'
           role='alert'
@@ -60,4 +61,4 @@ const FormTextInput = <
   );
 };
 
-export default FormTextInput;
+export default FormText;

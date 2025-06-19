@@ -9,6 +9,7 @@ import {
   RegisterOptions,
 } from 'react-hook-form';
 import { Counter } from '@/components/common';
+import { cn } from '@/lib/utils';
 
 interface FormCounterProps<
   TFieldValues extends FieldValues = FieldValues,
@@ -21,6 +22,7 @@ interface FormCounterProps<
   rules?: RegisterOptions<TFieldValues, TName>;
   suffix?: string;
   className?: string;
+  showError?: boolean;
 }
 
 const FormCounter = <
@@ -34,6 +36,7 @@ const FormCounter = <
   rules,
   suffix,
   className,
+  showError = true,
 }: FormCounterProps<TFieldValues, TName>) => {
   const {
     field,
@@ -45,7 +48,7 @@ const FormCounter = <
   });
 
   return (
-    <div className={className}>
+    <div className={cn('flex flex-col', className)}>
       <div className='flex items-center space-x-4'>
         <Counter
           value={field.value || min}
@@ -55,7 +58,7 @@ const FormCounter = <
         />
         {suffix && <span className='text-sm text-gray-600'>{suffix}</span>}
       </div>
-      {error && (
+      {showError && error && (
         <p
           className='mt-1 text-sm text-red-500'
           role='alert'

@@ -48,7 +48,7 @@ const FormTextArea = <
         rows={rows}
         placeholder={placeholder}
         disabled={disabled}
-        className='w-full resize-none rounded-lg border border-gray-300 px-3 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none disabled:bg-gray-100'
+        className='w-full resize-none rounded-2xl border border-gray-100 px-5 py-4 focus:border-transparent focus:ring-2 focus:ring-blue-100 focus:outline-none disabled:bg-gray-100'
       />
       {error && (
         <p
