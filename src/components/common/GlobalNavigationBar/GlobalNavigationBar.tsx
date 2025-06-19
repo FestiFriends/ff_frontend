@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useMediaQuery } from 'react-responsive';
+import { useIsMobile } from '@/hooks';
 import { useLogin, useLogout } from '@/hooks/useAuth/useAuth';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import NavLink from '../NavLink/NavLink';
@@ -18,7 +18,7 @@ const GlobalNavigationBar = () => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const { onLogin } = useLogin();
   const { mutate: logoutMutate } = useLogout();
-  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const isMobile = useIsMobile();
 
   if (isMobile) {
     return null;

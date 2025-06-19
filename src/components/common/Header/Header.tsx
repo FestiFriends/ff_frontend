@@ -1,11 +1,11 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
-import { useMediaQuery } from 'react-responsive';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import SearchIcon from '@/components/icons/SearchIcon';
 import { useLogin } from '@/hooks/useAuth/useAuth';
+import { useIsMobile } from '@/hooks';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import Notification from '../Notification/Notification';
 import SearchInput from '../SearchInput/SearchInput';
@@ -21,7 +21,7 @@ const Header = ({
   hasNotification = true,
   hasSearch = true,
 }: HeaderProps) => {
-  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const isMobile = useIsMobile();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const iconRef = useRef<HTMLButtonElement>(null);
   const [iconCenterX, setIconCenterX] = useState<number>(0);

@@ -1,6 +1,5 @@
 'use client';
 import { useEffect } from 'react';
-import { useMediaQuery } from 'react-responsive';
 import { usePathname, useRouter } from 'next/navigation';
 import BellIcon from '@/components/icons/BellIcon';
 import NotificationList from '@/components/pages/notifications/NotificationList';
@@ -10,6 +9,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useIsDesktop } from '@/hooks';
 import { useGetNewNotificationsCheck } from '@/hooks/notificationHooks/notificationHooks';
 
 const MobileNotification = () => {

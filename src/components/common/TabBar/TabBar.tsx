@@ -1,7 +1,6 @@
 'use client';
 
 import React, { ReactNode } from 'react';
-import { useMediaQuery } from 'react-responsive';
 import { CalendarIcon } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { match } from 'path-to-regexp';
@@ -38,7 +37,7 @@ interface TabBarProps {
 }
 
 const TabBar = ({ children }: TabBarProps) => {
-  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const isMobile = useIsMobile();
   const pathname = usePathname();
 
   if (tabBarHide(pathname)) {
