@@ -9,7 +9,7 @@ import {
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { Calendar, BottomSheetModal } from '@/components/common';
-import ChevronRightIcon from '@/components/icons/ChevronRightIcon';
+import { AltArrowUpIcon } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import { DateRange } from '@/types/dateRange';
 
@@ -78,16 +78,12 @@ const DateSelector = <
   };
 
   const formatDateRange = () => {
-    if (!dateRange.startDate && !dateRange.endDate) {
-      return placeholder;
-    }
-
-    if (dateRange.startDate && !dateRange.endDate) {
-      return format(dateRange.startDate, 'yyyy.MM.dd', { locale: ko });
-    }
-
     if (dateRange.startDate && dateRange.endDate) {
       return `${format(dateRange.startDate, 'yyyy.MM.dd', { locale: ko })} - ${format(dateRange.endDate, 'yyyy.MM.dd', { locale: ko })}`;
+    }
+
+    if (tempStartDate) {
+      return `${format(tempStartDate, 'yyyy.MM.dd', { locale: ko })} - 종료일 선택`;
     }
 
     return placeholder;
@@ -102,8 +98,12 @@ const DateSelector = <
     setTempStartDate(null);
   };
 
+  const handleModalClose = () => {
+    setTempStartDate(null);
+  };
+
   const displayText = formatDateRange();
-  const selectedOption = dateRange.startDate || dateRange.endDate;
+  const selectedOption = dateRange.startDate && dateRange.endDate;
 
   const TriggerButton = ({ onClick }: { onClick?: () => void }) => (
     <button
@@ -111,7 +111,7 @@ const DateSelector = <
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        'flex w-full items-center gap-2 rounded-md border bg-white p-3 text-left transition-colors duration-200',
+        'flex w-full items-center gap-2 rounded-2xl border border-gray-100 bg-white px-5 py-4 text-left transition-colors duration-200',
         'hover:bg-gray-50',
         'focus:ring-2',
         'disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-50',
@@ -127,7 +127,7 @@ const DateSelector = <
       >
         {displayText}
       </span>
-      <ChevronRightIcon className='h-4 w-4 flex-shrink-0' />
+      <AltArrowUpIcon className='h-6 w-6 flex-shrink-0 rotate-90' />
     </button>
   );
 
@@ -138,9 +138,11 @@ const DateSelector = <
         height='auto'
         hasClose={false}
         hasHandle={false}
+        onClose={handleModalClose}
       >
         <div className='p-6'>
           <Calendar
+            key={`${dateRange.startDate?.toISOString()}-${dateRange.endDate?.toISOString()}-${tempStartDate?.toISOString()}`}
             isControllable={true}
             startDate={getCurrentStartDate()}
             endDate={getCurrentEndDate()}
@@ -154,7 +156,7 @@ const DateSelector = <
                 ? '종료일을 선택해주세요'
                 : '시작일을 선택해주세요'}
             </span>
-            {(dateRange.startDate || dateRange.endDate) && (
+            {(dateRange.startDate || dateRange.endDate || tempStartDate) && (
               <button
                 type='button'
                 onClick={handleReset}

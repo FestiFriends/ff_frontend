@@ -16,7 +16,6 @@ const FormAction = ({
   isSubmitting,
 }: FormActionProps) => {
   const resetModal = useModalController();
-
   return (
     <>
       <div className='flex gap-4'>
