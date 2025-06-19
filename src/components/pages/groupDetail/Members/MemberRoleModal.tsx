@@ -18,11 +18,11 @@ const MemberRoleModal = ({ member }: MemberRoleModalProps) => {
   const { groupId } = useParams();
   const { mutate: patchMemberRole } = usePatchGroupMemberRole();
 
-  const handlePatchMemberRole = (role: string) => {
+  const handlePatchMemberRole = () => {
     patchMemberRole({
       groupId: groupId as string,
       memberId: member.memberId,
-      role,
+      role: 'HOST',
     });
   };
 
@@ -48,7 +48,7 @@ const MemberRoleModal = ({ member }: MemberRoleModalProps) => {
               취소
             </ModalCancel>
             <ModalAction
-              onClick={() => handlePatchMemberRole('HOST')}
+              onClick={handlePatchMemberRole}
               className='inline-flex w-full cursor-pointer items-center justify-center rounded-12 bg-primary-red py-2.5 text-center text-14_M text-white'
             >
               넘기기
