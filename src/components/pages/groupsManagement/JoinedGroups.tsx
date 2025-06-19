@@ -7,6 +7,7 @@ import ModalAction from '@/components/common/Modal/ModalAction';
 import ModalCancel from '@/components/common/Modal/ModalCancel';
 import ModalContent from '@/components/common/Modal/ModalContent';
 import ModalTrigger from '@/components/common/Modal/ModalTrigger';
+import Toast from '@/components/common/Toast/Toast';
 import {
   useGetJoinedGroups,
   useLeaveGroup,
@@ -17,10 +18,11 @@ import { formatJoinedGroups } from '@/utils/formatGroupCardData';
 const JoinedGroups = () => {
   const router = useRouter();
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const { mutate: leaveGroup } = useLeaveGroup();
+  const { mutateAsync: leaveGroup } = useLeaveGroup();
   const [selectedGroupId, setSelectedGroupId] = useState('');
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
     useGetJoinedGroups();
+  const [isToastOpen, setIsToastOpen] = useState(false);
 
   const bottomRef = useInfiniteScroll<HTMLDivElement>(
     fetchNextPage,
@@ -40,9 +42,12 @@ const JoinedGroups = () => {
       triggerRef.current?.click();
     }
   };
-  const handleModalConfirm = () => {
+  const handleModalConfirm = async () => {
     if (selectedGroupId) {
-      leaveGroup({ groupId: selectedGroupId });
+      const res = await leaveGroup({ groupId: selectedGroupId });
+      if (res.code === 200) {
+        setIsToastOpen(true);
+      }
     }
   };
 
@@ -91,6 +96,13 @@ const JoinedGroups = () => {
           </div>
         </ModalContent>
       </Modal>
+
+      {isToastOpen && (
+        <Toast
+          message='모임 탈퇴가 완료되었습니다'
+          onClose={() => setIsToastOpen(false)}
+        />
+      )}
     </div>
   );
 };

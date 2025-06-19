@@ -3,6 +3,7 @@
 import React, { useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Button from '@/components/common/Button/Button';
+import CreateReportModal from '@/components/common/CreateReportModal/CreateReportModal';
 import Modal from '@/components/common/Modal/Modal';
 import ModalAction from '@/components/common/Modal/ModalAction';
 import ModalCancel from '@/components/common/Modal/ModalCancel';
@@ -14,6 +15,7 @@ import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import { useDeleteComment, useUpdateComment } from '@/hooks/postHooks/postHook';
 import { cn, hasProfanity } from '@/lib/utils';
 import { Comment } from '@/types/comment';
+import { ReportTarget } from '@/types/enums';
 import { formatRelativeDate } from '@/utils/date';
 
 interface CommentItemProps {
@@ -35,6 +37,7 @@ const CommentItem = ({ comment, className }: CommentItemProps) => {
   const [modalType, setModalType] = useState<ModalType>(null);
   const [editMessage, setEditMessage] = useState(content);
   const [originalEditMessage, setOriginalEditMessage] = useState(content);
+  const reportTriggerRef = useRef<HTMLButtonElement>(null);
 
   const openModal = (type: ModalType) => {
     setModalType(type);
@@ -71,6 +74,10 @@ const CommentItem = ({ comment, className }: CommentItemProps) => {
     setModalType(null);
   };
 
+  const handleReportComment = () => {
+    reportTriggerRef.current?.click();
+  };
+
   const closeModal = () => {
     setModalType(null);
   };
@@ -89,7 +96,7 @@ const CommentItem = ({ comment, className }: CommentItemProps) => {
     : [
         {
           label: '신고하기',
-          onClick: () => console.log('신고하기 클릭'),
+          onClick: () => handleReportComment(),
         },
       ];
 
@@ -162,6 +169,13 @@ const CommentItem = ({ comment, className }: CommentItemProps) => {
           </div>
         </ModalContent>
       </Modal>
+
+      <CreateReportModal
+        targetId={author.id || ''}
+        category={ReportTarget.COMMENT}
+      >
+        <button ref={reportTriggerRef}></button>
+      </CreateReportModal>
     </div>
   );
 };
