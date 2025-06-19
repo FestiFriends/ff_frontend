@@ -75,7 +75,7 @@ export interface GroupInfo {
   description?: string;
   hashtag?: string[];
   host: {
-    hostId: string;
+    id: string;
     name: string;
     rating?: number;
     profileImage?: string;
@@ -161,6 +161,7 @@ export type GetGroupMembersResponse = {
     groupId: string;
     performanceId: string;
     memberCount: number;
+    isHost: boolean;
     members: Member[];
   };
 } & CursorResponse
@@ -170,6 +171,7 @@ export type GetGroupMembersFormattedResponse = {
   data: Member[];
   groupId: string;
   performanceId: string;
+  isHost: boolean;
   memberCount: number;
 } & CursorResponse
   & ApiResponse;
