@@ -24,7 +24,7 @@ const MembersHeader = ({
 }: MembersHeaderProps) => (
   <div className='flex justify-between'>
     <span className='text-16_B leading-normal tracking-[-0.4px] text-gray-950'>
-      멤버 <span>{memberCount}</span>명
+      멤버 <span>{memberCount ? memberCount : '0'}</span>명
     </span>
 
     <Modal>
