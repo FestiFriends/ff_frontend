@@ -21,6 +21,8 @@ const DROPDOWN_OPTIONS: Record<string, DropdownOption> = {
       { label: '최신순', value: 'date_asc' },
       { label: '모임 많은 순', value: 'group_count_desc' },
       { label: '모임 적은 순', value: 'group_count_asc' },
+      { label: '찜 많은 순', value: 'favorite_count_desc' },
+      { label: '찜 적은 순', value: 'favorite_count_asc' },
       { label: '이름순', value: 'title_asc' },
       { label: '이름역순', value: 'title_desc' },
     ],
