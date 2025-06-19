@@ -21,7 +21,7 @@ const MemberCard = ({ member, isHost }: MemberCardProps) => {
       key={member.memberId}
       className='flex items-center justify-between rounded-[16px] border-1 border-gray-100 bg-white p-3.5'
     >
-      <div className='flex items-center justify-start gap-3'>
+      <div className='flex min-w-0 items-center justify-start gap-2.5'>
         <Link href={`/profiles/${member.memberId}`}>
           <ProfileImage
             size='md'
@@ -31,7 +31,7 @@ const MemberCard = ({ member, isHost }: MemberCardProps) => {
             className='aspect-square shrink-0'
           />
         </Link>
-        <div className='flex flex-col justify-center gap-0.5'>
+        <div className='flex min-w-0 flex-col justify-center gap-0.5'>
           <span className='ml-[0.5px] flex items-center text-center text-12_M tracking-[-0.35px] text-gray-500'>
             {member.role === 'HOST' && (
               <CrownIcon className='mr-[1px] aspect-square h-3 w-3' />
@@ -40,7 +40,7 @@ const MemberCard = ({ member, isHost }: MemberCardProps) => {
           </span>
           <Link
             href={`/profiles/${member.memberId}`}
-            className='text-center text-16_B leading-normal tracking-[-0.4px] text-gray-950'
+            className='truncate text-16_B leading-normal tracking-[-0.35px] text-gray-950'
           >
             {member.name}
           </Link>
@@ -48,7 +48,7 @@ const MemberCard = ({ member, isHost }: MemberCardProps) => {
       </div>
 
       {isHost && member.role !== 'HOST' && isLoggedIn && (
-        <div className='flex gap-3'>
+        <div className='flex gap-2.5'>
           <MemberRoleModal member={member} />
           <MemberDeleteModal member={member} />
         </div>

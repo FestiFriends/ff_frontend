@@ -34,7 +34,7 @@ const MemberRoleModal = ({ member }: MemberRoleModalProps) => {
           className='px-3 py-1.5'
         >
           <span className='text-center text-14_M leading-4.5 tracking-[-0.35px]'>
-            권한 수정
+            모임장 넘기기
           </span>
         </Button>
       </ModalTrigger>
