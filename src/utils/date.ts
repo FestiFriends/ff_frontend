@@ -42,14 +42,22 @@ export const formatPostDate = (dateStr: string): string => {
   }
 };
 
-export const formatToKST = (isoString: string) => {
-  const timeString = isoString.split('T')[1].slice(0, 5);
-  const hour = Number(timeString.split(':')[0]);
-  const meridiem = hour < 12 ? '오전' : '오후';
-  const hour12 = hour % 12 === 0 ? 12 : hour % 12;
-  const paddedHour = hour12.toString().padStart(2, '0');
-  const minute = timeString.split(':')[1];
-  return `${meridiem} ${paddedHour}:${minute}`;
+export const formatToKSTDate = (isoString: string) => {
+  const date = new Date(isoString);
+  const kstTimestamp = date.getTime() - 9 * 60 * 60 * 1000;
+  const formattedDate = format(kstTimestamp, 'yy년 MM월 dd일 (eee)', {
+    locale: ko,
+  });
+  return formattedDate;
+};
+
+export const formatToKSTTime = (isoString: string) => {
+  const date = new Date(isoString);
+  const kstTimestamp = date.getTime() - 9 * 60 * 60 * 1000;
+  const formattedTime = format(kstTimestamp, 'a hh:mm', {
+    locale: ko,
+  });
+  return formattedTime;
 };
 
 // yy.MM.dd
