@@ -50,7 +50,7 @@ const DesktopNotification = () => {
 };
 
 const Notification = () => {
-  const isDesktop = useMediaQuery({ minWidth: 768 });
+  const isDesktop = useIsDesktop();
 
   if (isDesktop) {
     return <DesktopNotification />;
