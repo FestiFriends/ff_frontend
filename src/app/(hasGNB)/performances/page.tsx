@@ -6,6 +6,7 @@ import {
   PerformanceListContainer,
   Search,
 } from '@/components/pages/performances';
+import IsExpiredButton from '@/components/pages/performances/IsExpiredButton';
 
 type DropdownOption = {
   placeholder: string;
@@ -54,6 +55,7 @@ const PerformancesPage = () => (
           ))}
           <LocationSelector />
           <DatePicker />
+          <IsExpiredButton />
         </div>
       </div>
     </div>

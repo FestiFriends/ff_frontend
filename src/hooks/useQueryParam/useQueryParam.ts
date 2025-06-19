@@ -16,6 +16,7 @@ type PerformanceQueryParams = {
   page?: string;
   size?: string;
   visit?: string;
+  isExpired?: string;
 };
 
 const useQueryParam = () => {
@@ -49,6 +50,7 @@ const useQueryParam = () => {
         page: getQueryParam('page') || DEFAULT_PAGE,
         size: getQueryParam('size') || DEFAULT_SIZE,
         visit: getQueryParam('visit'),
+        isExpired: getQueryParam('isExpired'),
         ...params,
       };
 
