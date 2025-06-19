@@ -171,7 +171,7 @@ const PostCard = ({ post, type = 'posts', children }: PostCardProps) => {
                 data-testid='carousel'
                 className='relative mx-auto w-full'
               >
-                <CarouselContent>
+                <CarouselContent className='flex items-center'>
                   {Array.from(images ?? [], (img) => (
                     <CarouselItem key={img.id}>
                       <Image
