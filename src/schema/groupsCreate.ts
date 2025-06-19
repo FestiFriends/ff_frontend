@@ -30,7 +30,7 @@ export const groupCreateSchema = z.object({
   name: z
     .string({ required_error: '공연 이름이 필요합니다' })
     .min(1, '공연 이름을 입력해주세요'),
-  category: z.enum(['동행', '탑승', '숙박'], {
+  category: z.enum(['같이 동행', '같이 탑승', '같이 숙박'], {
     required_error: '모임 종류를 선택해주세요',
     invalid_type_error: '유효한 모임 종류를 선택해주세요',
   }),

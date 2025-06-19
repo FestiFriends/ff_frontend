@@ -94,7 +94,7 @@ export type PostJoinGroupRequest = {
 
 export interface CreateGroupFormData {
   name: string;
-  category: '동행' | '탑승' | '숙박';
+  category: '같이 동행' | '같이 탑승' | '같이 숙박';
   title: string;
   description: string;
   region: string;

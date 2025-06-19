@@ -26,7 +26,7 @@ import { CreateGroupFormData } from '@/types/group';
 
 const DEFAULT_VALUES: CreateGroupFormData = {
   name: '공연 이름',
-  category: '동행',
+  category: '같이 동행',
   title: '',
   description: '',
   region: '',
