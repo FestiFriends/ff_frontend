@@ -11,11 +11,11 @@ import UserIcon from '@/components/icons/UserIcon';
 import { cn } from '@/lib/utils';
 import NavLink from '../NavLink/NavLink';
 const NAV_ITEM = [
-  { herf: '/', name: '홈', Icon: HomeIcon },
-  { herf: '/calendar', name: '캘린더', Icon: CalendarIcon },
-  { herf: '/groups/managements', name: '나의모임', Icon: GroupIcon },
-  { herf: '/favorite', name: '찜', Icon: LikeIcon },
-  { herf: '/profiles/me', name: '마이', Icon: UserIcon },
+  { href: '/', name: '홈', Icon: HomeIcon },
+  { href: '/calendar', name: '캘린더', Icon: CalendarIcon },
+  { href: '/groups/managements', name: '나의모임', Icon: GroupIcon },
+  { href: '/favorite', name: '찜', Icon: LikeIcon },
+  { href: '/profiles/me', name: '마이', Icon: UserIcon },
 ];
 
 const INVISIBLE_ROUTE = [
@@ -54,7 +54,7 @@ const TabBar = ({ children }: TabBarProps) => {
           {NAV_ITEM.map((item) => (
             <NavLink
               key={item.name}
-              href={item.herf}
+              href={item.href}
               className='flex h-11 w-11 flex-col items-center gap-1.5 text-gray-400'
               activeClassName='text-primary-red'
               end
