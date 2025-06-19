@@ -7,7 +7,6 @@ export const useProfile = (userId: string) =>
   useQuery<FullProfile, Error>({
     queryKey: USERS_QUERY_KEYS.profile(userId),
     queryFn: () => profilesApi.getProfile(userId),
-    staleTime: 1000 * 60,
     retry: (failureCount, error) => {
       if (error instanceof Response && error.status === 404) {
         return false;

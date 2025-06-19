@@ -42,6 +42,20 @@ export interface FullProfile extends Profile {
   hasNext?: boolean;
 }
 
+export interface ProfileEditRequest {
+  name: string;
+  age: number;
+  gender: GenderType;
+  profileImage: {
+    id?: string;
+    src?: string;
+    alt?: string;
+  };
+  description: string;
+  hashtag: string[];
+  sns: string;
+}
+
 export interface ProfileCardType extends Profile {
   isMine: boolean;
 }

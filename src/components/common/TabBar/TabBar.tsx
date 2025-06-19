@@ -19,7 +19,7 @@ const NAV_ITEM = [
   { href: '/calendar', name: '캘린더', Icon: CalendarIcon },
   { href: '/groups/managements', name: '나의모임', Icon: GroupIcon },
   { href: '/favorite', name: '찜', Icon: LikeIcon },
-  { href: '/profiles/me', name: '마이', Icon: UserIcon },
+  { href: '/mypage', name: '마이', Icon: UserIcon },
 ];
 
 const INVISIBLE_ROUTE = [

@@ -2,35 +2,33 @@
 
 import { useEffect, useRef } from 'react';
 import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
-import { useImageUploader } from '@/hooks/useImageUploader/useImageUploader';
+import { UploadedImage } from '@/hooks/useImageUploader/useImageUploader';
+import { ProfileEditRequest } from '@/types/profiles';
 
 interface ProfileImageInputProps {
-  initialImageUrl?: string;
-  onChange?: (url: string) => void;
+  images?: UploadedImage;
+  upload: (files: File | File[] | FileList | null) => void;
+  defaultUrlUpload: (urls: string[] | string) => Promise<void>;
+  initialImageUrl: ProfileEditRequest['profileImage'];
 }
 
 const ProfileImageInput = ({
+  images,
+  defaultUrlUpload,
+  upload,
   initialImageUrl,
-  onChange,
 }: ProfileImageInputProps) => {
-  const { images, upload, defaultUrlUpload } = useImageUploader('single');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (initialImageUrl) {
-      defaultUrlUpload(initialImageUrl);
+    if (initialImageUrl?.src) {
+      defaultUrlUpload(initialImageUrl.src);
     }
   }, [initialImageUrl, defaultUrlUpload]);
 
   const handleClickChange = () => {
     fileInputRef.current?.click();
   };
-
-  useEffect(() => {
-    if (images?.url) {
-      onChange?.(images.url);
-    }
-  }, [images, onChange]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     upload(e.target.files);
