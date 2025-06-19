@@ -32,7 +32,7 @@ const ProfileInfoBox = ({
     gender === 'FEMALE' ? '여성' : gender === 'MALE' ? '남성' : '';
 
   return (
-    <div className='flex w-full items-start gap-[10px]'>
+    <div className='flex w-full items-center gap-[10px]'>
       <div className='shrink-0'>
         <ProfileImage
           src={profileImage}
