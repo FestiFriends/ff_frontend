@@ -171,8 +171,11 @@ const MultiSlider = ({
       {marks && (
         <div className='relative mt-1'>
           <div
-            className='flex justify-between text-gray-600 select-none text-11_M'
-            style={{ paddingLeft: `${thumbSize / 2}px`, paddingRight: `${thumbSize / 2}px` }}
+            className='flex justify-between text-11_M text-gray-600 select-none'
+            style={{
+              paddingLeft: `${thumbSize / 2}px`,
+              paddingRight: `${thumbSize / 2}px`,
+            }}
           >
             {Object.entries(marks).map(([key, label]) => (
               <span

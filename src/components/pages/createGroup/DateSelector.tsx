@@ -98,10 +98,6 @@ const DateSelector = <
     setTempStartDate(null);
   };
 
-  const handleModalClose = () => {
-    setTempStartDate(null);
-  };
-
   const displayText = formatDateRange();
   const selectedOption = dateRange.startDate && dateRange.endDate;
 
@@ -138,7 +134,6 @@ const DateSelector = <
         height='auto'
         hasClose={false}
         hasHandle={false}
-        onClose={handleModalClose}
       >
         <div className='p-6'>
           <Calendar

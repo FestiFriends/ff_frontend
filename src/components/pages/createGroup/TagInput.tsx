@@ -83,8 +83,8 @@ const TagInput = <
           onClick={handleInputAdd}
           className={cn(
             'flex w-[62px] items-center justify-center rounded-2xl px-10 py-3.5 text-center text-16_M text-sm transition-colors',
-            inputValue.trim() 
-              ? 'bg-red-500 text-white hover:bg-red-600' 
+            inputValue.trim()
+              ? 'bg-red-500 text-white hover:bg-red-600'
               : 'bg-gray-200 text-gray-50 hover:bg-gray-300'
           )}
         >
