@@ -14,6 +14,7 @@ import {
   GetGroupMembersResponse,
   PatchGroupMemberRoleRequest,
   DeleteGroupMemberRequest,
+  UpdateGroupApiRequest,
 } from '@/types/group';
 import { Post } from '@/types/post';
 import { formatPostDate } from '@/utils/date';
@@ -159,4 +160,16 @@ export const groupsApi = {
         `/api/v1/groups/${groupId}/members/${memberId}`
       )
     ).data,
+
+  patchUpdateGroup: async (
+    groupId: string,
+    groupData: UpdateGroupApiRequest
+  ) => {
+    const response = await apiFetcher.patch<ApiResponse>(
+      `/api/v1/groups/${groupId}`,
+      groupData
+    );
+
+    return response.data;
+  },
 };

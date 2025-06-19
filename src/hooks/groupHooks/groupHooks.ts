@@ -6,7 +6,10 @@ import {
   UseSuspenseInfiniteQueryOptions,
 } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { GROUP_QUERY_KEYS } from '@/constants/queryKeys';
+import {
+  GROUP_QUERY_KEYS,
+  GROUPS_MANAGEMENTS_QUERY_KEYS,
+} from '@/constants/queryKeys';
 import { groupsApi } from '@/services/groupsService';
 import { ApiResponse, CursorRequest } from '@/types/api';
 import {
@@ -18,6 +21,7 @@ import {
   GroupInfoResponse,
   PatchGroupMemberRoleRequest,
   PostJoinGroupRequest,
+  UpdateGroupApiRequest,
 } from '@/types/group';
 import { CreateGroupFormData } from '@/types/group';
 import { GroupPostsResponse } from '@/types/post';
@@ -177,6 +181,25 @@ export const useDeleteGroupMember = () => {
     onSuccess: (_, { groupId }) => {
       queryClient.invalidateQueries({
         queryKey: [GROUP_QUERY_KEYS.groupMembers, groupId],
+      });
+    },
+  });
+};
+
+export const useUpdateGroup = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<
+    ApiResponse,
+    ApiResponse,
+    { groupId: string; groupData: UpdateGroupApiRequest }
+  >({
+    mutationFn: ({ groupId, groupData }) =>
+      groupsApi.patchUpdateGroup(groupId, groupData),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [GROUPS_MANAGEMENTS_QUERY_KEYS.joinedGroups],
       });
     },
   });
