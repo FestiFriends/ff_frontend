@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BottomSheetModal, Button } from '@/components/common';
 import { useModalContext } from '@/components/common/Modal/ModalContext';
 import BlankIcon from '@/components/icons/BlankIcon';
