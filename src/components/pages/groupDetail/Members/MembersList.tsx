@@ -8,21 +8,17 @@ import {
 } from '@/components/ui/carousel';
 import { Skeleton } from '@/components/ui/skeleton';
 import { RoleLabels } from '@/constants/roleLabels';
-import { useGetGroupMembers } from '@/hooks/groupHooks/groupHooks';
 import { RoleType } from '@/types/enums';
 import { Member } from '@/types/group';
 
 interface MembersListProps {
-  groupId: string;
+  members?: Member[];
+  isPending: boolean;
+  isError: boolean;
 }
 
-const MembersList = ({ groupId }: MembersListProps) => {
+const MembersList = ({ members, isPending, isError }: MembersListProps) => {
   const router = useRouter();
-  const {
-    data: groupMembers,
-    isPending,
-    isError,
-  } = useGetGroupMembers(groupId, 5);
 
   if (isPending) {
     return (
@@ -47,7 +43,7 @@ const MembersList = ({ groupId }: MembersListProps) => {
     );
   }
 
-  if (isError || !groupMembers.data) {
+  if (isError) {
     return (
       <div className='flex flex-col items-center justify-center px-4 py-5'>
         <p className='font-semibold text-gray-500'>
@@ -56,8 +52,6 @@ const MembersList = ({ groupId }: MembersListProps) => {
       </div>
     );
   }
-
-  const members: Member[] = groupMembers.data.members;
 
   const routeToMemberProfile = (memberId: string) => {
     router.push(`/profiles/${memberId}`);
