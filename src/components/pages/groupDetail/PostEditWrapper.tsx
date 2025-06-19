@@ -4,15 +4,14 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import DetailHeader from '@/components/common/DetailHeader/DetailHeader';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
+import { UploadedImage, useImageUploader } from '@/hooks';
 import { useGetPost, useUpdatePost } from '@/hooks/postHooks/postHook';
 import { useGetPresignedURL } from '@/hooks/useGetPresignedUrl/useGetPresignedUrl';
 import { hasProfanity } from '@/lib/utils';
 import { imagesApi } from '@/services/imagesService';
-import { Image } from '@/types/image';
 import PostImageUploader from './PostImageUploader/PostImageUploader';
 
-// 최소/최대 줄 수 상수 정의
-const MAX_TEXTAREA_ROWS = 33; // 최대 20줄까지 늘어남
+const MAX_TEXTAREA_ROWS = 33;
 const MAX_TEXTAREA_LENGTH = 500;
 
 const PostEditWrapper = () => {
@@ -24,13 +23,21 @@ const PostEditWrapper = () => {
   const { data: post } = useGetPost({ groupId, postId });
   const [content, setContent] = useState('');
   const [isValidText, setIsValidText] = useState(true);
-  const [images, setImages] = useState<Image[]>([]);
+  const [hasImage, setHasImage] = useState(false);
+  const [originalImages, setOriginalImages] = useState<UploadedImage[]>([]);
   const { mutateAsync: getPresignedURL } = useGetPresignedURL();
   const { mutateAsync: updatePost } = useUpdatePost();
+  const {
+    upload,
+    images: stagedImages,
+    remove,
+    defaultUrlUpload,
+  } = useImageUploader('multi');
 
   const isContentChanged = content !== (post?.content ?? '');
   const isImagesChanged =
-    JSON.stringify(images) !== JSON.stringify(post?.images ?? []);
+    originalImages.length !== stagedImages.length
+    || originalImages.some((img, idx) => img.url !== stagedImages[idx]?.url);
   const canSubmit = useMemo(
     () =>
       isValidText
@@ -42,13 +49,19 @@ const PostEditWrapper = () => {
   useEffect(() => {
     if (post) {
       setContent(post.content);
-      setImages(post.images || []);
+      const originalImagesUrls = post.images?.map((img) => img.src.toString());
+      defaultUrlUpload(originalImagesUrls || []);
     }
-  }, [post]);
+    if (post?.images && post.images.length > 0) {
+      setHasImage(true);
+    }
+  }, [post, defaultUrlUpload]);
 
-  const handleImageUpload = (newImages: Image[]) => setImages(newImages);
-  const handleImageRemove = (idx: number) =>
-    setImages((prev) => prev.filter((_, i) => i !== idx));
+  useEffect(() => {
+    if (originalImages?.length === 0 && hasImage) {
+      setOriginalImages(stagedImages);
+    }
+  }, [stagedImages, originalImages, hasImage]);
 
   const handleChange = (value: string) => {
     setContent(value);
@@ -58,12 +71,12 @@ const PostEditWrapper = () => {
   const handleSubmit = async () => {
     let uploadResults: { idx: number; url: string }[] = [];
     try {
-      const uploadPromises = images
+      const uploadPromises = stagedImages
         .map((img) => {
           if (!img.file) {
             return null;
           }
-          return getPresignedURL(img.name!).then((res) => {
+          return getPresignedURL(img.file.name).then((res) => {
             if (res.code !== 200) {
               throw new Error('URL 생성 실패');
             }
@@ -75,7 +88,7 @@ const PostEditWrapper = () => {
             return imagesApi
               .uploadImage(presignedUrl, fileToUpload)
               .then(() => ({
-                idx: images.indexOf(img),
+                idx: stagedImages.indexOf(img),
                 url: presignedUrl.split('?')[0],
               }));
           });
@@ -89,11 +102,11 @@ const PostEditWrapper = () => {
       console.error('이미지 업로드 오류:', error);
       return;
     }
-    const finalImageObjects = images.map((img, idx) => {
+    const finalImageObjects = stagedImages.map((img, idx) => {
       const uploaded = uploadResults.find((r) => r && r.idx === idx);
       return {
-        alt: img.alt ?? img.name ?? '',
-        src: uploaded ? uploaded.url : img.src.toString(),
+        alt: img.file.name,
+        src: uploaded ? uploaded.url : img.url,
       };
     });
     const res = await updatePost({
@@ -133,9 +146,9 @@ const PostEditWrapper = () => {
       </div>
       <div className='fixed bottom-0 w-full'>
         <PostImageUploader
-          images={images}
-          onImageUpload={handleImageUpload}
-          onImageRemove={handleImageRemove}
+          images={stagedImages}
+          onImageUpload={upload}
+          onImageRemove={remove}
         />
       </div>
     </div>
