@@ -93,7 +93,7 @@ const MyPageMenuList = () => {
           </p>
         </ModalContent>
       </Modal>
-      <div className='sticky bottom-0 w-full border-t bg-white px-4 py-4'>
+      <div className='w-full border-t bg-white px-4 py-4'>
         <Button
           onClick={() => logout()}
           disabled={isLoggingOut}

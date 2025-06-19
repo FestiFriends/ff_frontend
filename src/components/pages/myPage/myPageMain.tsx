@@ -11,7 +11,7 @@ const MyPageMain = () => {
   if (!profile) return null;
 
   return (
-    <main className='flex min-h-screen flex-col items-center px-[16px] pt-[20px]'>
+    <main className='flex flex-col items-center px-[16px] pt-[20px]'>
       <div className='w-full max-w-md'>
         <ProfileInfoBox
           profile={profile}
