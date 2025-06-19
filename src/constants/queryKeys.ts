@@ -18,6 +18,7 @@ export const GROUP_QUERY_KEYS = {
   groupPosts: 'groupPosts',
   createGroup: 'createGroup',
   schedules: 'schedules',
+  groupMembers: 'groupMembers',
 };
 
 export const REVIEWS_QUERY_KEYS = {
