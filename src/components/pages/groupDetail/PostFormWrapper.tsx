@@ -11,7 +11,6 @@ import { imagesApi } from '@/services/imagesService';
 import { Image } from '@/types/image';
 import PostImageUploader from './PostImageUploader/PostImageUploader';
 
-// 최소/최대 줄 수 상수 정의
 const MAX_TEXTAREA_ROWS = 33; // 최대 20줄까지 늘어남
 const MAX_TEXTAREA_LENGTH = 500;
 
@@ -83,14 +82,13 @@ const PostFormWrapper = () => {
   };
 
   return (
-    <div className='flex h-full flex-col'>
+    <div className='flex h-full min-h-screen flex-col'>
       <DetailHeader
         title='게시글 작성'
         hasRightText='등록'
         onRightClick={handleSubmit}
         rightDisabled={!canSubmit}
       />
-
       <div className='h-full flex-1 px-4 pt-16 pb-20'>
         <TextareaInput
           value={content}
@@ -106,7 +104,6 @@ const PostFormWrapper = () => {
           showWarning={false}
         />
       </div>
-
       <div className='fixed bottom-0 w-full'>
         <PostImageUploader
           images={images}

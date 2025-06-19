@@ -89,7 +89,6 @@ const PostEditWrapper = () => {
       console.error('이미지 업로드 오류:', error);
       return;
     }
-    // 업로드된 이미지라면 새 URL로, 아니면 기존 src 사용
     const finalImageObjects = images.map((img, idx) => {
       const uploaded = uploadResults.find((r) => r && r.idx === idx);
       return {
@@ -110,15 +109,14 @@ const PostEditWrapper = () => {
   };
 
   return (
-    <div className='flex h-full flex-col gap-4'>
+    <div className='flex h-full min-h-screen flex-col'>
       <DetailHeader
         title='게시글 수정'
         hasRightText='수정'
         onRightClick={handleSubmit}
         rightDisabled={!canSubmit}
       />
-
-      <div className='h-full flex-1 px-4 pt-16 pb-20'>
+      <div className='h-full flex-1 px-4 pt-16'>
         <TextareaInput
           value={content}
           onChange={handleChange}
@@ -133,7 +131,7 @@ const PostEditWrapper = () => {
           showWarning={false}
         />
       </div>
-      <div className='fixed bottom-[80px] w-full'>
+      <div className='fixed bottom-0 w-full'>
         <PostImageUploader
           images={images}
           onImageUpload={handleImageUpload}
