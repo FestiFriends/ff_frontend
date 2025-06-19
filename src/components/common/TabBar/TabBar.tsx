@@ -29,6 +29,7 @@ const INVISIBLE_ROUTE = [
   '/groups/:groupId/edit',
   '/groups/:groupId/posts/:postId',
   '/groups/:groupId/posts/create',
+  '/groups/:groupId/posts/:postId/edit',
 ];
 
 const tabBarHide = (pathname: string) =>
