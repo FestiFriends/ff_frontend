@@ -2,7 +2,7 @@
 
 import { PropsWithChildren } from 'react';
 import { cn } from '@/lib/utils';
-import { useDropdownContext } from './DropdownContext';
+import { useDropdownContext } from './';
 
 interface DropdownTriggerProps {
   placeholder?: string;

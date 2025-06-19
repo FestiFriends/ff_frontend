@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 import { cn } from '@/lib/utils';
 import { buttonStyles } from './Button.styles';
+
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: keyof typeof buttonStyles.variants;
   color?: keyof typeof buttonStyles.variants.primary;
@@ -25,9 +26,7 @@ const Button = ({
   const buttonClasses = cn(
     // default style
     'inline-flex cursor-pointer items-center justify-center rounded-12 text-center text-14_M',
-
     buttonStyles.variants[variant]?.[color],
-
     buttonStyles.sizes[size],
 
     // custom style

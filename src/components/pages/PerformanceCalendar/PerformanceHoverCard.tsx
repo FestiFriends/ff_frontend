@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useMediaQuery } from 'react-responsive';
+import { useIsMobile } from '@/hooks';
 import { Performance } from '@/types/performance';
 
 interface Props {
@@ -12,7 +12,7 @@ const PerformanceHoverCard = ({ performance, children }: Props) => {
   const [show, setShow] = useState(false);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
   const triggerRef = useRef<HTMLDivElement | null>(null);
-  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isMobile = useIsMobile();
 
   const portalElement =
     typeof window !== 'undefined' ? document.getElementById('portal') : null;

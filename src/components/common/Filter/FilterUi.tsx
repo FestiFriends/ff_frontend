@@ -1,12 +1,12 @@
 'use client';
 
-import { cn } from '@/lib/utils';
 import {
   Dropdown,
   DropdownContent,
   DropdownItem,
   DropdownTrigger,
-} from '../Dropdown';
+} from '@/components/common/Dropdown';
+import { cn } from '@/lib/utils';
 
 interface FilterProps {
   options: FilterOption[];
