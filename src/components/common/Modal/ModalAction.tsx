@@ -24,8 +24,8 @@ const ModalAction = ({
 >) => {
   const { closeModal } = useModalContext();
   const handleClick = async (e: MouseEvent<HTMLButtonElement>) => {
-    const result = (await onClick?.(e)) as boolean | undefined;
-    if (result === false) return;
+    const result = await onClick?.(e);
+    if (typeof result === 'boolean' && result === false) return;
     closeModal();
   };
 
@@ -36,7 +36,10 @@ const ModalAction = ({
       'aria-label': '모달 제출',
       onClick: (e: MouseEvent<HTMLElement>) => {
         const result = child.props.onClick?.(e);
-        Promise.resolve(result).then(() => closeModal());
+        Promise.resolve(result).then((res) => {
+          if (typeof res === 'boolean' && res === false) return;
+          closeModal();
+        });
       },
     });
   }
