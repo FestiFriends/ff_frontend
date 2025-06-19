@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import PerformanceCard from '@/components/common/PerformanceCard';
+import { PerformanceCard } from '@/components/common';
 import { performancesApi } from '@/services/performancesService';
 
 const FavoritePerformanceList = () => {
