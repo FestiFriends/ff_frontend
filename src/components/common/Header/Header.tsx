@@ -1,14 +1,12 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import SearchIcon from '@/components/icons/SearchIcon';
-import { useLogin } from '@/hooks/useAuth/useAuth';
+import { Notification, SearchInput } from '@/components/common';
+import { ArrowLeft, SearchIcon } from '@/components/icons';
 import { useIsMobile } from '@/hooks';
+import { useLogin } from '@/hooks/useAuth';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
-import Notification from '../Notification/Notification';
-import SearchInput from '../SearchInput/SearchInput';
 
 interface HeaderProps {
   title?: string;

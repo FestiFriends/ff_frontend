@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
-import InfiniteList from '@/components/common/InfiniteList/InfiniteList ';
+import InfiniteList from '@/components/common/InfiniteList/InfiniteList';
 import {
   infiniteNotificationsOptions,
   useDeleteAllNotifications,

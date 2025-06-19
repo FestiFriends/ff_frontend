@@ -1,14 +1,17 @@
 'use client';
 import React from 'react';
-import { QueryTabs, Spinner } from '@/components/common';
-import { PerformanceCard } from '@/components/common';
-import InfiniteList from '@/components/common/InfiniteList/InfiniteList ';
-import ProfileCard from '@/components/common/ProfileCard/ProfileCard';
+import {
+  QueryTabs,
+  Spinner,
+  PerformanceCard,
+  ProfileCard,
+  InfiniteList,
+} from '@/components/common';
+import { useQueryParam } from '@/hooks';
 import {
   favoritePerformancesOptions,
   favoriteUsersOptions,
-} from '@/hooks/favoriteHooks/useFavorite';
-import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
+} from '@/hooks/favoriteHooks';
 import { GetFavoritePerformancesResponse } from '@/types/performance';
 import { GetFavoriteUsersResponse } from '@/types/users';
 

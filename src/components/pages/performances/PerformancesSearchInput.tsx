@@ -1,8 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-import SearchInput from '@/components/common/SearchInput/SearchInput';
-import { useIsMobile } from '@/hooks';
-import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
+import { SearchInput } from '@/components/common';
+import { useIsMobile, useQueryParam } from '@/hooks';
 
 const PerformancesSearchInput = () => {
   const { setMultipleQueryParams, getQueryParam } = useQueryParam();

@@ -1,15 +1,19 @@
 'use client';
 
 import React, { ReactNode } from 'react';
-import { CalendarIcon } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { match } from 'path-to-regexp';
-import GroupIcon from '@/components/icons/GroupIcon';
-import HomeIcon from '@/components/icons/HomeIcon';
-import LikeIcon from '@/components/icons/LikeIcon';
-import UserIcon from '@/components/icons/UserIcon';
+import { NavLink } from '@/components/common';
+import {
+  CalendarIcon,
+  GroupIcon,
+  HomeIcon,
+  LikeIcon,
+  UserIcon,
+} from '@/components/icons';
+import { useIsMobile } from '@/hooks';
 import { cn } from '@/lib/utils';
-import NavLink from '../NavLink/NavLink';
+
 const NAV_ITEM = [
   { href: '/', name: '홈', Icon: HomeIcon },
   { href: '/calendar', name: '캘린더', Icon: CalendarIcon },
