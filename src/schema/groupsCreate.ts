@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { GroupCategoryLabels } from '@/constants/groupLabels';
 
 const dateRangeSchema = z
   .object({
@@ -30,10 +31,17 @@ export const groupCreateSchema = z.object({
   name: z
     .string({ required_error: '공연 이름이 필요합니다' })
     .min(1, '공연 이름을 입력해주세요'),
-  category: z.enum(['같이 동행', '같이 탑승', '같이 숙박'], {
-    required_error: '모임 종류를 선택해주세요',
-    invalid_type_error: '유효한 모임 종류를 선택해주세요',
-  }),
+  category: z.enum(
+    [
+      GroupCategoryLabels.COMPANION,
+      GroupCategoryLabels.RIDE_SHARE,
+      GroupCategoryLabels.ROOM_SHARE,
+    ] as const,
+    {
+      required_error: '모임 종류를 선택해주세요',
+      invalid_type_error: '유효한 모임 종류를 선택해주세요',
+    }
+  ),
   title: z
     .string({ required_error: '제목이 필요합니다' })
     .min(1, '모임 제목을 입력해주세요')
