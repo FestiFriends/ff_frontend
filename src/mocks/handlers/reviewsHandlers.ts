@@ -482,6 +482,16 @@ export const reviewsHandlers = [
           rating: r.rating,
           content: r.content,
           createdAt: r.createdAt,
+          groupTitle: group.groupTitle,
+          groupId: group.groupId,
+          category: group.category,
+          groupStartDate: group.groupStartDate,
+          groupEndDate: group.groupEndDate,
+          memberCount: group.memberCount,
+          performance: {
+            title: group.performance.title,
+            poster: group.performance.poster,
+          },
         }))
     );
 

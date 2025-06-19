@@ -78,9 +78,19 @@ export interface SelectedWrittenReview {
 }
 
 export interface ReceivedSimpleReview {
+  groupTitle: string;
+  category: GroupCategoryType;
+  memberCount: number;
+  groupStartDate: string;
+  groupEndDate: string;
   reviewId: string;
   reviewerId: string;
   rating: number;
   content?: string;
   createdAt: string;
+
+  performance: {
+    title: string;
+    poster: string;
+  };
 }

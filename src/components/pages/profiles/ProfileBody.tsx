@@ -24,7 +24,7 @@ const ProfileBody = ({ profile }: ProfileBodyProps) => {
   } = useJoinedGroups(profile.id);
 
   return (
-    <section className='mt-[24px] flex flex-col items-center rounded-xl bg-white'>
+    <section className='flex flex-col items-center rounded-xl bg-white'>
       <div className='w-full max-w-xl'>
         <div>
           <Tabs
