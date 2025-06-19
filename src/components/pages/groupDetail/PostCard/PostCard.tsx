@@ -221,7 +221,7 @@ const PostCard = ({ post, type = 'posts', children }: PostCardProps) => {
       </Modal>
 
       <CreateReportModal
-        targetId={id.toString()}
+        targetId={author.id || ''}
         category={ReportTarget.POST}
       >
         <button ref={reportTriggerRef}></button>

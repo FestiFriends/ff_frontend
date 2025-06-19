@@ -171,7 +171,7 @@ const CommentItem = ({ comment, className }: CommentItemProps) => {
       </Modal>
 
       <CreateReportModal
-        targetId={comment.id.toString()}
+        targetId={author.id || ''}
         category={ReportTarget.COMMENT}
       >
         <button ref={reportTriggerRef}></button>
