@@ -9,6 +9,7 @@ import { useCreatePost } from '@/hooks/postHooks/postHook';
 import { useGetPresignedURL } from '@/hooks/useGetPresignedUrl/useGetPresignedUrl';
 import { hasProfanity } from '@/lib/utils';
 import { imagesApi } from '@/services/imagesService';
+import PinCheckbox from './PinCheckbox/PinCheckbox';
 import PostImageUploader from './PostImageUploader/PostImageUploader';
 
 const MAX_TEXTAREA_ROWS = 33;
@@ -22,6 +23,7 @@ const PostFormWrapper = () => {
   const { mutateAsync: createPost } = useCreatePost();
   const { mutateAsync: getPresignedURL } = useGetPresignedURL();
   const groupId = params?.groupId as string;
+  const [isPinned, setIsPinned] = useState(false);
   const { upload, images: uploadedImages, remove } = useImageUploader('multi');
 
   const canSubmit = useMemo(
@@ -68,13 +70,17 @@ const PostFormWrapper = () => {
     const res = await createPost({
       groupId,
       content,
-      isPinned: false,
+      isPinned,
       images: imageObjects,
     });
 
     if ((res.data as { result: boolean }).result === true) {
       router.push(`/groups/${groupId}`);
     }
+  };
+
+  const handlePinClick = () => {
+    setIsPinned((prev) => !prev);
   };
 
   return (
@@ -85,7 +91,11 @@ const PostFormWrapper = () => {
         onRightClick={handleSubmit}
         rightDisabled={!canSubmit}
       />
-      <div className='h-full flex-1 px-4 pt-16 pb-20'>
+      <PinCheckbox
+        isPinned={isPinned}
+        onClick={handlePinClick}
+      />
+      <div className='h-full flex-1 px-4 pt-1 pb-20'>
         <TextareaInput
           value={content}
           onChange={handleChange}

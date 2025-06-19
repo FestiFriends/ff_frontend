@@ -9,6 +9,7 @@ import { useGetPost, useUpdatePost } from '@/hooks/postHooks/postHook';
 import { useGetPresignedURL } from '@/hooks/useGetPresignedUrl/useGetPresignedUrl';
 import { hasProfanity } from '@/lib/utils';
 import { imagesApi } from '@/services/imagesService';
+import PinCheckbox from './PinCheckbox/PinCheckbox';
 import PostImageUploader from './PostImageUploader/PostImageUploader';
 
 const MAX_TEXTAREA_ROWS = 33;
@@ -25,6 +26,7 @@ const PostEditWrapper = () => {
   const [isValidText, setIsValidText] = useState(true);
   const [hasImage, setHasImage] = useState(false);
   const [originalImages, setOriginalImages] = useState<UploadedImage[]>([]);
+  const [isPinned, setIsPinned] = useState(false);
   const { mutateAsync: getPresignedURL } = useGetPresignedURL();
   const { mutateAsync: updatePost } = useUpdatePost();
   const {
@@ -49,6 +51,7 @@ const PostEditWrapper = () => {
   useEffect(() => {
     if (post) {
       setContent(post.content);
+      setIsPinned(post.isPinned);
       const originalImagesUrls = post.images?.map((img) => img.src.toString());
       defaultUrlUpload(originalImagesUrls || []);
     }
@@ -113,12 +116,16 @@ const PostEditWrapper = () => {
       groupId,
       postId,
       content,
-      isPinned: post?.isPinned ?? false,
+      isPinned,
       images: finalImageObjects,
     });
     if ((res.data as { result: boolean }).result === true) {
       router.replace(`/groups/${groupId}/posts/${postId}`);
     }
+  };
+
+  const handlePinClick = () => {
+    setIsPinned((prev) => !prev);
   };
 
   return (
@@ -129,7 +136,11 @@ const PostEditWrapper = () => {
         onRightClick={handleSubmit}
         rightDisabled={!canSubmit}
       />
-      <div className='h-full flex-1 px-4 pt-16'>
+      <PinCheckbox
+        isPinned={isPinned}
+        onClick={handlePinClick}
+      />
+      <div className='h-full flex-1 px-4 pt-1 pb-20'>
         <TextareaInput
           value={content}
           onChange={handleChange}
