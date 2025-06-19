@@ -1,2 +1,17 @@
 export { default as AltArrowUpIcon } from './AltArrowUpIcon';
+export { default as ArrowLeft } from './ArrowLeft';
+export { default as CarIcon } from './CarIcon';
+export { default as CalendarIcon } from './CalendarIcon';
+export { default as CheckIcon } from './CheckIcon';
+export { default as ChevronDownIcon } from './ChevronDownIcon';
+export { default as ChevronLeftIcon } from './ChevronLeftIcon';
+export { default as ChevronRightIcon } from './ChevronRightIcon';
 export { default as DeleteIcon } from './DeleteIcon';
+export { default as HomeIcon } from './HomeIcon';
+export { default as LikeIcon } from './LikeIcon';
+export { default as UserIcon } from './UserIcon';
+export { default as GroupIcon } from './GroupIcon';
+export { default as StarIcon } from './StarIcon';
+export { default as SearchIcon } from './SearchIcon';
+export { default as SleepIcon } from './SleepIcon';
+export { default as XIcon } from './XIcon';

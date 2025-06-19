@@ -1,28 +1,32 @@
 'use client';
 
 import { ReactNode, useEffect, useState } from 'react';
-import { ReportReasonLabels } from '@/constants/reportLabels';
-import { usePostReport } from '@/hooks/reportHooks/reportHooks';
-import { useUploadMultipleFiles } from '@/hooks/useGetPresignedUrl/useGetPresignedUrl';
-import { useImageUploader } from '@/hooks/useImageUploader/useImageUploader';
-import { ReportReasonType, ReportTargetType } from '@/types/enums';
-import { Image } from '@/types/image';
-import { CreateReportRequest } from '@/types/report';
-import Button from '../Button/Button';
+import {
+  Button,
+  LoadingOverlay,
+  TextareaInput,
+  Toast,
+} from '@/components/common';
 import {
   Dropdown,
   DropdownContent,
   DropdownItem,
   DropdownTrigger,
-} from '../Dropdown';
-import LoadingOverlay from '../LoadingOverlay/LoadingOverlay';
-import Modal from '../Modal/Modal';
-import ModalAction from '../Modal/ModalAction';
-import ModalCancel from '../Modal/ModalCancel';
-import ModalContent from '../Modal/ModalContent';
-import ModalTrigger from '../Modal/ModalTrigger';
-import TextareaInput from '../TextareaInput/TextareaInput';
-import Toast from '../Toast/Toast';
+} from '@/components/common/Dropdown';
+import {
+  Modal,
+  ModalAction,
+  ModalCancel,
+  ModalContent,
+  ModalTrigger,
+} from '@/components/common/Modal';
+import { ReportReasonLabels } from '@/constants/reportLabels';
+import { useImageUploader } from '@/hooks';
+import { usePostReport } from '@/hooks/reportHooks';
+import { useUploadMultipleFiles } from '@/hooks/useGetPresignedUrl';
+import { ReportReasonType, ReportTargetType } from '@/types/enums';
+import { Image } from '@/types/image';
+import { CreateReportRequest } from '@/types/report';
 import ImageUpload from './ImageUpload';
 
 const REPORT_REASON = Object.entries(ReportReasonLabels).map(

@@ -1,10 +1,9 @@
 'use client';
 
 import { PropsWithChildren } from 'react';
-import AltArrowUpIcon from '@/components/icons/AltArrowUpIcon';
-import DeleteIcon from '@/components/icons/DeleteIcon';
+import { AltArrowUpIcon, DeleteIcon } from '@/components/icons';
 import { useStyles } from '@/hooks';
-import { useDropdownContext } from './DropdownContext';
+import { useDropdownContext } from './';
 
 interface DropdownTriggerWithIconProps {
   placeholder?: string;

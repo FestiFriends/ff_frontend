@@ -1,13 +1,13 @@
 'use client';
 import React, { useRef } from 'react';
 import Image from 'next/image';
-import XIcon from '@/components/icons/XIcon';
+import { XIcon } from '@/components/icons';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel';
-import { UploadedImage } from '@/hooks/useImageUploader/useImageUploader';
+import { UploadedImage } from '@/hooks';
 
 interface ImageUploadProps {
   images: UploadedImage[];

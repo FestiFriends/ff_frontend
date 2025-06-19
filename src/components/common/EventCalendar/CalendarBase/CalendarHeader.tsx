@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+// TODO/refactor: chevron icons 통합
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface CalendarHeaderProps {

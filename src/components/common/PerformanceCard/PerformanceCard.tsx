@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { PerformanceCardHeadless, Toast } from '@/components/common';
-import LikeIcon from '@/components/icons/LikeIcon';
+import { LikeIcon } from '@/components/icons';
 import { usePatchPerformanceLiked } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/providers/AuthStoreProvider';

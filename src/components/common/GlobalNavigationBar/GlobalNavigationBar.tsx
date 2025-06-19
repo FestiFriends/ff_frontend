@@ -1,24 +1,22 @@
 'use client';
 
 import React from 'react';
-import { useMediaQuery } from 'react-responsive';
+import { NavLink, Notification, SearchInput } from '@/components/common';
+import { useIsMobile } from '@/hooks';
 import { useLogin, useLogout } from '@/hooks/useAuth/useAuth';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
-import NavLink from '../NavLink/NavLink';
-import Notification from '../Notification/Notification';
-import SearchInput from '../SearchInput/SearchInput';
 
 const NAV_ITEM = [
-  { herf: '/calendar', name: '캘린더' },
-  { herf: '/performances', name: '공연' },
-  { herf: '/groups/managements', name: '모임' },
+  { href: '/calendar', name: '캘린더' },
+  { href: '/performances', name: '공연' },
+  { href: '/groups/managements', name: '모임' },
 ];
 
 const GlobalNavigationBar = () => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const { onLogin } = useLogin();
   const { mutate: logoutMutate } = useLogout();
-  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const isMobile = useIsMobile();
 
   if (isMobile) {
     return null;
@@ -37,7 +35,7 @@ const GlobalNavigationBar = () => {
         {NAV_ITEM.map((item) => (
           <NavLink
             key={item.name}
-            href={item.herf}
+            href={item.href}
             activeClassName='underline'
             end
           >

@@ -2,10 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import {
-  ButtonGroup,
-  ButtonGroupItem,
-} from '@/components/common/ButtonGroup/ButtonGroup';
+import { ButtonGroup, ButtonGroupItem } from '@/components/common';
 import CheckBoxIcon from '@/components/icons/CheckboxIcon';
 import {
   Carousel,

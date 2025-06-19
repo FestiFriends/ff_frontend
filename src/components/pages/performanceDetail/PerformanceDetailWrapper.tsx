@@ -31,7 +31,7 @@ const PerformanceDetailWrapper = ({
     }
 
     if (!isError && performanceDetail?.data) {
-      router.push(`performances/${performanceDetail?.data?.id}/createGroup`);
+      router.push(`/performances/${performanceDetail?.data?.id}/createGroup`);
     }
   };
 

@@ -1,14 +1,17 @@
 'use client';
 import React from 'react';
-import { QueryTabs, Spinner } from '@/components/common';
-import { PerformanceCard } from '@/components/common';
-import InfiniteList from '@/components/common/InfiniteList/InfiniteList ';
-import ProfileCard from '@/components/common/ProfileCard/ProfileCard';
+import {
+  QueryTabs,
+  Spinner,
+  PerformanceCard,
+  ProfileCard,
+  InfiniteList,
+} from '@/components/common';
+import { useQueryParam } from '@/hooks';
 import {
   favoritePerformancesOptions,
   favoriteUsersOptions,
-} from '@/hooks/favoriteHooks/useFavorite';
-import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
+} from '@/hooks/favoriteHooks';
 import { GetFavoritePerformancesResponse } from '@/types/performance';
 import { GetFavoriteUsersResponse } from '@/types/users';
 
@@ -38,11 +41,14 @@ const FavoriteTabContainer: React.FC = () => {
             options={favoritePerformancesOptions(DEFAULT_SIZE)}
             getDataId={(performance) => performance.id}
             renderData={(performance) => (
-              <PerformanceCard performance={performance} />
+              <PerformanceCard
+                performance={performance}
+                size='auto'
+              />
             )}
             fallback={<Spinner />}
             isFetchingFallback={<Spinner />}
-            className='mx-auto grid w-fit grid-cols-2 gap-4'
+            className='mx-auto grid grid-cols-2 gap-4'
             emptyFallback={
               <div className='col-span-2 py-8 text-center text-gray-500'>
                 찜한 공연이 없습니다.

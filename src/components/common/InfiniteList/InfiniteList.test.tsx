@@ -12,7 +12,7 @@ import {
   GetNotificationsResponse,
   NotificationData,
 } from '@/types/notification';
-import InfiniteList from './InfiniteList ';
+import InfiniteList from './InfiniteList';
 
 Object.defineProperty(global, 'IntersectionObserver', {
   writable: true,

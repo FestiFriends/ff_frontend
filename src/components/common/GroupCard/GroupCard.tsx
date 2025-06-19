@@ -3,19 +3,19 @@
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import Image from 'next/image';
-import StarIcon from '@/components/icons/StarIcon';
-import { GenderLabels } from '@/constants/genderLabels';
-import { GroupCategoryLabels } from '@/constants/groupLabels';
+import {
+  Badge,
+  Button,
+  HashtagGroup,
+  ProfileImage,
+  ProgressBar,
+} from '@/components/common';
+import { badgeStyles, buttonStyles } from '@/components/common';
+import { StarIcon } from '@/components/icons';
+import { GenderLabels, GroupCategoryLabels } from '@/constants';
 import { cn } from '@/lib/utils';
 import { GroupCategoryType } from '@/types/enums';
 import { Group } from '@/types/group';
-import Badge from '../Badge/Badge';
-import { badgeStyles } from '../Badge/Badge.styles';
-import Button from '../Button/Button';
-import { buttonStyles } from '../Button/Button.styles';
-import HashtagGroup from '../HashtagBadgeGroup/HashtagBadgeGroup';
-import ProfileImage from '../ProfileImage/ProfileImage';
-import ProgressBar from '../ProgressBar/ProgressBar';
 
 interface GroupCardProps {
   groupData: Group;
