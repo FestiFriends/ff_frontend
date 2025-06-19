@@ -95,3 +95,13 @@ export const ReportStatus = {
 } as const;
 
 export type ReportStatusType = (typeof ReportStatus)[keyof typeof ReportStatus];
+export const EventColor = {
+  RED: 'red',
+  BLUE: 'blue',
+  GREEN: 'green',
+  YELLOW: 'yellow',
+  PURPLE: 'purple',
+  PINK: 'pink',
+} as const;
+
+export type EventColorName = (typeof EventColor)[keyof typeof EventColor];

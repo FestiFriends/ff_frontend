@@ -5,9 +5,11 @@ import { GroupCategory, Gender } from '@/types/enums';
 import {
   GetGroupsParams,
   GroupInfoResponse,
+  GroupSchedule,
   PostJoinGroupRequest,
   CreateGroupApiRequest,
   CreateGroupFormData,
+  ScheduleRequest,
 } from '@/types/group';
 import { Post } from '@/types/post';
 import { formatPostDate } from '@/utils/date';
@@ -85,4 +87,39 @@ export const groupsApi = {
       ApiResponse<{ groupId: string; performanceId: string }>
     >(`/api/v1/groups`, apiRequest);
   },
+
+  getSchedules: async (
+    groupId: string,
+    params: { startDate: string; endDate: string }
+  ): Promise<GroupSchedule[]> => {
+    const queryString = QueryString.stringify(params, { skipNulls: true });
+
+    const response = await apiFetcher.get<{
+      code: number;
+      message: string;
+      data: {
+        scheduleCount: number;
+        schedules: GroupSchedule[];
+      };
+    }>(`/api/v1/groups/${groupId}/schedules?${queryString}`);
+
+    return response.data.data?.schedules ?? [];
+  },
+  postSchedule: async (groupId: string, body: ScheduleRequest) =>
+    await apiFetcher.post(`/api/v1/groups/${groupId}/schedules`, body),
+
+  updateSchedule: async (
+    groupId: string,
+    scheduleId: string,
+    body: ScheduleRequest
+  ) =>
+    await apiFetcher.patch(
+      `/api/v1/groups/${groupId}/schedules/${scheduleId}`,
+      body
+    ),
+
+  deleteSchedule: async (groupId: string, scheduleId: string) =>
+    await apiFetcher.delete(
+      `/api/v1/groups/${groupId}/schedules/${scheduleId}`
+    ),
 };

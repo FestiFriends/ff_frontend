@@ -7,6 +7,7 @@ import { performancesHandlers } from './handlers/performancesHandlers';
 import { profileHandlers } from './handlers/profileHandlers';
 import { reportHandlers } from './handlers/reportHandlers';
 import { reviewsHandlers } from './handlers/reviewsHandlers';
+import { scheduleHandlers } from './handlers/scheduleHandlers';
 import { usersHandlers } from './handlers/usersHandlers';
 
 export const worker = setupWorker(
@@ -17,6 +18,7 @@ export const worker = setupWorker(
   ...groupsHandlers,
   ...usersHandlers,
   ...nicknameHandlers,
-  ...reportHandlers
-  // ...chatHandlers
+  ...reportHandlers,
+  // ...chatHandlers,
+  ...scheduleHandlers
 );
