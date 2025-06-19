@@ -2,6 +2,7 @@
 
 import { useGetGroupInfo } from '@/hooks/groupHooks/groupHooks';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
+import GroupBlurredContainer from './GroupBlurredContainer';
 import GroupInfo from './GroupInfo';
 import GroupMembers from './GroupMembers';
 import GroupTabs from './GroupTabs';
@@ -30,11 +31,13 @@ const GroupWrapper = ({ groupId }: GroupWrapperProps) => {
         groupInfo={groupInfo?.data}
       />
 
-      {isLoggedIn && isMember && (
+      {isLoggedIn && isMember ? (
         <>
           <GroupMembers groupId={groupId} />
           <GroupTabs groupInfo={groupInfo?.data} />
         </>
+      ) : (
+        <GroupBlurredContainer groupInfo={groupInfo?.data} />
       )}
     </div>
   );
