@@ -10,19 +10,16 @@ import WrittenReviewList from './WrittenReviewList';
 const tabList: ReviewTabLabelType[] = [
   reviewTabLabel.WRITABLE_REVIEW,
   reviewTabLabel.WRITTEN_REVIEW,
-  reviewTabLabel.RECEIVED_REVIEW,
 ];
 
 const tabMap: Record<string, ReviewTabLabelType> = {
   writable: reviewTabLabel.WRITABLE_REVIEW,
   written: reviewTabLabel.WRITTEN_REVIEW,
-  received: reviewTabLabel.RECEIVED_REVIEW,
 };
 
 const reverseTabMap: Record<ReviewTabLabelType, string> = {
   [reviewTabLabel.WRITABLE_REVIEW]: 'writable',
   [reviewTabLabel.WRITTEN_REVIEW]: 'written',
-  [reviewTabLabel.RECEIVED_REVIEW]: 'received',
 };
 
 const ReviewTabsPage = () => {
