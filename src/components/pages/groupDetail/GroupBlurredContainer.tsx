@@ -47,8 +47,8 @@ const GroupBlurredContainer = ({
         </div>
 
         <div className='relative'>
-          <div className='absolute top-1/2 left-1/2 z-1 -translate-x-1/2 -translate-y-1/2'>
-            <p className='text-16_B leading-normal tracking-[-0.35px] text-gray-700'>
+          <div className='absolute top-1/2 left-1/2 z-1 w-full -translate-x-1/2 -translate-y-1/2 p-5'>
+            <p className='text-center text-16_B leading-normal tracking-[-0.4px] break-keep text-gray-700'>
               모임에 참가하면 볼 수 있어요 👀
             </p>
           </div>
@@ -94,7 +94,7 @@ const GroupBlurredContainer = ({
           onTabChange={setSelectedTab}
         />
         <div className='w-ull mt-5 flex h-50 flex-col items-center justify-center gap-3.5 bg-white p-5'>
-          <p className='-ml-1 text-16_B leading-normal tracking-[-0.35px] text-gray-500'>
+          <p className='-ml-1 text-center text-16_B leading-normal tracking-[-0.4px] break-keep text-gray-500'>
             모임에 참가하고 이용해 보세요 ☺️
           </p>
         </div>
