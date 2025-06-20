@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Button from '@/components/common/Button/Button';
 import Modal from '@/components/common/Modal/Modal';
 import ModalAction from '@/components/common/Modal/ModalAction';
@@ -17,6 +18,7 @@ import { formatAppliedGroups } from '@/utils/formatApplicationData';
 import AppliedGroup from './AppliedGroup/AppliedGroup';
 
 const AppliedGroups = () => {
+  const router = useRouter();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const { mutate: cancelApplication } = useCancelApplication();
   const { mutate: confirmApplication } = useConfirmApplication();
@@ -36,9 +38,7 @@ const AppliedGroups = () => {
     isFetchingNextPage
   );
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  useEffect(() => {}, [data]);
   if (isPending) {
     return (
       <div className='flex h-full items-center justify-center'>
@@ -46,6 +46,10 @@ const AppliedGroups = () => {
       </div>
     );
   }
+
+  const routeToGroupPage = (groupId: string) => {
+    router.push(`/groups/${groupId}`);
+  };
 
   const handlePrimaryClick = (applicationId: string, status: string) => {
     if (status === ApplicationStatus.ACCEPTED) {
@@ -76,6 +80,7 @@ const AppliedGroups = () => {
             key={group.applicationId}
             applicationData={group}
             primaryButtonText={primaryText(group.status)}
+            onCardClick={() => routeToGroupPage(group.groupId)}
             onPrimaryClick={() =>
               handlePrimaryClick(group.applicationId, group.status)
             }

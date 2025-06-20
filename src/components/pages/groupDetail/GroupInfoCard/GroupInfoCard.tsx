@@ -49,6 +49,7 @@ const GroupInfoCard = ({
             {formatNormalDate(groupInfo.endDate)}
           </span>
           <MoreDropdown
+            className='flex items-center justify-center'
             items={[
               ...(isHost
                 ? [
@@ -128,7 +129,10 @@ const GroupInfoCard = ({
         targetId={groupInfo.host.id || ''}
         category={ReportTarget.GROUP}
       >
-        <button ref={reportTriggerRef}></button>
+        <button
+          ref={reportTriggerRef}
+          className='hidden'
+        ></button>
       </CreateReportModal>
     </div>
   );
