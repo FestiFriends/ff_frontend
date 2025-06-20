@@ -2,10 +2,9 @@
 
 import { memo, useCallback } from 'react';
 import { format, isSameMonth, isToday, isSameDay, getDay } from 'date-fns';
-import TitleHoverCard from '@/components/pages/PerformanceCalendar/TitleHoverCard';
 import { cn } from '@/lib/utils';
 import { Performance } from '@/types/performance';
-import BasicHoverCard from './BasicHoverCard';
+import PerformanceHoverCard from './PerformanceHoverCard';
 
 interface PerformanceCellProps {
   date: Date;
@@ -78,9 +77,6 @@ const PerformanceCell = ({
       onClick={handleClick}
       onKeyDown={handleKeyDown}
     >
-      <BasicHoverCard title='테스트'>
-        <span className='text-xs underline'>호버테스트</span>
-      </BasicHoverCard>
       <button
         className={cn('w-full rounded text-12_M font-medium', dayColorClass)}
       >
@@ -89,7 +85,7 @@ const PerformanceCell = ({
       {performances.length > 0 && (
         <div className='mt-1 flex w-full flex-col space-y-0.5'>
           {performances.slice(0, 2).map((perf) => (
-            <TitleHoverCard
+            <PerformanceHoverCard
               key={perf.id}
               performance={perf}
             >
@@ -105,7 +101,7 @@ const PerformanceCell = ({
               >
                 {perf.title}
               </button>
-            </TitleHoverCard>
+            </PerformanceHoverCard>
           ))}
           {performances.length > 2 && (
             <button
