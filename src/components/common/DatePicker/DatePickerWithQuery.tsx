@@ -128,7 +128,11 @@ const DatePickerWithQuery = ({
       </button>
 
       {isOpen && (
-        <div className='fixed top-1/2 left-1/2 z-20 inline-flex w-[calc(100vw-1rem)] max-w-[390px] -translate-x-1/2 -translate-y-1/2 flex-col gap-2.5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white p-5'>
+        <div
+          aria-label='datepicker-calendar'
+          className='absolute top-full left-0 z-20 mt-2 inline-flex w-[calc(100vw-2rem)] max-w-[390px] flex-col gap-2.5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white p-5'
+          // className='fixed top-1/2 left-1/2 z-20 inline-flex w-[calc(100vw-1rem)] max-w-[390px] -translate-x-1/2 -translate-y-1/2 flex-col gap-2.5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white p-5'
+        >
           <div className='flex items-center justify-center gap-2'>
             <button
               className='cursor-pointer'
