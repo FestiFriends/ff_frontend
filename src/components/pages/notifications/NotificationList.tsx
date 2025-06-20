@@ -2,63 +2,25 @@
 
 import { ReactNode } from 'react';
 import InfiniteList from '@/components/common/InfiniteList/InfiniteList';
-import {
-  infiniteNotificationsOptions,
-  useDeleteAllNotifications,
-  usePatchReadAllNotifications,
-} from '@/hooks/notificationHooks/notificationHooks';
+import { infiniteNotificationsOptions } from '@/hooks/notificationHooks/notificationHooks';
 import { GetNotificationsResponse } from '@/types/notification';
 import NotificationCard from './NotificationCard';
 import NotificationCardSkeleton from './NotificationCardSkeleton';
 
-const NotificationList = () => {
-  const { mutate: readAllMutate, isPending: readAllIsPending } =
-    usePatchReadAllNotifications();
-  const { mutate: deleteAllMutate, isPending: deleteAllIsPending } =
-    useDeleteAllNotifications();
-
-  const handleDeleteAll = () => {
-    if (deleteAllIsPending) return;
-    deleteAllMutate();
-  };
-
-  const handleReadAll = () => {
-    if (readAllIsPending) return;
-    readAllMutate();
-  };
-
-  return (
-    <>
-      <div className='mb-4 flex flex-col gap-2'>
-        <button
-          onClick={handleDeleteAll}
-          disabled={deleteAllIsPending}
-        >
-          삭제
-        </button>
-        <button
-          onClick={handleReadAll}
-          disabled={readAllIsPending}
-        >
-          전체 읽음
-        </button>
-      </div>
-
-      <InfiniteList<
-        GetNotificationsResponse,
-        GetNotificationsResponse['data'][number]
-      >
-        options={infiniteNotificationsOptions()}
-        getDataId={(notification) => notification.id}
-        renderData={(notification): ReactNode => (
-          <NotificationCard notification={notification} />
-        )}
-        fallback={<NotificationCardSkeleton />}
-        isFetchingFallback={<p>로딩 중...</p>}
-        className='flex flex-col gap-2'
-      />
-    </>
-  );
-};
+const NotificationList = () => (
+  <InfiniteList<
+    GetNotificationsResponse,
+    GetNotificationsResponse['data'][number]
+  >
+    options={infiniteNotificationsOptions()}
+    getDataId={(notification) => notification.id}
+    renderData={(notification): ReactNode => (
+      <NotificationCard notification={notification} />
+    )}
+    fallback={<NotificationCardSkeleton />}
+    isFetchingFallback={<p>로딩 중...</p>}
+    className='flex flex-col'
+  />
+);
 
 export default NotificationList;

@@ -6,6 +6,7 @@ import { Notification, SearchInput } from '@/components/common';
 import { ArrowLeft, SearchIcon } from '@/components/icons';
 import { useIsMobile } from '@/hooks';
 import { useLogin } from '@/hooks/useAuth';
+import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 
 interface HeaderProps {
@@ -46,9 +47,14 @@ const Header = ({
       <header className='fixed top-0 left-0 z-50 flex h-11 w-full items-center justify-between bg-white px-5 py-3'>
         {!isSearchOpen && (
           <>
-            <div className='w-[68px]'></div>
+            <div className={cn('w-[68px]', !isLoggedIn && 'w-[81px]')}></div>
             <h1 className='text-16_B text-black'>{title}</h1>
-            <div className='flex w-[68px] items-center justify-end gap-5'>
+            <div
+              className={cn(
+                'flex w-[68px] items-center justify-end gap-5',
+                !isLoggedIn && 'w-[81px] gap-[14px]'
+              )}
+            >
               {hasSearch && (
                 <button
                   ref={iconRef}
@@ -58,7 +64,16 @@ const Header = ({
                 </button>
               )}
               {isLoggedIn && hasNotification && <Notification />}
-              {!isLoggedIn && <button onClick={onLogin}>로그인</button>}
+              {!isLoggedIn && (
+                <button
+                  onClick={onLogin}
+                  className='flex h-[22px] w-[43px] items-center justify-center rounded-[8px] bg-[#FFCCCF] px-1.5 py-1'
+                >
+                  <span className='flex h-[14px] items-center justify-center text-12_M whitespace-nowrap text-gray-950'>
+                    로그인
+                  </span>
+                </button>
+              )}
             </div>
           </>
         )}
