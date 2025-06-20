@@ -1,7 +1,6 @@
 import React from 'react';
 import ProfileCard from '@/components/common/ProfileCard/ProfileCard';
 import { User } from '@/types/users';
-import FavoriteTabPanelWrapper from './FavoriteTabPanelWrapper';
 
 const EMPTY_MESSAGE = '찜한 사용자가 없습니다.';
 
@@ -17,7 +16,7 @@ const handleProfileEdit = (userId: string) => {
 };
 
 const FavoriteUserTabContent: React.FC<{ users: User[] }> = ({ users }) => (
-  <FavoriteTabPanelWrapper>
+  <div className='mx-auto w-fit gap-4'>
     {users.map((user) => (
       <ProfileCard
         key={user.id}
@@ -26,7 +25,7 @@ const FavoriteUserTabContent: React.FC<{ users: User[] }> = ({ users }) => (
       />
     ))}
     {users.length === 0 && EmptyFallback}
-  </FavoriteTabPanelWrapper>
+  </div>
 );
 
 export default FavoriteUserTabContent;
