@@ -1,5 +1,5 @@
-import { GroupCategoryLabels } from '@/constants/groupLabels';
 import { GenderLabels } from '@/constants/genderLabels';
+import { GroupCategoryLabels } from '@/constants/groupLabels';
 import { LocationLabels } from '@/constants/locationLabels';
 import { DateRange } from '@/types/dateRange';
 import {
@@ -8,7 +8,7 @@ import {
   CursorResponse,
   PageResponse,
 } from './api';
-import { GroupCategoryType, GenderType, EventColorName, LocationType } from './enums';
+import { GroupCategoryType, GenderType, EventColorName } from './enums';
 
 export interface Group {
   id: string;
