@@ -1,3 +1,4 @@
+import { ApiResponse, CursorResponse } from './api';
 import { GenderType, ReviewTagType } from './enums';
 import { Group } from './group';
 
@@ -57,8 +58,6 @@ export interface ProfileCardType extends Profile {
   isMine: boolean;
 }
 
-export interface JoinedGroupsResponse {
+export type JoinedGroupsResponse = ApiResponse & {
   data: Group[];
-  cursorId?: number;
-  hasNext: boolean;
-}
+} & CursorResponse;

@@ -2,7 +2,7 @@ import apiFetcher from '@/lib/apiFetcher';
 import { ApiResponse, CursorRequest } from '@/types/api';
 import {
   PostReviewRequest,
-  ReceivedSimpleReview,
+  ReviewListResponse,
   WritableReviewsResponse,
   WrittenReviewsResponse,
 } from '@/types/reviews';
@@ -31,10 +31,14 @@ export const reviewsApi = {
       data
     ),
 
-  getReceivedSimpleReviews: async (userId: string) =>
+  getReceivedSimpleReviews: async ({
+    cursorId,
+    size = 20,
+    userId,
+  }: CursorRequest & { userId: string }) =>
     (
-      await apiFetcher.get<ApiResponse<ReceivedSimpleReview[]>>(
-        `/api/v1/reviews/${userId}`
-      )
+      await apiFetcher.get<ReviewListResponse>(`/api/v1/reviews/${userId}`, {
+        params: { cursorId, size },
+      })
     ).data,
 };

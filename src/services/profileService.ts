@@ -20,11 +20,11 @@ export const profilesApi = {
     );
     return updated;
   },
-  getJoinedGroups: async (userId: string, cursorId?: string) => {
-    const res = await apiFetcher.get<ApiResponse<JoinedGroupsResponse>>(
+  getJoinedGroups: async (userId: string) => {
+    const res = await apiFetcher.get<JoinedGroupsResponse>(
       `/api/v1/profiles/${userId}/joined-groups`,
-      { params: { cursorId } }
+      { params: { size: 200 } }
     );
-    return res.data.data!;
+    return res.data;
   },
 };

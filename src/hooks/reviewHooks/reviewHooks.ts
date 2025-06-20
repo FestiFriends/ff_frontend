@@ -9,6 +9,7 @@ import { reviewsApi } from '@/services/reviewsService';
 import { ApiResponse, CursorRequest } from '@/types/api';
 import {
   PostReviewRequest,
+  ReviewListResponse,
   WritableReviewsData,
   WritableReviewsResponse,
   WrittenReviewsResponse,
@@ -101,3 +102,26 @@ export const usePostWriteReview = () => {
     },
   });
 };
+
+export const infiniteReceivedReviewsOptions = ({
+  size,
+  userId,
+}: {
+  size?: CursorRequest['size'];
+  userId: string;
+}): UseSuspenseInfiniteQueryOptions<
+  ReviewListResponse,
+  ApiResponse,
+  InfiniteData<ReviewListResponse>,
+  ReviewListResponse,
+  string[],
+  number | undefined
+> => ({
+  queryKey: ['receivedSimpleReviews', userId],
+  queryFn: ({ pageParam }) =>
+    reviewsApi.getReceivedSimpleReviews({ cursorId: pageParam, size, userId }),
+
+  getNextPageParam: (lastPage) =>
+    lastPage.hasNext ? lastPage.cursorId : undefined,
+  initialPageParam: undefined,
+});
