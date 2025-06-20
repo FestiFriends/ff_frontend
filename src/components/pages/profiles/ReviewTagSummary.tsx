@@ -26,7 +26,7 @@ const ReviewTagSummary = ({ summary }: ReviewTagSummaryProps) => {
           key={tag}
           className='flex h-[57px] items-center justify-between rounded-md bg-gray-25 px-4 py-2 text-14_B'
         >
-          <span>{ReviewTagLabels[tag]}</span>
+          <span>{ReviewTagLabels[tag.toUpperCase() as ReviewTagType]}</span>
           <span className='ml-4 font-semibold text-gray-900'> {count}</span>
         </li>
       ))}

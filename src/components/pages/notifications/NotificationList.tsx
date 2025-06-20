@@ -12,7 +12,7 @@ const NotificationList = () => (
     GetNotificationsResponse,
     GetNotificationsResponse['data'][number]
   >
-    options={infiniteNotificationsOptions()}
+    options={infiniteNotificationsOptions(1)}
     getDataId={(notification) => notification.id}
     renderData={(notification): ReactNode => (
       <NotificationCard notification={notification} />

@@ -83,14 +83,22 @@ export interface ReceivedSimpleReview {
   memberCount: number;
   groupStartDate: string;
   groupEndDate: string;
-  reviewId: string;
-  reviewerId: string;
-  rating: number;
-  content?: string;
-  createdAt: string;
+  reviews: {
+    reviewId: string;
+    reviewerId: string;
+    rating: number;
+    content?: string;
+    defaultTag: ReviewTagType[];
+    createdAt: string;
+  }[];
 
   performance: {
+    id: string;
     title: string;
     poster: string;
   };
 }
+
+export type ReviewListResponse = ApiResponse & {
+  data: ReceivedSimpleReview[];
+} & CursorResponse;
