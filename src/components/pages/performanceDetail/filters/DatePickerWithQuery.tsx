@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react';
 import { addMonths, format, isAfter, isBefore, subMonths } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import { Button, CalendarWithQuery } from '@/components/common';
+import { Button } from '@/components/common';
 import { AltArrowUpIcon, DeleteIcon, XIcon } from '@/components/icons';
+import CalendarWithQuery from '@/components/pages/performanceDetail/filters/CalendarWithQuery';
 import { cn } from '@/lib/utils';
 import {
   Modal,
@@ -13,7 +14,7 @@ import {
   ModalClose,
   ModalContent,
   ModalTrigger,
-} from '../Modal';
+} from '../../../common/Modal';
 
 interface DatePickerWithQueryProps {
   startDate: string | null;

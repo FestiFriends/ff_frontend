@@ -2,8 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import Button from '@/components/common/Button/Button';
-import DatePickerWithQuery from '@/components/common/DatePicker/DatePickerWithQuery';
-import OptionDropdown from '@/components/common/OptionDropdown/OptionDropdown';
+import OptionDropdown from '@/components/pages/performanceDetail/filters/OptionDropdown';
 import { GenderLabels } from '@/constants/genderLabels';
 import { GroupCategoryLabels } from '@/constants/groupLabels';
 import { GroupSortLabels } from '@/constants/groupSortLabels';
@@ -15,6 +14,7 @@ import {
   mapRecordToStringOptions,
   mapRecordValueToOptions,
 } from '@/utils/formatGroupOptions';
+import DatePickerWithQuery from './filters/DatePickerWithQuery';
 
 const groupSortOptions = mapRecordToStringOptions(GroupSortLabels);
 const groupCategoryOptions = mapRecordToStringOptions(GroupCategoryLabels);
