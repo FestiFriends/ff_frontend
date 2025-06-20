@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  deduplicateMessages,
   useChatWebSocket,
   useGetChatHistory,
 } from '@/hooks/chatHooks/chatHooks';
@@ -64,7 +65,10 @@ const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
     .flatMap((page) => page.data ?? [])
     .reverse();
 
-  const allMessages = [...historyMessages, ...liveMessages];
+  const allMessages = deduplicateMessages([
+    ...historyMessages,
+    ...liveMessages,
+  ]);
 
   return (
     <div className='relative flex h-[60dvh] flex-col gap-2'>
