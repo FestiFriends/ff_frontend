@@ -1,9 +1,10 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import Image from 'next/image';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   GroupCategoryIconLabels,
   GroupCategoryLabels,
@@ -34,6 +35,17 @@ const SlideCard = (props: SlideCardProps) => {
   const { type, groupInfo, content } = props;
   const [open, setOpen] = useState(false);
   const [openToClose, setOpenToClose] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [contentHeight, setContentHeight] = useState(0);
+
+  useEffect(() => {
+    if (open && contentRef.current) {
+      const measured = contentRef.current.scrollHeight;
+      setContentHeight(Math.min(measured, 220));
+    } else {
+      setContentHeight(0);
+    }
+  }, [open, content]);
 
   const handleOpen = () => {
     if (open) {
@@ -128,14 +140,15 @@ const SlideCard = (props: SlideCardProps) => {
         </div>
       </div>
 
-      <div
+      <ScrollArea
         className={cn(
-          'overflow-y-scroll transition-all duration-300',
-          open ? 'max-h-[220px]' : 'max-h-0'
+          'transition-all duration-300',
+          !open && 'h-0 overflow-hidden'
         )}
+        style={{ height: contentHeight }}
       >
-        {content}
-      </div>
+        <div ref={contentRef}>{content}</div>
+      </ScrollArea>
     </div>
   );
 };
