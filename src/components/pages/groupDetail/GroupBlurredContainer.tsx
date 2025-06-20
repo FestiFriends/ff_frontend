@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CrownIcon } from 'lucide-react';
 import { ProfileImage, Tabs } from '@/components/common';
+import { Skeleton } from '@/components/ui/skeleton';
 import { RoleLabels } from '@/constants/roleLabels';
 import { RoleType } from '@/types/enums';
 import { GroupInfo } from '@/types/group';
@@ -15,11 +16,25 @@ const blurredMembers = Array.from({ length: 3 }, (_, i) => ({
 const groupTabs = ['게시글', '채팅', '캘린더'];
 
 interface GroupBlurredContainerProps {
+  isPending: boolean;
   groupInfo?: GroupInfo;
 }
 
-const GroupBlurredContainer = ({ groupInfo }: GroupBlurredContainerProps) => {
+const GroupBlurredContainer = ({
+  isPending,
+  groupInfo,
+}: GroupBlurredContainerProps) => {
   const [selectedTab, setSelectedTab] = useState(groupTabs[0]);
+
+  if (isPending) {
+    return (
+      <div className='flex flex-col gap-7.5 px-4'>
+        <Skeleton className='h-[20dvh] w-full rounded-[16px]' />
+        <Skeleton className='h-[40dvh] w-full rounded-[16px]' />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className='flex flex-col gap-5 px-4'>

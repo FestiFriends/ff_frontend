@@ -25,7 +25,7 @@ const GroupWrapper = ({ groupId }: GroupWrapperProps) => {
   }
 
   return (
-    <div className='flex flex-col gap-7.5 bg-white'>
+    <div className='flex flex-col gap-7.5 bg-white pt-1'>
       <GroupInfo
         isPending={isPending}
         groupInfo={groupInfo?.data}
@@ -37,7 +37,10 @@ const GroupWrapper = ({ groupId }: GroupWrapperProps) => {
           <GroupTabs groupInfo={groupInfo?.data} />
         </>
       ) : (
-        <GroupBlurredContainer groupInfo={groupInfo?.data} />
+        <GroupBlurredContainer
+          isPending={isPending}
+          groupInfo={groupInfo?.data}
+        />
       )}
     </div>
   );
