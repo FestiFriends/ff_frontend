@@ -225,6 +225,8 @@ const CreateGroupPage = () => {
               onReset={onReset}
               isValid={isValid}
               isSubmitting={createGroupMutation.isPending}
+              submitError={createGroupMutation.error?.message}
+              showSuccessToast={createGroupMutation.isSuccess}
             />
           </div>
         </form>
