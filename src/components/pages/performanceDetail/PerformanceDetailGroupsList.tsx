@@ -6,6 +6,7 @@ import GroupCard from '@/components/common/GroupCard/GroupCard';
 import Toast from '@/components/common/Toast/Toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
+import { Group } from '@/types/group';
 import { ToastContent } from '@/types/toastContent';
 import {
   formatPerformanceGroups,
@@ -36,15 +37,24 @@ const PerformanceDetailGroupsList = ({
     router.push(`/groups/${groupId}`);
   };
 
-  const onOpenApplyModal = (groupId: string) => {
+  const onOpenApplyModal = (group: Group) => {
     if (!isLoggedIn) {
       setToastContent({ message: '로그인이 필요합니다!', type: 'error' });
       setShowToast(true);
       return;
     }
 
-    if (groupId) {
-      setSelectedGroupId(groupId);
+    if (group.isHost) {
+      setToastContent({
+        message: '이미 참가한 모임입니다.',
+        type: 'error',
+      });
+      setShowToast(true);
+      return;
+    }
+
+    if (group.id) {
+      setSelectedGroupId(group.id);
       setIsOpen(true);
     }
   };
@@ -91,8 +101,11 @@ const PerformanceDetailGroupsList = ({
                   onCardClick={() => routeToGroupPage(group.id)}
                   key={group.id}
                   groupData={group}
-                  buttonText='참가 신청'
-                  onButtonClick={() => onOpenApplyModal(group.id)}
+                  buttonText={group.isHost ? '내가 만든 모임' : '참가 신청'}
+                  buttonDisabled={group.isHost}
+                  buttonColor={group.isHost ? 'disable' : 'normal'}
+                  onButtonClick={() => onOpenApplyModal(group)}
+                  className='cursor-pointer'
                 />
               </div>
             ))}
