@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import Button from '@/components/common/Button/Button';
 import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
 import StarIcon from '@/components/icons/StarIcon';
@@ -27,6 +28,7 @@ const Application = ({
   secondaryButtonText,
   onSecondaryClick,
 }: ApplicationProps) => {
+  const router = useRouter();
   const genderLabel = GenderLabels[applicationData.gender as GenderType];
 
   const handleSecondaryClick = () => {
@@ -36,14 +38,26 @@ const Application = ({
   const handlePrimaryClick = () => {
     onPrimaryClick();
   };
+
+  const handleProfileClick = () => {
+    router.push(`/profiles/${applicationData.userId}`);
+  };
+
   return (
     <div
+      role='button'
+      tabIndex={0}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+      onKeyDown={(e) => {
+        e.stopPropagation();
+      }}
       className={cn(
         'flex w-full flex-col items-start justify-center gap-4 bg-gray-25 pt-5 pb-6',
         className
       )}
     >
-      {/* 성별 나이 */}
       <div className='flex w-full items-center justify-between text-13_M text-gray-700'>
         <div className='flex items-center gap-1.5'>
           <span>{genderLabel}</span>
@@ -53,20 +67,23 @@ const Application = ({
         <span>{formatNormalDate(applicationData.createdAt)}</span>
       </div>
       <div className='flex w-full justify-between gap-4'>
-        <div className='flex flex-1 flex-col gap-2 text-12_M text-gray-700'>
-          {/* 신청자, 방장 정보 */}
-          <div className='flex items-center gap-0.5'>
+        <div className='flex flex-1 flex-col gap-2'>
+          <button
+            className='flex items-center gap-0.5 text-12_M text-gray-700'
+            onClick={handleProfileClick}
+          >
             <ProfileImage
               size='xs'
               border={false}
+              src={applicationData.profileImage.src}
+              className='flex-shrink-0'
             />
             <span>{applicationData.userName}</span>
             <span className='flex'>
               (<StarIcon className='h-3 w-3' />
               {applicationData.rating})
             </span>
-          </div>
-          {/* 소개글 */}
+          </button>
           <p className='w-full text-14_body_M text-gray-950'>
             {applicationData.applicationText}
           </p>

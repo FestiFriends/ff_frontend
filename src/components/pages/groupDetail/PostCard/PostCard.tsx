@@ -135,7 +135,7 @@ const PostCard = ({ post, type = 'posts', children }: PostCardProps) => {
                 />
               </button>
 
-              <div className='flex flex-col items-start'>
+              <div className='flex flex-col items-start gap-1'>
                 <button
                   type='button'
                   onClick={() => router.push(`/profiles/${author.id}`)}

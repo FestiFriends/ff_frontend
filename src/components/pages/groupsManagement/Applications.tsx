@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Button from '@/components/common/Button/Button';
 import Modal from '@/components/common/Modal/Modal';
 import ModalAction from '@/components/common/Modal/ModalAction';
@@ -21,6 +22,7 @@ import {
 import ApplicationComponent from './Application/Application';
 
 const Applications = () => {
+  const router = useRouter();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
     useGetApplications();
   const [actionType, setActionType] = useState<'accept' | 'reject' | null>(
@@ -30,7 +32,6 @@ const Applications = () => {
     string | null
   >(null);
   const { mutate: patchApplication } = usePatchApplication();
-
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const bottomRef = useInfiniteScroll<HTMLDivElement>(
@@ -81,10 +82,15 @@ const Applications = () => {
     setSelectedApplicationId(null);
   };
 
+  const handleCardClick = (groupId: string) => {
+    router.push(`/groups/${groupId}`);
+  };
+
   return (
     <div className='flex flex-col items-center gap-5 px-4'>
       {groups?.map((item) => (
         <SlideCard
+          onCardClick={() => handleCardClick(item.groupId)}
           key={item.groupId}
           type='application'
           groupInfo={extractGroupInfo(item) as ApplicationGroupInfo}
@@ -106,13 +112,21 @@ const Applications = () => {
                     className={
                       index !== item.applications.length - 1
                         ? 'border-b border-gray-200'
-                        : ''
+                        : 'pb-0'
                     }
                   />
                 ))}
               </>
             ) : (
-              <div className='flex items-center justify-center py-3 text-14_body_M text-gray-950'>
+              <div
+                className='flex items-center justify-center py-3 text-14_body_M text-gray-950'
+                role='button'
+                tabIndex={0}
+                onKeyDown={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
                 <p>아직 신청자가 없습니다</p>
               </div>
             )

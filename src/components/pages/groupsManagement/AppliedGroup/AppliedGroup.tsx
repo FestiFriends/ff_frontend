@@ -100,27 +100,34 @@ const AppliedGroup = ({
             />
           </div>
         )}
-        <div className='flex flex-1 flex-col justify-between overflow-hidden'>
+        <div className='flex flex-1 flex-col overflow-hidden'>
           <h4 className='mb-1.5 truncate text-16_B text-black'>
             {applicationData.groupName}
           </h4>
           <div className='mb-4 text-13_M text-gray-700'>
             <span>{genderLabel}</span>
           </div>
-          <div className='flex items-center gap-0.5'>
+          <div className='mb-2 flex min-w-0 items-center'>
             <ProfileImage
               size='xs'
               border={false}
+              src={
+                typeof applicationData.hostProfileImage.src === 'string'
+                  ? applicationData.hostProfileImage.src
+                  : applicationData.hostProfileImage.src?.src
+              }
+              className='flex-shrink-0'
             />
-            <span className='text-12_M text-gray-700'>
+            <span className='ml-0.5 min-w-0 truncate text-12_M text-gray-700'>
               {applicationData.hostName}
+              {/* 이름완 */}
             </span>
-            <span className='flex text-12_M text-gray-700'>
+            <span className='ml-0.5 flex flex-shrink-0 items-center gap-0.5 text-12_M text-gray-700'>
               (<StarIcon className='h-3 w-3' />
               {applicationData.hostRating})
             </span>
           </div>
-          <p className='line-clamp-2 w-full text-14_body_M text-gray-950'>
+          <p className='line-clamp-2 w-full text-14_body_M break-all text-gray-950'>
             {applicationData.applicationText}
           </p>
         </div>
