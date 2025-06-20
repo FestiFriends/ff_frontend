@@ -7,11 +7,12 @@ interface PosterProps {
   alt?: string;
   shadow?: boolean;
   border?: boolean;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
 }
 
 const sizeMap = {
+  xs: { width: 30, height: 42, className: 'w-[30px] h-[42px]' },
   sm: { width: 80, height: 112, className: 'w-20 h-28' },
   md: { width: 112, height: 160, className: 'w-28 h-40' },
   lg: { width: 160, height: 224, className: 'w-40 h-56' },

@@ -1,4 +1,5 @@
 import { http, HttpResponse } from 'msw';
+import { Group } from '@/types/group';
 import { FullProfile } from '@/types/profiles';
 
 export const PROFILES_SAMPLE_DATA: FullProfile[] = [
@@ -42,63 +43,7 @@ export const PROFILES_SAMPLE_DATA: FullProfile[] = [
       totalJoinedCount: 10,
       createdCount: 2,
     },
-    joinedGroups: [
-      {
-        id: 'g101',
-        performance: {
-          id: 'p1',
-          title: '인천 펜타포트 락 페스티벌',
-          poster: '/images/poster1.jpg',
-        },
-        title: '같이 가요 인천 락페!',
-        category: 'COMPANION',
-        gender: 'ALL',
-        startAge: 25,
-        endAge: 35,
-        location: '인천',
-        startDate: '2025-08-01T15:00:00Z',
-        endDate: '2025-08-01T23:00:00Z',
-        memberCount: 6,
-        maxMembers: 10,
-        description: '락페는 역시 함께 가야 제맛!',
-        hashtag: ['#인천', '#락페동행'],
-        host: {
-          hostId: 'host001',
-          name: '락서니',
-          rating: 4.9,
-        },
-        isHost: true,
-        createdAt: '2025-06-01T12:00:00Z',
-      },
-      {
-        id: 'g104',
-        performance: {
-          id: 'p4',
-          poster: '/images/poster4.jpg',
-        },
-        title: '캠핑존에서 텐트 같이 쳐요 ⛺',
-        category: 'ROOM_SHARE',
-        gender: 'MALE',
-        startAge: 22,
-        endAge: 34,
-        location: '강원',
-        startDate: '2025-08-09T12:00:00Z',
-        endDate: '2025-08-11T11:00:00Z',
-        memberCount: 5,
-        maxMembers: 8,
-        description: '장비 있어요! 캠핑 좋아하시는 분 함께해요.',
-        hashtag: ['#캠핑존', '#장비지원', '#야영'],
-        host: {
-          hostId: 'host010',
-          name: '산들남',
-          rating: 4.8,
-        },
-        isHost: false,
-        createdAt: '2025-06-04T10:00:00Z',
-      },
-    ],
-    cursorId: 104,
-    hasNext: false,
+
     reviewSummary: {
       PUNCTUAL: 2,
       POLITE: 3,
@@ -126,37 +71,7 @@ export const PROFILES_SAMPLE_DATA: FullProfile[] = [
       totalJoinedCount: 0,
       createdCount: 0,
     },
-    joinedGroups: [
-      // {
-      // id: 'g105',
-      // performance: {
-      //   id: 'p5',
-      //   title: '서울 일렉트로닉 뮤직 페스티벌',
-      //   poster: '/images/poster5.jpg',
-      // },
-      // title: '비트 덕후들 모임',
-      // category: 'COMPANION',
-      // gender: 'ALL',
-      // startAge: 25,
-      // endAge: 35,
-      // location: '서울',
-      // startDate: '2025-08-03T14:00:00Z',
-      // endDate: '2025-08-03T20:00:00Z',
-      // memberCount: 4,
-      // maxMembers: 6,
-      // description: '전자음악 좋아하는 사람들끼리 친목!',
-      // hashtag: ['#EDM', '#친목모임'],
-      // host: {
-      //   hostId: 'host011',
-      //   name: '테크노짱',
-      //   rating: 4.5,
-      // },
-      // isHost: false,
-      // createdAt: '2025-06-08T09:00:00Z',
-      // },
-    ],
-    cursorId: 105,
-    hasNext: false,
+
     reviewSummary: {},
     reviewCount: 0,
     reviewList: [],
@@ -184,37 +99,6 @@ export const PROFILES_SAMPLE_DATA: FullProfile[] = [
       totalJoinedCount: 6,
       createdCount: 1,
     },
-    joinedGroups: [
-      {
-        id: 'g106',
-        performance: {
-          id: 'p6',
-          title: '부산 썸머 뮤직 페스티벌',
-          poster: '/images/poster6.jpg',
-        },
-        title: '여자들끼리 부산 페스티벌 가요 💃',
-        category: 'COMPANION',
-        gender: 'FEMALE',
-        startAge: 20,
-        endAge: 30,
-        location: '부산',
-        startDate: '2025-08-15T13:00:00Z',
-        endDate: '2025-08-15T22:00:00Z',
-        memberCount: 5,
-        maxMembers: 7,
-        description: '같이 사진도 찍고 브이로그도 남겨요!',
-        hashtag: ['#부산', '#페스티벌룩', '#여성모임'],
-        host: {
-          hostId: 'host012',
-          name: '브이로그퀸',
-          rating: 4.6,
-        },
-        isHost: false,
-        createdAt: '2025-06-07T17:00:00Z',
-      },
-    ],
-    cursorId: 106,
-    hasNext: false,
     reviewSummary: {
       RECOMMEND: 4,
       POLITE: 3,
@@ -223,6 +107,94 @@ export const PROFILES_SAMPLE_DATA: FullProfile[] = [
     reviewList: ['다음에도 같이 가요!', '착하고 센스있어요'],
   },
 ];
+
+export const JOINED_GROUPS_MOCK: Record<string, Group[]> = {
+  me: [
+    {
+      id: 'g101',
+      performance: {
+        id: 'p1',
+        title: '인천 펜타포트 락 페스티벌',
+        poster: '/images/poster1.jpg',
+      },
+      title: '같이 가요 인천 락페!',
+      category: 'COMPANION',
+      gender: 'ALL',
+      startAge: 25,
+      endAge: 35,
+      location: '인천',
+      startDate: '2025-08-01T15:00:00Z',
+      endDate: '2025-08-01T23:00:00Z',
+      memberCount: 6,
+      maxMembers: 10,
+      description: '락페는 역시 함께 가야 제맛!',
+      hashtag: ['#인천', '#락페동행'],
+      host: {
+        hostId: 'host001',
+        name: '락서니',
+        rating: 4.9,
+      },
+      isHost: true,
+      createdAt: '2025-06-01T12:00:00Z',
+    },
+    {
+      id: 'g104',
+      performance: {
+        id: 'p4',
+        poster: '/images/poster4.jpg',
+      },
+      title: '캠핑존에서 텐트 같이 쳐요 ⛺',
+      category: 'ROOM_SHARE',
+      gender: 'MALE',
+      startAge: 22,
+      endAge: 34,
+      location: '강원',
+      startDate: '2025-08-09T12:00:00Z',
+      endDate: '2025-08-11T11:00:00Z',
+      memberCount: 5,
+      maxMembers: 8,
+      description: '장비 있어요! 캠핑 좋아하시는 분 함께해요.',
+      hashtag: ['#캠핑존', '#장비지원', '#야영'],
+      host: {
+        hostId: 'host010',
+        name: '산들남',
+        rating: 4.8,
+      },
+      isHost: false,
+      createdAt: '2025-06-04T10:00:00Z',
+    },
+  ],
+
+  guest2: [
+    {
+      id: 'g106',
+      performance: {
+        id: 'p6',
+        title: '부산 썸머 뮤직 페스티벌',
+        poster: '/images/poster6.jpg',
+      },
+      title: '여자들끼리 부산 페스티벌 가요 💃',
+      category: 'COMPANION',
+      gender: 'FEMALE',
+      startAge: 20,
+      endAge: 30,
+      location: '부산',
+      startDate: '2025-08-15T13:00:00Z',
+      endDate: '2025-08-15T22:00:00Z',
+      memberCount: 5,
+      maxMembers: 7,
+      description: '같이 사진도 찍고 브이로그도 남겨요!',
+      hashtag: ['#부산', '#페스티벌룩', '#여성모임'],
+      host: {
+        hostId: 'host012',
+        name: '브이로그퀸',
+        rating: 4.6,
+      },
+      isHost: false,
+      createdAt: '2025-06-07T17:00:00Z',
+    },
+  ],
+};
 
 export const profileHandlers = [
   http.get('/api/v1/profiles/me', () => {
@@ -255,6 +227,30 @@ export const profileHandlers = [
       code: 200,
       message: '프로필 조회 성공',
       data: profile,
+    });
+  }),
+
+  http.get('/api/v1/profiles/:userId/joined-groups', ({ params, request }) => {
+    const userId = typeof params.userId === 'string' ? params.userId : '';
+
+    const allGroups = JOINED_GROUPS_MOCK[userId] ?? [];
+
+    const cursorId = new URL(request.url).searchParams.get('cursorId');
+    const size = 20;
+
+    const cursorIndex = allGroups.findIndex((g) => g.id === cursorId);
+    const startIndex = cursorIndex === -1 ? 0 : cursorIndex + 1;
+    const pagedGroups = allGroups.slice(startIndex, startIndex + size);
+    const nextCursor = pagedGroups.at(-1)?.id;
+
+    return HttpResponse.json({
+      code: 200,
+      message: '참여 모임 목록 조회 성공',
+      data: {
+        data: pagedGroups,
+        cursorId: nextCursor,
+        hasNext: startIndex + size < allGroups.length,
+      },
     });
   }),
 ];

@@ -8,7 +8,7 @@ const ProfileHeaderTagList = ({ tags }: { tags: string[] }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
-    if (!containerRef.current || isExpanded) return;
+    if (!containerRef.current) return;
 
     requestAnimationFrame(() => {
       const container = containerRef.current!;
@@ -25,7 +25,10 @@ const ProfileHeaderTagList = ({ tags }: { tags: string[] }) => {
         count++;
       }
 
-      setVisibleCount(count - 1);
+      const shouldShowMoreButton = tags.length > count;
+      const adjustedCount = shouldShowMoreButton ? count - 1 : count;
+
+      setVisibleCount(adjustedCount);
     });
   }, [tags, isExpanded]);
 

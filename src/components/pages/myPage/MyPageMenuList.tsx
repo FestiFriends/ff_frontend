@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Button from '@/components/common/Button/Button';
 import Modal from '@/components/common/Modal/Modal';
 import ModalClose from '@/components/common/Modal/ModalClose';
 import ModalContent from '@/components/common/Modal/ModalContent';
@@ -65,7 +64,7 @@ const MyPageMenuList = () => {
         </li> */}
         <li
           className={cn(
-            'flex h-10 w-full items-center px-[4px] text-red-600',
+            'flex h-10 w-full items-center px-[4px] text-gray-600',
             isWithdrawing && 'cursor-not-allowed opacity-60'
           )}
         >
@@ -89,20 +88,19 @@ const MyPageMenuList = () => {
           </p>
         </ModalContent>
       </Modal>
-      <div className='w-full border-t bg-white px-4 py-4'>
-        <Button
+      <li
+        className={cn(
+          'flex h-10 w-full items-center px-[4px] text-gray-600',
+          isWithdrawing && 'cursor-not-allowed opacity-60'
+        )}
+      >
+        <button
           onClick={() => logout()}
-          disabled={isLoggingOut}
-          className={cn(
-            'w-full rounded px-4 py-2 text-white transition',
-            isLoggingOut
-              ? 'cursor-not-allowed bg-gray-300'
-              : 'bg-red-500 hover:bg-red-600'
-          )}
+          className='w-full text-left'
         >
           {isLoggingOut ? '로그아웃 중...' : '로그아웃'}
-        </Button>
-      </div>
+        </button>
+      </li>
     </ul>
   );
 };

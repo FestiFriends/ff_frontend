@@ -42,7 +42,7 @@ const ProfilePage = ({ userId }: Props) => {
   }
 
   return (
-    <ProfileWrapper>
+    <>
       {isLoading && showSkeleton && (
         <>
           <ProfileHeaderSkeleton />
@@ -51,14 +51,16 @@ const ProfilePage = ({ userId }: Props) => {
       )}
       {profile && (
         <>
-          <ProfileHeader
-            profile={profile}
-            onEditClick={handleEditClick}
-          />
+          <ProfileWrapper>
+            <ProfileHeader
+              profile={profile}
+              onEditClick={handleEditClick}
+            />
+          </ProfileWrapper>
           <ProfileBody profile={profile} />
         </>
       )}
-    </ProfileWrapper>
+    </>
   );
 };
 
