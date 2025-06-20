@@ -69,11 +69,11 @@ const OptionDropdown = ({
     variant === 'default'
       && 'absolute mt-2 flex w-full min-w-25 flex-col focus:outline-none',
 
-    variant === 'location'
-      && 'absolute top-full left-1/2 mt-2 grid w-full -translate-x-1/2 grid-cols-4 place-items-center justify-center gap-2.5 p-5 px-4'
-
     // variant === 'location'
-    //   && 'fixed top-1/2 left-1/2 grid w-[calc(100vw-1rem)] max-w-[350px] -translate-x-1/2 -translate-y-1/2 grid-cols-4 place-items-center justify-center gap-2.5 p-5'
+    //   && 'absolute top-full left-full mt-2 grid w-[calc(100vw-1rem)] max-w-[350px] shrink-0 -translate-x-1/2 grid-cols-4 place-items-center justify-center gap-2.5 p-5 px-4'
+
+    variant === 'location'
+      && 'fixed top-1/2 left-1/2 grid w-[calc(100vw-1rem)] max-w-[350px] -translate-x-1/2 -translate-y-1/2 grid-cols-4 place-items-center justify-center gap-2.5 p-5'
   );
 
   const dropdownItemClasses = cn(
