@@ -96,10 +96,10 @@ const MembersList = ({
                 )}
                 {RoleLabels[member.role as RoleType]}
               </span>
-              <div className='w-full overflow-hidden'>
+              <div className='w-full overflow-hidden text-center'>
                 <Link
                   href={`/profiles/${member.memberId}`}
-                  className='block w-full truncate text-center text-16_B leading-normal tracking-[-0.4px] text-gray-950 select-none'
+                  className='inline-block max-w-full truncate text-16_B leading-normal tracking-[-0.4px] text-gray-950 select-none'
                 >
                   {member.name}
                 </Link>
