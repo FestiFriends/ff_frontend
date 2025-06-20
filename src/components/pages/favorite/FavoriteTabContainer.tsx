@@ -15,7 +15,7 @@ import {
 import { GetFavoritePerformancesResponse } from '@/types/performance';
 import { GetFavoriteUsersResponse } from '@/types/users';
 
-const TABS = ['공연', '사용자'];
+const TABS = ['찜한 유저', '찜한 공연'];
 
 const DEFAULT_SIZE = 10;
 
@@ -41,7 +41,7 @@ const FavoriteTabContainer: React.FC = () => {
         />
       </div>
       <div className='flex-1 p-4'>
-        {selectedTab === '공연' && (
+        {selectedTab === '찜한 공연' && (
           <InfiniteList<
             GetFavoritePerformancesResponse,
             GetFavoritePerformancesResponse['data'][number]
@@ -52,11 +52,12 @@ const FavoriteTabContainer: React.FC = () => {
               <PerformanceCard
                 performance={performance}
                 size='auto'
+                type='listItem'
               />
             )}
             fallback={<SpinnerWrapper />}
             isFetchingFallback={<SpinnerWrapper />}
-            className='mx-auto grid grid-cols-2 gap-4'
+            className='mx-auto flex flex-col gap-4'
             emptyFallback={
               <div className='col-span-2 py-8 text-center text-gray-500'>
                 찜한 공연이 없습니다.
@@ -64,7 +65,7 @@ const FavoriteTabContainer: React.FC = () => {
             }
           />
         )}
-        {selectedTab === '사용자' && (
+        {selectedTab === '찜한 유저' && (
           <InfiniteList<
             GetFavoriteUsersResponse,
             GetFavoriteUsersResponse['data'][number]
