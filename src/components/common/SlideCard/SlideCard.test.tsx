@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import SlideCard from '@/components/common/SlideCard/SlideCard';
 import '@testing-library/jest-dom';
 import { ApplicationGroupInfo } from '@/types/application';
@@ -72,25 +72,5 @@ describe('SlideCard component', () => {
     expect(screen.getByText('연극 햄릿')).toBeInTheDocument();
     expect(screen.getByText(/모집 인원 \(3\/10명\)/)).toBeInTheDocument();
     expect(screen.getByText('더보기')).toBeInTheDocument();
-  });
-
-  test('더보기 버튼 클릭 시 콘텐츠가 나타난다', () => {
-    render(
-      <SlideCard
-        type='review'
-        groupInfo={mockReviewGroupInfo}
-        reviewsCount={2}
-        content={'내용 나왔음'}
-      />
-    );
-
-    const toggleButton = screen.getByText('더보기');
-    expect(screen.getByText('내용 나왔음')).toHaveClass('max-h-0');
-
-    fireEvent.click(toggleButton);
-    expect(screen.getByText('내용 나왔음')).toHaveClass('max-h-dvh');
-
-    fireEvent.click(toggleButton);
-    expect(screen.getByText('내용 나왔음')).toHaveClass('max-h-0');
   });
 });

@@ -1,6 +1,6 @@
-import { Gender } from '@/types/enums';
+import { Gender, GenderType } from '@/types/enums';
 import { ApiResponse, CursorResponse } from './api';
-import { FullProfile } from './profiles';
+import { FullProfile, Image } from './profiles';
 
 export interface User {
   id: string;
@@ -34,7 +34,17 @@ export interface UserIsLikedResponse {
   };
 }
 
-export type GetFavoriteUsersResponse = { data: User[] } & ApiResponse
+export type GetFavoriteUsersResponse = {
+  data: {
+    name: string;
+    gender: GenderType;
+    age: number;
+    userUid: string;
+    profileImage: Image | null;
+    hashtag: string[];
+    isLiked: boolean;
+  }[];
+} & ApiResponse
   & CursorResponse;
 
 export interface UserId {
