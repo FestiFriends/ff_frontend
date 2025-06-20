@@ -1,5 +1,7 @@
 import { z } from 'zod';
 import { GroupCategoryLabels } from '@/constants/groupLabels';
+import { GenderLabels } from '@/constants/genderLabels';
+import { LocationLabels } from '@/constants/locationLabels';
 
 const dateRangeSchema = z
   .object({
@@ -51,13 +53,16 @@ export const groupCreateSchema = z.object({
     .min(10, '소개글을 10자 이상 입력해주세요')
     .max(500, '소개글은 500자 이하로 입력해주세요'),
   region: z
-    .string({ required_error: '지역이 필요합니다' })
-    .min(1, '지역을 선택해주세요'),
+    .string()
+    .refine((val) => Object.values(LocationLabels).includes(val), {
+      message: '지역을 선택해주세요',
+    }),
   dateRange: dateRangeSchema,
-  gender: z.enum(['여성', '남성', '혼성'], {
-    required_error: '참가 성별을 선택해주세요',
-    invalid_type_error: '유효한 성별을 선택해주세요',
-  }),
+  gender: z
+    .string()
+    .refine((val) => Object.values(GenderLabels).includes(val), {
+      message: '참가 성별을 선택해주세요',
+    }),
   ageRange: z
     .tuple([z.number(), z.number()], {
       required_error: '연령대를 설정해주세요',

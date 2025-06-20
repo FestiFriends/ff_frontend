@@ -10,8 +10,11 @@ import { BottomSheetModal } from '@/components/common';
 import { AltArrowUpIcon } from '@/components/icons';
 import { LocationLabels } from '@/constants/locationLabels';
 import { cn } from '@/lib/utils';
-import { generateFilterOptions } from '@/utils';
-const LOCATION_OPTIONS = generateFilterOptions(LocationLabels, false);
+
+const LOCATION_OPTIONS = Object.values(LocationLabels).map((label) => ({
+  label,
+  value: label,
+}));
 
 interface FormLocationSelectorProps<
   TFieldValues extends FieldValues = FieldValues,

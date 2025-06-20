@@ -1,4 +1,6 @@
 import { GroupCategoryLabels } from '@/constants/groupLabels';
+import { GenderLabels } from '@/constants/genderLabels';
+import { LocationLabels } from '@/constants/locationLabels';
 import { DateRange } from '@/types/dateRange';
 import {
   ApiResponse,
@@ -6,7 +8,7 @@ import {
   CursorResponse,
   PageResponse,
 } from './api';
-import { GroupCategoryType, GenderType, EventColorName } from './enums';
+import { GroupCategoryType, GenderType, EventColorName, LocationType } from './enums';
 
 export interface Group {
   id: string;
@@ -98,9 +100,9 @@ export interface CreateGroupFormData {
   category: (typeof GroupCategoryLabels)[keyof typeof GroupCategoryLabels];
   title: string;
   description: string;
-  region: string;
-  dateRange: DateRange; // location에서 dateRange로 변경
-  gender: '여성' | '남성' | '혼성';
+  region: (typeof LocationLabels)[keyof typeof LocationLabels];
+  dateRange: DateRange;
+  gender: (typeof GenderLabels)[keyof typeof GenderLabels];
   ageRange: [number, number];
   maxParticipants: number;
   tags: string[];

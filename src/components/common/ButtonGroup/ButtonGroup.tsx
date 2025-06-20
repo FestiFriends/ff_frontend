@@ -59,10 +59,10 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({
   });
 
   // 현재 선택된 값들
-  const selectedValues = value
+  const selectedValues = value !== undefined
     ? Array.isArray(value)
       ? value
-      : [value]
+      : value === '' ? [] : [value]
     : internalValue;
 
   const isSelected = (itemValue: string) => selectedValues.includes(itemValue);
