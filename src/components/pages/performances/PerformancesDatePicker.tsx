@@ -207,7 +207,7 @@ const PerformanceDatePicker = ({
 
       {isOpen && (
         <div
-          className='fixed z-[9999] inline-flex w-[calc(100vw-2rem)] -translate-x-1/2 flex-col gap-5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white p-5 shadow-lg'
+          className='fixed z-[9999] inline-flex w-[calc(100vw-2rem)] max-w-[calc(32rem-2rem)] -translate-x-1/2 flex-col gap-5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white p-5 shadow-lg'
           style={{
             top: `${buttonPosition.top + 8}px`,
             left: '50%',

@@ -20,6 +20,17 @@ import { Post } from '@/types/post';
 import { formatPostDate } from '@/utils/date';
 import { PerformanceGroupsApiResponse } from '@/utils/formatGroupCardData';
 
+const formatDateWithKoreanTimezone = (date: Date): string => {
+  const utcTime = new Date(
+    date.getTime()
+      + 9 * 60 * 60 * 1000
+      + 23 * 60 * 60 * 1000
+      + 59 * 60 * 1000
+      + 59 * 1000
+  );
+  return utcTime.toISOString().split('.')[0] + 'Z';
+};
+
 interface GroupPostsResponse {
   groupId: number;
   posts: Post[];
@@ -73,10 +84,10 @@ export const groupsApi = {
       endAge: data.ageRange[1],
       location: data.region,
       startDate: data.dateRange.startDate
-        ? data.dateRange.startDate.toISOString()
+        ? formatDateWithKoreanTimezone(data.dateRange.startDate)
         : '',
       endDate: data.dateRange.endDate
-        ? data.dateRange.endDate.toISOString()
+        ? formatDateWithKoreanTimezone(data.dateRange.endDate)
         : '',
       maxMembers: data.maxParticipants,
       description: data.description,

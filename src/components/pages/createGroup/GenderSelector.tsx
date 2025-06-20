@@ -6,6 +6,7 @@ import {
   RegisterOptions,
 } from 'react-hook-form';
 import { FormButtonGroup } from '@/components/common/Form';
+import { GenderLabels } from '@/constants/genderLabels';
 
 interface GenderSelectorProps<
   TFieldValues extends FieldValues = FieldValues,
@@ -26,7 +27,7 @@ const GenderSelector = <
   rules,
   className,
 }: GenderSelectorProps<TFieldValues, TName>) => {
-  const genders = ['여성', '남성', '혼성'];
+  const genders = Object.values(GenderLabels);
 
   return (
     <div className={className}>
