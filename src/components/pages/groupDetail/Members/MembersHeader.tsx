@@ -42,11 +42,11 @@ const MembersHeader = ({
               textUnderlinePosition: 'from-font',
             }}
           >
-            더보기
+            전체보기
           </span>
         </button>
       </ModalTrigger>
-      <ModalContent className='relative scrollbar-hide h-full w-[calc(100%-2rem)] max-w-lg rounded-[16px] p-5'>
+      <ModalContent className='relative scrollbar-hide h-full w-[calc(100%-2rem)] max-w-lg rounded-[16px] p-4'>
         <ModalClose className='sticky top-0 right-0 mb-4 ml-auto block' />
         <InfiniteList<
           GetGroupMembersFormattedResponse,
@@ -64,7 +64,7 @@ const MembersHeader = ({
           isFetchingFallback={
             <Skeleton className='mt-5 h-20 w-full rounded-[16px]' />
           }
-          className='flex flex-col gap-5'
+          className='flex flex-col gap-4'
         />
       </ModalContent>
     </Modal>
