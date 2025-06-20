@@ -33,9 +33,18 @@ type SlideCardProps = ReviewCardProps | ApplicationCardProps;
 const SlideCard = (props: SlideCardProps) => {
   const { type, groupInfo, content } = props;
   const [open, setOpen] = useState(false);
+  const [openToClose, setOpenToClose] = useState(false);
 
   const handleOpen = () => {
-    setOpen((pre) => !pre);
+    if (open) {
+      setOpenToClose(true);
+      setOpen(false);
+      setTimeout(() => {
+        setOpenToClose(false);
+      }, 300);
+    } else {
+      setOpen(true);
+    }
   };
 
   const Icon = GroupCategoryIconLabels[groupInfo.category];
@@ -44,7 +53,7 @@ const SlideCard = (props: SlideCardProps) => {
     <div
       className={cn(
         'flex w-[343px] flex-col rounded-2xl bg-gray-25 p-5',
-        open && 'gap-4'
+        (open || openToClose) && 'gap-4'
       )}
     >
       <div className='flex gap-4'>
