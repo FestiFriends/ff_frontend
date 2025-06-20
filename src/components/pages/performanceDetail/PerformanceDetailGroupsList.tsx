@@ -69,8 +69,8 @@ const PerformanceDetailGroupsList = ({
           </span>
         </span>
         <div className='flex flex-col gap-5'>
-          <Skeleton className='h-[20vh] w-full' />
-          <Skeleton className='h-[20vh] w-full' />
+          <Skeleton className='h-[30vh] w-full rounded-2xl' />
+          <Skeleton className='h-[30vh] w-full rounded-2xl' />
         </div>
       </div>
     );
