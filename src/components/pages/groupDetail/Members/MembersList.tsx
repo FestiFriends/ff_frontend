@@ -1,6 +1,6 @@
 import { RefObject } from 'react';
 import { CrownIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
 import {
   Carousel,
@@ -27,8 +27,6 @@ const MembersList = ({
   isError,
   modalTriggerRef,
 }: MembersListProps) => {
-  const router = useRouter();
-
   if (isPending) {
     return (
       <Carousel
@@ -62,10 +60,6 @@ const MembersList = ({
     );
   }
 
-  const routeToMemberProfile = (memberId: string) => {
-    router.push(`/profiles/${memberId}`);
-  };
-
   const handleOpenMembersModal = () => {
     modalTriggerRef.current?.click();
   };
@@ -81,28 +75,35 @@ const MembersList = ({
         {members?.map((member) => (
           <CarouselItem
             key={member.memberId}
-            onClick={() => routeToMemberProfile(member.memberId)}
+            // onClick={() => routeToMemberProfile(member.memberId)}
             className='flex basis-[calc(100%/2.4)] flex-col items-center justify-center gap-3.5 rounded-[16px] border-1 border-gray-100 bg-white p-5'
           >
             <div className='flex items-center justify-center gap-2.5'>
-              <ProfileImage
-                size='lg'
-                src={member.profileImage}
-                alt={member.name}
-                border={false}
-                className='aspect-square shrink-0'
-              />
+              <Link href={`/profiles/${member.memberId}`}>
+                <ProfileImage
+                  size='lg'
+                  src={member.profileImage}
+                  alt={member.name}
+                  border={false}
+                  className='aspect-square shrink-0'
+                />
+              </Link>
             </div>
-            <div className='flex min-w-0 flex-col items-center gap-0.5'>
-              <span className='flex items-center text-center text-12_M tracking-[-0.35px] text-gray-500'>
+            <div className='flex w-full min-w-0 flex-col items-center gap-0.5'>
+              <span className='flex items-center text-12_M tracking-[-0.35px] text-gray-500 select-none'>
                 {member.role === 'HOST' && (
                   <CrownIcon className='mr-[1px] aspect-square h-3 w-3' />
                 )}
                 {RoleLabels[member.role as RoleType]}
               </span>
-              <span className='w-full truncate text-center text-16_B leading-normal tracking-[-0.4px] text-gray-950'>
-                {member.name}
-              </span>
+              <div className='w-full overflow-hidden'>
+                <Link
+                  href={`/profiles/${member.memberId}`}
+                  className='block w-full truncate text-center text-16_B leading-normal tracking-[-0.4px] text-gray-950 select-none'
+                >
+                  {member.name}
+                </Link>
+              </div>
             </div>
           </CarouselItem>
         ))}
