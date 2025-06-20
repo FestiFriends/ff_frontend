@@ -42,10 +42,8 @@ const ProfileImage = ({
         <Image
           src={src}
           alt={alt}
-          width={sizeConfig.width}
-          height={sizeConfig.height}
-          sizes={`${sizeConfig.width}px`}
-          className='object-cover'
+          fill
+          className='object-cover object-center'
         />
       ) : (
         <ProfileIcon className='h-full w-full' />
