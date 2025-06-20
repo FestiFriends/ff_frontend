@@ -55,7 +55,7 @@ const CreateGroupPage = () => {
   } = useForm<CreateGroupFormData>({
     resolver: zodResolver(groupCreateSchema),
     defaultValues: DEFAULT_VALUES,
-    mode: 'all',
+    mode: 'onTouched',
   });
 
   useEffect(() => {
@@ -63,10 +63,6 @@ const CreateGroupPage = () => {
       setValue('name', performanceName);
     }
   }, [performanceName, setValue]);
-
-  useEffect(() => {
-    trigger();
-  }, [trigger]);
 
   const onSubmit = async (data: CreateGroupFormData) => {
     const isFormValid = await trigger();
