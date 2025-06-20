@@ -25,14 +25,22 @@ const FavoriteTabContainer: React.FC = () => {
   const currentTab = getQueryParam('tab') || TABS[0];
   const selectedTab = TABS.includes(currentTab) ? currentTab : TABS[0];
 
+  const SpinnerWrapper = () => (
+    <div className='flex min-h-96 w-full items-center justify-center'>
+      <Spinner />
+    </div>
+  );
+
   return (
-    <>
-      <QueryTabs
-        tabs={TABS}
-        defaultTab={TABS[0]}
-        queryParamKey='tab'
-      />
-      <div className='p-4'>
+    <div className='flex flex-col'>
+      <div className='sticky top-11 z-20 bg-white'>
+        <QueryTabs
+          tabs={TABS}
+          defaultTab={TABS[0]}
+          queryParamKey='tab'
+        />
+      </div>
+      <div className='flex-1 p-4'>
         {selectedTab === '공연' && (
           <InfiniteList<
             GetFavoritePerformancesResponse,
@@ -46,8 +54,8 @@ const FavoriteTabContainer: React.FC = () => {
                 size='auto'
               />
             )}
-            fallback={<Spinner />}
-            isFetchingFallback={<Spinner />}
+            fallback={<SpinnerWrapper />}
+            isFetchingFallback={<SpinnerWrapper />}
             className='mx-auto grid grid-cols-2 gap-4'
             emptyFallback={
               <div className='col-span-2 py-8 text-center text-gray-500'>
@@ -66,8 +74,8 @@ const FavoriteTabContainer: React.FC = () => {
             renderData={(user) => (
               <ProfileCard profile={{ ...user, isMine: false }} />
             )}
-            fallback={<Spinner />}
-            isFetchingFallback={<Spinner />}
+            fallback={<SpinnerWrapper />}
+            isFetchingFallback={<SpinnerWrapper />}
             className='mx-auto grid w-fit grid-cols-2 gap-4'
             emptyFallback={
               <div className='col-span-2 py-8 text-center text-gray-500'>
@@ -77,7 +85,7 @@ const FavoriteTabContainer: React.FC = () => {
           />
         )}
       </div>
-    </>
+    </div>
   );
 };
 
