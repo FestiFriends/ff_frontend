@@ -31,7 +31,10 @@ const MembersHeader = ({
 
     <Modal>
       <ModalTrigger>
-        <button ref={modalTriggerRef}>
+        <button
+          ref={modalTriggerRef}
+          className='cursor-pointer'
+        >
           <span
             className='text-sm leading-normal font-medium tracking-[-0.35px] text-gray-500 underline decoration-solid decoration-1 underline-offset-auto'
             style={{

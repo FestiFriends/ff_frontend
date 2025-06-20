@@ -46,17 +46,10 @@ const GroupApplyModal = ({
             });
           },
           onError: (error) => {
-            if (error.code === 400) {
-              setToastContent?.({
-                message: '이미 신청한 모임입니다.',
-                type: 'error',
-              });
-            } else {
-              setToastContent?.({
-                message: '신청 중 오류가 발생했습니다.',
-                type: 'error',
-              });
-            }
+            setToastContent?.({
+              message: error.message,
+              type: 'error',
+            });
           },
           onSettled: () => {
             setShowToast?.(true);
