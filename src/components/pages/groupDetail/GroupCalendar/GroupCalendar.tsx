@@ -38,7 +38,6 @@ const GroupCalendar = ({ groupId }: GroupCalendarProps) => {
       <CalendarBase<GroupSchedule>
         month={currentMonth}
         events={schedules}
-        weekdayLabels={['S', 'M', 'T', 'W', 'T', 'F', 'S']}
         getDate={(s) => new Date(s.startAt)}
         renderCell={(date, events) => (
           <GroupCalendarCell
