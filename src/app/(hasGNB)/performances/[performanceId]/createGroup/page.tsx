@@ -86,7 +86,7 @@ const CreateGroupPage = () => {
         <h1 className='sr-only'>모임 개설</h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className='mx-auto flex flex-col gap-12.5 p-6 pb-4'
+          className='mx-auto flex flex-col gap-7.5 p-6 pb-4'
         >
           <LabeledWrapper label='공연 이름'>
             <FormText
