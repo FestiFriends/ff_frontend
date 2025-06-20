@@ -24,6 +24,7 @@ interface CalendarProps {
   onDateClick?: (date: Date) => void;
   isControllable?: boolean;
   className?: string;
+  colorScheme?: 'red' | 'black';
 }
 
 const WEEKDAYS_KR = ['일', '월', '화', '수', '목', '금', '토'];
@@ -35,9 +36,12 @@ const Calendar = ({
   onDateClick,
   isControllable,
   className,
+  colorScheme = 'red',
 }: CalendarProps) => {
   const [internalMonth, setInternalMonth] = useState<Date>(month);
   const currentMonth = isControllable ? internalMonth : month;
+
+  const isRed = colorScheme === 'red';
 
   const days = useMemo(() => {
     const firstDay = startOfWeek(startOfMonth(currentMonth), {
@@ -89,10 +93,10 @@ const Calendar = ({
     );
 
     const rangeBackgroundClasses = cn(
-      'absolute inset-0 overflow-hidden bg-primary-100',
+      'absolute inset-0 overflow-hidden',
+      isRed ? 'bg-primary-100' : 'bg-gray-100',
       isStart && endDate && 'rounded-r-none',
-      isEnd && startDate && 'rounded-l-none',
-      isRange && 'bg-primary-100'
+      isEnd && startDate && 'rounded-l-none'
     );
 
     const startMaskClasses = cn('absolute inset-0 bg-white', 'left-0 w-1/2');
@@ -101,8 +105,10 @@ const Calendar = ({
     const dayButtonClasses = cn(
       'relative z-10 flex items-center justify-center',
       onDateClick && 'cursor-pointer',
-      (isStart || isEnd)
-        && 'h-12.5 w-12.5 rounded-full bg-primary-red font-bold text-white'
+      (isStart || isEnd) && [
+        'h-12.5 w-12.5 rounded-full font-bold text-white',
+        isRed ? 'bg-primary-red' : 'bg-gray-900',
+      ]
     );
 
     const showRangeBackground =
