@@ -13,16 +13,18 @@ const ReviewTagSummary = ({ summary }: ReviewTagSummaryProps) => {
 
   if (sortedTags.length === 0) {
     return (
-      <p className='text-sm text-gray-400'>아직 받은 리뷰 태그가 없어요.</p>
+      <p className='flex h-[57px] items-center justify-between rounded-md bg-gray-25 px-4 py-2 text-14_B'>
+        아직 받은 리뷰 태그가 없어요.
+      </p>
     );
   }
 
   return (
-    <ul className='flex flex-col gap-2'>
+    <ul className='mt-[22px] flex flex-col gap-2'>
       {sortedTags.map(([tag, count]) => (
         <li
           key={tag}
-          className='flex items-center justify-between rounded-md bg-gray-100 px-4 py-2 text-sm text-gray-700 shadow-sm'
+          className='flex h-[57px] items-center justify-between rounded-md bg-gray-25 px-4 py-2 text-14_B'
         >
           <span>{ReviewTagLabels[tag]}</span>
           <span className='ml-4 font-semibold text-gray-900'> {count}</span>

@@ -120,7 +120,7 @@ const WRITTEN_REVIEWS_SAMPLE_DATA: WrittenReviewsData[] = [
     reviews: [
       {
         reviewId: 'rev-301',
-        targetUserId: 'user-101',
+        targetUserId: 'me',
         targetUserName: '홍길동',
         targetUserProfileImage: 'https://picsum.photos/seed/perf1/400/600',
         rating: 5,
@@ -130,7 +130,7 @@ const WRITTEN_REVIEWS_SAMPLE_DATA: WrittenReviewsData[] = [
       },
       {
         reviewId: 'rev-302',
-        targetUserId: 'user-102',
+        targetUserId: 'guest2',
         targetUserName: '김영희',
         targetUserProfileImage: 'https://picsum.photos/seed/perf1/400/600',
         rating: 4,
@@ -155,7 +155,7 @@ const WRITTEN_REVIEWS_SAMPLE_DATA: WrittenReviewsData[] = [
     reviews: [
       {
         reviewId: 'rev-303',
-        targetUserId: 'user-103',
+        targetUserId: 'me',
         targetUserName: '이철수',
         targetUserProfileImage: 'https://picsum.photos/seed/perf1/400/600',
         rating: 5,
@@ -175,7 +175,7 @@ const WRITTEN_REVIEWS_SAMPLE_DATA: WrittenReviewsData[] = [
       },
       {
         reviewId: 'rev-3042',
-        targetUserId: 'user-1044',
+        targetUserId: 'me',
         targetUserName: '김수용',
         targetUserProfileImage: 'https://picsum.photos/seed/perf1/400/600',
         rating: 4,
@@ -230,7 +230,7 @@ const WRITTEN_REVIEWS_SAMPLE_DATA: WrittenReviewsData[] = [
     reviews: [
       {
         reviewId: 'rev-305',
-        targetUserId: 'user-105',
+        targetUserId: 'me',
         targetUserName: '정수빈',
         targetUserProfileImage: 'https://picsum.photos/seed/perf1/400/600',
         rating: 5,
@@ -451,5 +451,54 @@ export const reviewsHandlers = [
     }
 
     return HttpResponse.json({ code: 201, message: '리뷰 작성 성공' });
+  }),
+
+  http.get(
+    'http://localhost:3000/api/v1/reviews/received/:userId',
+    async ({ params }) => {
+      const { userId } = params;
+
+      const receivedReviews = WRITTEN_REVIEWS_SAMPLE_DATA.flatMap((group) =>
+        group.reviews.filter((review) => review.targetUserId === userId)
+      );
+
+      return HttpResponse.json({
+        code: 200,
+        message: '받은 리뷰 조회 성공',
+        data: receivedReviews,
+      });
+    }
+  ),
+
+  http.get('http://localhost:3000/api/v1/reviews/:userId', ({ params }) => {
+    const { userId } = params;
+
+    const received = WRITTEN_REVIEWS_SAMPLE_DATA.flatMap((group) =>
+      group.reviews
+        .filter((r) => r.targetUserId === userId)
+        .map((r) => ({
+          reviewId: r.reviewId,
+          reviewerId: 'mock-reviewer',
+          rating: r.rating,
+          content: r.content,
+          createdAt: r.createdAt,
+          groupTitle: group.groupTitle,
+          groupId: group.groupId,
+          category: group.category,
+          groupStartDate: group.groupStartDate,
+          groupEndDate: group.groupEndDate,
+          memberCount: group.memberCount,
+          performance: {
+            title: group.performance.title,
+            poster: group.performance.poster,
+          },
+        }))
+    );
+
+    return HttpResponse.json({
+      code: 200,
+      message: '받은 간단 리뷰 조회 성공',
+      data: received,
+    });
   }),
 ];

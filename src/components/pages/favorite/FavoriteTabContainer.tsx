@@ -68,7 +68,7 @@ const FavoriteTabContainer: React.FC = () => {
             )}
             fallback={<Spinner />}
             isFetchingFallback={<Spinner />}
-            className='mx-auto grid w-fit grid-cols-2 gap-4'
+            className='mx-auto flex w-full flex-col gap-8'
             emptyFallback={
               <div className='col-span-2 py-8 text-center text-gray-500'>
                 찜한 사용자가 없습니다.

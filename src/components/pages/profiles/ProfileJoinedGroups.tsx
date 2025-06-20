@@ -2,6 +2,8 @@
 
 import GroupCard from '@/components/common/GroupCard/GroupCard';
 import { Group } from '@/types/group';
+import { GroupSummary } from '@/types/profiles';
+import ProfileSummaryBox from './ProfileSummaryBox';
 
 interface ProfileJoinedGroupsProps {
   groups: Group[];
@@ -14,17 +16,26 @@ const ProfileJoinedGroups = ({ groups }: ProfileJoinedGroupsProps) => {
     );
   }
 
+  const calculateGroupSummary = (groups: Group[]): GroupSummary => ({
+    joinedCount: groups.length,
+    totalJoinedCount: groups.length,
+    createdCount: groups.filter((g) => g.isHost).length,
+  });
+
   return (
-    <div className='flex flex-col items-center gap-4'>
-      {groups.map((group) => (
-        <GroupCard
-          key={group.id}
-          groupData={group}
-          buttonText='모임 보기'
-          onCardClick={() => console.log('Card clicked', group.id)}
-          onButtonClick={() => console.log('Button clicked', group.id)}
-        />
-      ))}
+    <div className='flex flex-col items-center'>
+      <ProfileSummaryBox groupSummary={calculateGroupSummary(groups)} />
+      <div className='flex flex-col gap-4'>
+        {groups.map((group) => (
+          <GroupCard
+            key={group.id}
+            groupData={group}
+            buttonText='모임 보기'
+            onCardClick={() => console.log('Card clicked', group.id)}
+            onButtonClick={() => console.log('Button clicked', group.id)}
+          />
+        ))}
+      </div>
     </div>
   );
 };

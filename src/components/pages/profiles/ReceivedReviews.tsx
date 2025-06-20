@@ -7,7 +7,7 @@ interface ReceivedReviewsProps {
 }
 
 const ReceivedReviews = ({ profile }: ReceivedReviewsProps) => {
-  const { reviewSummary, reviewCount, reviewList } = profile;
+  const { reviewSummary, reviewList } = profile;
 
   const noTag = Object.values(reviewSummary).every((count) => !count);
   const noReview = !reviewList || reviewList.length === 0;
@@ -19,15 +19,10 @@ const ReceivedReviews = ({ profile }: ReceivedReviewsProps) => {
   }
 
   return (
-    <section className='space-y-6'>
+    <section className='space-y-2'>
       <ReviewTagSummary summary={reviewSummary} />
 
-      {reviewList && (
-        <ReviewList
-          reviews={reviewList}
-          reviewCount={reviewCount}
-        />
-      )}
+      {reviewList && <ReviewList userId={profile.id} />}
     </section>
   );
 };

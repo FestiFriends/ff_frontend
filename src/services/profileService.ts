@@ -1,6 +1,10 @@
 import apiFetcher from '@/lib/apiFetcher';
 import { ApiResponse } from '@/types/api';
-import { FullProfile, ProfileEditRequest } from '@/types/profiles';
+import {
+  FullProfile,
+  ProfileEditRequest,
+  JoinedGroupsResponse,
+} from '@/types/profiles';
 
 export const profilesApi = {
   getProfile: async (userId: string) => {
@@ -15,5 +19,12 @@ export const profilesApi = {
       data
     );
     return updated;
+  },
+  getJoinedGroups: async (userId: string, cursorId?: string) => {
+    const res = await apiFetcher.get<ApiResponse<JoinedGroupsResponse>>(
+      `/api/v1/profiles/${userId}/joined-groups`,
+      { params: { cursorId } }
+    );
+    return res.data.data!;
   },
 };
