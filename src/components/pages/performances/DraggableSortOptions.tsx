@@ -46,23 +46,21 @@ const DraggableSortOptions = () => {
 
   return (
     <>
-      <div className='px-4 py-2'>
-        <div
-          ref={dragScrollRef}
-          className='z-20 scrollbar-hide flex w-full cursor-grab gap-4 overflow-x-auto select-none active:cursor-grabbing'
-        >
-          {Object.values(DROPDOWN_OPTIONS).map((option) => (
-            <CustomSortDropdown
-              key={option.queryKey}
-              queryKey={option.queryKey}
-              placeholder={option.placeholder}
-              options={option.data}
-            />
-          ))}
-          <LocationSelector />
-          <DatePicker />
-          <IsExpiredButton />
-        </div>
+      <div
+        ref={dragScrollRef}
+        className='z-20 scrollbar-hide flex w-full cursor-grab gap-4 overflow-x-auto px-4 py-4 select-none active:cursor-grabbing'
+      >
+        {Object.values(DROPDOWN_OPTIONS).map((option) => (
+          <CustomSortDropdown
+            key={option.queryKey}
+            queryKey={option.queryKey}
+            placeholder={option.placeholder}
+            options={option.data}
+          />
+        ))}
+        <LocationSelector />
+        <DatePicker />
+        <IsExpiredButton />
       </div>
     </>
   );
