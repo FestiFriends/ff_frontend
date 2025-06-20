@@ -1,12 +1,19 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { addMonths, format, isAfter, isBefore, subMonths } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { Button, CalendarWithQuery } from '@/components/common';
-import { AltArrowUpIcon, DeleteIcon } from '@/components/icons';
-import { useClickOutside } from '@/hooks';
+import { AltArrowUpIcon, DeleteIcon, XIcon } from '@/components/icons';
 import { cn } from '@/lib/utils';
+import {
+  Modal,
+  ModalAction,
+  ModalCancel,
+  ModalClose,
+  ModalContent,
+  ModalTrigger,
+} from '../Modal';
 
 interface DatePickerWithQueryProps {
   startDate: string | null;
@@ -25,7 +32,6 @@ const DatePickerWithQuery = ({
   onInit,
   onSubmit,
 }: DatePickerWithQueryProps) => {
-  const datePickerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedRange, setSelectedRange] = useState({
@@ -33,18 +39,12 @@ const DatePickerWithQuery = ({
     end: endDate,
   });
 
-  useClickOutside({ ref: datePickerRef, onClose: () => setIsOpen(false) });
-
   useEffect(() => {
     setSelectedRange({
       start: startDate,
       end: endDate,
     });
   }, [startDate, endDate]);
-
-  const toggleDatePicker = () => {
-    setIsOpen((prev) => !prev);
-  };
 
   const handleSelectDate = (date: Date) => {
     const { start, end } = selectedRange;
@@ -82,9 +82,9 @@ const DatePickerWithQuery = ({
   const prevMonth = subMonths(currentMonth, 1);
   const nextMonth = addMonths(currentMonth, 1);
 
-  const datePickerTriggerClasses = cn(
+  const triggerClasses = cn(
     // default style
-    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 whitespace-nowrap transition-all select-none',
+    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white px-5 py-3 whitespace-nowrap transition-all select-none',
 
     // pending style
     isPending && 'cursor-not-allowed',
@@ -94,16 +94,8 @@ const DatePickerWithQuery = ({
   );
 
   return (
-    <div
-      ref={datePickerRef}
-      className='relative inline-block'
-    >
-      <button
-        aria-label='datepicker open'
-        onClick={toggleDatePicker}
-        disabled={isPending}
-        className={datePickerTriggerClasses}
-      >
+    <Modal>
+      <ModalTrigger className={triggerClasses}>
         {!startDate && !endDate ? (
           <span className='text-14_M leading-normal tracking-[-0.35px]'>
             {placeholder}
@@ -127,20 +119,21 @@ const DatePickerWithQuery = ({
             )}
           </div>
         )}
-        {startDate || endDate ? (
+        {(startDate || endDate) && (
           <DeleteIcon className='aspect-square h-4 w-4 text-white' />
-        ) : (
-          <AltArrowUpIcon
-            className={`aspect-square h-4 w-4 ${isOpen ? 'text-white' : 'rotate-180 text-gray-950'}`}
-          />
         )}
-      </button>
+      </ModalTrigger>
 
-      {isOpen && (
+      <ModalContent className='w-[calc(100%-1rem)] max-w-[375px] rounded-[12px] bg-white px-3.5 py-5'>
+        <ModalClose>
+          <button className='top-2.5 right-2.5 ring-0 focus:ring-0'>
+            <XIcon className='aspect-auto h-7 w-7 shrink-0 text-gray-950' />
+          </button>
+        </ModalClose>
+
         <div
           aria-label='datepicker-calendar'
-          className='absolute top-full left-0 z-20 mt-2 inline-flex w-[calc(100vw-2rem)] max-w-[390px] flex-col gap-2.5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white p-5'
-          // className='fixed top-1/2 left-1/2 z-20 inline-flex w-[calc(100vw-1rem)] max-w-[390px] -translate-x-1/2 -translate-y-1/2 flex-col gap-2.5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white p-5'
+          className='flex flex-col gap-3'
         >
           <div className='flex items-center justify-center gap-2'>
             <button
@@ -161,6 +154,7 @@ const DatePickerWithQuery = ({
               <AltArrowUpIcon className='aspect-square h-6 w-6 rotate-90 text-gray-950' />
             </button>
           </div>
+
           <CalendarWithQuery
             month={currentMonth}
             startDate={selectedRange.start}
@@ -169,27 +163,31 @@ const DatePickerWithQuery = ({
             className='flex flex-col gap-1'
           />
 
-          <div className='flex gap-2.5'>
-            <Button
-              variant='secondary'
-              onClick={handleResetDate}
-            >
-              <span className='text-14_M leading-normal tracking-[-0.5px]'>
-                초기화
-              </span>
-            </Button>
-            <Button
-              variant='primary'
-              onClick={handleSubmitDate}
-            >
-              <span className='text-14_M leading-normal tracking-[-0.5px]'>
-                선택 완료
-              </span>
-            </Button>
+          <div className='mt-1 flex gap-2.5'>
+            <ModalCancel>
+              <Button
+                variant='secondary'
+                onClick={handleResetDate}
+              >
+                <span className='text-14_M leading-normal tracking-[-0.5px]'>
+                  초기화
+                </span>
+              </Button>
+            </ModalCancel>
+            <ModalAction>
+              <Button
+                variant='primary'
+                onClick={handleSubmitDate}
+              >
+                <span className='text-14_M leading-normal tracking-[-0.5px]'>
+                  선택 완료
+                </span>
+              </Button>
+            </ModalAction>
           </div>
         </div>
-      )}
-    </div>
+      </ModalContent>
+    </Modal>
   );
 };
 
