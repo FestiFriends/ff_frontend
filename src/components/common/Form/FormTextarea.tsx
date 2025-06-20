@@ -6,6 +6,7 @@ import {
   FieldValues,
   RegisterOptions,
 } from 'react-hook-form';
+import { cn } from '@/lib/utils';
 
 interface FormTextAreaProps<
   TFieldValues extends FieldValues = FieldValues,
@@ -48,7 +49,10 @@ const FormTextArea = <
         rows={rows}
         placeholder={placeholder}
         disabled={disabled}
-        className='w-full resize-none rounded-2xl border border-gray-100 px-5 py-4 focus:border-transparent focus:ring-2 focus:ring-blue-100 focus:outline-none disabled:bg-gray-100'
+        className={cn(
+          'w-full resize-none rounded-2xl border px-5 py-4 focus:border-transparent focus:ring-2 focus:ring-blue-100 focus:outline-none disabled:bg-gray-100',
+          error ? 'border-red-500' : 'border-gray-100'
+        )}
       />
       {error && (
         <p
