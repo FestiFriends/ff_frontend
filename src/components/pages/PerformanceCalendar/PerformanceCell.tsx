@@ -1,10 +1,11 @@
 'use client';
 
 import { memo, useCallback } from 'react';
-import { format, isSameMonth, isToday, isSameDay } from 'date-fns';
-import PerformanceHoverCard from '@/components/pages/PerformanceCalendar/PerformanceHoverCard';
+import { format, isSameMonth, isToday, isSameDay, getDay } from 'date-fns';
+import TitleHoverCard from '@/components/pages/PerformanceCalendar/TitleHoverCard';
 import { cn } from '@/lib/utils';
 import { Performance } from '@/types/performance';
+import BasicHoverCard from './BasicHoverCard';
 
 interface PerformanceCellProps {
   date: Date;
@@ -36,6 +37,15 @@ const PerformanceCell = ({
   const isTodayDate = isToday(date);
   const isSelected = selectedDate && isSameDay(date, selectedDate);
 
+  const dayOfWeek = getDay(date);
+
+  const dayColorClass =
+    dayOfWeek === 0
+      ? 'text-red-500'
+      : dayOfWeek === 6
+        ? 'text-blue-500'
+        : 'text-gray-800';
+
   const handleClick = useCallback(() => {
     onDateClick?.(date, performances, false);
   }, [onDateClick, date, performances]);
@@ -50,7 +60,7 @@ const PerformanceCell = ({
   );
 
   const cellBase =
-    'flex min-h-[100px] flex-col items-start justify-start overflow-hidden rounded border-b bg-white p-2';
+    'flex min-h-[100px] flex-col items-center justify-start overflow-hidden rounded border-b bg-white p-2';
 
   const cellClasses = cn(
     cellBase,
@@ -68,14 +78,18 @@ const PerformanceCell = ({
       onClick={handleClick}
       onKeyDown={handleKeyDown}
     >
-      <button className='w-full rounded text-sm font-medium'>
+      <BasicHoverCard title='테스트'>
+        <span className='text-xs underline'>호버테스트</span>
+      </BasicHoverCard>
+      <button
+        className={cn('w-full rounded text-12_M font-medium', dayColorClass)}
+      >
         {format(date, 'd')}
       </button>
-
       {performances.length > 0 && (
         <div className='mt-1 flex w-full flex-col space-y-0.5'>
           {performances.slice(0, 2).map((perf) => (
-            <PerformanceHoverCard
+            <TitleHoverCard
               key={perf.id}
               performance={perf}
             >
@@ -91,7 +105,7 @@ const PerformanceCell = ({
               >
                 {perf.title}
               </button>
-            </PerformanceHoverCard>
+            </TitleHoverCard>
           ))}
           {performances.length > 2 && (
             <button
