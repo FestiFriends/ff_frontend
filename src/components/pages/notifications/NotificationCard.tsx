@@ -4,6 +4,7 @@ import {
   useDeleteNotifications,
   usePatchReadNotifications,
 } from '@/hooks/notificationHooks/notificationHooks';
+import { cn } from '@/lib/utils';
 import {
   NotificationData,
   NotificationTargetType,
@@ -70,32 +71,46 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
   const href = getNotificationHref(notification.type, notification.target);
 
   return (
-    <div className='flex h-10 w-full items-center justify-between bg-gray-100 px-4'>
+    <div
+      className={cn(
+        'flex h-[120px] w-full flex-col justify-between border-b border-gray-100 bg-white p-4',
+        !notification.isRead && 'bg-gray-25'
+      )}
+    >
       <button
-        className='h-full w-full'
+        className='relative flex h-[58px] w-full justify-start'
         onClick={() => {
           handleRead();
           router.push(href);
         }}
       >
-        {notification.message}
+        <span className='line-clamp-2 text-left text-16_body_M text-gray-950'>
+          {notification.message}
+        </span>
+        {!notification.isRead && (
+          <span className='absolute top-0 right-0 h-1.5 w-1.5 rounded-full bg-primary-red' />
+        )}
       </button>
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          handleRead();
-        }}
-        disabled={notification.isRead}
-        className='shrink-0 bg-blue-200 disabled:bg-gray-200'
-      >
-        읽음
-      </button>
-      <button
-        onClick={(e) => handleDelete(e)}
-        className='shrink-0 bg-red-200'
-      >
-        삭제
-      </button>
+      <div className='flex h-6 justify-end gap-2'>
+        {!notification.isRead && (
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              handleRead();
+            }}
+            disabled={notification.isRead}
+            className='flex items-center justify-center rounded-[4px] bg-gray-900 px-2.5 py-1'
+          >
+            <span className='text-13_M text-white'>읽음</span>
+          </button>
+        )}
+        <button
+          onClick={(e) => handleDelete(e)}
+          className='flex items-center justify-center rounded-[4px] bg-[#FFCCCF] px-2.5 py-1'
+        >
+          <span className='text-13_M text-gray-950'>삭제</span>
+        </button>
+      </div>
     </div>
   );
 };
