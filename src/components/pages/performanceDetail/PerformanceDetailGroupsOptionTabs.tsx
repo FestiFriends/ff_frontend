@@ -15,6 +15,7 @@ import {
   mapRecordValueToOptions,
 } from '@/utils/formatGroupOptions';
 import DatePickerModal from './filters/DatePickerModal';
+import LocationModal from './filters/LocationModal';
 
 const groupSortOptions = mapRecordToStringOptions(GroupSortLabels);
 const groupCategoryOptions = mapRecordToStringOptions(GroupCategoryLabels);
@@ -83,8 +84,7 @@ const PerformanceDetailGroupsOptionTabs = ({
     placeholder: string,
     value: string | null,
     itemList: { label: string; value: string }[],
-    key: string,
-    variant?: 'location'
+    key: string
   ) => (
     <OptionDropdown
       triggerPlaceholder={placeholder}
@@ -92,7 +92,6 @@ const PerformanceDetailGroupsOptionTabs = ({
       onClick={(value) => updateQueryParams({ [key]: value, page: '1' })}
       isPending={isPending}
       isSelected={value !== null}
-      variant={variant}
     />
   );
 
@@ -124,13 +123,15 @@ const PerformanceDetailGroupsOptionTabs = ({
           onSubmit={(params) => updateQueryParams({ ...params, page: '1' })}
         />
 
-        {renderOptionDropdown(
-          locationLabel,
-          locationParam,
-          groupLocationOptions,
-          'location',
-          'location'
-        )}
+        <LocationModal
+          triggerPlaceholder={locationLabel}
+          itemList={groupLocationOptions}
+          onClick={(value) =>
+            updateQueryParams({ ['location']: value, page: '1' })
+          }
+          isPending={isPending}
+          isSelected={locationParam !== null}
+        />
 
         <Button
           size='sm'

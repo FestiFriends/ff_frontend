@@ -33,7 +33,6 @@ const DatePickerModal = ({
   onInit,
   onSubmit,
 }: DatePickerModalProps) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedRange, setSelectedRange] = useState({
     start: startDate,
@@ -72,7 +71,6 @@ const DatePickerModal = ({
       ['endDate']: selectedRange.end,
     };
     onSubmit?.(dateParams);
-    setIsOpen(false);
   };
 
   const handleResetDate = () => {
@@ -90,8 +88,9 @@ const DatePickerModal = ({
     // pending style
     isPending && 'cursor-not-allowed',
 
-    // opened, selected style
-    (isOpen || startDate || endDate) && 'border-gray-950 bg-gray-950 text-white'
+    // selected style
+    (startDate || endDate)
+      && 'border-gray-950 bg-gray-950 py-3 pr-4 pl-5 text-white'
   );
 
   return (
@@ -125,7 +124,7 @@ const DatePickerModal = ({
         )}
       </ModalTrigger>
 
-      <ModalContent className='w-[calc(100%-1rem)] max-w-[375px] rounded-[12px] bg-white px-3.5 py-5'>
+      <ModalContent className='w-[calc(100%-1rem)] max-w-[375px] rounded-[12px] bg-white px-3.5 pt-4.5 pb-5'>
         <ModalClose>
           <button className='top-2.5 right-2.5 ring-0 focus:ring-0'>
             <XIcon className='aspect-auto h-7 w-7 shrink-0 text-gray-950' />
