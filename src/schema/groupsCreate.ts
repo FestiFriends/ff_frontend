@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { GroupCategoryLabels } from '@/constants/groupLabels';
 import { GenderLabels } from '@/constants/genderLabels';
+import { GroupCategoryLabels } from '@/constants/groupLabels';
 import { LocationLabels } from '@/constants/locationLabels';
 
 const dateRangeSchema = z
@@ -10,11 +10,9 @@ const dateRangeSchema = z
   })
   .refine((data) => data.startDate !== null, {
     message: '시작 날짜를 선택해주세요',
-    path: ['startDate'],
   })
   .refine((data) => data.endDate !== null, {
     message: '종료 날짜를 선택해주세요',
-    path: ['endDate'],
   })
   .refine(
     (data) => {
@@ -25,7 +23,6 @@ const dateRangeSchema = z
     },
     {
       message: '시작 날짜는 종료 날짜보다 이전이어야 합니다',
-      path: ['endDate'],
     }
   );
 

@@ -73,10 +73,10 @@ export const groupsApi = {
       endAge: data.ageRange[1],
       location: data.region,
       startDate: data.dateRange.startDate
-        ? data.dateRange.startDate.toISOString()
+        ? data.dateRange.startDate.toISOString().split('.')[0] + 'Z'
         : '',
       endDate: data.dateRange.endDate
-        ? data.dateRange.endDate.toISOString()
+        ? data.dateRange.endDate.toISOString().split('.')[0] + 'Z'
         : '',
       maxMembers: data.maxParticipants,
       description: data.description,
