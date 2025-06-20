@@ -5,4 +5,4 @@ export { default as DatePicker } from './PerformancesDatePicker';
 export { default as LocationSelector } from './PerformancesLocationSelector';
 export { default as CustomSortDropdown } from './CustomSortDropdown';
 export { default as DraggableSortOptions } from './DraggableSortOptions';
-export { default as IsExpiredButton } from './IsExpiredButton';
+export { default as ToggleIsExpiredButton } from './ToggleIsExpiredButton';

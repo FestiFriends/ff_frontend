@@ -5,7 +5,7 @@ import {
   CustomSortDropdown,
   DatePicker,
   LocationSelector,
-  IsExpiredButton,
+  ToggleIsExpiredButton,
 } from '@/components/pages/performances';
 import { useDragScroll } from '@/hooks/useDragScroll';
 
@@ -60,7 +60,7 @@ const DraggableSortOptions = () => {
         ))}
         <LocationSelector />
         <DatePicker />
-        <IsExpiredButton />
+        <ToggleIsExpiredButton />
       </div>
     </>
   );

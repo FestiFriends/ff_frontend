@@ -3,7 +3,7 @@ import React from 'react';
 import { useQueryParam } from '@/hooks';
 import { cn } from '@/lib/utils';
 
-const IsExpiredButton = () => {
+const ToggleIsExpiredButton = () => {
   const { getQueryParam, setQueryParam } = useQueryParam();
   const queryValue = getQueryParam('isExpired');
   const isExpired = queryValue !== 'false';
@@ -25,4 +25,4 @@ const IsExpiredButton = () => {
   );
 };
 
-export default IsExpiredButton;
+export default ToggleIsExpiredButton;
