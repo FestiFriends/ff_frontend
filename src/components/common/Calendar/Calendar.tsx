@@ -94,7 +94,7 @@ const Calendar = ({
 
     const rangeBackgroundClasses = cn(
       'absolute inset-0 overflow-hidden',
-      isRed ? 'bg-primary-100' : 'bg-gray-100',
+      isRed ? 'bg-primary-100' : 'bg-gray-50',
       isStart && endDate && 'rounded-r-none',
       isEnd && startDate && 'rounded-l-none'
     );
