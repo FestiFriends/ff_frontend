@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button, TwoButtonModal } from '@/components/common';
+import React, { useState, useEffect } from 'react';
+import { Button, TwoButtonModal, Toast } from '@/components/common';
 import { useModalController } from '@/hooks';
 
 interface FormActionProps {
@@ -7,6 +7,8 @@ interface FormActionProps {
   onReset: () => void;
   isValid: boolean;
   isSubmitting: boolean;
+  submitError?: string;
+  showSuccessToast?: boolean;
 }
 
 const FormAction = ({
@@ -14,8 +16,28 @@ const FormAction = ({
   onReset,
   isValid,
   isSubmitting,
+  submitError,
+  showSuccessToast,
 }: FormActionProps) => {
   const resetModal = useModalController();
+
+  const [showErrorToast, setShowErrorToast] = useState(false);
+  const [showSubmittingToast, setShowSubmittingToast] = useState(false);
+
+  useEffect(() => {
+    if (isSubmitting) {
+      setShowSubmittingToast(true);
+    } else {
+      setShowSubmittingToast(false);
+    }
+  }, [isSubmitting]);
+
+  useEffect(() => {
+    if (submitError) {
+      setShowErrorToast(true);
+    }
+  }, [submitError]);
+
   return (
     <>
       <div className='flex gap-4'>
@@ -23,7 +45,7 @@ const FormAction = ({
           type='button'
           onClick={() => resetModal.openModal()}
           variant='secondary'
-          className='flex-1'
+          className='flex-1 whitespace-nowrap'
         >
           초기화
         </Button>
@@ -32,7 +54,7 @@ const FormAction = ({
           onClick={onSubmit}
           disabled={!isValid || isSubmitting}
           variant='primary'
-          className='flex-1 disabled:cursor-not-allowed'
+          className='flex-1 whitespace-nowrap disabled:cursor-not-allowed'
         >
           {isSubmitting ? '생성 중...' : '모임 만들기'}
         </Button>
@@ -48,6 +70,30 @@ const FormAction = ({
         cancelText='취소'
         onConfirm={() => onReset()}
       />
+
+      {showSubmittingToast && (
+        <Toast
+          message='모임을 생성 중입니다...'
+          type='info'
+          onClose={() => setShowSubmittingToast(false)}
+        />
+      )}
+
+      {showSuccessToast && (
+        <Toast
+          message='모임이 성공적으로 생성되었습니다!'
+          type='success'
+          onClose={() => {}}
+        />
+      )}
+
+      {showErrorToast && submitError && (
+        <Toast
+          message={submitError}
+          type='error'
+          onClose={() => setShowErrorToast(false)}
+        />
+      )}
     </>
   );
 };

@@ -6,6 +6,8 @@ import {
   RegisterOptions,
 } from 'react-hook-form';
 import { FormButtonGroup } from '@/components/common/Form';
+import { GroupCategoryLabels } from '@/constants/groupLabels';
+import { GroupCategory } from '@/types/enums';
 
 interface CategorySelectorProps<
   TFieldValues extends FieldValues = FieldValues,
@@ -26,7 +28,9 @@ const CategorySelector = <
   rules,
   className,
 }: CategorySelectorProps<TFieldValues, TName>) => {
-  const categories = ['동행', '탑승', '숙박'];
+  const categories = Object.values(GroupCategory).map(
+    (category) => GroupCategoryLabels[category]
+  );
 
   return (
     <div className={className}>

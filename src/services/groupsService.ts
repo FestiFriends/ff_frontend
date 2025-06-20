@@ -1,7 +1,7 @@
 import QueryString from 'qs';
 import apiFetcher from '@/lib/apiFetcher';
 import { ApiResponse } from '@/types/api';
-import { GroupCategory, Gender } from '@/types/enums';
+import { Gender } from '@/types/enums';
 import {
   GetGroupsParams,
   GroupInfoResponse,
@@ -62,12 +62,7 @@ export const groupsApi = {
     const apiRequest: CreateGroupApiRequest = {
       performanceId,
       title: data.title,
-      category:
-        data.category === '동행'
-          ? GroupCategory.COMPANION
-          : data.category === '탑승'
-            ? GroupCategory.RIDE_SHARE
-            : GroupCategory.ROOM_SHARE,
+      category: data.category,
       gender:
         data.gender === '남성'
           ? Gender.MALE

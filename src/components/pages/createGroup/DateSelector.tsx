@@ -55,9 +55,11 @@ const DateSelector = <
   };
 
   const handleDateClick = (date: Date) => {
-    if (!tempStartDate) {
+    if (!tempStartDate && !dateRange.startDate) {
+      // 처음 선택하는 경우
       setTempStartDate(date);
-    } else {
+    } else if (tempStartDate) {
+      // 종료일 선택하는 경우
       const startDate = tempStartDate;
       const endDate = date;
 
@@ -74,6 +76,12 @@ const DateSelector = <
       }
 
       setTempStartDate(null);
+    } else {
+      field.onChange({
+        startDate: null,
+        endDate: null,
+      });
+      setTempStartDate(date);
     }
   };
 
@@ -143,13 +151,16 @@ const DateSelector = <
             endDate={getCurrentEndDate()}
             onDateClick={handleDateClick}
             className='mb-4 flex flex-col gap-1'
+            colorScheme='black'
           />
 
           <div className='mb-4 flex items-center justify-between text-sm text-gray-600'>
             <span>
               {tempStartDate
                 ? '종료일을 선택해주세요'
-                : '시작일을 선택해주세요'}
+                : dateRange.startDate && dateRange.endDate
+                  ? ''
+                  : '시작일을 선택해주세요'}
             </span>
             {(dateRange.startDate || dateRange.endDate || tempStartDate) && (
               <button
@@ -162,11 +173,29 @@ const DateSelector = <
             )}
           </div>
 
-          {tempStartDate && (
-            <div className='rounded-md bg-blue-50 p-3 text-sm text-blue-700'>
-              시작일: {format(tempStartDate, 'yyyy년 M월 d일', { locale: ko })}
+          <div className='flex min-h-11 items-center justify-center rounded-md bg-blue-50 p-3 text-sm text-blue-700'>
+            <div>
+              {tempStartDate
+                ? format(tempStartDate, 'yyyy년 M월 d일', { locale: ko })
+                : ''}
+              {dateRange.startDate
+                && !tempStartDate
+                && format(dateRange.startDate, 'yyyy년 M월 d일', {
+                  locale: ko,
+                })}
+              {(dateRange.endDate
+                || (tempStartDate && dateRange.startDate)) && (
+                <>
+                  {' - '}
+                  {dateRange.endDate
+                    ? format(dateRange.endDate, 'yyyy년 M월 d일', {
+                        locale: ko,
+                      })
+                    : ''}
+                </>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </BottomSheetModal>
 

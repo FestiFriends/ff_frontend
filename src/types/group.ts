@@ -1,3 +1,4 @@
+import { GroupCategoryLabels } from '@/constants/groupLabels';
 import { DateRange } from '@/types/dateRange';
 import {
   ApiResponse,
@@ -94,7 +95,7 @@ export type PostJoinGroupRequest = {
 
 export interface CreateGroupFormData {
   name: string;
-  category: '동행' | '탑승' | '숙박';
+  category: (typeof GroupCategoryLabels)[keyof typeof GroupCategoryLabels];
   title: string;
   description: string;
   region: string;

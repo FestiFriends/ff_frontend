@@ -11,7 +11,7 @@ import { AltArrowUpIcon } from '@/components/icons';
 import { LocationLabels } from '@/constants/locationLabels';
 import { cn } from '@/lib/utils';
 import { generateFilterOptions } from '@/utils';
-const LOCATION_OPTIONS = generateFilterOptions(LocationLabels);
+const LOCATION_OPTIONS = generateFilterOptions(LocationLabels, false);
 
 interface FormLocationSelectorProps<
   TFieldValues extends FieldValues = FieldValues,
@@ -102,28 +102,26 @@ const FormLocationSelector = <
                   'border-1 border-gray-100 px-5 py-3',
                   'text-14_M leading-normal tracking-[-0.35px] whitespace-nowrap',
                   'transition-colors duration-200',
-                  'hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:outline-none',
+                  'hover:bg-gray-50 focus:ring-2 focus:ring-gray-500 focus:outline-none',
                   option.value === field.value
-                    ? 'border-blue-200 bg-blue-50 text-blue-700'
-                    : 'bg-white text-gray-700'
+                    ? 'bg-gray-950 text-white hover:bg-gray-700'
+                    : 'text-gray-950'
                 )}
               >
                 {option.label}
               </button>
             ))}
           </div>
-
-          {/* 선택된 항목이 있을 때 초기화 버튼 */}
-          {field.value && (
-            <div className='mt-4 border-t border-gray-100 pt-4'>
-              <button
-                onClick={() => handleLocationSelect('')}
-                className='w-full py-2 text-sm text-red-500 transition-colors hover:text-red-700'
-              >
-                선택 초기화
-              </button>
-            </div>
-          )}
+          <div className='my-4 border-b border-gray-100' />
+          <button
+            onClick={() => handleLocationSelect('')}
+            className={cn(
+              'text-md w-full text-gray-500 transition-colors',
+              field.value && 'text-red-500 hover:text-red-700'
+            )}
+          >
+            {field.value ? '선택 초기화' : '지역을 선택해 주세요'}
+          </button>
         </div>
       </BottomSheetModal>
 

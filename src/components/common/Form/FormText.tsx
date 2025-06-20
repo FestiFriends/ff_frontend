@@ -48,7 +48,7 @@ const FormText = <
 
   return (
     <div className={cn('flex flex-col', className)}>
-      <span className='text-gray-900'>{value}</span>
+      <span className='line-clamp-2 text-gray-900'>{value}</span>
       {showError && error && (
         <p
           className='mt-1 text-sm text-red-500'

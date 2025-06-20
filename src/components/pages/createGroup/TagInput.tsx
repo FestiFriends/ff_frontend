@@ -7,6 +7,7 @@ import {
   RegisterOptions,
 } from 'react-hook-form';
 import { X } from 'lucide-react';
+import { Toast } from '@/components/common';
 import { cn } from '@/lib/utils';
 
 interface TagInputProps<
@@ -29,6 +30,7 @@ const TagInput = <
   className,
 }: TagInputProps<TFieldValues, TName>) => {
   const [inputValue, setInputValue] = useState('');
+  const [showDuplicateToast, setShowDuplicateToast] = useState(false);
 
   const {
     field,
@@ -57,6 +59,8 @@ const TagInput = <
   const handleInputAdd = () => {
     if (addTag(inputValue)) {
       setInputValue('');
+    } else if (inputValue.trim() && tags.includes(inputValue.trim())) {
+      setShowDuplicateToast(true);
     }
   };
 
@@ -121,6 +125,15 @@ const TagInput = <
         >
           {error.message}
         </p>
+      )}
+
+      {showDuplicateToast && (
+        <Toast
+          message='중복된 태그는 추가되지 않습니다.'
+          type='error'
+          onClose={() => setShowDuplicateToast(false)}
+          position='center'
+        />
       )}
     </div>
   );

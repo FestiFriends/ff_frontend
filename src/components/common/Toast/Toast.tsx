@@ -12,6 +12,7 @@ export interface ToastProps {
   onClose: () => void;
   className?: string;
   blockBackgroundClick?: boolean;
+  position?: 'top' | 'center' | 'bottom';
 }
 
 const typeStyles: Record<NonNullable<ToastProps['type']>, string> = {
@@ -40,8 +41,33 @@ const iconStyles: Record<NonNullable<ToastProps['type']>, React.ReactNode> = {
   info: <BellIcon className='aspect-square h-6 w-6 text-primary-red' />,
 };
 
-const animationClass = (visible: boolean) =>
-  visible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0';
+const positionStyles: Record<NonNullable<ToastProps['position']>, string> = {
+  top: 'top-4',
+  center: 'top-1/2 -translate-y-1/2',
+  bottom: 'bottom-4',
+};
+
+const animationClass = (
+  visible: boolean,
+  position: NonNullable<ToastProps['position']>
+) => {
+  if (position === 'center') {
+    return visible
+      ? '-translate-x-1/2 -translate-y-1/2 opacity-100'
+      : '-translate-x-1/2 -translate-y-1/2 opacity-0';
+  }
+
+  const yAnimation =
+    position === 'top'
+      ? visible
+        ? '-translate-x-1/2 translate-y-0 opacity-100'
+        : '-translate-x-1/2 -translate-y-4 opacity-0'
+      : visible
+        ? '-translate-x-1/2 translate-y-0 opacity-100'
+        : '-translate-x-1/2 translate-y-4 opacity-0';
+
+  return yAnimation;
+};
 
 const Toast = ({
   message,
@@ -49,6 +75,7 @@ const Toast = ({
   onClose,
   className,
   blockBackgroundClick = false,
+  position = 'bottom',
 }: ToastProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -73,9 +100,13 @@ const Toast = ({
         aria-label='toast'
         role='alert'
         className={cn(
-          'fixed bottom-4 left-1/2 z-50 flex w-full max-w-[343px] -translate-x-1/2 flex-col items-center justify-center gap-2.5 rounded-[18px] px-5 py-5.5 text-gray-950 shadow-[0px_4px_14px_0px_rgba(0,0,0,0.10)] transition-all duration-500 ease-in-out',
+          'fixed left-1/2 z-50 flex items-center justify-center',
+          'w-full max-w-[343px] flex-col gap-2.5 rounded-[18px] px-5 py-5.5',
+          'text-gray-950 shadow-[0px_4px_14px_0px_rgba(0,0,0,0.10)]',
+          'transition-all duration-500 ease-in-out',
           typeStyles[type],
-          animationClass(isVisible),
+          positionStyles[position],
+          animationClass(isVisible, position),
           className
         )}
       >
