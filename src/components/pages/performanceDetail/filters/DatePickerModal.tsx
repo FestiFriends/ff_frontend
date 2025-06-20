@@ -16,7 +16,7 @@ import {
   ModalTrigger,
 } from '../../../common/Modal';
 
-interface DatePickerWithQueryProps {
+interface DatePickerModalProps {
   startDate: string | null;
   endDate: string | null;
   placeholder?: string;
@@ -25,14 +25,14 @@ interface DatePickerWithQueryProps {
   onSubmit?: (params: Record<string, string | null>) => void;
 }
 
-const DatePickerWithQuery = ({
+const DatePickerModal = ({
   startDate,
   endDate,
   placeholder = '날짜',
   isPending,
   onInit,
   onSubmit,
-}: DatePickerWithQueryProps) => {
+}: DatePickerModalProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedRange, setSelectedRange] = useState({
@@ -192,4 +192,4 @@ const DatePickerWithQuery = ({
   );
 };
 
-export default DatePickerWithQuery;
+export default DatePickerModal;

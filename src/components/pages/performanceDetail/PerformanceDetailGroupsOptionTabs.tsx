@@ -14,7 +14,7 @@ import {
   mapRecordToStringOptions,
   mapRecordValueToOptions,
 } from '@/utils/formatGroupOptions';
-import DatePickerWithQuery from './filters/DatePickerWithQuery';
+import DatePickerModal from './filters/DatePickerModal';
 
 const groupSortOptions = mapRecordToStringOptions(GroupSortLabels);
 const groupCategoryOptions = mapRecordToStringOptions(GroupCategoryLabels);
@@ -115,7 +115,7 @@ const PerformanceDetailGroupsOptionTabs = ({
       </div>
 
       <div className='flex gap-2'>
-        <DatePickerWithQuery
+        <DatePickerModal
           startDate={startDate}
           endDate={endDate}
           placeholder='날짜'
