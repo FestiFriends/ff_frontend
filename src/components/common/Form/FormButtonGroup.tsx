@@ -55,7 +55,7 @@ const FormButtonGroup = <
     <div className={className}>
       <ButtonGroup
         mode='single'
-        value={value || ''}
+        value={value}
         onChange={(newValue) => onChange(newValue as string)}
         disabled={disabled}
       >

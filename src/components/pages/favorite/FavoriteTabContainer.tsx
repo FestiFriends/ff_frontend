@@ -12,10 +12,11 @@ import {
   favoriteUsersOptions,
 } from '@/hooks/favoriteHooks';
 import { GetFavoritePerformancesResponse } from '@/types/performance';
+import { favoriteTabLabel } from '@/types/tabs';
 import { GetFavoriteUsersResponse } from '@/types/users';
 import FavoriteUserCard from './FavoriteUserCard';
 
-const TABS = ['찜한 유저', '찜한 공연'];
+const TABS = Object.values(favoriteTabLabel);
 
 const DEFAULT_SIZE = 10;
 
@@ -23,7 +24,9 @@ const FavoriteTabContainer: React.FC = () => {
   const { getQueryParam } = useQueryParam();
 
   const currentTab = getQueryParam('tab') || TABS[0];
-  const selectedTab = TABS.includes(currentTab) ? currentTab : TABS[0];
+  const selectedTab = TABS.includes(currentTab as (typeof TABS)[number])
+    ? (currentTab as (typeof TABS)[number])
+    : TABS[0];
 
   const SpinnerWrapper = () => (
     <div className='flex min-h-96 w-full items-center justify-center'>
@@ -41,7 +44,7 @@ const FavoriteTabContainer: React.FC = () => {
         />
       </div>
       <div className='flex-1 p-4'>
-        {selectedTab === '찜한 공연' && (
+        {selectedTab === favoriteTabLabel.PERFORMANCES && (
           <InfiniteList<
             GetFavoritePerformancesResponse,
             GetFavoritePerformancesResponse['data'][number]
@@ -65,7 +68,7 @@ const FavoriteTabContainer: React.FC = () => {
             }
           />
         )}
-        {selectedTab === '찜한 유저' && (
+        {selectedTab === favoriteTabLabel.USERS && (
           <InfiniteList<
             GetFavoriteUsersResponse,
             GetFavoriteUsersResponse['data'][number]
