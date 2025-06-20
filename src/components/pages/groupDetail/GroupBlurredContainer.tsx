@@ -60,7 +60,7 @@ const GroupBlurredContainer = ({
                   key={member.memberId}
                   className='flex h-30 shrink-0 basis-[calc(100%/2.7)] flex-col items-center justify-center gap-3.5 rounded-[16px] border-1 border-gray-100 bg-white p-5'
                 >
-                  <div className='flex items-center justify-center gap-2.5'>
+                  <div className='flex items-center justify-center gap-2.5 select-none'>
                     <ProfileImage
                       size='lg'
                       src=''
@@ -70,13 +70,13 @@ const GroupBlurredContainer = ({
                     />
                   </div>
                   <div className='flex min-w-0 flex-col items-center gap-0.5'>
-                    <span className='flex items-center text-center text-12_M tracking-[-0.35px] text-gray-500'>
+                    <span className='flex items-center text-center text-12_M tracking-[-0.35px] text-gray-500 select-none'>
                       {member.role === 'HOST' && (
                         <CrownIcon className='mr-[1px] aspect-square h-3 w-3' />
                       )}
                       {RoleLabels[member.role as RoleType]}
                     </span>
-                    <span className='w-full truncate text-center text-16_B leading-normal tracking-[-0.4px] text-gray-950'>
+                    <span className='w-full truncate text-center text-16_B leading-normal tracking-[-0.4px] text-gray-950 select-none'>
                       {member.name}
                     </span>
                   </div>
