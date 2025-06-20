@@ -27,13 +27,16 @@ const ProfileHeader = ({ profile, onEditClick }: ProfileHeaderProps) => {
   const { mutate: toggleLike, isPending } = useMutation({
     mutationFn: ({ isLiked, userId }: { isLiked: boolean; userId: string }) =>
       usersApi.updateLikeUser(userId, isLiked),
-    onSuccess: (res) => {
-      setIsLiked(res.isLiked);
+    onSettled: (res) => {
+      setIsLiked((pre) => res?.isLiked ?? !pre);
     },
   });
 
   const handleLikeClick = () => {
-    if (!isPending) toggleLike({ isLiked: !isLiked, userId });
+    if (!isPending) {
+      setIsLiked((pre) => !pre);
+      toggleLike({ isLiked: !isLiked, userId });
+    }
   };
 
   const filteredTags = hashtag?.filter((tag) => tag.trim().length > 0) ?? [];
@@ -42,7 +45,7 @@ const ProfileHeader = ({ profile, onEditClick }: ProfileHeaderProps) => {
     <section className='flex flex-col items-center'>
       <div className='mb-[10px] w-full max-w-xl'>
         <ProfileInfoBox
-          profile={profile}
+          profile={{ ...profile, isLiked }}
           onEditClick={onEditClick}
           onLikeClick={handleLikeClick}
         />

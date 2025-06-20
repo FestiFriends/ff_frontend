@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Tabs from '@/components/common/Tabs/Tabs';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import WritableReviews from './WritableReviews';
 import WrittenReviews from './WrittenReviews';
 
@@ -16,10 +17,10 @@ const ReviewTabs = () => {
         activeTab={selectedTab}
         onTabChange={setSelectedTab}
       />
-      <div className='h-full px-4 pt-5'>
+      <ScrollArea className='h-[calc(100dvh-93px)] px-4'>
         {selectedTab === '작성 가능한 리뷰' && <WritableReviews />}
         {selectedTab === '작성한 리뷰' && <WrittenReviews />}
-      </div>
+      </ScrollArea>
     </div>
   );
 };

@@ -4,7 +4,6 @@ import {
   QueryTabs,
   Spinner,
   PerformanceCard,
-  ProfileCard,
   InfiniteList,
 } from '@/components/common';
 import { useQueryParam } from '@/hooks';
@@ -14,6 +13,7 @@ import {
 } from '@/hooks/favoriteHooks';
 import { GetFavoritePerformancesResponse } from '@/types/performance';
 import { GetFavoriteUsersResponse } from '@/types/users';
+import FavoriteUserCard from './FavoriteUserCard';
 
 const TABS = ['찜한 유저', '찜한 공연'];
 
@@ -71,13 +71,11 @@ const FavoriteTabContainer: React.FC = () => {
             GetFavoriteUsersResponse['data'][number]
           >
             options={favoriteUsersOptions(DEFAULT_SIZE)}
-            getDataId={(user) => user.id}
-            renderData={(user) => (
-              <ProfileCard profile={{ ...user, isMine: false }} />
-            )}
-            fallback={<SpinnerWrapper />}
-            isFetchingFallback={<SpinnerWrapper />}
-            className='mx-auto grid w-fit grid-cols-2 gap-4'
+            getDataId={(user) => user.userUid}
+            renderData={(user) => <FavoriteUserCard {...user} />}
+            fallback={<Spinner />}
+            isFetchingFallback={<Spinner />}
+            className='flex flex-col gap-5'
             emptyFallback={
               <div className='col-span-2 py-8 text-center text-gray-500'>
                 찜한 사용자가 없습니다.

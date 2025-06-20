@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 interface ProfileImageProps {
   src?: string;
   alt?: string;
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  size?: 'xs' | 'sm' | 'md' | 'md-lg' | 'lg';
   rounded?: boolean;
   border?: boolean;
   className?: string;
@@ -15,6 +15,7 @@ const sizeMap = {
   xs: { width: 16, height: 16, className: 'w-4 h-4' },
   sm: { width: 40, height: 40, className: 'w-10 h-10' },
   md: { width: 48, height: 48, className: 'w-12 h-12' },
+  'md-lg': { width: 60, height: 60, className: 'w-[60px] h-[60px]' },
   lg: { width: 64, height: 64, className: 'w-16 h-16' },
 };
 
