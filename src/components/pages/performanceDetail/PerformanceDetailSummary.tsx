@@ -33,9 +33,9 @@ const PerformanceDetailSummary = ({
         <div className='flex flex-col gap-5'>
           <Skeleton className='h-8 w-full' />
           <div className='flex flex-col gap-3'>
-            <Skeleton className='h-6 w-50' />
-            <Skeleton className='h-6 w-80' />
-            <Skeleton className='h-6 w-60' />
+            <Skeleton className='h-6 w-[50%]' />
+            <Skeleton className='h-6 w-[80%]' />
+            <Skeleton className='h-6 w-[70%]' />
           </div>
         </div>
       </div>
