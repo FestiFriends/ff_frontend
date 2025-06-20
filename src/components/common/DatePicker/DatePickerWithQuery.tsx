@@ -47,11 +47,14 @@ const DatePickerWithQuery = ({
   };
 
   const handleSelectDate = (date: Date) => {
-    const { start } = selectedRange;
+    const { start, end } = selectedRange;
     const formattedDate = format(date, 'yyyy-MM-dd');
 
-    if (!start) {
+    if (start === null) {
       const newRange = { start: formattedDate, end: null };
+      setSelectedRange(newRange);
+    } else if (start !== null && end !== null) {
+      const newRange = { start: null, end: null };
       setSelectedRange(newRange);
     } else {
       const earlier = isBefore(formattedDate, start) ? formattedDate : start;
