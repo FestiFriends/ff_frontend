@@ -12,6 +12,7 @@ interface DatePickerWithQueryProps {
   startDate: string | null;
   endDate: string | null;
   placeholder?: string;
+  isPending?: boolean;
   onInit?: (keys: string[]) => void;
   onSubmit?: (params: Record<string, string | null>) => void;
 }
@@ -20,6 +21,7 @@ const DatePickerWithQuery = ({
   startDate,
   endDate,
   placeholder = '날짜',
+  isPending,
   onInit,
   onSubmit,
 }: DatePickerWithQueryProps) => {
@@ -81,6 +83,9 @@ const DatePickerWithQuery = ({
     // default style
     'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 whitespace-nowrap transition-all select-none',
 
+    // pending style
+    isPending && 'cursor-not-allowed',
+
     // opened, selected style
     (isOpen || startDate || endDate) && 'border-gray-950 bg-gray-950 text-white'
   );
@@ -93,6 +98,7 @@ const DatePickerWithQuery = ({
       <button
         aria-label='datepicker open'
         onClick={toggleDatePicker}
+        disabled={isPending}
         className={datePickerTriggerClasses}
       >
         {!startDate && !endDate ? (

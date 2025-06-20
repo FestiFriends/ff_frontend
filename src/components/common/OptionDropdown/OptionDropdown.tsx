@@ -15,6 +15,7 @@ interface OptionDropdownProps {
   triggerPlaceholder?: React.ReactNode;
   itemList?: Item[];
   onClick?: (value: string) => void;
+  isPending?: boolean;
   isSelected?: boolean;
   variant?: 'default' | 'location';
 }
@@ -23,6 +24,7 @@ const OptionDropdown = ({
   triggerPlaceholder,
   itemList,
   onClick,
+  isPending,
   isSelected,
   variant = 'default',
 }: OptionDropdownProps) => {
@@ -56,6 +58,9 @@ const OptionDropdown = ({
   const dropdownTriggerClasses = cn(
     // default style
     'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 whitespace-nowrap text-gray-950 transition-all select-none',
+
+    // pending style
+    isPending && 'cursor-not-allowed',
 
     // opened, selected style
     isOpen && 'border-gray-950 bg-gray-950 text-white',
@@ -94,6 +99,7 @@ const OptionDropdown = ({
     >
       <button
         onClick={toggleDropdown}
+        disabled={isPending}
         className={dropdownTriggerClasses}
       >
         <span className='text-14_M leading-normal tracking-[-0.35px]'>
