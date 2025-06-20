@@ -69,7 +69,7 @@ export const groupCreateSchema = z.object({
   maxParticipants: z
     .number({ required_error: '참여 인원 수가 필요합니다' })
     .min(2, '최소 2명 이상이어야 합니다')
-    .max(100, '최대 100명까지 가능합니다')
+    .max(50, '최대 50명까지 가능합니다')
     .int('참여 인원 수는 정수여야 합니다'),
   tags: z
     .array(z.string(), { required_error: '태그가 필요합니다' })

@@ -194,12 +194,12 @@ const CreateGroupPage = () => {
               name='maxParticipants'
               control={control}
               min={2}
-              max={100}
+              max={50}
               showError={false}
               rules={{
                 required: '참여 인원 수를 설정해주세요',
                 min: { value: 2, message: '최소 2명 이상이어야 합니다' },
-                max: { value: 100, message: '최대 100명까지 가능합니다' },
+                max: { value: 50, message: '최대 50명까지 가능합니다' },
               }}
             />
           </LabeledWrapper>

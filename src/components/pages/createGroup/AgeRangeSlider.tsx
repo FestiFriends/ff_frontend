@@ -37,13 +37,13 @@ const AgeRangeSlider = <
   });
 
   const AGE_MARKS = {
-    20: '20대 이하',
+    20: '20대',
     30: '30대',
     40: '40대',
     50: '50대',
     60: '60대',
     70: '70대',
-    80: '80대 이상',
+    80: '80대',
   };
 
   const currentValue = field.value || [20, 80];
