@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import ProfileInfoBox from '@/components/common/ProfileCard/ProfileInfoBox';
+import { ProfileCard } from '@/components/common';
 import { useMyProfile } from '@/hooks/useMyProfile/useMyProfile';
 import MyPageButtonGroup from './MyPageButtonGroup';
 import MyPageMenuList from './MyPageMenuList';
@@ -15,7 +15,7 @@ const MyPageMain = () => {
   return (
     <main className='flex flex-col items-center px-[16px] pt-[20px]'>
       <div className='w-full max-w-md'>
-        <ProfileInfoBox
+        <ProfileCard
           profile={profile}
           onEditClick={() => {
             router.push('/profiles/me/edit');
