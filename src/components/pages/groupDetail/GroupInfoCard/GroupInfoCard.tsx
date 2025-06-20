@@ -44,29 +44,32 @@ const GroupInfoCard = ({
               className='flex items-center gap-1 text-14_M text-gray-600'
             />
           </div>
-          <span className='text-12_M text-gray-600'>
-            {formatNormalDate(groupInfo.startDate)}~
-            {formatNormalDate(groupInfo.endDate)}
-          </span>
-          <MoreDropdown
-            className='flex items-center justify-center'
-            items={[
-              ...(isHost
-                ? [
-                    {
-                      label: '수정하기',
-                      onClick: () =>
-                        router.push(`/groups/${groupInfo.id}/edit`),
-                    },
-                  ]
-                : [
-                    {
-                      label: '신고하기',
-                      onClick: () => handleReportPost(),
-                    },
-                  ]),
-            ]}
-          />
+          <div className='flex items-center justify-center'>
+            <span className='text-12_M text-gray-600'>
+              {formatNormalDate(groupInfo.startDate)}~
+              {formatNormalDate(groupInfo.endDate)}
+            </span>
+            <MoreDropdown
+              className='flex items-center justify-center'
+              contentClassName='top-full'
+              items={[
+                ...(isHost
+                  ? [
+                      {
+                        label: '수정하기',
+                        onClick: () =>
+                          router.push(`/groups/${groupInfo.id}/edit`),
+                      },
+                    ]
+                  : [
+                      {
+                        label: '신고하기',
+                        onClick: () => handleReportPost(),
+                      },
+                    ]),
+              ]}
+            />
+          </div>
         </div>
         <div className='flex w-full justify-between gap-4'>
           <div className='flex flex-1 flex-col justify-between overflow-hidden'>
