@@ -93,11 +93,12 @@ const GroupApplyModal = ({
         ref={dialogRef}
         onClose={onCloseApplyModal}
         aria-modal='true'
-        className='fixed top-1/2 left-1/2 w-[calc(100%-32px)] max-w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-[16px] bg-white p-5 backdrop:bg-[rgba(0,0,0,0.5)]'
+        className='fixed top-1/2 left-1/2 w-[calc(100%-24px)] max-w-[343px] -translate-x-1/2 -translate-y-1/2 rounded-[16px] bg-white p-5 backdrop:bg-[rgba(0,0,0,0.5)]'
       >
         <div className='flex flex-col gap-5'>
           <span className='text-center text-16_B'>신청서 작성</span>
           <TextareaInput
+            rows={5}
             value={description}
             onChange={setDescription}
             placeholder='간단한 소개를 작성해주세요.'
@@ -107,12 +108,14 @@ const GroupApplyModal = ({
             <Button
               variant='secondary'
               onClick={onCloseApplyModal}
+              className='px-5 py-2.5'
               disabled={status === 'pending'}
             >
               취소
             </Button>
             <Button
               onClick={applyToGroup}
+              className='px-5 py-2.5'
               disabled={status === 'pending'}
             >
               {status === 'pending' ? '신청중...' : '신청'}

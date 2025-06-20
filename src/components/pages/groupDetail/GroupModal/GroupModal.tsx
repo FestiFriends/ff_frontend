@@ -94,6 +94,7 @@ const GroupModal = ({
     <div className='flex flex-col gap-5'>
       <span className='text-center text-16_B'>신청서 작성</span>
       <TextareaInput
+        rows={5}
         value={description}
         onChange={setDescription}
         placeholder='간단한 소개를 작성해주세요.'
@@ -103,12 +104,14 @@ const GroupModal = ({
         <Button
           variant='secondary'
           onClick={onCloseModal}
+          className='px-5 py-2.5'
           disabled={joinStatus === 'pending'}
         >
           취소
         </Button>
         <Button
           onClick={applyToGroup}
+          className='px-5 py-2.5'
           disabled={joinStatus === 'pending'}
         >
           {joinStatus === 'pending' ? '신청중...' : '신청'}
@@ -118,20 +121,22 @@ const GroupModal = ({
   );
 
   const renderLeaveContent = () => (
-    <div className='flex flex-col gap-7.5 pt-5.5'>
-      <p className='flex w-full justify-center text-16_B text-black'>
+    <div className='flex flex-col gap-7.5 pt-7'>
+      <p className='flex w-full justify-center text-center text-16_B text-black'>
         모임을 탈퇴하시겠습니까?
       </p>
-      <div className='flex gap-2'>
+      <div className='flex gap-2.5'>
         <Button
           variant='secondary'
           onClick={onCloseModal}
+          className='px-5 py-2.5'
           disabled={leaveStatus === 'pending'}
         >
           취소
         </Button>
         <Button
           onClick={leaveFromGroup}
+          className='px-5 py-2.5'
           disabled={leaveStatus === 'pending'}
         >
           {leaveStatus === 'pending' ? '탈퇴중...' : '탈퇴'}
@@ -173,7 +178,7 @@ const GroupModal = ({
         ref={dialogRef}
         onClose={onCloseModal}
         aria-modal='true'
-        className='fixed top-1/2 left-1/2 w-[calc(100%-32px)] max-w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-[16px] bg-white p-5 backdrop:bg-[rgba(0,0,0,0.5)]'
+        className='fixed top-1/2 left-1/2 w-[calc(100%-24px)] max-w-[343px] -translate-x-1/2 -translate-y-1/2 rounded-[16px] bg-white p-5 backdrop:bg-[rgba(0,0,0,0.5)]'
       >
         {isMember ? renderLeaveContent() : renderApplyContent()}
       </dialog>
