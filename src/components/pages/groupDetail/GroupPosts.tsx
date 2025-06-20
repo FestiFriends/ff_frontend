@@ -5,6 +5,7 @@ import { useGetGroupPosts } from '@/hooks/groupHooks/groupHooks';
 import { useReactionPost } from '@/hooks/postHooks/postHook';
 import { Post } from '@/types/post';
 import PostCard from './PostCard/PostCard';
+import PostNotice from './PostNotice/PostNotice';
 import { CheckButton, CommentButton } from '.';
 
 const GroupPosts = () => {
@@ -32,7 +33,8 @@ const GroupPosts = () => {
   };
 
   return (
-    <div className='flex w-full flex-col px-4 pb-4'>
+    <div className='flex w-full flex-col gap-5 px-4 pt-5 pb-4'>
+      <PostNotice />
       {posts.posts.map((post: Post) => (
         <PostCard
           key={post.id}

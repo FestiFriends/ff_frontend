@@ -2,11 +2,11 @@ import React, { useRef } from 'react';
 import Image from 'next/image';
 import PhotoIcon from '@/components/icons/PhotoIcon';
 import XIcon from '@/components/icons/XIcon';
-import { Image as ImageType } from '@/types/image';
+import { UploadedImage } from '@/hooks';
 
 interface PostImageUploaderProps {
-  images: ImageType[];
-  onImageUpload: (images: ImageType[]) => void;
+  images: UploadedImage[];
+  onImageUpload: (files: File | File[] | FileList | null) => void;
   onImageRemove: (index: number) => void;
 }
 
@@ -17,26 +17,8 @@ const PostImageUploader = ({
 }: PostImageUploaderProps) => {
   const imgRef = useRef<HTMLInputElement>(null);
 
-  const extensionMap: Record<string, string> = {
-    'image/jpeg': 'jpeg',
-    'image/jpg': 'jpg',
-    'image/png': 'png',
-    'image/gif': 'gif',
-    'image/webp': 'webp',
-  };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
-
-    const newImages = Array.from(files)
-      .filter((file) => extensionMap[file.type])
-      .map((file) => ({
-        src: URL.createObjectURL(file),
-        name: file.name,
-        file,
-      }));
-
-    onImageUpload([...images, ...newImages]);
+    onImageUpload(e.target.files);
   };
 
   const handleAddClick = () => {
@@ -44,21 +26,20 @@ const PostImageUploader = ({
   };
 
   return (
-    <div className='flex w-full flex-col gap-4 border-t border-t-gray-100 bg-white py-4 pl-4'>
+    <div className='flex w-full flex-col gap-4 border-t border-t-gray-100 bg-white p-4'>
       {images.length > 0 && (
         <div className='scrollbar-hide flex gap-2 overflow-x-auto'>
           {images.map((img, index) => (
             <div
-              key={img.src.toString()}
-              className='relative h-[60px] w-[60px] flex-shrink-0'
+              key={img.url.toString()}
+              className='relative flex h-[60px] w-[60px] flex-shrink-0 items-center justify-center overflow-hidden rounded-sm'
             >
               <Image
-                src={img.src}
-                alt={img.src.toString()}
-                width={60}
-                height={60}
+                src={img.url}
+                alt={img.url.toString()}
+                fill
                 sizes='60px'
-                className='rounded-sm object-cover'
+                className='object-cover'
               />
               <button
                 type='button'

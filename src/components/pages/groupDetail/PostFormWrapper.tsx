@@ -4,15 +4,15 @@ import React, { useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import DetailHeader from '@/components/common/DetailHeader/DetailHeader';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
+import { useImageUploader } from '@/hooks';
 import { useCreatePost } from '@/hooks/postHooks/postHook';
 import { useGetPresignedURL } from '@/hooks/useGetPresignedUrl/useGetPresignedUrl';
 import { hasProfanity } from '@/lib/utils';
 import { imagesApi } from '@/services/imagesService';
-import { Image } from '@/types/image';
+import PinCheckbox from './PinCheckbox/PinCheckbox';
 import PostImageUploader from './PostImageUploader/PostImageUploader';
 
-// 최소/최대 줄 수 상수 정의
-const MAX_TEXTAREA_ROWS = 33; // 최대 20줄까지 늘어남
+const MAX_TEXTAREA_ROWS = 33;
 const MAX_TEXTAREA_LENGTH = 500;
 
 const PostFormWrapper = () => {
@@ -20,19 +20,16 @@ const PostFormWrapper = () => {
   const router = useRouter();
   const [content, setContent] = useState('');
   const [isValidText, setIsValidText] = useState(true);
-  const [images, setImages] = useState<Image[]>([]);
   const { mutateAsync: createPost } = useCreatePost();
   const { mutateAsync: getPresignedURL } = useGetPresignedURL();
   const groupId = params?.groupId as string;
+  const [isPinned, setIsPinned] = useState(false);
+  const { upload, images: uploadedImages, remove } = useImageUploader('multi');
 
   const canSubmit = useMemo(
     () => content.length > 0 && isValidText,
     [content, isValidText]
   );
-
-  const handleImageUpload = (newImages: Image[]) => setImages(newImages);
-  const handleImageRemove = (idx: number) =>
-    setImages((prev) => prev.filter((_, i) => i !== idx));
 
   const handleChange = (value: string) => {
     setContent(value);
@@ -42,9 +39,9 @@ const PostFormWrapper = () => {
   const handleSubmit = async () => {
     let imageUrls: string[] = [];
     try {
-      if (images.length > 0) {
-        const uploadPromises = images.map((img) =>
-          getPresignedURL(img.name!).then((res) => {
+      if (uploadedImages.length > 0) {
+        const uploadPromises = uploadedImages.map((img) =>
+          getPresignedURL(img.file.name).then((res) => {
             if (res.code !== 200) {
               throw new Error('URL 생성 실패');
             }
@@ -66,14 +63,14 @@ const PostFormWrapper = () => {
       // TODO: 에러처리 필요(404페이지나 모달, 토스트 등)
     }
 
-    const imageObjects = images.map((img, idx) => ({
-      alt: img.alt ?? img.name ?? '',
+    const imageObjects = uploadedImages.map((img, idx) => ({
+      alt: img.file.name,
       src: imageUrls[idx],
     }));
     const res = await createPost({
       groupId,
       content,
-      isPinned: false,
+      isPinned,
       images: imageObjects,
     });
 
@@ -82,16 +79,23 @@ const PostFormWrapper = () => {
     }
   };
 
+  const handlePinClick = () => {
+    setIsPinned((prev) => !prev);
+  };
+
   return (
-    <div className='flex h-full flex-col'>
+    <div className='flex h-full min-h-screen flex-col'>
       <DetailHeader
         title='게시글 작성'
         hasRightText='등록'
         onRightClick={handleSubmit}
         rightDisabled={!canSubmit}
       />
-
-      <div className='h-full flex-1 px-4 pt-16 pb-20'>
+      <PinCheckbox
+        isPinned={isPinned}
+        onClick={handlePinClick}
+      />
+      <div className='h-full flex-1 px-4 pt-1 pb-20'>
         <TextareaInput
           value={content}
           onChange={handleChange}
@@ -106,12 +110,11 @@ const PostFormWrapper = () => {
           showWarning={false}
         />
       </div>
-
       <div className='fixed bottom-0 w-full'>
         <PostImageUploader
-          images={images}
-          onImageUpload={handleImageUpload}
-          onImageRemove={handleImageRemove}
+          images={uploadedImages}
+          onImageUpload={upload}
+          onImageRemove={remove}
         />
       </div>
     </div>
