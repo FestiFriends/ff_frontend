@@ -12,6 +12,5 @@ export const useSchedules = (groupId: string, start: Date, end: Date) => {
     queryKey: [GROUP_QUERY_KEYS.schedules, groupId, startDate, endDate],
     queryFn: () => groupsApi.getSchedules(groupId, { startDate, endDate }),
     enabled: !!groupId,
-    staleTime: 1000 * 60,
   });
 };

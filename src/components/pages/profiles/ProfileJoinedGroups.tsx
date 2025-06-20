@@ -10,7 +10,7 @@ interface ProfileJoinedGroupsProps {
 }
 
 const ProfileJoinedGroups = ({ groups }: ProfileJoinedGroupsProps) => {
-  if (groups.length === 0) {
+  if (!groups || groups.length === 0) {
     return (
       <p className='text-center text-gray-500'>참여 중인 모임이 없습니다.</p>
     );
