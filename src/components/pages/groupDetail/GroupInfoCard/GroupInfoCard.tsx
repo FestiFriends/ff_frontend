@@ -8,31 +8,27 @@ import MoreDropdown from '@/components/common/MoreDropdown/MoreDropdown';
 import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
 import ProgressBar from '@/components/common/ProgressBar/ProgressBar';
 import StarIcon from '@/components/icons/StarIcon';
-import { useGetUserId } from '@/hooks/userHooks/userHooks';
 import { ReportTarget } from '@/types/enums';
 import { GroupInfo } from '@/types/group';
 import { formatNormalDate } from '@/utils/date';
 
 interface GroupInfoCardProps {
   groupInfo: GroupInfo;
+  isHost: boolean;
   handleButtonClick?: () => void;
 }
 
 const GroupInfoCard = ({
   groupInfo,
+  isHost,
   handleButtonClick,
 }: GroupInfoCardProps) => {
-  const { data: userId, isPending, isError } = useGetUserId();
-  const isHost = String(userId?.data?.userId) === String(groupInfo.host.id);
   const router = useRouter();
   const reportTriggerRef = useRef<HTMLButtonElement>(null);
 
   const handleReportPost = () => {
     reportTriggerRef.current?.click();
   };
-
-  // TODO: 로딩 상태 처리
-  if (isPending || isError) return null;
 
   return (
     <div className='px-4'>
