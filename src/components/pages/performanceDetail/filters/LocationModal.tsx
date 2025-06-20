@@ -56,11 +56,16 @@ const LocationModal = ({
 
   return (
     <Modal>
-      <ModalTrigger className={triggerClasses}>
-        <span className='text-14_M leading-normal tracking-[-0.35px]'>
-          {triggerPlaceholder}
-        </span>
-        {isSelected && <DeleteIcon />}
+      <ModalTrigger>
+        <button
+          disabled={isPending}
+          className={triggerClasses}
+        >
+          <span className='text-14_M leading-normal tracking-[-0.35px]'>
+            {triggerPlaceholder}
+          </span>
+          {isSelected && <DeleteIcon />}
+        </button>
       </ModalTrigger>
 
       <ModalContent className='w-[calc(100%-1rem)] max-w-[360px] rounded-[12px] bg-white px-4 pt-4.5 pb-5'>

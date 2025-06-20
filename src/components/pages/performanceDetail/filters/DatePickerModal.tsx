@@ -95,33 +95,38 @@ const DatePickerModal = ({
 
   return (
     <Modal>
-      <ModalTrigger className={triggerClasses}>
-        {!startDate && !endDate ? (
-          <span className='text-14_M leading-normal tracking-[-0.35px]'>
-            {placeholder}
-          </span>
-        ) : (
-          <div className='flex w-full items-center gap-1'>
-            {startDate && (
-              <span className='text-14_M leading-normal tracking-[-0.35px]'>
-                {format(startDate, 'MM/dd', { locale: ko })}
-              </span>
-            )}
-            {endDate && (
-              <>
+      <ModalTrigger>
+        <button
+          disabled={isPending}
+          className={triggerClasses}
+        >
+          {!startDate && !endDate ? (
+            <span className='text-14_M leading-normal tracking-[-0.35px]'>
+              {placeholder}
+            </span>
+          ) : (
+            <div className='flex w-full items-center gap-1'>
+              {startDate && (
                 <span className='text-14_M leading-normal tracking-[-0.35px]'>
-                  -
+                  {format(startDate, 'MM/dd', { locale: ko })}
                 </span>
-                <span className='text-14_M leading-normal tracking-[-0.35px]'>
-                  {format(endDate, 'MM/dd', { locale: ko })}
-                </span>
-              </>
-            )}
-          </div>
-        )}
-        {(startDate || endDate) && (
-          <DeleteIcon className='aspect-square h-4 w-4 text-white' />
-        )}
+              )}
+              {endDate && (
+                <>
+                  <span className='text-14_M leading-normal tracking-[-0.35px]'>
+                    -
+                  </span>
+                  <span className='text-14_M leading-normal tracking-[-0.35px]'>
+                    {format(endDate, 'MM/dd', { locale: ko })}
+                  </span>
+                </>
+              )}
+            </div>
+          )}
+          {(startDate || endDate) && (
+            <DeleteIcon className='aspect-square h-4 w-4 text-white' />
+          )}
+        </button>
       </ModalTrigger>
 
       <ModalContent className='w-[calc(100%-1rem)] max-w-[375px] rounded-[12px] bg-white px-3.5 pt-4.5 pb-5'>
