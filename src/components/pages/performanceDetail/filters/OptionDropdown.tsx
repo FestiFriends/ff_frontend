@@ -55,7 +55,7 @@ const OptionDropdown = ({
 
   const dropdownTriggerClasses = cn(
     // default style
-    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 whitespace-nowrap text-gray-950 transition-all select-none',
+    'inline-flex w-full cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 whitespace-nowrap text-gray-950 transition-all select-none',
 
     // pending style
     isPending && 'cursor-not-allowed',

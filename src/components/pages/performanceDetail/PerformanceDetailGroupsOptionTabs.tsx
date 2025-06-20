@@ -96,55 +96,46 @@ const PerformanceDetailGroupsOptionTabs = ({
   );
 
   return (
-    <div className='flex flex-col gap-2'>
-      <div className='flex gap-2'>
-        {renderOptionDropdown(sortLabel, sort, groupSortOptions, 'sort')}
-        {renderOptionDropdown(
-          categoryLabel,
-          category,
-          groupCategoryOptions,
-          'category'
-        )}
-        {renderOptionDropdown(
-          genderLabel,
-          gender,
-          groupGenderOptions,
-          'gender'
-        )}
-      </div>
+    <div className='grid grid-cols-3 gap-2'>
+      {renderOptionDropdown(sortLabel, sort, groupSortOptions, 'sort')}
+      {renderOptionDropdown(
+        categoryLabel,
+        category,
+        groupCategoryOptions,
+        'category'
+      )}
+      {renderOptionDropdown(genderLabel, gender, groupGenderOptions, 'gender')}
 
-      <div className='flex gap-2'>
-        <DatePickerModal
-          startDate={startDate}
-          endDate={endDate}
-          placeholder='날짜'
-          isPending={isPending}
-          onInit={handleResetKeys}
-          onSubmit={(params) => updateQueryParams({ ...params, page: '1' })}
-        />
+      <DatePickerModal
+        startDate={startDate}
+        endDate={endDate}
+        placeholder='날짜'
+        isPending={isPending}
+        onInit={handleResetKeys}
+        onSubmit={(params) => updateQueryParams({ ...params, page: '1' })}
+      />
 
-        <LocationModal
-          triggerPlaceholder={locationLabel}
-          itemList={groupLocationOptions}
-          onClick={(value) =>
-            updateQueryParams({ ['location']: value, page: '1' })
-          }
-          isPending={isPending}
-          isSelected={locationParam !== null}
-        />
+      <LocationModal
+        triggerPlaceholder={locationLabel}
+        itemList={groupLocationOptions}
+        onClick={(value) =>
+          updateQueryParams({ ['location']: value, page: '1' })
+        }
+        isPending={isPending}
+        isSelected={locationParam !== null}
+      />
 
-        <Button
-          size='sm'
-          variant='secondary'
-          onClick={handleInitOptions}
-          disabled={isPending}
-          className='rounded-[100px] px-4 py-3 text-center'
-        >
-          <span className='text-14_M leading-normal tracking-[-0.35px] whitespace-nowrap text-primary-red'>
-            초기화
-          </span>
-        </Button>
-      </div>
+      <Button
+        size='sm'
+        variant='secondary'
+        onClick={handleInitOptions}
+        disabled={isPending}
+        className='rounded-[100px] px-4 py-3 text-center'
+      >
+        <span className='text-14_M leading-normal tracking-[-0.35px] whitespace-nowrap text-primary-red'>
+          초기화
+        </span>
+      </Button>
     </div>
   );
 };
