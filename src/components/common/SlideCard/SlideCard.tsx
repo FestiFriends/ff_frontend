@@ -131,7 +131,7 @@ const SlideCard = (props: SlideCardProps) => {
       <div
         className={cn(
           'overflow-y-scroll transition-all duration-300',
-          open ? 'max-h-dvh' : 'max-h-0'
+          open ? 'max-h-[220px]' : 'max-h-0'
         )}
       >
         {content}
