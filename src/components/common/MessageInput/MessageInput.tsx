@@ -13,6 +13,7 @@ interface MessageInputProps {
   type: 'comment' | 'chat';
   maxLength?: number;
   minLength?: number;
+  className?: string;
 }
 
 const MessageInput = ({
@@ -21,6 +22,7 @@ const MessageInput = ({
   type = 'chat',
   maxLength = 300,
   minLength = 1,
+  className,
 }: MessageInputProps) => {
   const [message, setMessage] = useState<string>('');
   const [error, setError] = useState<string>('');
@@ -73,7 +75,8 @@ const MessageInput = ({
     <div
       className={cn(
         'fixed bottom-0 z-1 flex w-full flex-col gap-1',
-        type === 'comment' && 'border-t border-gray-100 bg-white p-4'
+        type === 'comment' && 'border-t border-gray-100 bg-white p-4',
+        className
       )}
     >
       <form

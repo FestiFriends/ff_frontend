@@ -28,9 +28,7 @@ export const formatRelativeDate = (dateStr: string): string => {
 
 // M월 d일 a hh:mm
 export const formatPostDate = (dateStr: string): string => {
-  console.log('formatPostDate input:', dateStr);
   if (!dateStr) {
-    console.log('dateStr is empty');
     return '';
   }
 

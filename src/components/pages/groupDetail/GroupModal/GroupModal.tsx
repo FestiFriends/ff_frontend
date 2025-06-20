@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Button from '@/components/common/Button/Button';
 import Portal from '@/components/common/Portal';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
@@ -29,6 +30,7 @@ const GroupModal = ({
   const { mutate: leaveGroup, status: leaveStatus } = useLeaveGroup();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [description, setDescription] = useState<string>('');
+  const router = useRouter();
 
   const onCloseModal = () => {
     setDescription('');
@@ -78,6 +80,7 @@ const GroupModal = ({
               message: '모임에서 탈퇴하였습니다.',
               type: 'success',
             });
+            router.back();
           },
           onError: (error) => {
             if (error.code === 400) {

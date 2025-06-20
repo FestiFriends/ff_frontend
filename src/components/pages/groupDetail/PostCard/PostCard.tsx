@@ -121,16 +121,31 @@ const PostCard = ({ post, type = 'posts', children }: PostCardProps) => {
         <div className='flex w-full flex-col gap-3.5'>
           <div className='relative flex items-start justify-between'>
             <div className='flex items-center gap-2.5'>
-              <ProfileImage
-                size='sm'
-                border={false}
-                {...(profileImage
-                  && profileImage.src && { src: profileImage.src.toString() })}
-              />
+              <button
+                type='button'
+                onClick={() => router.push(`/profiles/${author.id}`)}
+              >
+                <ProfileImage
+                  size='sm'
+                  border={false}
+                  {...(profileImage
+                    && profileImage.src && {
+                      src: profileImage.src.toString(),
+                    })}
+                />
+              </button>
 
-              <div className='flex flex-col text-sm'>
-                <span className='text-sm font-bold text-gray-950'>{name}</span>
-                <div className='flex items-center gap-1 text-13_M font-medium text-gray-500'>
+              <div className='flex flex-col items-start'>
+                <button
+                  type='button'
+                  onClick={() => router.push(`/profiles/${author.id}`)}
+                  className='text-left'
+                >
+                  <span className='line-clamp-1 text-14_B text-gray-950'>
+                    {name}
+                  </span>
+                </button>
+                <div className='flex items-center gap-1 text-13_M text-gray-500'>
                   <span>{createdAt}</span>
                   {isPinned && <span>· 공지</span>}
                 </div>
@@ -156,7 +171,7 @@ const PostCard = ({ post, type = 'posts', children }: PostCardProps) => {
                 data-testid='carousel'
                 className='relative mx-auto w-full'
               >
-                <CarouselContent>
+                <CarouselContent className='flex items-center'>
                   {Array.from(images ?? [], (img) => (
                     <CarouselItem key={img.id}>
                       <Image

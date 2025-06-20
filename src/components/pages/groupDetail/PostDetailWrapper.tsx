@@ -43,7 +43,7 @@ const PostDetailWrapper = () => {
         hasLeftIcon={<BackIcon />}
         onLeftClick={() => router.back()}
       />
-      <div className='flex w-full flex-col px-4 pt-11 pb-4'>
+      <div className='scrollbar-hide flex h-screen w-full flex-col overflow-auto px-4 pt-11 pb-[89px]'>
         <PostCard
           post={post}
           type='detail'
@@ -60,6 +60,7 @@ const PostDetailWrapper = () => {
         type='comment'
         sendMessage={handleSubmit}
         maxLength={150}
+        className='fixed bottom-0'
       />
     </>
   );
