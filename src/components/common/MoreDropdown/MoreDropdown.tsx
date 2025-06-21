@@ -2,6 +2,7 @@
 
 import { ReactNode } from 'react';
 import MoreIcon from '@/components/icons/MoreIcon';
+import { cn } from '@/lib/utils';
 import {
   Dropdown,
   DropdownContent,
@@ -18,12 +19,14 @@ interface MoreDropdownItem {
 interface MoreDropdownProps {
   items: MoreDropdownItem[];
   className?: string;
+  contentClassName?: string;
   ariaLabel?: string;
 }
 
 const MoreDropdown = ({
   items,
   className,
+  contentClassName,
   ariaLabel = '더보기 메뉴',
 }: MoreDropdownProps) => (
   <div aria-label={ariaLabel}>
@@ -34,7 +37,12 @@ const MoreDropdown = ({
       >
         <MoreIcon className='h-6 w-6 text-gray-400' />
       </DropdownTrigger>
-      <DropdownContent className='right-6 -mt-8 w-[106px] rounded-[12px]'>
+      <DropdownContent
+        className={cn(
+          'right-6 -mt-8 w-[106px] rounded-[12px]',
+          contentClassName
+        )}
+      >
         {Array.from(items, (item, index) => (
           <DropdownItem
             key={index}

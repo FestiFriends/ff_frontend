@@ -34,8 +34,6 @@ export const useGetGroups = (params: GetGroupsParams) =>
       const res = await groupsApi.getGroups(params);
       return res.data;
     },
-    placeholderData: (previousData: PerformanceGroupsApiResponse | undefined) =>
-      previousData,
   });
 
 export const useGetGroupInfo = (groupId: string) =>

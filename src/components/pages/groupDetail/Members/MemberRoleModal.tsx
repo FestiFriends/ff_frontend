@@ -31,9 +31,9 @@ const MemberRoleModal = ({ member }: MemberRoleModalProps) => {
       <ModalTrigger>
         <Button
           variant='primary'
-          className='px-3 py-1.5'
+          className='max-w-18 px-2 py-1.5'
         >
-          <span className='text-center text-14_M leading-4.5 tracking-[-0.35px]'>
+          <span className='block text-center text-12_M leading-[1.125rem] tracking-[-0.35px] break-keep whitespace-pre-line'>
             모임장 넘기기
           </span>
         </Button>

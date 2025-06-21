@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Toast from '@/components/common/Toast/Toast';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useGetUserId } from '@/hooks/userHooks/userHooks';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import { GroupInfo as GroupInfoType } from '@/types/group';
 import { ToastContent } from '@/types/toastContent';
@@ -16,12 +17,14 @@ interface GroupInfoProps {
 
 const GroupInfo = ({ isPending, groupInfo }: GroupInfoProps) => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const { data: userId, isPending: isUserIdPending } = useGetUserId();
   const [showToast, setShowToast] = useState(false);
   const [toastContent, setToastContent] = useState<ToastContent>({
     message: '',
     type: 'default',
   });
   const [isOpen, setIsOpen] = useState(false);
+  const isHost = String(userId?.data?.userId) === String(groupInfo?.host.id);
 
   const onOpenModal = () => {
     if (!isLoggedIn) {
@@ -33,7 +36,7 @@ const GroupInfo = ({ isPending, groupInfo }: GroupInfoProps) => {
     setIsOpen(true);
   };
 
-  if (isPending) {
+  if (isPending || isUserIdPending) {
     return (
       <div className='px-4'>
         <Skeleton className='h-[40dvh] w-full rounded-[16px]' />
@@ -55,6 +58,7 @@ const GroupInfo = ({ isPending, groupInfo }: GroupInfoProps) => {
 
       <GroupInfoCard
         groupInfo={groupInfo}
+        isHost={isHost}
         handleButtonClick={onOpenModal}
       />
 
