@@ -5,6 +5,7 @@ import Button from '@/components/common/Button/Button';
 import Portal from '@/components/common/Portal';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import { usePostJoinGroup } from '@/hooks/groupHooks/groupHooks';
+import { hasProfanity } from '@/lib/utils';
 import { ToastContent } from '@/types/toastContent';
 
 interface GroupApplyModalProps {
@@ -27,10 +28,17 @@ const GroupApplyModal = ({
   const { mutate: postJoinGroup, status } = usePostJoinGroup();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [description, setDescription] = useState<string>('');
+  const [isValid, setIsValid] = useState<boolean>(true);
+
+  const handleDescriptionChange = (value: string) => {
+    setDescription(value);
+    setIsValid(!hasProfanity(value));
+  };
 
   const onCloseApplyModal = () => {
     setSelectedGroupId?.('');
     setDescription('');
+    setIsValid(true);
     setIsOpen(false);
   };
 
@@ -46,17 +54,10 @@ const GroupApplyModal = ({
             });
           },
           onError: (error) => {
-            if (error.code === 400) {
-              setToastContent?.({
-                message: '이미 신청한 모임입니다.',
-                type: 'error',
-              });
-            } else {
-              setToastContent?.({
-                message: '신청 중 오류가 발생했습니다.',
-                type: 'error',
-              });
-            }
+            setToastContent?.({
+              message: error.message,
+              type: 'error',
+            });
           },
           onSettled: () => {
             setShowToast?.(true);
@@ -100,13 +101,16 @@ const GroupApplyModal = ({
         ref={dialogRef}
         onClose={onCloseApplyModal}
         aria-modal='true'
-        className='fixed top-1/2 left-1/2 w-[calc(100%-32px)] max-w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-[16px] bg-white p-5 backdrop:bg-[rgba(0,0,0,0.5)]'
+        className='fixed top-1/2 left-1/2 w-[calc(100%-24px)] max-w-[343px] -translate-x-1/2 -translate-y-1/2 rounded-[16px] bg-white p-5 backdrop:bg-[rgba(0,0,0,0.5)]'
       >
         <div className='flex flex-col gap-5'>
           <span className='text-center text-16_B'>신청서 작성</span>
           <TextareaInput
+            rows={5}
             value={description}
-            onChange={setDescription}
+            onChange={handleDescriptionChange}
+            isValidText={isValid}
+            showWarning={description !== '' && !isValid}
             placeholder='간단한 소개를 작성해주세요.'
             className='rounded-[16px] border-1 border-gray-100 px-5 py-4 text-[16px] leading-[180%] font-medium tracking-[-0.35px] text-gray-950 shadow-[0px_2px_6px_0px_rgba(0,0,0,0.02)] placeholder:text-gray-500'
           />
@@ -114,13 +118,16 @@ const GroupApplyModal = ({
             <Button
               variant='secondary'
               onClick={onCloseApplyModal}
+              className='px-5 py-2.5'
               disabled={status === 'pending'}
             >
               취소
             </Button>
             <Button
               onClick={applyToGroup}
-              disabled={status === 'pending'}
+              className='px-5 py-2.5'
+              color={status === 'pending' || !isValid ? 'disable' : 'normal'}
+              disabled={status === 'pending' || !isValid}
             >
               {status === 'pending' ? '신청중...' : '신청'}
             </Button>

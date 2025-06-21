@@ -120,6 +120,18 @@ export const useChatWebSocket = (
   return { messages, sendMessage, isConnected, statusMessage };
 };
 
+export const deduplicateMessages = (messages: ChatMessage[]) => {
+  const uniqueMessagesMap = new Map<number, ChatMessage>();
+
+  for (const message of messages) {
+    uniqueMessagesMap.set(message.chatId, message);
+  }
+
+  return Array.from(uniqueMessagesMap.values()).sort(
+    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+  );
+};
+
 /**
  * [Http] 채팅방 메세지 목록 조회 (무한스크롤)
  * @param chatRoomId

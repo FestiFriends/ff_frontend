@@ -29,13 +29,13 @@ const PerformanceDetailSummary = ({
   if (isPending || !performanceDetail)
     return (
       <div className='flex flex-col gap-5 bg-white px-4 pt-5 pb-7.5'>
-        <Skeleton className='h-[60dvh] w-full' />
+        <Skeleton className='h-[50dvh] w-full' />
         <div className='flex flex-col gap-5'>
-          <Skeleton className='h-6 w-full' />
+          <Skeleton className='h-8 w-full' />
           <div className='flex flex-col gap-3'>
-            <Skeleton className='h-4 w-[60dvw]' />
-            <Skeleton className='h-4 w-[45dvw]' />
-            <Skeleton className='h-4 w-[70dvw]' />
+            <Skeleton className='h-6 w-[50%]' />
+            <Skeleton className='h-6 w-[80%]' />
+            <Skeleton className='h-6 w-[70%]' />
           </div>
         </div>
       </div>

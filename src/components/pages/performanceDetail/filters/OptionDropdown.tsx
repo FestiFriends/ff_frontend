@@ -15,16 +15,16 @@ interface OptionDropdownProps {
   triggerPlaceholder?: React.ReactNode;
   itemList?: Item[];
   onClick?: (value: string) => void;
+  isPending?: boolean;
   isSelected?: boolean;
-  variant?: 'default' | 'location';
 }
 
 const OptionDropdown = ({
   triggerPlaceholder,
   itemList,
   onClick,
+  isPending,
   isSelected,
-  variant = 'default',
 }: OptionDropdownProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const itemRef = useRef<HTMLLIElement>(null);
@@ -55,33 +55,14 @@ const OptionDropdown = ({
 
   const dropdownTriggerClasses = cn(
     // default style
-    'inline-flex cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 whitespace-nowrap text-gray-950 transition-all select-none',
+    'inline-flex w-full cursor-pointer items-center justify-center gap-1 rounded-[100px] border-1 border-gray-100 bg-white py-3 pr-4 pl-5 whitespace-nowrap text-gray-950 transition-all select-none',
+
+    // pending style
+    isPending && 'cursor-not-allowed',
 
     // opened, selected style
     isOpen && 'border-gray-950 bg-gray-950 text-white',
     isSelected && 'border-gray-950 bg-gray-950 text-white'
-  );
-
-  const dropdownContentClasses = cn(
-    'z-10 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white focus:outline-none',
-
-    // variant styles
-    variant === 'default'
-      && 'absolute mt-2 flex w-full min-w-25 flex-col focus:outline-none',
-
-    variant === 'location'
-      && 'fixed top-1/2 left-1/2 grid w-[calc(100vw-1rem)] max-w-[350px] -translate-x-1/2 -translate-y-1/2 grid-cols-4 place-items-center justify-center gap-2.5 p-5'
-  );
-
-  const dropdownItemClasses = cn(
-    'flex cursor-pointer items-center justify-center bg-white text-center text-14_M leading-normal tracking-[-0.4px] wrap-break-word break-keep whitespace-normal transition-all select-none hover:bg-gray-50 focus:border-gray-950 focus:bg-gray-950 focus:text-white',
-
-    // variant styles
-    variant === 'default'
-      && 'border-b-1 border-gray-50 px-2 py-3.5 wrap-break-word break-keep whitespace-normal',
-
-    variant === 'location'
-      && 'gap-2 rounded-[80px] border-1 border-gray-100 px-5 py-3 whitespace-nowrap'
   );
 
   return (
@@ -91,6 +72,7 @@ const OptionDropdown = ({
     >
       <button
         onClick={toggleDropdown}
+        disabled={isPending}
         className={dropdownTriggerClasses}
       >
         <span className='text-14_M leading-normal tracking-[-0.35px]'>
@@ -108,7 +90,7 @@ const OptionDropdown = ({
       {isOpen && (
         <ul
           role='menu'
-          className={dropdownContentClasses}
+          className='absolute z-10 mt-2 flex w-full min-w-25 flex-col overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white focus:outline-none'
         >
           {itemList?.map((item, index) => (
             <li
@@ -118,7 +100,7 @@ const OptionDropdown = ({
               tabIndex={index}
               onClick={() => handleClick(item.value)}
               onKeyDown={(e) => handleKeyDown(e, item.value)}
-              className={dropdownItemClasses}
+              className='flex cursor-pointer items-center justify-center border-b-1 border-gray-50 bg-white px-2 py-3.5 text-center text-14_M leading-normal tracking-[-0.4px] wrap-break-word break-keep whitespace-normal transition-all select-none hover:bg-gray-50 focus:border-gray-950 focus:bg-gray-950 focus:text-white'
             >
               {item.label}
             </li>

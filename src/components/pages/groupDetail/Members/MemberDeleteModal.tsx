@@ -30,7 +30,7 @@ const MemberDeleteModal = ({ member }: MemberDeleteModalProps) => {
       <ModalTrigger>
         <Button
           variant='secondary'
-          className='px-3 py-1.5'
+          className='max-w-13 px-2 py-1.5 whitespace-nowrap'
         >
           <span className='text-center text-14_M leading-4.5 tracking-[-0.35px]'>
             퇴출

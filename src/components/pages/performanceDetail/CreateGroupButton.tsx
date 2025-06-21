@@ -8,7 +8,7 @@ interface CreateGroupButtonProps {
 const CreateGroupButton = ({ onClick }: CreateGroupButtonProps) => (
   <Button
     onClick={onClick}
-    className='fixed right-4 bottom-23 z-2 w-fit min-w-30 gap-1 rounded-[100px] py-2.5 pr-4 pl-2.5'
+    className='fixed right-4 bottom-23 z-20 w-fit min-w-30 gap-1 rounded-[100px] py-2.5 pr-4 pl-2.5'
   >
     <PlusIcon className='aspect-square h-6 w-6' />
     <span className='text-16_B leading-normal tracking-[-0.4px]'>

@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/common/Button/Button';
 import Portal from '@/components/common/Portal';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import { usePostJoinGroup } from '@/hooks/groupHooks/groupHooks';
 import { useLeaveGroup } from '@/hooks/groupsManagementsHooks/groupsManagementsHooks';
+import { hasProfanity } from '@/lib/utils';
 import { ToastContent } from '@/types/toastContent';
 
 interface GroupModalProps {
@@ -26,18 +27,26 @@ const GroupModal = ({
   setShowToast,
   setToastContent,
 }: GroupModalProps) => {
+  const router = useRouter();
   const { mutate: postJoinGroup, status: joinStatus } = usePostJoinGroup();
   const { mutate: leaveGroup, status: leaveStatus } = useLeaveGroup();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [description, setDescription] = useState<string>('');
-  const router = useRouter();
+  const [isValid, setIsValid] = useState<boolean>(true);
+
+  const handleDescriptionChange = (value: string) => {
+    setDescription(value);
+    setIsValid(!hasProfanity(value));
+  };
 
   const onCloseModal = () => {
     setDescription('');
+    setIsValid(true);
     setIsOpen(false);
   };
 
   const applyToGroup = () => {
+    if (description.trim() === '') return;
     if (groupId && description) {
       postJoinGroup(
         { groupId, description },
@@ -49,17 +58,10 @@ const GroupModal = ({
             });
           },
           onError: (error) => {
-            if (error.code === 400) {
-              setToastContent?.({
-                message: '이미 신청한 모임입니다.',
-                type: 'error',
-              });
-            } else {
-              setToastContent?.({
-                message: '신청 중 오류가 발생했습니다.',
-                type: 'error',
-              });
-            }
+            setToastContent?.({
+              message: error.message,
+              type: 'error',
+            });
           },
           onSettled: () => {
             setShowToast?.(true);
@@ -83,20 +85,12 @@ const GroupModal = ({
             router.back();
           },
           onError: (error) => {
-            if (error.code === 400) {
-              setToastContent?.({
-                message: '이미 탈퇴한 모임입니다.',
-                type: 'error',
-              });
-            } else {
-              setToastContent?.({
-                message: '탈퇴 중 오류가 발생했습니다.',
-                type: 'error',
-              });
-            }
+            setToastContent?.({
+              message: error.message,
+              type: 'error',
+            });
           },
           onSettled: () => {
-            console.log(leaveStatus);
             setShowToast?.(true);
             onCloseModal();
           },
@@ -109,8 +103,11 @@ const GroupModal = ({
     <div className='flex flex-col gap-5'>
       <span className='text-center text-16_B'>신청서 작성</span>
       <TextareaInput
+        rows={5}
         value={description}
-        onChange={setDescription}
+        onChange={handleDescriptionChange}
+        isValidText={isValid}
+        showWarning={description !== '' && !isValid}
         placeholder='간단한 소개를 작성해주세요.'
         className='rounded-[16px] border-1 border-gray-100 px-5 py-4 text-[16px] leading-[180%] font-medium tracking-[-0.35px] text-gray-950 shadow-[0px_2px_6px_0px_rgba(0,0,0,0.02)] placeholder:text-gray-500'
       />
@@ -118,13 +115,16 @@ const GroupModal = ({
         <Button
           variant='secondary'
           onClick={onCloseModal}
+          className='px-5 py-2.5'
           disabled={joinStatus === 'pending'}
         >
           취소
         </Button>
         <Button
           onClick={applyToGroup}
-          disabled={joinStatus === 'pending'}
+          className='px-5 py-2.5'
+          color={joinStatus === 'pending' || !isValid ? 'disable' : 'normal'}
+          disabled={joinStatus === 'pending' || !isValid}
         >
           {joinStatus === 'pending' ? '신청중...' : '신청'}
         </Button>
@@ -133,20 +133,23 @@ const GroupModal = ({
   );
 
   const renderLeaveContent = () => (
-    <div className='flex flex-col gap-7.5 pt-5.5'>
-      <p className='flex w-full justify-center text-16_B text-black'>
+    <div className='flex flex-col gap-7.5 pt-7'>
+      <p className='flex w-full justify-center text-center text-16_B text-black'>
         모임을 탈퇴하시겠습니까?
       </p>
-      <div className='flex gap-2'>
+      <div className='flex gap-2.5'>
         <Button
           variant='secondary'
           onClick={onCloseModal}
+          className='px-5 py-2.5'
           disabled={leaveStatus === 'pending'}
         >
           취소
         </Button>
         <Button
           onClick={leaveFromGroup}
+          className='px-5 py-2.5'
+          color={joinStatus === 'pending' ? 'disable' : 'normal'}
           disabled={leaveStatus === 'pending'}
         >
           {leaveStatus === 'pending' ? '탈퇴중...' : '탈퇴'}
@@ -188,7 +191,7 @@ const GroupModal = ({
         ref={dialogRef}
         onClose={onCloseModal}
         aria-modal='true'
-        className='fixed top-1/2 left-1/2 w-[calc(100%-32px)] max-w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-[16px] bg-white p-5 backdrop:bg-[rgba(0,0,0,0.5)]'
+        className='fixed top-1/2 left-1/2 w-[calc(100%-24px)] max-w-[343px] -translate-x-1/2 -translate-y-1/2 rounded-[16px] bg-white p-5 backdrop:bg-[rgba(0,0,0,0.5)]'
       >
         {isMember ? renderLeaveContent() : renderApplyContent()}
       </dialog>

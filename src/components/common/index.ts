@@ -1,6 +1,5 @@
 export { default as BottomSheetModal } from './BottomSheetModal';
 export { default as Calendar } from './Calendar/Calendar';
-export { default as CalendarWithQuery } from './Calendar/CalendarWithQuery';
 export { default as Counter } from './Counter/Counter';
 export { default as DatePicker } from './DatePicker/DatePicker';
 export { default as HashtagGroup } from './HashtagBadgeGroup/HashtagBadgeGroup';

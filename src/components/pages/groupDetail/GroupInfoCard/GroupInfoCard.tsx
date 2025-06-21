@@ -8,31 +8,27 @@ import MoreDropdown from '@/components/common/MoreDropdown/MoreDropdown';
 import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
 import ProgressBar from '@/components/common/ProgressBar/ProgressBar';
 import StarIcon from '@/components/icons/StarIcon';
-import { useGetUserId } from '@/hooks/userHooks/userHooks';
 import { ReportTarget } from '@/types/enums';
 import { GroupInfo } from '@/types/group';
 import { formatNormalDate } from '@/utils/date';
 
 interface GroupInfoCardProps {
   groupInfo: GroupInfo;
+  isHost: boolean;
   handleButtonClick?: () => void;
 }
 
 const GroupInfoCard = ({
   groupInfo,
+  isHost,
   handleButtonClick,
 }: GroupInfoCardProps) => {
-  const { data: userId, isPending, isError } = useGetUserId();
-  const isHost = String(userId?.data?.userId) === String(groupInfo.host.id);
   const router = useRouter();
   const reportTriggerRef = useRef<HTMLButtonElement>(null);
 
   const handleReportPost = () => {
     reportTriggerRef.current?.click();
   };
-
-  // TODO: 로딩 상태 처리
-  if (isPending || isError) return null;
 
   return (
     <div className='px-4'>
@@ -44,29 +40,32 @@ const GroupInfoCard = ({
               className='flex items-center gap-1 text-14_M text-gray-600'
             />
           </div>
-          <span className='text-12_M text-gray-600'>
-            {formatNormalDate(groupInfo.startDate)}~
-            {formatNormalDate(groupInfo.endDate)}
-          </span>
-          <MoreDropdown
-            className='flex items-center justify-center'
-            items={[
-              ...(isHost
-                ? [
-                    {
-                      label: '수정하기',
-                      onClick: () =>
-                        router.push(`/groups/${groupInfo.id}/edit`),
-                    },
-                  ]
-                : [
-                    {
-                      label: '신고하기',
-                      onClick: () => handleReportPost(),
-                    },
-                  ]),
-            ]}
-          />
+          <div className='flex items-center justify-center'>
+            <span className='text-12_M text-gray-600'>
+              {formatNormalDate(groupInfo.startDate)}~
+              {formatNormalDate(groupInfo.endDate)}
+            </span>
+            <MoreDropdown
+              className='flex items-center justify-center'
+              contentClassName='top-full'
+              items={[
+                ...(isHost
+                  ? [
+                      {
+                        label: '수정하기',
+                        onClick: () =>
+                          router.push(`/groups/${groupInfo.id}/edit`),
+                      },
+                    ]
+                  : [
+                      {
+                        label: '신고하기',
+                        onClick: () => handleReportPost(),
+                      },
+                    ]),
+              ]}
+            />
+          </div>
         </div>
         <div className='flex w-full justify-between gap-4'>
           <div className='flex flex-1 flex-col justify-between overflow-hidden'>

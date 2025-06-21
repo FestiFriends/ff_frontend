@@ -17,6 +17,7 @@ const ChatMessageInput = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (message.trim() === '') return;
     sendMessage(message);
     setMessage('');
   };
