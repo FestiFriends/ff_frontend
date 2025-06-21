@@ -1,9 +1,13 @@
 import {
   AlertCircle,
+  BellOff,
   Heart,
   Inbox,
   MessageCircle,
+  MessageSquare,
   Music2,
+  Pencil,
+  Search,
   TriangleAlert,
   XCircle,
 } from 'lucide-react';
@@ -15,7 +19,11 @@ type StateNoticePreset =
   | 'unauthorized'
   | 'error'
   | 'likedUsersEmpty'
-  | 'likedPerformancesEmpty';
+  | 'likedPerformancesEmpty'
+  | 'searchEmpty'
+  | 'writeFirst'
+  | 'notificationEmpty'
+  | 'chatEmpty';
 
 interface StateNoticeProps {
   preset?: StateNoticePreset;
@@ -58,6 +66,22 @@ const presetConfig: Record<
   likedPerformancesEmpty: {
     icon: <Music2 className='h-10 w-10 text-gray-400' />,
     message: '찜한 공연이 없습니다.',
+  },
+  searchEmpty: {
+    icon: <Search className='h-10 w-10 text-gray-400' />,
+    message: '검색 결과가 없습니다.',
+  },
+  writeFirst: {
+    icon: <Pencil className='h-10 w-10 text-gray-400' />,
+    message: '아직 작성된 항목이 없습니다.',
+  },
+  notificationEmpty: {
+    icon: <BellOff className='h-10 w-10 text-gray-400' />,
+    message: '새로운 알림이 없습니다.',
+  },
+  chatEmpty: {
+    icon: <MessageSquare className='h-10 w-10 text-gray-400' />,
+    message: '아직 대화가 없습니다.',
   },
 };
 
