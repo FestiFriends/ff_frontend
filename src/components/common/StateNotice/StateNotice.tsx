@@ -1,7 +1,9 @@
 import {
   AlertCircle,
+  Heart,
   Inbox,
   MessageCircle,
+  Music2,
   TriangleAlert,
   XCircle,
 } from 'lucide-react';
@@ -11,7 +13,9 @@ type StateNoticePreset =
   | 'groupEmpty'
   | 'notfound'
   | 'unauthorized'
-  | 'error';
+  | 'error'
+  | 'likedUsersEmpty'
+  | 'likedPerformancesEmpty';
 
 interface StateNoticeProps {
   preset?: StateNoticePreset;
@@ -46,6 +50,14 @@ const presetConfig: Record<
   error: {
     icon: <AlertCircle className='h-10 w-10 text-red-500' />,
     message: '문제가 발생했습니다. 다시 시도해 주세요.',
+  },
+  likedUsersEmpty: {
+    icon: <Heart className='h-10 w-10 text-gray-400' />,
+    message: '찜한 유저가 없습니다.',
+  },
+  likedPerformancesEmpty: {
+    icon: <Music2 className='h-10 w-10 text-gray-400' />,
+    message: '찜한 공연이 없습니다.',
   },
 };
 
