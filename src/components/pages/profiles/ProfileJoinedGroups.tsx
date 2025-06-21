@@ -1,9 +1,9 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import GroupCard from '@/components/common/GroupCard/GroupCard';
 import { Group } from '@/types/group';
 import { GroupSummary } from '@/types/profiles';
+import ProfileJoinedGroupsCard from './ProfileJoinedGroupsCard';
 import ProfileSummaryBox from './ProfileSummaryBox';
 
 interface ProfileJoinedGroupsProps {
@@ -13,9 +13,11 @@ interface ProfileJoinedGroupsProps {
 const ProfileJoinedGroups = ({ groups }: ProfileJoinedGroupsProps) => {
   const router = useRouter();
 
-  if (groups.length === 0) {
+  if (!groups || groups.length === 0) {
     return (
-      <p className='text-center text-gray-500'>참여 중인 모임이 없습니다.</p>
+      <p className='text-center text-14_body_M text-gray-500'>
+        참여 중인 모임이 없습니다.
+      </p>
     );
   }
 
@@ -30,12 +32,10 @@ const ProfileJoinedGroups = ({ groups }: ProfileJoinedGroupsProps) => {
       <ProfileSummaryBox groupSummary={calculateGroupSummary(groups)} />
       <div className='flex flex-col gap-4'>
         {groups.map((group) => (
-          <GroupCard
+          <ProfileJoinedGroupsCard
             key={group.id}
             groupData={group}
-            buttonText='모임 보기'
             onCardClick={() => router.push(`/groups/${group.id}`)}
-            onButtonClick={() => router.push(`/groups/${group.id}`)}
           />
         ))}
       </div>
