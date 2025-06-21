@@ -1,6 +1,7 @@
 import { Rating, Star } from '@smastrom/react-rating';
 import { useQuery } from '@tanstack/react-query';
 import Poster from '@/components/common/poster/Poster';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import { GroupCategoryLabels } from '@/constants';
 import { reviewsApi } from '@/services/reviewsService';
 import { ReceivedSimpleReview } from '@/types/reviews';
@@ -25,7 +26,11 @@ const ReviewList = ({ userId }: ReviewListProps) => {
 
   if (reviewCount === 0) {
     return (
-      <p className='text-sm text-gray-400'>아직 받은 한 줄 리뷰가 없어요.</p>
+      <StateNotice
+        preset='reviewEmpty'
+        message='아직 받은 한 줄 리뷰가 없어요.'
+        height='20vh'
+      />
     );
   }
 

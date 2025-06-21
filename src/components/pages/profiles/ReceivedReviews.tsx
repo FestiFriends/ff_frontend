@@ -1,3 +1,4 @@
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import { FullProfile } from '@/types/profiles';
 import ReviewList from './ReviewList';
 import ReviewTagSummary from './ReviewTagSummary';
@@ -14,7 +15,9 @@ const ReceivedReviews = ({ profile }: ReceivedReviewsProps) => {
 
   if (noTag && noReview) {
     return (
-      <p className='text-center text-gray-500'>아직 받은 리뷰가 없어요.</p>
+      <p className='text-center text-14_body_M text-gray-500'>
+        <StateNotice preset='reviewEmpty' />
+      </p>
     );
   }
 

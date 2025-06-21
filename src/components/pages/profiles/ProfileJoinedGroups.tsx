@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import { Group } from '@/types/group';
 import { GroupSummary } from '@/types/profiles';
 import ProfileJoinedGroupsCard from './ProfileJoinedGroupsCard';
@@ -14,11 +15,7 @@ const ProfileJoinedGroups = ({ groups }: ProfileJoinedGroupsProps) => {
   const router = useRouter();
 
   if (!groups || groups.length === 0) {
-    return (
-      <p className='text-center text-14_body_M text-gray-500'>
-        참여 중인 모임이 없습니다.
-      </p>
-    );
+    return <StateNotice preset='groupEmpty' />;
   }
 
   const calculateGroupSummary = (groups: Group[]): GroupSummary => ({
