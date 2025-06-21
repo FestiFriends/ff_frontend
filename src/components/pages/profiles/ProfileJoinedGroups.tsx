@@ -23,18 +23,14 @@ const ProfileJoinedGroups = ({
 
   if (isLoading) {
     return (
-      <div className='flex flex-col items-center'>
+      <>
         <ProfileSummaryBox groupSummary={groupSummary} />
-        <div className='flex flex-col gap-4'>
-          {Array.from({ length: 2 }).map((_, index) => (
-            <ProfileJoinedGroupsCardSkeleton key={index} />
-          ))}
-        </div>
-      </div>
+        <ProfileJoinedGroupsCardSkeleton />
+      </>
     );
   }
 
-  if (groups.length === 0) {
+  if (!groups || groups.length === 0) {
     return <StateNotice preset='groupEmpty' />;
   }
 

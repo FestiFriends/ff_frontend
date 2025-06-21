@@ -44,10 +44,10 @@ const ProfileBody = ({ profile }: ProfileBodyProps) => {
                     message='참여 모임 불러오기에 실패했어요.'
                   />
                 )}
-                {joinedGroupsData && (
+                {(isGroupsLoading || joinedGroupsData) && (
                   <ProfileJoinedGroups
                     groupSummary={profile.groupSummary}
-                    groups={joinedGroupsData.data}
+                    groups={joinedGroupsData?.data ?? []}
                     isLoading={isGroupsLoading}
                   />
                 )}
