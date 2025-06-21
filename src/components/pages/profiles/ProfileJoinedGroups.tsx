@@ -5,28 +5,42 @@ import StateNotice from '@/components/common/StateNotice/StateNotice';
 import { Group } from '@/types/group';
 import { GroupSummary } from '@/types/profiles';
 import ProfileJoinedGroupsCard from './ProfileJoinedGroupsCard';
+import ProfileJoinedGroupsCardSkeleton from './ProfileJoinedGroupsCardSkeleton';
 import ProfileSummaryBox from './ProfileSummaryBox';
 
 interface ProfileJoinedGroupsProps {
   groups: Group[];
+  groupSummary: GroupSummary;
+  isLoading: boolean;
 }
 
-const ProfileJoinedGroups = ({ groups }: ProfileJoinedGroupsProps) => {
+const ProfileJoinedGroups = ({
+  groups,
+  groupSummary,
+  isLoading,
+}: ProfileJoinedGroupsProps) => {
   const router = useRouter();
+
+  if (isLoading) {
+    return (
+      <div className='flex flex-col items-center'>
+        <ProfileSummaryBox groupSummary={groupSummary} />
+        <div className='flex flex-col gap-4'>
+          {Array.from({ length: 2 }).map((_, index) => (
+            <ProfileJoinedGroupsCardSkeleton key={index} />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   if (groups.length === 0) {
     return <StateNotice preset='groupEmpty' />;
   }
 
-  const calculateGroupSummary = (groups: Group[]): GroupSummary => ({
-    joinedCount: groups.length,
-    totalJoinedCount: groups.length,
-    createdCount: groups.filter((g) => g.isHost).length,
-  });
-
   return (
     <div className='flex flex-col items-center'>
-      <ProfileSummaryBox groupSummary={calculateGroupSummary(groups)} />
+      <ProfileSummaryBox groupSummary={groupSummary} />
       <div className='flex flex-col gap-4'>
         {groups.map((group) => (
           <ProfileJoinedGroupsCard

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import Tabs from '@/components/common/Tabs/Tabs';
 import { useJoinedGroups } from '@/hooks/useJoinedGroups/useJoinedGroups';
 import { FullProfile } from '@/types/profiles';
@@ -37,16 +38,18 @@ const ProfileBody = ({ profile }: ProfileBodyProps) => {
           <div className='mb-4'>
             {selectedTab === '참여 모임' && (
               <div>
-                {isGroupsLoading && (
-                  <p className='text-center text-gray-400'>로딩 중...</p>
-                )}
                 {isGroupsError && (
-                  <p className='text-center text-red-500'>
-                    참여 모임 불러오기에 실패했어요.
-                  </p>
+                  <StateNotice
+                    preset='error'
+                    message='참여 모임 불러오기에 실패했어요.'
+                  />
                 )}
-                {!isGroupsLoading && joinedGroupsData && (
-                  <ProfileJoinedGroups groups={joinedGroupsData.data} />
+                {joinedGroupsData && (
+                  <ProfileJoinedGroups
+                    groupSummary={profile.groupSummary}
+                    groups={joinedGroupsData.data}
+                    isLoading={isGroupsLoading}
+                  />
                 )}
               </div>
             )}
