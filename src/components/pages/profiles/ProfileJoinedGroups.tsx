@@ -14,7 +14,7 @@ interface ProfileJoinedGroupsProps {
 const ProfileJoinedGroups = ({ groups }: ProfileJoinedGroupsProps) => {
   const router = useRouter();
 
-  if (!groups || groups.length === 0) {
+  if (groups.length === 0) {
     return <StateNotice preset='groupEmpty' />;
   }
 
