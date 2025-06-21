@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useProfile } from '@/hooks/useProfile/useProfile';
+import { FullProfile } from '@/types/profiles';
 import ProfileHeader from '../../common/ProfileCard/ProfileHeader';
 import ProfileBody from './ProfileBody';
 import ProfileBodySkeleton from './ProfileBodySkeleton';
-import ProfileNotFoundHeader from './ProfileHeaderNotFound';
 import ProfileHeaderSkeleton from './ProfileHeaderSkeleton';
 import ProfileWrapper from './ProfileWrapper';
 
@@ -33,22 +33,32 @@ const ProfilePage = ({ userId }: Props) => {
     }
   }, [isLoading]);
 
-  if (error) {
-    return (
-      <ProfileWrapper>
-        <ProfileNotFoundHeader />
-      </ProfileWrapper>
-    );
-  }
+  const fallbackProfile: FullProfile = {
+    id: 'not-found',
+    name: '',
+    age: 0,
+    gender: 'ALL',
+    rating: 0,
+    isMine: false,
+    groupSummary: { joinedCount: 0, totalJoinedCount: 0, createdCount: 0 },
+    reviewSummary: {},
+    reviewCount: 0,
+  };
 
   return (
     <>
       {isLoading && showSkeleton && (
-        <>
+        <ProfileWrapper>
           <ProfileHeaderSkeleton />
           <ProfileBodySkeleton />
-        </>
+        </ProfileWrapper>
       )}
+      {error && (
+        <ProfileWrapper>
+          <ProfileHeader profile={fallbackProfile} />
+        </ProfileWrapper>
+      )}
+
       {profile && (
         <>
           <ProfileWrapper>
