@@ -47,8 +47,8 @@ const GroupBlurredContainer = ({
         </div>
 
         <div className='relative'>
-          <div className='absolute top-1/2 left-1/2 z-1 -translate-x-1/2 -translate-y-1/2'>
-            <p className='text-16_B leading-normal tracking-[-0.35px] text-gray-700'>
+          <div className='absolute top-1/2 left-1/2 z-1 w-full -translate-x-1/2 -translate-y-1/2 p-5'>
+            <p className='text-center text-16_B leading-normal tracking-[-0.4px] break-keep text-gray-700'>
               모임에 참가하면 볼 수 있어요 👀
             </p>
           </div>
@@ -60,7 +60,7 @@ const GroupBlurredContainer = ({
                   key={member.memberId}
                   className='flex h-30 shrink-0 basis-[calc(100%/2.7)] flex-col items-center justify-center gap-3.5 rounded-[16px] border-1 border-gray-100 bg-white p-5'
                 >
-                  <div className='flex items-center justify-center gap-2.5'>
+                  <div className='flex items-center justify-center gap-2.5 select-none'>
                     <ProfileImage
                       size='lg'
                       src=''
@@ -70,13 +70,13 @@ const GroupBlurredContainer = ({
                     />
                   </div>
                   <div className='flex min-w-0 flex-col items-center gap-0.5'>
-                    <span className='flex items-center text-center text-12_M tracking-[-0.35px] text-gray-500'>
+                    <span className='flex items-center text-center text-12_M tracking-[-0.35px] text-gray-500 select-none'>
                       {member.role === 'HOST' && (
                         <CrownIcon className='mr-[1px] aspect-square h-3 w-3' />
                       )}
                       {RoleLabels[member.role as RoleType]}
                     </span>
-                    <span className='w-full truncate text-center text-16_B leading-normal tracking-[-0.4px] text-gray-950'>
+                    <span className='w-full truncate text-center text-16_B leading-normal tracking-[-0.4px] text-gray-950 select-none'>
                       {member.name}
                     </span>
                   </div>
@@ -94,7 +94,7 @@ const GroupBlurredContainer = ({
           onTabChange={setSelectedTab}
         />
         <div className='w-ull mt-5 flex h-50 flex-col items-center justify-center gap-3.5 bg-white p-5'>
-          <p className='-ml-1 text-16_B leading-normal tracking-[-0.35px] text-gray-500'>
+          <p className='-ml-1 text-center text-16_B leading-normal tracking-[-0.4px] break-keep text-gray-500'>
             모임에 참가하고 이용해 보세요 ☺️
           </p>
         </div>

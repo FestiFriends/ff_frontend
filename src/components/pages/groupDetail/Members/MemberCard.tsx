@@ -19,7 +19,7 @@ const MemberCard = ({ member, isHost }: MemberCardProps) => {
   return (
     <div
       key={member.memberId}
-      className='flex items-center justify-between rounded-[16px] border-1 border-gray-100 bg-white p-3.5'
+      className='flex items-center justify-between gap-2 rounded-[16px] border-1 border-gray-100 bg-white px-3 py-3.5'
     >
       <div className='flex min-w-0 items-center justify-start gap-2.5'>
         <Link href={`/profiles/${member.memberId}`}>
@@ -48,7 +48,7 @@ const MemberCard = ({ member, isHost }: MemberCardProps) => {
       </div>
 
       {isHost && member.role !== 'HOST' && isLoggedIn && (
-        <div className='flex gap-2.5'>
+        <div className='flex shrink-0 gap-2.5'>
           <MemberRoleModal member={member} />
           <MemberDeleteModal member={member} />
         </div>

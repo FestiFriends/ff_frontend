@@ -38,7 +38,7 @@ const Tabs = ({ tabs, activeTab, onTabChange, className }: TabsProps) => {
             key={tab}
             ref={(el) => void (tabRefs.current[i] = el)}
             onClick={() => onTabChange(tab)}
-            className={`flex-[1_0_0] items-center justify-center px-2 py-3.5 leading-normal tracking-[-0.35px] transition-all ${
+            className={`flex-[1_0_0] cursor-pointer items-center justify-center px-2 py-3.5 leading-normal tracking-[-0.35px] transition-all ${
               activeTab === tab
                 ? 'text-14_B text-black'
                 : 'text-14_M text-gray-500'
