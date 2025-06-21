@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/common/Button/Button';
 import Portal from '@/components/common/Portal';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import { usePostJoinGroup } from '@/hooks/groupHooks/groupHooks';
 import { useLeaveGroup } from '@/hooks/groupsManagementsHooks/groupsManagementsHooks';
+import { hasProfanity } from '@/lib/utils';
 import { ToastContent } from '@/types/toastContent';
 
 interface GroupModalProps {
@@ -26,18 +27,26 @@ const GroupModal = ({
   setShowToast,
   setToastContent,
 }: GroupModalProps) => {
+  const router = useRouter();
   const { mutate: postJoinGroup, status: joinStatus } = usePostJoinGroup();
   const { mutate: leaveGroup, status: leaveStatus } = useLeaveGroup();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [description, setDescription] = useState<string>('');
-  const router = useRouter();
+  const [isValid, setIsValid] = useState<boolean>(true);
+
+  const handleDescriptionChange = (value: string) => {
+    setDescription(value);
+    setIsValid(!hasProfanity(value));
+  };
 
   const onCloseModal = () => {
     setDescription('');
+    setIsValid(true);
     setIsOpen(false);
   };
 
   const applyToGroup = () => {
+    if (description.trim() === '') return;
     if (groupId && description) {
       postJoinGroup(
         { groupId, description },
@@ -96,7 +105,9 @@ const GroupModal = ({
       <TextareaInput
         rows={5}
         value={description}
-        onChange={setDescription}
+        onChange={handleDescriptionChange}
+        isValidText={isValid}
+        showWarning={description !== '' && !isValid}
         placeholder='간단한 소개를 작성해주세요.'
         className='rounded-[16px] border-1 border-gray-100 px-5 py-4 text-[16px] leading-[180%] font-medium tracking-[-0.35px] text-gray-950 shadow-[0px_2px_6px_0px_rgba(0,0,0,0.02)] placeholder:text-gray-500'
       />
@@ -112,7 +123,8 @@ const GroupModal = ({
         <Button
           onClick={applyToGroup}
           className='px-5 py-2.5'
-          disabled={joinStatus === 'pending'}
+          color={joinStatus === 'pending' || !isValid ? 'disable' : 'normal'}
+          disabled={joinStatus === 'pending' || !isValid}
         >
           {joinStatus === 'pending' ? '신청중...' : '신청'}
         </Button>
@@ -137,6 +149,7 @@ const GroupModal = ({
         <Button
           onClick={leaveFromGroup}
           className='px-5 py-2.5'
+          color={joinStatus === 'pending' ? 'disable' : 'normal'}
           disabled={leaveStatus === 'pending'}
         >
           {leaveStatus === 'pending' ? '탈퇴중...' : '탈퇴'}

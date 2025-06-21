@@ -5,6 +5,7 @@ import Button from '@/components/common/Button/Button';
 import Portal from '@/components/common/Portal';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import { usePostJoinGroup } from '@/hooks/groupHooks/groupHooks';
+import { hasProfanity } from '@/lib/utils';
 import { ToastContent } from '@/types/toastContent';
 
 interface GroupApplyModalProps {
@@ -27,10 +28,17 @@ const GroupApplyModal = ({
   const { mutate: postJoinGroup, status } = usePostJoinGroup();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [description, setDescription] = useState<string>('');
+  const [isValid, setIsValid] = useState<boolean>(true);
+
+  const handleDescriptionChange = (value: string) => {
+    setDescription(value);
+    setIsValid(!hasProfanity(value));
+  };
 
   const onCloseApplyModal = () => {
     setSelectedGroupId?.('');
     setDescription('');
+    setIsValid(true);
     setIsOpen(false);
   };
 
@@ -100,7 +108,9 @@ const GroupApplyModal = ({
           <TextareaInput
             rows={5}
             value={description}
-            onChange={setDescription}
+            onChange={handleDescriptionChange}
+            isValidText={isValid}
+            showWarning={description !== '' && !isValid}
             placeholder='간단한 소개를 작성해주세요.'
             className='rounded-[16px] border-1 border-gray-100 px-5 py-4 text-[16px] leading-[180%] font-medium tracking-[-0.35px] text-gray-950 shadow-[0px_2px_6px_0px_rgba(0,0,0,0.02)] placeholder:text-gray-500'
           />
@@ -116,7 +126,8 @@ const GroupApplyModal = ({
             <Button
               onClick={applyToGroup}
               className='px-5 py-2.5'
-              disabled={status === 'pending'}
+              color={status === 'pending' || !isValid ? 'disable' : 'normal'}
+              disabled={status === 'pending' || !isValid}
             >
               {status === 'pending' ? '신청중...' : '신청'}
             </Button>
