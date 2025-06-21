@@ -85,7 +85,7 @@ const StateNotice = ({
       className={`flex flex-col items-center justify-center gap-3 text-center text-gray-500 ${className}`}
     >
       {finalIcon}
-      <p className={`text-14_B ${finalTextColor}`}>{finalMessage}</p>
+      <div className={`text-14_B ${finalTextColor}`}>{finalMessage}</div>
       {action}
     </div>
   );

@@ -57,10 +57,13 @@ const ProfileHeader = ({ profile, onEditClick }: ProfileHeaderProps) => {
           message='탈퇴했거나 존재하지 않는 사용자입니다.'
         />
       ) : (
-        <p className='w-full max-w-xl text-14_body_M whitespace-pre-wrap text-gray-950'>
-          {description?.trim()
-            || '이 사용자는 아직 자기소개를 작성하지 않았어요.'}
-        </p>
+        <div className='w-full max-w-xl text-14_body_M whitespace-pre-wrap text-gray-950'>
+          {description?.trim() || (
+            <div className='text-gray-300'>
+              이 사용자는 아직 자기소개를 작성하지 않았어요.
+            </div>
+          )}
+        </div>
       )}
 
       {sns?.trim() && (
