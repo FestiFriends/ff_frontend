@@ -30,7 +30,7 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   try {
     const res = await nextFetcher<PerformancesResponsePagination>(
       '/api/v1/performances?page=1&size=100',
-      { method: 'GET', revalidate: 3600 }
+      { method: 'GET', revalidate: 21600 }
     );
     if (res.data && res.data.length > 0) {
       performances = res.data;
