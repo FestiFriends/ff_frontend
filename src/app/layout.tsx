@@ -18,15 +18,14 @@ export const metadata: Metadata = {
     description: '숙소부터 공연장까지 함께할 친구들을 찾아보세요',
     url: process.env.NEXT_PUBLIC_SITE_URL,
     siteName: 'FestiFriends',
-    // TODO: openGraph용 이미지 생성 후 적용
-    // images: [
-    //   {
-    //     url: `${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`,
-    //     width: 1200,
-    //     height: 630,
-    //     alt: 'FestiFriends 로고 이미지',
-    //   },
-    // ],
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: 'FestiFriends 오픈그래프 이미지',
+      },
+    ],
     locale: 'ko_KR',
     type: 'website',
   },
@@ -34,8 +33,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'FestiFriends - 숙소부터 공연장까지 함께할 덕메 찾기',
     description: '숙소부터 공연장까지 함께할 친구들을 찾아보세요',
-    // TODO: openGraph용 이미지 생성 후 적용
-    // images: [`${process.env.NEXT_PUBLIC_SITE_URL}/twitter-image.png`],
+    images: [`${process.env.NEXT_PUBLIC_SITE_URL}/og-image.png`],
   },
   icons: {
     icon: [
