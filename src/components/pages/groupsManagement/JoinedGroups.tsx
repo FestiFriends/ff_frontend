@@ -45,6 +45,10 @@ const JoinedGroups = () => {
     isFetchingNextPage
   );
 
+  if (isPending && !data) {
+    return <JoinedGroupsSkeleton />;
+  }
+
   const handleButtonClick = (
     groupId: string,
     isHost: boolean,

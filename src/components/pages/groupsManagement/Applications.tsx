@@ -48,8 +48,16 @@ const Applications = () => {
     isFetchingNextPage
   );
 
-  const groups =
-    data && formatApplications(data?.pages[0]?.data as ApplicationsApiResponse);
+  if (isPending && !data) {
+    return <ApplicationsSkeleton />;
+  }
+  if (!data) {
+    return <div>데이터가 없습니다</div>;
+  }
+
+  const groups = formatApplications(
+    data?.pages[0]?.data as ApplicationsApiResponse
+  );
 
   const handleAcceptClick = (applicationId: string) => {
     setActionType('accept');
