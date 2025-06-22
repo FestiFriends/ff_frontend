@@ -82,13 +82,13 @@ const SlideCard = (props: SlideCardProps) => {
       )}
     >
       <div className='flex gap-4'>
-        <div className='relative h-[112px] w-[84px] shrink-0 overflow-hidden rounded-[12px]'>
+        <div className='relative h-[126px] w-[94px] shrink-0 overflow-hidden rounded-12'>
           <Image
             src={groupInfo.performance.poster}
             alt={groupInfo.performance.title}
-            width={84}
-            height={112}
-            sizes='84px'
+            width={94}
+            height={126}
+            sizes='94px'
             className='object-cover'
           />
         </div>
