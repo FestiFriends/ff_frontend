@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/common/Button/Button';
 import Modal from '@/components/common/Modal/Modal';
@@ -7,6 +7,7 @@ import ModalCancel from '@/components/common/Modal/ModalCancel';
 import ModalContent from '@/components/common/Modal/ModalContent';
 import ModalTrigger from '@/components/common/Modal/ModalTrigger';
 import Toast from '@/components/common/Toast/Toast';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   useCancelApplication,
   useConfirmApplication,
@@ -16,6 +17,7 @@ import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
 import { ApplicationStatus, ApplicationStatusType } from '@/types/enums';
 import { formatAppliedGroups } from '@/utils/formatApplicationData';
 import AppliedGroup from './AppliedGroup/AppliedGroup';
+import AppliedGroupsSkeleton from './AppliedGroupsSkeleton';
 
 const AppliedGroups = () => {
   const router = useRouter();
@@ -37,15 +39,6 @@ const AppliedGroups = () => {
     hasNextPage,
     isFetchingNextPage
   );
-
-  useEffect(() => {}, [data]);
-  if (isPending) {
-    return (
-      <div className='flex h-full items-center justify-center'>
-        <p>로딩 중...</p>
-      </div>
-    );
-  }
 
   const routeToGroupPage = (groupId: string) => {
     router.push(`/groups/${groupId}`);
@@ -72,6 +65,10 @@ const AppliedGroups = () => {
     }
   };
 
+  if (isPending && !data) {
+    return <AppliedGroupsSkeleton />;
+  }
+
   return (
     <div className='flex flex-col items-center gap-5 px-4'>
       {data?.pages.flatMap((page) =>
@@ -92,10 +89,15 @@ const AppliedGroups = () => {
         ))
       )}
       {hasNextPage && (
-        <div
-          ref={bottomRef}
-          className='h-10'
-        />
+        <>
+          {isFetchingNextPage && (
+            <Skeleton className='h-10 w-full rounded-[16px]' />
+          )}
+          <div
+            ref={bottomRef}
+            className='h-10'
+          />
+        </>
       )}
       <Modal>
         <ModalTrigger>

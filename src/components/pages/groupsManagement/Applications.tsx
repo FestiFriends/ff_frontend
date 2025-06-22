@@ -20,6 +20,7 @@ import {
   formatApplications,
 } from '@/utils/formatApplicationData';
 import ApplicationComponent from './Application/Application';
+import ApplicationsSkeleton from './ApplicationsSkeleton';
 
 const Applications = () => {
   const router = useRouter();
@@ -40,12 +41,11 @@ const Applications = () => {
     isFetchingNextPage
   );
 
-  if (isPending) {
-    return (
-      <div className='flex h-full items-center justify-center'>
-        <p>로딩 중...</p>
-      </div>
-    );
+  if (isPending && !data) {
+    return <ApplicationsSkeleton />;
+  }
+  if (!data) {
+    return <div>데이터가 없습니다</div>;
   }
 
   const groups = formatApplications(

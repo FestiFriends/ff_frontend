@@ -14,6 +14,7 @@ import {
 } from '@/hooks/groupsManagementsHooks/groupsManagementsHooks';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
 import { formatJoinedGroups } from '@/utils/formatGroupCardData';
+import JoinedGroupsSkeleton from './JoinedGroupsSkeleton';
 
 const JoinedGroups = () => {
   const router = useRouter();
@@ -30,7 +31,9 @@ const JoinedGroups = () => {
     isFetchingNextPage
   );
 
-  if (isPending) return <div>Loading...</div>;
+  if (isPending && !data) {
+    return <JoinedGroupsSkeleton />;
+  }
 
   const handleButtonClick = (
     groupId: string,
