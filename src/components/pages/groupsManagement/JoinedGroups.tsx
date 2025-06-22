@@ -45,7 +45,9 @@ const JoinedGroups = () => {
     isFetchingNextPage
   );
 
-  if (isPending) return <div className='mx-auto w-fit'>로딩 중...</div>;
+  if (isPending && !data) {
+    return <JoinedGroupsSkeleton />;
+  }
 
   const handleButtonClick = (
     groupId: string,
