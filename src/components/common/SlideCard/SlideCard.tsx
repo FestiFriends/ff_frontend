@@ -16,6 +16,8 @@ import ProgressBar from '../ProgressBar/ProgressBar';
 
 interface BaseProps {
   content?: ReactNode;
+  className?: string;
+  onCardClick?: () => void;
 }
 
 interface ReviewCardProps extends BaseProps {
@@ -32,7 +34,7 @@ interface ApplicationCardProps extends BaseProps {
 type SlideCardProps = ReviewCardProps | ApplicationCardProps;
 
 const SlideCard = (props: SlideCardProps) => {
-  const { type, groupInfo, content } = props;
+  const { type, groupInfo, content, onCardClick } = props;
   const [open, setOpen] = useState(false);
   const [openToClose, setOpenToClose] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -47,7 +49,8 @@ const SlideCard = (props: SlideCardProps) => {
     }
   }, [open, content]);
 
-  const handleOpen = () => {
+  const handleOpen = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     if (open) {
       setOpenToClose(true);
       setOpen(false);
@@ -63,8 +66,18 @@ const SlideCard = (props: SlideCardProps) => {
 
   return (
     <div
+      {...(type === 'application' && {
+        onClick: onCardClick,
+        role: 'button',
+        tabIndex: 0,
+        onKeyDown: (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            onCardClick?.();
+          }
+        },
+      })}
       className={cn(
-        'flex w-[343px] flex-col rounded-2xl bg-gray-25 p-5',
+        'flex w-full flex-col rounded-2xl bg-gray-25 p-5',
         (open || openToClose) && 'gap-4'
       )}
     >
@@ -80,7 +93,7 @@ const SlideCard = (props: SlideCardProps) => {
           />
         </div>
 
-        <div className='flex w-[204px] flex-col justify-between'>
+        <div className='flex w-full flex-1 flex-col justify-between overflow-hidden'>
           <div className='flex items-center justify-between'>
             <span className='flex items-center gap-1 text-14_M text-gray-600'>
               {<Icon className='h-4 w-4' />}
@@ -121,7 +134,7 @@ const SlideCard = (props: SlideCardProps) => {
               </p>
               <button
                 className='text-12_M text-gray-700 underline'
-                onClick={handleOpen}
+                onClick={(e) => handleOpen(e)}
               >
                 <span>{open ? '닫기' : '더보기'}</span>
               </button>

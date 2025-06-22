@@ -133,8 +133,10 @@ const GroupCard = ({
             <ProfileImage
               size='xs'
               border={false}
+              src={groupData.host.profileImage}
+              className='flex-shrink-0'
             />
-            <span className='text-12_M text-gray-700'>
+            <span className='ml-0.5 min-w-0 truncate text-12_M text-gray-700'>
               {groupData.host.name}
             </span>
             <span className='flex text-12_M text-gray-700'>
@@ -142,7 +144,7 @@ const GroupCard = ({
               {groupData.host.rating})
             </span>
           </div>
-          <p className='line-clamp-2 w-full text-14_body_M text-gray-950'>
+          <p className='line-clamp-2 w-full text-14_body_M break-all text-gray-950'>
             {groupData.description}
           </p>
         </div>
