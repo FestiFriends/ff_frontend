@@ -6,6 +6,7 @@ import ModalAction from '@/components/common/Modal/ModalAction';
 import ModalCancel from '@/components/common/Modal/ModalCancel';
 import ModalContent from '@/components/common/Modal/ModalContent';
 import ModalTrigger from '@/components/common/Modal/ModalTrigger';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import Toast from '@/components/common/Toast/Toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
@@ -13,6 +14,7 @@ import {
   useConfirmApplication,
   useGetAppliedGroups,
 } from '@/hooks/groupsManagementsHooks/groupsManagementsHooks';
+import { renderErrorNotice } from '@/hooks/useErrorNoticePreset/useErrorNoticePreset';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
 import { ApplicationStatus, ApplicationStatusType } from '@/types/enums';
 import { formatAppliedGroups } from '@/utils/formatApplicationData';
@@ -78,19 +80,18 @@ const AppliedGroups = () => {
     return <AppliedGroupsSkeleton />;
   }
 
-  //TODO: 데이터 없을 때 빈 화면 추가
   if (groups?.length === 0) {
     return (
       <div className='flex h-full items-center justify-center'>
-        <p>신청한 모임이 없습니다.</p>
+        <StateNotice preset='appliedGroupsEmpty' />
       </div>
     );
   }
 
-  if (error || data?.pages[0]?.data?.code !== 200) {
+  if (error) {
     return (
       <div className='flex h-full items-center justify-center'>
-        <p>{error?.message || data?.pages[0]?.data?.message}</p>
+        {renderErrorNotice(error, '70vh')}
       </div>
     );
   }

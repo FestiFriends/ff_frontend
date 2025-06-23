@@ -141,7 +141,7 @@ const EditGroupWrapper = () => {
     }
   };
 
-  if (isPending) return <div>로딩 중…</div>;
+  if (isPending && !groupDetail) return <div>로딩 중…</div>;
 
   return (
     <div className='flex h-screen flex-col'>

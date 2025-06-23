@@ -7,11 +7,13 @@ import ModalAction from '@/components/common/Modal/ModalAction';
 import ModalCancel from '@/components/common/Modal/ModalCancel';
 import ModalContent from '@/components/common/Modal/ModalContent';
 import ModalTrigger from '@/components/common/Modal/ModalTrigger';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import Toast from '@/components/common/Toast/Toast';
 import {
   useGetJoinedGroups,
   useLeaveGroup,
 } from '@/hooks/groupsManagementsHooks/groupsManagementsHooks';
+import { renderErrorNotice } from '@/hooks/useErrorNoticePreset/useErrorNoticePreset';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
 import { formatJoinedGroups } from '@/utils/formatGroupCardData';
 import JoinedGroupsSkeleton from './JoinedGroupsSkeleton';
@@ -73,21 +75,16 @@ const JoinedGroups = () => {
     );
   }
 
-  //TODO: 데이터 없을 때 빈 화면 추가
   if (activeGroups?.length === 0) {
     return (
       <div className='flex h-full items-center justify-center'>
-        <p>참가 중인 모임이 없습니다.</p>
+        <StateNotice preset='joinedGroupsEmpty' />
       </div>
     );
   }
 
-  if (error || data?.pages[0]?.data?.code !== 200) {
-    return (
-      <div className='flex h-full items-center justify-center'>
-        <p>{error?.message || data?.pages[0]?.data?.message}</p>
-      </div>
-    );
+  if (error) {
+    return <div>{renderErrorNotice(error, '100%')}</div>;
   }
 
   return (

@@ -10,6 +10,7 @@ import {
   useGetPost,
   useReactionPost,
 } from '@/hooks/postHooks/postHook';
+import { renderErrorNotice } from '@/hooks/useErrorNoticePreset/useErrorNoticePreset';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
 import { Comment } from '@/types/comment';
 import CommentList from './CommentList/CommentList';
@@ -81,7 +82,8 @@ const PostDetailWrapper = () => {
         />
       </div>
     );
-  if (isPostError) return <div>{postError?.message}</div>;
+
+  if (isPostError) return <div>{renderErrorNotice(postError, '100%')}</div>;
 
   return (
     <>
