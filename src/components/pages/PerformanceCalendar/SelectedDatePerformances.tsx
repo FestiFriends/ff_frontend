@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 import { PerformanceCard } from '@/components/common';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import { Performance } from '@/types/performance';
 import { isPerformanceOnDate } from '@/utils/isPerformanceOnDate';
 
@@ -16,33 +17,36 @@ const SelectedDatePerformances = ({ date, performances }: Props) => {
     isPerformanceOnDate(perf, date)
   );
 
-  if (filtered.length === 0) {
-    return (
-      <div className='mt-6 space-y-4'>
-        <h2 className='text-lg font-semibold'>
-          {format(date, 'M월 d일')} 공연 목록
-        </h2>
-        <p className='text-sm text-gray-500'>
-          선택한 날짜에 예정된 공연이 없습니다.
-        </p>
-      </div>
-    );
-  }
-
   return (
-    <div className='mt-6 space-y-4'>
-      <h2 className='text-lg font-semibold'>
+    <div className='mt-2 space-y-5'>
+      <h2 className='text-center text-lg font-semibold'>
         {format(date, 'M월 d일')} 공연 목록
       </h2>
-      <ul className='space-y-2'>
-        {filtered.map((perf, index) => (
+
+      {filtered.length === 0 ? (
+        <StateNotice
+          preset='searchEmpty'
+          message='선택한 날짜에 예정된 공연이 없습니다.'
+          height='5vh'
+        />
+      ) : filtered.length === 1 ? (
+        <div className='flex justify-center'>
           <PerformanceCard
-            key={perf.id}
-            performance={perf}
-            ranking={index + 1}
+            performance={filtered[0]}
+            ranking={1}
           />
-        ))}
-      </ul>
+        </div>
+      ) : (
+        <ul className='mx-auto grid w-full max-w-md grid-cols-2 justify-items-center gap-x-4 gap-y-7'>
+          {filtered.map((perf, index) => (
+            <PerformanceCard
+              key={perf.id}
+              performance={perf}
+              ranking={index + 1}
+            />
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
