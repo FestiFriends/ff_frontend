@@ -1,5 +1,6 @@
 import { persist } from 'zustand/middleware';
 import { createStore } from 'zustand/vanilla';
+import { instance } from '@/lib/apiFetcher';
 
 export type AuthState = {
   isLoggedIn: boolean;
@@ -39,6 +40,7 @@ export const createAuthStore = (initState: AuthState = defaultInitState) =>
             isLoggedIn: false,
           });
           localStorage.removeItem('authInfo');
+          delete instance.defaults.headers.common['Authorization'];
         },
       }),
       {
