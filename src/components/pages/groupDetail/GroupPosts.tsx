@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import FabButton from '@/components/common/FabButton/FabButton';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import EditIcon from '@/components/icons/EditIcon';
 import { useGetGroupPosts } from '@/hooks/groupHooks/groupHooks';
 import { useReactionPost } from '@/hooks/postHooks/postHook';
+import { renderErrorNotice } from '@/hooks/useErrorNoticePreset/useErrorNoticePreset';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
 import { Post } from '@/types/post';
 import PostCard from './PostCard/PostCard';
@@ -61,18 +63,15 @@ const GroupPosts = () => {
       </div>
     );
 
-  if (error)
-    return (
-      <div className='flex h-full items-center justify-center'>
-        <p>{error?.message}</p>
-      </div>
-    );
+  if (error) return <div>{renderErrorNotice(error, '100%')}</div>;
 
-  // TODO: 컴포넌트로 바꾸기
   if (posts?.pages?.flatMap((page) => page.data?.posts || []).length === 0)
     return (
-      <div className='flex h-full items-center justify-center pt-40'>
-        <p>등록된 게시글이 없습니다.</p>
+      <div className='flex h-full items-center justify-center py-20'>
+        <StateNotice
+          height='100%'
+          preset='postsEmpty'
+        />
         <FabButton
           onClick={() => router.push(`/groups/${groupId}/posts/create`)}
           icon={<EditIcon />}

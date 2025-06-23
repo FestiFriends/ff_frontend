@@ -7,11 +7,13 @@ import ModalCancel from '@/components/common/Modal/ModalCancel';
 import ModalContent from '@/components/common/Modal/ModalContent';
 import ModalTrigger from '@/components/common/Modal/ModalTrigger';
 import SlideCard from '@/components/common/SlideCard/SlideCard';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   useGetApplications,
   usePatchApplication,
 } from '@/hooks/groupsManagementsHooks/groupsManagementsHooks';
+import { renderErrorNotice } from '@/hooks/useErrorNoticePreset/useErrorNoticePreset';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
 import { ApplicationGroupInfo } from '@/types/application';
 import { ApplicationStatus } from '@/types/enums';
@@ -89,21 +91,16 @@ const Applications = () => {
     return <ApplicationsSkeleton />;
   }
 
-  //TODO: 데이터 없을 때 빈 화면 추가
   if (groups?.length === 0) {
     return (
       <div className='flex h-full items-center justify-center'>
-        <p>방장인 모임이 없습니다.</p>
+        <StateNotice preset='applicationsEmpty' />
       </div>
     );
   }
 
-  if (error || data?.pages[0]?.data?.code !== 200) {
-    return (
-      <div className='flex h-full items-center justify-center'>
-        <p>{error?.message || data?.pages[0]?.data?.message}</p>
-      </div>
-    );
+  if (error) {
+    return <div>{renderErrorNotice(error, '100%')}</div>;
   }
 
   return (
@@ -147,8 +144,7 @@ const Applications = () => {
                   e.stopPropagation();
                 }}
               >
-                {/* TODO: 데이터 없을 때 빈 화면 추가 */}
-                <p>아직 신청자가 없습니다.</p>
+                <p>받은 신청서가 없습니다.</p>
               </div>
             )
           }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { renderErrorNotice } from '@/hooks/useErrorNoticePreset/useErrorNoticePreset';
 import { cn } from '@/lib/utils';
 import { Comment } from '@/types/comment';
 import CommentItem from '../CommentItem/CommentItem';
@@ -10,11 +11,7 @@ interface CommentListProps {
 
 const CommentList = ({ comments, error }: CommentListProps) => {
   if (error) {
-    return (
-      <div className='flex h-full items-center justify-center'>
-        <p>{error?.message}</p>
-      </div>
-    );
+    return <div>{renderErrorNotice(error, '100%')}</div>;
   }
 
   return (
