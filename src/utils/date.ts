@@ -44,7 +44,7 @@ export const formatPostDate = (dateStr: string): string => {
 
 // yy.MM.dd
 export const formatNormalDate = (date: string | Date) =>
-  format(new Date(date), 'yy.MM.dd', { locale: ko });
+  date.toString().split('T')[0];
 
 export const formatToKST = (isoString: string) => {
   const date = new Date(isoString);
