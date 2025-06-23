@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Notification, SearchInput } from '@/components/common';
 import { ArrowLeft, SearchIcon } from '@/components/icons';
@@ -54,7 +55,9 @@ const Header = ({
                 !isLoggedIn && 'w-[81px]'
               )}
             >
-              <LogoIcon className='aspect-square h-7.5 w-7.5 shrink-0 cursor-pointer' />
+              <Link href={'/'}>
+                <LogoIcon className='aspect-square h-7.5 w-7.5 shrink-0 cursor-pointer' />
+              </Link>
             </div>
             <h1 className='text-16_B text-black'>{title}</h1>
             <div
