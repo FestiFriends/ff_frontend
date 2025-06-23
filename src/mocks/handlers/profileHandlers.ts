@@ -246,11 +246,10 @@ export const profileHandlers = [
     return HttpResponse.json({
       code: 200,
       message: '참여 모임 목록 조회 성공',
-      data: {
-        data: pagedGroups,
-        cursorId: nextCursor,
-        hasNext: startIndex + size < allGroups.length,
-      },
+      data: pagedGroups,
+      cursorId: nextCursor,
+      hasNext: startIndex + size < allGroups.length,
+      firstPage: startIndex === 0,
     });
   }),
 ];

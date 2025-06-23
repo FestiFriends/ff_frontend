@@ -130,7 +130,7 @@ const WRITTEN_REVIEWS_SAMPLE_DATA: WrittenReviewsData[] = [
       },
       {
         reviewId: 'rev-302',
-        targetUserId: 'guest2',
+        targetUserId: 'me',
         targetUserName: '김영희',
         targetUserProfileImage: 'https://picsum.photos/seed/perf1/400/600',
         rating: 4,

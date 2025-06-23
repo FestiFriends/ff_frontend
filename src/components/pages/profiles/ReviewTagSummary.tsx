@@ -1,3 +1,4 @@
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import { ReviewTagLabels } from '@/constants/reviewLabels';
 import { ReviewTagType } from '@/types/enums';
 import { ReviewSummary } from '@/types/profiles';
@@ -13,9 +14,11 @@ const ReviewTagSummary = ({ summary }: ReviewTagSummaryProps) => {
 
   if (sortedTags.length === 0) {
     return (
-      <p className='flex h-[57px] items-center justify-between rounded-md bg-gray-25 px-4 py-2 text-14_B'>
-        아직 받은 리뷰 태그가 없어요.
-      </p>
+      <StateNotice
+        preset='reviewEmpty'
+        message='아직 받은 리뷰 태그가 없어요.'
+        height='5vh'
+      />
     );
   }
 

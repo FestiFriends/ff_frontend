@@ -1,5 +1,6 @@
 'use client';
 
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import { useGetGroupInfo } from '@/hooks/groupHooks/groupHooks';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import GroupBlurredContainer from './GroupBlurredContainer';
@@ -18,9 +19,10 @@ const GroupWrapper = ({ groupId }: GroupWrapperProps) => {
 
   if (isError) {
     return (
-      <div className='flex flex-col items-center justify-center px-4 py-5'>
-        <p className='font-semibold text-gray-500'>존재하지 않는 모임입니다.</p>
-      </div>
+      <StateNotice
+        preset='notfound'
+        message='존재하지 않는 모임입니다.'
+      />
     );
   }
 
