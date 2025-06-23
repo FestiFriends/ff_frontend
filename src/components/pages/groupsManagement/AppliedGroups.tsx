@@ -31,8 +31,17 @@ const AppliedGroups = () => {
   const primaryText = (status: ApplicationStatusType) =>
     status === ApplicationStatus.ACCEPTED ? '참가 확정' : '신청 취소';
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
-    useGetAppliedGroups();
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isPending,
+  } = useGetAppliedGroups();
+
+  const groups =
+    data && data?.pages.flatMap((page) => formatAppliedGroups(page.data));
 
   const bottomRef = useInfiniteScroll<HTMLDivElement>(
     fetchNextPage,
@@ -69,28 +78,45 @@ const AppliedGroups = () => {
     return <AppliedGroupsSkeleton />;
   }
 
+  //TODO: 데이터 없을 때 빈 화면 추가
+  if (groups?.length === 0) {
+    return (
+      <div className='flex h-full items-center justify-center'>
+        <p>신청한 모임이 없습니다.</p>
+      </div>
+    );
+  }
+
+  if (error || data?.pages[0]?.data?.code !== 200) {
+    return (
+      <div className='flex h-full items-center justify-center'>
+        <p>{error?.message || data?.pages[0]?.data?.message}</p>
+      </div>
+    );
+  }
+
   return (
     <div className='flex flex-col items-center gap-5 px-4'>
-      {data?.pages.flatMap((page) =>
-        formatAppliedGroups(page.data).map((group) => (
-          <AppliedGroup
-            key={group.applicationId}
-            applicationData={group}
-            primaryButtonText={primaryText(group.status)}
-            onCardClick={() => routeToGroupPage(group.groupId)}
-            onPrimaryClick={() =>
-              handlePrimaryClick(group.applicationId, group.status)
-            }
-            {...(group.status === ApplicationStatus.ACCEPTED && {
-              secondaryButtonText: '신청 취소',
-              onSecondaryClick: () => handleSecondaryClick(group.applicationId),
-            })}
-          />
-        ))
-      )}
+      {groups?.map((group) => (
+        <AppliedGroup
+          key={group.applicationId}
+          applicationData={group}
+          primaryButtonText={primaryText(group.status)}
+          onCardClick={() => routeToGroupPage(group.groupId)}
+          onPrimaryClick={() =>
+            handlePrimaryClick(group.applicationId, group.status)
+          }
+          {...(group.status === ApplicationStatus.ACCEPTED && {
+            secondaryButtonText: '신청 취소',
+            onSecondaryClick: () => handleSecondaryClick(group.applicationId),
+          })}
+        />
+      ))}
+
       {hasNextPage && (
         <>
           {isFetchingNextPage && (
+            // TODO: 다음 꺼 스켈레톤
             <Skeleton className='h-10 w-full rounded-[16px]' />
           )}
           <div
@@ -99,9 +125,13 @@ const AppliedGroups = () => {
           />
         </>
       )}
+
       <Modal>
         <ModalTrigger>
-          <button ref={triggerRef}></button>
+          <button
+            ref={triggerRef}
+            className='hidden'
+          ></button>
         </ModalTrigger>
         <ModalContent className='flex w-[343px] flex-col rounded-2xl bg-white p-5 pt-11'>
           <p className='mb-[30px] flex w-full justify-center text-16_B text-black'>

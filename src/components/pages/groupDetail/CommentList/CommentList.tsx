@@ -1,27 +1,31 @@
 import React from 'react';
-import { useParams } from 'next/navigation';
-import { useGetComments } from '@/hooks/postHooks/postHook';
 import { cn } from '@/lib/utils';
+import { Comment } from '@/types/comment';
 import CommentItem from '../CommentItem/CommentItem';
 
-const CommentList = () => {
-  const params = useParams();
-  const groupId = params?.groupId as string;
-  const postId = params?.postId as string;
-  const { data: comments } = useGetComments({ groupId, postId });
+interface CommentListProps {
+  comments: Comment[];
+  error?: Error | null;
+}
+
+const CommentList = ({ comments, error }: CommentListProps) => {
+  if (error) {
+    return (
+      <div className='flex h-full items-center justify-center'>
+        <p>{error?.message}</p>
+      </div>
+    );
+  }
 
   return (
     <div className='flex w-full flex-col justify-between pb-0.5'>
-      {comments?.data?.flatMap((comment, index) => [
+      {comments?.map((comment: Comment, index: number) => [
         <CommentItem
           key={comment.id}
           comment={comment}
-          className={cn(
-            index === 0 && 'pt-0',
-            index === (comments.data?.length ?? 0) - 1 && 'pb-0'
-          )}
+          className={cn(index === (comments?.length ?? 0) - 1 && 'pb-0')}
         />,
-        index !== (comments.data?.length ?? 0) - 1 && (
+        index < (comments?.length ?? 0) - 1 && (
           <hr
             key={`divider-${comment.id}`}
             className='border-gray-100'

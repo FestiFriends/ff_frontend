@@ -21,19 +21,29 @@ const JoinedGroups = () => {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const { mutateAsync: leaveGroup } = useLeaveGroup();
   const [selectedGroupId, setSelectedGroupId] = useState('');
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
-    useGetJoinedGroups();
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isPending,
+  } = useGetJoinedGroups();
   const [isToastOpen, setIsToastOpen] = useState(false);
+
+  const groups =
+    data && data?.pages.flatMap((page) => formatJoinedGroups(page.data));
+
+  const activeGroups = groups?.filter((group) => {
+    if (!group.endDate) return true;
+    return new Date(group.endDate) >= new Date();
+  });
 
   const bottomRef = useInfiniteScroll<HTMLDivElement>(
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage
   );
-
-  if (isPending && !data) {
-    return <JoinedGroupsSkeleton />;
-  }
 
   const handleButtonClick = (
     groupId: string,
@@ -45,6 +55,7 @@ const JoinedGroups = () => {
       triggerRef.current?.click();
     }
   };
+
   const handleModalConfirm = async () => {
     if (selectedGroupId) {
       const res = await leaveGroup({ groupId: selectedGroupId });
@@ -54,36 +65,65 @@ const JoinedGroups = () => {
     }
   };
 
+  if (isPending && !data) {
+    return (
+      <div className='flex flex-col items-center gap-5 px-4'>
+        <JoinedGroupsSkeleton />
+      </div>
+    );
+  }
+
+  //TODO: 데이터 없을 때 빈 화면 추가
+  if (activeGroups?.length === 0) {
+    return (
+      <div className='flex h-full items-center justify-center'>
+        <p>참가 중인 모임이 없습니다.</p>
+      </div>
+    );
+  }
+
+  if (error || data?.pages[0]?.data?.code !== 200) {
+    return (
+      <div className='flex h-full items-center justify-center'>
+        <p>{error?.message || data?.pages[0]?.data?.message}</p>
+      </div>
+    );
+  }
+
   return (
     <div className='flex flex-col items-center gap-5 px-4'>
-      {data?.pages.flatMap((page) =>
-        formatJoinedGroups(page.data).map((group) => (
-          <GroupCard
-            key={group.id}
-            groupData={group}
-            buttonText='모임 탈퇴'
-            {...(group.isHost
-              && group.memberCount > 1 && {
-                buttonColor: 'disable',
-                buttonDisabled: true,
-              })}
-            onCardClick={() => router.push(`/groups/${group.id}`)}
-            onButtonClick={() =>
-              handleButtonClick(group.id, group.isHost, group.memberCount)
-            }
-          />
-        ))
-      )}
-      {hasNextPage && (
-        <div
-          ref={bottomRef}
-          className='h-10'
+      {activeGroups?.map((group) => (
+        <GroupCard
+          key={group.id}
+          groupData={group}
+          buttonText='모임 탈퇴'
+          {...(group.isHost
+            && group.memberCount > 1 && {
+              buttonColor: 'disable',
+              buttonDisabled: true,
+            })}
+          onCardClick={() => router.push(`/groups/${group.id}`)}
+          onButtonClick={() =>
+            handleButtonClick(group.id, group.isHost, group.memberCount)
+          }
         />
-      )}
+      ))}
 
+      {hasNextPage && (
+        <>
+          {isFetchingNextPage && <JoinedGroupsSkeleton />}
+          <div
+            ref={bottomRef}
+            className='h-10'
+          />
+        </>
+      )}
       <Modal>
         <ModalTrigger>
-          <button ref={triggerRef}></button>
+          <button
+            ref={triggerRef}
+            className='hidden'
+          ></button>
         </ModalTrigger>
         <ModalContent className='flex w-[343px] flex-col rounded-2xl bg-white p-5 pt-11'>
           <p className='mb-[30px] flex w-full justify-center text-16_B text-black'>

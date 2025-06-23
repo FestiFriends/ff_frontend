@@ -7,6 +7,7 @@ import ModalCancel from '@/components/common/Modal/ModalCancel';
 import ModalContent from '@/components/common/Modal/ModalContent';
 import ModalTrigger from '@/components/common/Modal/ModalTrigger';
 import SlideCard from '@/components/common/SlideCard/SlideCard';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   useGetApplications,
   usePatchApplication,
@@ -24,8 +25,14 @@ import ApplicationsSkeleton from './ApplicationsSkeleton';
 
 const Applications = () => {
   const router = useRouter();
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
-    useGetApplications();
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isPending,
+  } = useGetApplications();
   const [actionType, setActionType] = useState<'accept' | 'reject' | null>(
     null
   );
@@ -41,16 +48,8 @@ const Applications = () => {
     isFetchingNextPage
   );
 
-  if (isPending && !data) {
-    return <ApplicationsSkeleton />;
-  }
-  if (!data) {
-    return <div>데이터가 없습니다</div>;
-  }
-
-  const groups = formatApplications(
-    data?.pages[0]?.data as ApplicationsApiResponse
-  );
+  const groups =
+    data && formatApplications(data?.pages[0]?.data as ApplicationsApiResponse);
 
   const handleAcceptClick = (applicationId: string) => {
     setActionType('accept');
@@ -85,6 +84,27 @@ const Applications = () => {
   const handleCardClick = (groupId: string) => {
     router.push(`/groups/${groupId}`);
   };
+
+  if (isPending && !data) {
+    return <ApplicationsSkeleton />;
+  }
+
+  //TODO: 데이터 없을 때 빈 화면 추가
+  if (groups?.length === 0) {
+    return (
+      <div className='flex h-full items-center justify-center'>
+        <p>방장인 모임이 없습니다.</p>
+      </div>
+    );
+  }
+
+  if (error || data?.pages[0]?.data?.code !== 200) {
+    return (
+      <div className='flex h-full items-center justify-center'>
+        <p>{error?.message || data?.pages[0]?.data?.message}</p>
+      </div>
+    );
+  }
 
   return (
     <div className='flex flex-col items-center gap-5 px-4'>
@@ -127,17 +147,31 @@ const Applications = () => {
                   e.stopPropagation();
                 }}
               >
-                <p>아직 신청자가 없습니다</p>
+                {/* TODO: 데이터 없을 때 빈 화면 추가 */}
+                <p>아직 신청자가 없습니다.</p>
               </div>
             )
           }
         />
       ))}
-      {isFetchingNextPage && <p>로딩 중...</p>}
-      <div ref={bottomRef} />
+      {hasNextPage && (
+        <>
+          {isFetchingNextPage && (
+            // TODO: 다음 꺼 스켈레톤
+            <Skeleton className='h-10 w-full rounded-[16px]' />
+          )}
+          <div
+            ref={bottomRef}
+            className='h-10'
+          />
+        </>
+      )}
       <Modal>
         <ModalTrigger>
-          <button ref={triggerRef}></button>
+          <button
+            ref={triggerRef}
+            className='hidden'
+          ></button>
         </ModalTrigger>
         <ModalContent className='flex w-[343px] flex-col rounded-2xl bg-white p-5 pt-11'>
           <p className='mb-[30px] flex w-full justify-center text-16_B text-black'>
