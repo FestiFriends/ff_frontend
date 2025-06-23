@@ -105,7 +105,7 @@ const PerformanceCell = ({
                   }
                 }}
                 className={cn(
-                  'block w-full max-w-[30px] truncate rounded px-1 text-left !text-12_M',
+                  'block w-full max-w-[60px] truncate rounded px-1 text-left !text-12_M',
                   visitStyles[perf.visit] || 'bg-gray-100 text-gray-700'
                 )}
               >

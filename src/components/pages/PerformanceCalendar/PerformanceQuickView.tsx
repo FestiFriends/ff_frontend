@@ -24,24 +24,40 @@ const PerformanceQuickView = ({ performance, children }: Props) => {
   const styleClass =
     visitStyles[performance.visit] || 'bg-gray-100 text-gray-700';
 
-  const updateCoords = () => {
-    if (!triggerRef.current) return;
-    const rect = triggerRef.current.getBoundingClientRect();
-    setCoords({
-      top: rect.bottom + window.scrollY,
-      left: rect.left + window.scrollX,
-    });
-  };
+  const handleClick = (e: React.MouseEvent) => {
+    const tooltipWidth = 220;
+    const tooltipHeight = 60;
+    const padding = 12;
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    setCoords({
-      top: e.clientY + 10,
-      left: e.clientX + 10,
-    });
+    const { innerWidth, innerHeight } = window;
+
+    let x = e.clientX + padding;
+    let y = e.clientY + padding;
+
+    if (x + tooltipWidth > innerWidth) {
+      x = innerWidth - tooltipWidth - padding;
+    }
+
+    if (y + tooltipHeight > innerHeight) {
+      y = innerHeight - tooltipHeight - padding;
+    }
+
+    x = Math.max(x, padding);
+    y = Math.max(y, padding);
+
+    setCoords({ top: y, left: x });
+    setShow(true);
   };
 
   useEffect(() => {
-    if (show) updateCoords();
+    if (!show) return;
+
+    const handleTouchMove = () => {
+      setShow(false);
+    };
+
+    window.addEventListener('touchmove', handleTouchMove);
+    return () => window.removeEventListener('touchmove', handleTouchMove);
   }, [show]);
 
   return (
@@ -57,8 +73,8 @@ const PerformanceQuickView = ({ performance, children }: Props) => {
         }}
         onMouseEnter={() => setShow(true)}
         onMouseLeave={() => setShow(false)}
-        onMouseMove={handleMouseMove}
-        onClick={() => setShow((prev) => !prev)}
+        onMouseMove={handleClick}
+        onClick={handleClick}
         className='inline-block w-full'
       >
         {children}
