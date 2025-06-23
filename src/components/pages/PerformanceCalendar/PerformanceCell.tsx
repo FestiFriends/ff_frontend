@@ -83,7 +83,7 @@ const PerformanceCell = ({
         {format(date, 'd')}
       </button>
       {performances.length > 0 && (
-        <div className='mt-1 flex w-full flex-col space-y-0.5'>
+        <div className='mt-2 flex w-full flex-col items-center space-y-1'>
           {performances.slice(0, 2).map((perf) => (
             <PerformanceQuickView
               key={perf.id}
@@ -104,7 +104,7 @@ const PerformanceCell = ({
                   }
                 }}
                 className={cn(
-                  'block w-full max-w-[60px] truncate rounded px-1 text-left !text-12_M',
+                  'block w-full max-w-[60px] truncate rounded px-1 py-[2px] text-left !text-12_M',
                   visitStyles[perf.visit] || 'bg-gray-100 text-gray-700'
                 )}
               >
@@ -118,9 +118,9 @@ const PerformanceCell = ({
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
-                className='w-fit text-12_M text-gray-400 hover:underline'
+                className='mx-auto block w-fit text-12_M text-gray-400'
               >
-                +{performances.length - 2}개
+                +{performances.length - 2}
               </button>
             </PerformanceQuickView>
           )}
