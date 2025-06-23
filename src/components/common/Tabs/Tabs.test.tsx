@@ -58,7 +58,7 @@ describe('Tabs 컴포넌트', () => {
     );
 
     const activeButton = screen.getByText('탭 2');
-    expect(activeButton).toHaveClass('text-black');
+    expect(activeButton).toHaveClass('text-14_B text-gray-950'); // 수정된 스타일에 맞게 확인
   });
 
   test('탭 클릭 시 onTabChange가 정상적으로 호출된다', () => {
@@ -77,9 +77,15 @@ describe('Tabs 컴포넌트', () => {
 
   test('탭 클릭 시 해당 탭의 콘텐츠가 정상적으로 출력된다', () => {
     render(<TabsWithContent />);
+
     fireEvent.click(screen.getByText('유저'));
 
     expect(screen.getByText('유저 A')).toBeInTheDocument();
     expect(screen.getByText('유저 B')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText('공연'));
+
+    expect(screen.getByText('뮤지컬')).toBeInTheDocument();
+    expect(screen.getByText('콘서트')).toBeInTheDocument();
   });
 });
