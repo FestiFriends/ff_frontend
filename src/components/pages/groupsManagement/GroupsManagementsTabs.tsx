@@ -20,8 +20,8 @@ const GroupsManagementsTabs = () => {
         />
       </div>
       <div className='mt-[71px] mb-5'>
-        {selectedTab === '신청한 모임' && <AppliedGroups />}
         {selectedTab === '참가 중인 모임' && <JoinedGroups />}
+        {selectedTab === '신청한 모임' && <AppliedGroups />}
         {selectedTab === '받은 신청서' && <Applications />}
       </div>
     </>
