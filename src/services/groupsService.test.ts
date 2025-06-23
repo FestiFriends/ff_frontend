@@ -135,10 +135,11 @@ describe('groupsApi', () => {
       const result = await groupsApi.getGroupPosts({ groupId: '123' });
 
       expect(mockApiFetcher.get).toHaveBeenCalledWith(
-        '/api/v1/groups/123/posts'
+        '/api/v1/groups/123/posts',
+        { params: { cursorId: undefined, size: 20 } }
       );
-      expect(result.groupId).toBe(123);
-      expect(result.posts).toHaveLength(2);
+      expect(result.data.groupId).toBe(123);
+      expect(result.data.posts).toHaveLength(2);
     });
   });
 
