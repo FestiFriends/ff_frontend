@@ -77,9 +77,7 @@ const PerformanceCell = ({
       onClick={handleClick}
       onKeyDown={handleKeyDown}
     >
-      <button
-        className={cn('w-full rounded !text-12_M font-medium', dayColorClass)}
-      >
+      <button className={cn('rounded !text-12_M', dayColorClass)}>
         {format(date, 'd')}
       </button>
       {performances.length > 0 && (
