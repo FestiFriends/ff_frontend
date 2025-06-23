@@ -20,6 +20,7 @@ const MobileNotification = () => {
     <BellIcon
       isActive={hasNewNotificationData?.data?.hasUnread}
       onClick={() => router.push('/notifications')}
+      className='cursor-pointer'
     />
   );
 };
@@ -37,7 +38,10 @@ const DesktopNotification = () => {
     <>
       <Popover>
         <PopoverTrigger>
-          <BellIcon isActive={hasNewNotificationData?.data?.hasUnread} />
+          <BellIcon
+            isActive={hasNewNotificationData?.data?.hasUnread}
+            className='cursor-pointer'
+          />
         </PopoverTrigger>
         <PopoverContent>
           <ScrollArea className='h-80'>

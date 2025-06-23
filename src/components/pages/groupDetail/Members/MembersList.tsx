@@ -75,7 +75,6 @@ const MembersList = ({
         {members?.map((member) => (
           <CarouselItem
             key={member.memberId}
-            // onClick={() => routeToMemberProfile(member.memberId)}
             className='flex basis-[calc(100%/2.4)] flex-col items-center justify-center gap-3.5 rounded-[16px] border-1 border-gray-100 bg-white p-5'
           >
             <div className='flex items-center justify-center gap-2.5'>

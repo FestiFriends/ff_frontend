@@ -11,6 +11,21 @@ import {
 } from '@/components/ui/carousel';
 import { cn } from '@/lib/utils';
 
+const BANNER_INFO: { id: string; src: string; alt: string; href: string }[] = [
+  {
+    id: '1',
+    src: '/banner.png',
+    alt: 'FestiFriends main banner',
+    href: '/performances',
+  },
+  {
+    id: '2',
+    src: '/banner.png',
+    alt: 'FestiFriends main banner',
+    href: '/performances',
+  },
+];
+
 interface MainBannerPaginationProps {
   totalPage: number;
   currentPage: number;
@@ -35,14 +50,6 @@ const MainBannerPagination = ({
   </div>
 );
 
-const BANNER_INFO: { src: string; alt: string; id: string }[] = [
-  { src: '/banner_pc.jpg', alt: '프레데릭 콘서트', id: '1' },
-  { src: '/banner_pc.png', alt: '프레데릭 콘서트', id: '2' },
-  { src: '/banner_pc.jpg', alt: '프레데릭 콘서트', id: '3' },
-  { src: '/banner_pc.png', alt: '프레데릭 콘서트', id: '4' },
-  { src: '/banner_pc.jpg', alt: '프레데릭 콘서트', id: '5' },
-];
-
 const MainBanner = () => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -66,6 +73,7 @@ const MainBanner = () => {
       <Carousel
         opts={{
           align: 'start',
+          loop: true,
         }}
         setApi={setApi}
         plugins={[
@@ -74,22 +82,22 @@ const MainBanner = () => {
             stopOnInteraction: false,
           }),
         ]}
-        className='relative'
+        className='w-full'
       >
-        <CarouselContent className='m-0 h-fit'>
+        <CarouselContent className='m-0'>
           {BANNER_INFO.map((item) => (
             <CarouselItem
               key={item.id}
-              className='overflow-hidden rounded-[8px] p-0'
+              className='mr-3 h-full w-full overflow-hidden rounded-[8px] p-0'
             >
-              <Link
-                href={''}
-                className='relative block aspect-[2/1] h-full w-full md:aspect-[3/1]'
-              >
+              <Link href={item.href}>
                 <Image
+                  priority
                   src={item.src}
                   alt={item.alt}
-                  fill
+                  width={750}
+                  height={375}
+                  className='h-full'
                 />
               </Link>
             </CarouselItem>
