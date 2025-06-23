@@ -1,7 +1,5 @@
 'use client';
 
-import { format } from 'date-fns';
-import { ko } from 'date-fns/locale';
 import Image from 'next/image';
 import {
   Badge,
@@ -16,6 +14,7 @@ import { GenderLabels, GroupCategoryLabels } from '@/constants';
 import { cn } from '@/lib/utils';
 import { GroupCategoryType } from '@/types/enums';
 import { Group } from '@/types/group';
+import { formatNormalDate } from '@/utils/date';
 
 interface GroupCardProps {
   groupData: Group;
@@ -28,8 +27,6 @@ interface GroupCardProps {
   buttonColor?: keyof typeof buttonStyles.variants.primary;
   buttonDisabled?: boolean;
 }
-
-const DATE_FORMAT = 'yy.MM.dd';
 
 const GroupCard = ({
   groupData,
@@ -89,13 +86,8 @@ const GroupCard = ({
           {groupData.isHost && <span>👑</span>}
         </div>
         <span className='text-12_M text-gray-600'>
-          {format(new Date(groupData.startDate), DATE_FORMAT, {
-            locale: ko,
-          })}
-          ~
-          {format(new Date(groupData.endDate), DATE_FORMAT, {
-            locale: ko,
-          })}
+          {formatNormalDate(groupData.startDate)}~
+          {formatNormalDate(groupData.endDate)}
         </span>
       </div>
       <div className='flex w-full justify-between gap-4'>
