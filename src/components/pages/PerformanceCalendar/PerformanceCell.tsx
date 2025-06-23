@@ -5,7 +5,6 @@ import { format, isSameMonth, isToday, isSameDay, getDay } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Performance } from '@/types/performance';
 import PerformanceQuickView from './PerformanceQuickView';
-import PerformanceSummaryTooltip from './PerformanceSummaryTooltip';
 
 interface PerformanceCellProps {
   date: Date;
@@ -114,7 +113,7 @@ const PerformanceCell = ({
             </PerformanceQuickView>
           ))}
           {performances.length > 2 && (
-            <PerformanceSummaryTooltip performances={performances.slice(2)}>
+            <PerformanceQuickView performances={performances.slice(2)}>
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -123,7 +122,7 @@ const PerformanceCell = ({
               >
                 +{performances.length - 2}개
               </button>
-            </PerformanceSummaryTooltip>
+            </PerformanceQuickView>
           )}
         </div>
       )}

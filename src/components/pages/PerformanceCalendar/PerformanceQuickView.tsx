@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Performance } from '@/types/performance';
 
 interface Props {
-  performance: Performance;
+  performance?: Performance;
+  performances?: Performance[];
   children: React.ReactNode;
 }
 
@@ -14,56 +15,78 @@ const visitStyles: Record<string, string> = {
   국내: 'bg-red-100 text-primary-red',
 };
 
-const PerformanceQuickView = ({ performance, children }: Props) => {
+const getTooltipPosition = (
+  e: React.MouseEvent,
+  tooltipWidth: number,
+  tooltipHeight: number,
+  padding = 1,
+  gap = 1
+) => {
+  const { innerWidth, innerHeight } = window;
+
+  let x = e.clientX + padding;
+  let y = e.clientY + padding;
+
+  if (x + tooltipWidth > innerWidth) {
+    x = innerWidth - tooltipWidth - gap;
+  }
+
+  if (y + tooltipHeight > innerHeight) {
+    y = innerHeight - tooltipHeight - gap;
+  }
+
+  return {
+    top: Math.max(y, padding),
+    left: Math.max(x, padding),
+  };
+};
+
+const PerformanceQuickView = ({
+  performance,
+  performances,
+  children,
+}: Props) => {
   const [show, setShow] = useState(false);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
-  const triggerRef = useRef<HTMLDivElement | null>(null);
-  const portalElement =
+  const portalEl =
     typeof window !== 'undefined' ? document.getElementById('portal') : null;
 
-  const styleClass =
-    visitStyles[performance.visit] || 'bg-gray-100 text-gray-700';
+  const hasPositionedRef = useRef(false);
 
-  const handleClick = (e: React.MouseEvent) => {
-    const tooltipWidth = 220;
-    const tooltipHeight = 60;
-    const padding = 12;
-
-    const { innerWidth, innerHeight } = window;
-
-    let x = e.clientX + padding;
-    let y = e.clientY + padding;
-
-    if (x + tooltipWidth > innerWidth) {
-      x = innerWidth - tooltipWidth - padding;
+  const handleHover = (e: React.MouseEvent) => {
+    if (!hasPositionedRef.current) {
+      const coords = getTooltipPosition(e, 220, 60);
+      setCoords(coords);
+      hasPositionedRef.current = true;
     }
-
-    if (y + tooltipHeight > innerHeight) {
-      y = innerHeight - tooltipHeight - padding;
-    }
-
-    x = Math.max(x, padding);
-    y = Math.max(y, padding);
-
-    setCoords({ top: y, left: x });
     setShow(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShow(false);
+    hasPositionedRef.current = false;
   };
 
   useEffect(() => {
     if (!show) return;
 
-    const handleTouchMove = () => {
+    const handleDismiss = () => {
       setShow(false);
+      hasPositionedRef.current = false;
     };
 
-    window.addEventListener('touchmove', handleTouchMove);
-    return () => window.removeEventListener('touchmove', handleTouchMove);
+    window.addEventListener('wheel', handleDismiss, { passive: true });
+    window.addEventListener('touchmove', handleDismiss, { passive: true });
+
+    return () => {
+      window.removeEventListener('wheel', handleDismiss);
+      window.removeEventListener('touchmove', handleDismiss);
+    };
   }, [show]);
 
   return (
     <>
       <div
-        ref={triggerRef}
         role='button'
         tabIndex={0}
         onKeyDown={(e) => {
@@ -71,30 +94,50 @@ const PerformanceQuickView = ({ performance, children }: Props) => {
             setShow((prev) => !prev);
           }
         }}
-        onMouseEnter={() => setShow(true)}
-        onMouseLeave={() => setShow(false)}
-        onMouseMove={handleClick}
-        onClick={handleClick}
+        onMouseEnter={handleHover}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleHover}
         className='inline-block w-full'
       >
         {children}
       </div>
 
       {show
-        && portalElement
+        && portalEl
         && createPortal(
           <div
-            className={`fixed z-[9999] rounded px-4 py-2 text-14_B shadow-lg ${styleClass}`}
+            className={`fixed z-[9999] max-w-xs rounded text-14_B shadow-lg ${
+              performance
+                ? visitStyles[performance.visit] || 'bg-gray-100 text-gray-700'
+                : ''
+            }`}
             style={{
               top: coords.top,
               left: coords.left,
-              position: 'fixed',
-              whiteSpace: 'nowrap',
+              whiteSpace: performance ? 'nowrap' : 'normal',
+              pointerEvents: 'none',
             }}
           >
-            {performance.title}
+            {performance && (
+              <div className='px-4 py-2'>{performance.title}</div>
+            )}
+
+            {performances && (
+              <ul className='space-y-1'>
+                {performances.map((p) => (
+                  <li
+                    key={p.id}
+                    className={`w-full truncate rounded px-4 py-2 text-left text-ellipsis whitespace-nowrap ${
+                      visitStyles[p.visit] || 'bg-gray-100 text-gray-700'
+                    }`}
+                  >
+                    {p.title}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>,
-          portalElement
+          portalEl
         )}
     </>
   );
