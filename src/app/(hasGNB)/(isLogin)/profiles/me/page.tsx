@@ -6,7 +6,7 @@ const MyProfilePage = () => (
   <>
     <Header title='내 프로필' />
     <ScrollArea className='h-[calc(100dvh-124px)]'>
-      <div className='max-w-lg'>
+      <div className='w-screen max-w-lg'>
         <ProfilePage userId='me' />
       </div>
     </ScrollArea>

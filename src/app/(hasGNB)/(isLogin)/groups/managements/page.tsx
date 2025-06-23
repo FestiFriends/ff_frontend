@@ -6,7 +6,7 @@ const GroupsManagementsPage = () => (
   <>
     <Header title='나의 모임' />
     <ScrollArea className='h-[calc(100dvh-124px)]'>
-      <div className='max-w-lg'>
+      <div className='w-screen max-w-lg'>
         <GroupsManagementsTabs />
       </div>
     </ScrollArea>

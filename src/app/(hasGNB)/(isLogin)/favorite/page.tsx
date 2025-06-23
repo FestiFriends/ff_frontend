@@ -6,7 +6,7 @@ const FavoritePage = () => (
   <>
     <Header title='위시리스트' />
     <ScrollArea className='h-[calc(100dvh-124px)]'>
-      <div className='max-w-lg'>
+      <div className='w-screen max-w-lg'>
         <FavoriteTabContainer />
       </div>
     </ScrollArea>

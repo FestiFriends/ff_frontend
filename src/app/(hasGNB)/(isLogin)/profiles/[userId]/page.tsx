@@ -12,7 +12,7 @@ const OtherProfilePage = async ({ params }: PageProps) => {
     <>
       <Header />
       <ScrollArea className='h-[calc(100dvh-124px)]'>
-        <div className='max-w-lg'>
+        <div className='w-screen max-w-lg'>
           <ClientProfileWrapper userId={userId} />
         </div>
       </ScrollArea>
