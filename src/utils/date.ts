@@ -1,4 +1,4 @@
-import { format, parseISO } from 'date-fns';
+import { format, formatISO, parseISO } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
 // mm전, hh시간전, dd일전, M월 d일
@@ -42,24 +42,24 @@ export const formatPostDate = (dateStr: string): string => {
   }
 };
 
-export const formatToKSTDate = (isoString: string) => {
-  const date = new Date(isoString);
-  const kstTimestamp = date.getTime() - 9 * 60 * 60 * 1000;
-  const formattedDate = format(kstTimestamp, 'yy년 MM월 dd일 (eee)', {
-    locale: ko,
-  });
-  return formattedDate;
-};
-
-export const formatToKSTTime = (isoString: string) => {
-  const date = new Date(isoString);
-  const kstTimestamp = date.getTime() - 9 * 60 * 60 * 1000;
-  const formattedTime = format(kstTimestamp, 'a hh:mm', {
-    locale: ko,
-  });
-  return formattedTime;
-};
-
 // yy.MM.dd
 export const formatNormalDate = (date: string | Date) =>
   format(new Date(date), 'yy.MM.dd', { locale: ko });
+
+export const formatToKST = (isoString: string) => {
+  const date = new Date(isoString);
+  const kstTimestamp = date.getTime() - 9 * 60 * 60 * 1000;
+  return kstTimestamp;
+};
+
+export const formatScheduleDate = (date: Date, time: Date) => {
+  const dateString = formatISO(date);
+  const timeString = formatISO(time);
+
+  const formattedDate = dateString.split('T')[0];
+  const formattedTime = timeString.split('T')[1];
+
+  const newDate = formattedDate + 'T' + formattedTime;
+
+  return newDate;
+};

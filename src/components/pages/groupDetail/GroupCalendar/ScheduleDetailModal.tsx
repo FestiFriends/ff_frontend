@@ -81,19 +81,21 @@ const ScheduleDetailModal = ({
                 {format(new Date(schedule.startAt), 'yyyy년 M월 d일')}
               </span>
               <span className='text-left'>
-                {format(new Date(schedule.startAt), 'a h시')}{' '}
+                {format(new Date(schedule.startAt), 'a h시 mm분')}{' '}
                 <span className='ml-[13px]'>~</span>
               </span>
 
               <span>{format(new Date(schedule.endAt), 'yyyy년 M월 d일')}</span>
               <span className='text-left'>
-                {format(new Date(schedule.endAt), 'a h시')}
+                {format(new Date(schedule.endAt), 'a h시 mm분')}
               </span>
             </div>
 
-            <div className='mt-[20px] flex items-center border-t border-gray-100 pt-[20px] text-14_M text-gray-700'>
-              <MapPinIcon />
-              {schedule.location}
+            <div className='mt-[20px] flex items-center border-t border-gray-100 pt-[20px]'>
+              <MapPinIcon className='aspect-square h-4 w-4 shrink-0 text-gray-700' />
+              <span className='text-14_M leading-normal tracking-[-0.35px] text-gray-700'>
+                {schedule.location}
+              </span>
             </div>
 
             <div className='mt-[10px] flex items-center gap-2'>

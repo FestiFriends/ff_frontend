@@ -34,7 +34,7 @@ const GroupCalendar = ({ groupId }: GroupCalendarProps) => {
   };
 
   return (
-    <>
+    <div className='pt-7.5 pb-6'>
       <CalendarBase<GroupSchedule>
         month={currentMonth}
         events={schedules}
@@ -69,7 +69,7 @@ const GroupCalendar = ({ groupId }: GroupCalendarProps) => {
           }}
         />
       )}
-    </>
+    </div>
   );
 };
 
