@@ -31,7 +31,7 @@ const ProfileJoinedGroups = ({
   }
 
   if (!groups || groups.length === 0) {
-    return <StateNotice preset='groupEmpty' />;
+    return <StateNotice preset='joinedGroupsEmpty' />;
   }
 
   return (
