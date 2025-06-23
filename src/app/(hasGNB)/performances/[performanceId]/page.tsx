@@ -15,7 +15,7 @@ const PerformanceDetailPage = async ({
     <div>
       <Header title='공연 정보' />
       <ScrollArea className='h-[calc(100dvh-124px)]'>
-        <div className='max-w-lg'>
+        <div className='w-screen max-w-lg'>
           <Wrapper performanceId={performanceId} />
         </div>
       </ScrollArea>

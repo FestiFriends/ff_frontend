@@ -18,8 +18,10 @@ const ReviewTabs = () => {
         onTabChange={setSelectedTab}
       />
       <ScrollArea className='h-[calc(100dvh-173px)] p-4'>
-        {selectedTab === '작성 가능한 리뷰' && <WritableReviews />}
-        {selectedTab === '작성한 리뷰' && <WrittenReviews />}
+        <div className='max-w-[calc(100dvw-32px)]'>
+          {selectedTab === '작성 가능한 리뷰' && <WritableReviews />}
+          {selectedTab === '작성한 리뷰' && <WrittenReviews />}
+        </div>
       </ScrollArea>
     </div>
   );
