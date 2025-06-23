@@ -45,7 +45,7 @@ const PerformanceListContainer = () => {
   const { totalPages = 0 } = searchResult;
 
   return (
-    <div>
+    <>
       <PerformanceList performances={searchResult.data} />
       {totalPages > 1 && (
         <QueryPagination
@@ -54,7 +54,7 @@ const PerformanceListContainer = () => {
           className='mt-4'
         />
       )}
-    </div>
+    </>
   );
 };
 

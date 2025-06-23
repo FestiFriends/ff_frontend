@@ -25,7 +25,6 @@ const NAV_ITEM = [
 const INVISIBLE_ROUTE = [
   '/groups/create',
   '/profiles/me/edit',
-  '/reviews/managements',
   '/groups/:groupId/edit',
   '/groups/:groupId/posts/:postId',
   '/groups/:groupId/posts/create',
@@ -51,9 +50,7 @@ const TabBar = ({ children }: TabBarProps) => {
 
   return (
     <>
-      <div className={cn('overflow-auto', isMobile && 'h-[calc(100dvh-80px)]')}>
-        {children}
-      </div>
+      <div className={cn(isMobile && 'h-[calc(100dvh-80px)]')}>{children}</div>
       {isMobile && (
         <div className='sticky right-0 bottom-0 left-0 flex h-20 justify-between border-t border-gray-50 bg-white p-4'>
           {NAV_ITEM.map((item) => (
