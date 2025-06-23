@@ -587,16 +587,17 @@ npx jest --coverage
 npx jest --coverage --coverageReporters=text-summary
 
 =============================== Coverage summary ===============================
-Statements   : 82.27% ( 10341/12569 )
-Branches     : 91.47% ( 837/915 )
-Functions    : 66.32% ( 258/389 )
-Lines        : 82.27% ( 10341/12569 )
+Statements   : 80.43% ( 10110/12569 )
+Branches     : 90.83% ( 793/873 )
+Functions    : 64.06% ( 246/384 )
+Lines        : 80.43% ( 10110/12569 )
 ================================================================================
 
-Test Suites: 64 passed, 64 total
-Tests:       732 passed, 732 total
+Test Suites: 60 passed, 60 total
+Tests:       663 passed, 663 total
 Snapshots:   0 total
-Time:        22.42 s
+Time:        19.032 s
+Ran all test suites.
 ```
 
 ### 테스트 예시

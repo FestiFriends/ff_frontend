@@ -3,11 +3,19 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Header from './Header';
 
-// Mock framer-motion
 jest.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, className, style, ...props }: any) => (
-      <div className={className} style={style} {...props}>
+    div: ({
+      children,
+      className,
+      style,
+      ...props
+    }: React.ComponentPropsWithoutRef<'div'>) => (
+      <div
+        className={className}
+        style={style}
+        {...props}
+      >
         {children}
       </div>
     ),
@@ -27,33 +35,38 @@ jest.mock('next/navigation', () => ({
 
 // Mock common components
 jest.mock('@/components/common', () => ({
-  Notification: () => <div data-testid="notification">Notification</div>,
-  SearchInput: React.forwardRef<HTMLInputElement, any>(
-    ({ placeholder, className, onSubmit, ...props }, ref) => (
-      <input
-        ref={ref}
-        placeholder={placeholder}
-        className={className}
-        data-testid="search-input"
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' && onSubmit) {
-            onSubmit();
-          }
-        }}
-        {...props}
-      />
-    )
+  Notification: () => <div data-testid='notification'>Notification</div>,
+  SearchInput: ({
+    placeholder,
+    className,
+    onSubmit,
+    ...props
+  }: React.InputHTMLAttributes<HTMLInputElement>) => (
+    <input
+      placeholder={placeholder}
+      className={className}
+      data-testid='search-input'
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' && onSubmit) {
+          onSubmit(e);
+        }
+      }}
+      {...props}
+    />
   ),
 }));
 
 // Mock icons
 jest.mock('@/components/icons', () => ({
   ArrowLeft: ({ size }: { size?: number }) => (
-    <div data-testid="arrow-left" data-size={size}>
+    <div
+      data-testid='arrow-left'
+      data-size={size}
+    >
       ArrowLeft
     </div>
   ),
-  SearchIcon: () => <div data-testid="search-icon">SearchIcon</div>,
+  SearchIcon: () => <div data-testid='search-icon'>SearchIcon</div>,
 }));
 
 // Mock hooks
@@ -72,7 +85,7 @@ jest.mock('@/hooks/useAuth', () => ({
 }));
 
 jest.mock('@/providers/AuthStoreProvider', () => ({
-  useAuthStore: (selector: any) => {
+  useAuthStore: (selector: (state: { isLoggedIn: boolean }) => boolean) => {
     if (typeof selector === 'function') {
       return selector({ isLoggedIn: mockIsLoggedIn() });
     }
@@ -138,21 +151,36 @@ describe('Header', () => {
   describe('hasNotification prop 테스트', () => {
     it('hasNotification이 true일 때 알림이 표시된다', () => {
       mockIsLoggedIn.mockReturnValue(true);
-      render(<Header {...defaultProps} hasNotification={true} />);
+      render(
+        <Header
+          {...defaultProps}
+          hasNotification={true}
+        />
+      );
 
       expect(screen.getByTestId('notification')).toBeInTheDocument();
     });
 
     it('hasNotification이 false일 때 알림이 표시되지 않는다', () => {
       mockIsLoggedIn.mockReturnValue(true);
-      render(<Header {...defaultProps} hasNotification={false} />);
+      render(
+        <Header
+          {...defaultProps}
+          hasNotification={false}
+        />
+      );
 
       expect(screen.queryByTestId('notification')).not.toBeInTheDocument();
     });
 
     it('로그인되지 않은 상태에서는 hasNotification과 상관없이 알림이 표시되지 않는다', () => {
       mockIsLoggedIn.mockReturnValue(false);
-      render(<Header {...defaultProps} hasNotification={true} />);
+      render(
+        <Header
+          {...defaultProps}
+          hasNotification={true}
+        />
+      );
 
       expect(screen.queryByTestId('notification')).not.toBeInTheDocument();
     });
@@ -160,13 +188,23 @@ describe('Header', () => {
 
   describe('hasSearch prop 테스트', () => {
     it('hasSearch가 true일 때 검색 아이콘이 표시된다', () => {
-      render(<Header {...defaultProps} hasSearch={true} />);
+      render(
+        <Header
+          {...defaultProps}
+          hasSearch={true}
+        />
+      );
 
       expect(screen.getByTestId('search-icon')).toBeInTheDocument();
     });
 
     it('hasSearch가 false일 때 검색 아이콘이 표시되지 않는다', () => {
-      render(<Header {...defaultProps} hasSearch={false} />);
+      render(
+        <Header
+          {...defaultProps}
+          hasSearch={false}
+        />
+      );
 
       expect(screen.queryByTestId('search-icon')).not.toBeInTheDocument();
     });
@@ -209,7 +247,12 @@ describe('Header', () => {
     });
 
     it('hasSearch가 false일 때 검색 모드가 활성화되지 않는다', () => {
-      render(<Header {...defaultProps} hasSearch={false} />);
+      render(
+        <Header
+          {...defaultProps}
+          hasSearch={false}
+        />
+      );
 
       expect(screen.queryByTestId('search-input')).not.toBeInTheDocument();
     });
@@ -224,10 +267,10 @@ describe('Header', () => {
       fireEvent.click(searchIcon);
 
       const searchInput = screen.getByTestId('search-input');
-      
+
       // 검색어 입력
       fireEvent.change(searchInput, { target: { value: 'test query' } });
-      
+
       // 엔터 키 입력
       fireEvent.keyDown(searchInput, { key: 'Enter' });
 
@@ -284,10 +327,10 @@ describe('Header', () => {
   describe('props 조합 테스트', () => {
     it('모든 props가 false일 때도 올바르게 렌더링된다', () => {
       render(
-        <Header 
-          title="No Features" 
-          hasNotification={false} 
-          hasSearch={false} 
+        <Header
+          title='No Features'
+          hasNotification={false}
+          hasSearch={false}
         />
       );
 
@@ -297,7 +340,12 @@ describe('Header', () => {
     });
 
     it('title이 없어도 올바르게 렌더링된다', () => {
-      render(<Header hasNotification={true} hasSearch={true} />);
+      render(
+        <Header
+          hasNotification={true}
+          hasSearch={true}
+        />
+      );
 
       expect(screen.getByTestId('search-icon')).toBeInTheDocument();
       // title은 빈 문자열로 렌더링됨

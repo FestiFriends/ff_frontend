@@ -1,7 +1,6 @@
 import { renderHook, act } from '@testing-library/react';
 import useQueryParam from './useQueryParam';
 
-// Mock next/navigation
 const mockSearchParams = new URLSearchParams();
 const mockReplace = jest.fn();
 
@@ -12,7 +11,6 @@ jest.mock('next/navigation', () => ({
   }),
 }));
 
-// Mock window.location
 const mockLocation = {
   pathname: '/test-path',
 };
@@ -89,7 +87,9 @@ describe('useQueryParam', () => {
         result.current.setQueryParam('title', 'test-title', 'section1');
       });
 
-      expect(mockReplace).toHaveBeenCalledWith('/test-path?title=test-title#section1');
+      expect(mockReplace).toHaveBeenCalledWith(
+        '/test-path?title=test-title#section1'
+      );
     });
 
     it('여러 개의 기존 파라미터가 있을 때 하나만 업데이트한다', () => {
@@ -218,7 +218,7 @@ describe('useQueryParam', () => {
         title: '',
         category: '   ',
         location: 'seoul',
-        keyword: null as any,
+        keyword: undefined,
       });
 
       expect(queryString).not.toContain('title=');
@@ -295,7 +295,9 @@ describe('useQueryParam', () => {
       });
 
       const calls = mockReplace.mock.calls;
-      expect(calls[calls.length - 1][0]).toContain('title=%ED%95%9C%EA%B8%80+%EC%A0%9C%EB%AA%A9');
+      expect(calls[calls.length - 1][0]).toContain(
+        'title=%ED%95%9C%EA%B8%80+%EC%A0%9C%EB%AA%A9'
+      );
     });
   });
 });

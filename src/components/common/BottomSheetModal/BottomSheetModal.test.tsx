@@ -542,7 +542,11 @@ describe('BottomSheetModal', () => {
     });
 
     it('controlType prop이 올바른 타입만 허용된다', () => {
-      const validControlTypes = ['none', 'headerControl', 'bottomControl'] as const;
+      const validControlTypes = [
+        'none',
+        'headerControl',
+        'bottomControl',
+      ] as const;
 
       validControlTypes.forEach((controlType) => {
         expect(() => {

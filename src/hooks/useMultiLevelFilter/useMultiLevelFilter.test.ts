@@ -80,7 +80,9 @@ describe('useMultiLevelFilter', () => {
 
       expect(result.current.selectedValues).toEqual(['seoul', 'gangnam']);
       expect(result.current.optionsByLevel).toHaveLength(3);
-      expect(result.current.optionsByLevel[2]).toEqual(mockData[0].children![0].children);
+      expect(result.current.optionsByLevel[2]).toEqual(
+        mockData[0].children![0].children
+      );
     });
 
     it('세 번째 레벨에서 값을 선택할 수 있다', () => {
@@ -98,7 +100,11 @@ describe('useMultiLevelFilter', () => {
         result.current.setValueAtLevel(2, 'yeoksam');
       });
 
-      expect(result.current.selectedValues).toEqual(['seoul', 'gangnam', 'yeoksam']);
+      expect(result.current.selectedValues).toEqual([
+        'seoul',
+        'gangnam',
+        'yeoksam',
+      ]);
       expect(result.current.optionsByLevel).toHaveLength(3);
     });
   });
@@ -124,7 +130,9 @@ describe('useMultiLevelFilter', () => {
       });
 
       expect(result.current.selectedValues).toEqual(['seoul', 'jongno']);
-      expect(result.current.optionsByLevel[2]).toEqual(mockData[0].children![1].children);
+      expect(result.current.optionsByLevel[2]).toEqual(
+        mockData[0].children![1].children
+      );
     });
 
     it('첫 번째 레벨의 값을 변경하면 모든 하위 레벨이 제거된다', () => {
@@ -188,7 +196,11 @@ describe('useMultiLevelFilter', () => {
         result.current.setValueAtLevel(2, 'yeoksam');
       });
 
-      expect(result.current.selectedValues).toEqual(['seoul', 'gangnam', 'yeoksam']);
+      expect(result.current.selectedValues).toEqual([
+        'seoul',
+        'gangnam',
+        'yeoksam',
+      ]);
     });
   });
 

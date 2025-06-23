@@ -89,7 +89,9 @@ describe('날짜 포맷팅 함수 테스트', () => {
       consoleSpy.mockRestore();
     });
     it('null이나 undefined 같은 값이 들어와도 안전하게 처리해야 한다', () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect(formatPostDate(null as any)).toBe('');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect(formatPostDate(undefined as any)).toBe('');
     });
   });

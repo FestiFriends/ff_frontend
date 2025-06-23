@@ -1,9 +1,15 @@
-import { favoritePerformancesOptions, favoriteUsersOptions } from './useFavorite';
+import {
+  PERFORMANCES_QUERY_KEYS,
+  USERS_QUERY_KEYS,
+} from '@/constants/queryKeys';
 import { performancesApi } from '@/services/performancesService';
 import { usersApi } from '@/services/usersService';
-import { PERFORMANCES_QUERY_KEYS, USERS_QUERY_KEYS } from '@/constants/queryKeys';
 import { GetFavoritePerformancesResponse } from '@/types/performance';
 import { GetFavoriteUsersResponse } from '@/types/users';
+import {
+  favoritePerformancesOptions,
+  favoriteUsersOptions,
+} from './useFavorite';
 
 // Mock the services
 jest.mock('@/services/performancesService', () => ({
@@ -29,7 +35,9 @@ jest.mock('@/constants/queryKeys', () => ({
   },
 }));
 
-const mockedPerformancesApi = performancesApi as jest.Mocked<typeof performancesApi>;
+const mockedPerformancesApi = performancesApi as jest.Mocked<
+  typeof performancesApi
+>;
 const mockedUsersApi = usersApi as jest.Mocked<typeof usersApi>;
 
 describe('useFavorite hooks', () => {
@@ -50,7 +58,9 @@ describe('useFavorite hooks', () => {
     it('should use correct query key', () => {
       const options = favoritePerformancesOptions();
 
-      expect(options.queryKey).toEqual([PERFORMANCES_QUERY_KEYS.favoritesPerformances]);
+      expect(options.queryKey).toEqual([
+        PERFORMANCES_QUERY_KEYS.favoritesPerformances,
+      ]);
     });
 
     it('should set initial page param to undefined', () => {
@@ -67,12 +77,16 @@ describe('useFavorite hooks', () => {
           cursorId: 1,
         };
 
-        mockedPerformancesApi.getFavoritePerformances.mockResolvedValueOnce(mockResponse);
+        mockedPerformancesApi.getFavoritePerformances.mockResolvedValueOnce(
+          mockResponse
+        );
 
         const options = favoritePerformancesOptions(10);
         await options.queryFn({ pageParam: 5, queryKey: [], meta: undefined });
 
-        expect(mockedPerformancesApi.getFavoritePerformances).toHaveBeenCalledWith({
+        expect(
+          mockedPerformancesApi.getFavoritePerformances
+        ).toHaveBeenCalledWith({
           cursorId: 5,
           size: 10,
         });
@@ -85,12 +99,20 @@ describe('useFavorite hooks', () => {
           cursorId: 1,
         };
 
-        mockedPerformancesApi.getFavoritePerformances.mockResolvedValueOnce(mockResponse);
+        mockedPerformancesApi.getFavoritePerformances.mockResolvedValueOnce(
+          mockResponse
+        );
 
         const options = favoritePerformancesOptions();
-        await options.queryFn({ pageParam: undefined, queryKey: [], meta: undefined });
+        await options.queryFn({
+          pageParam: undefined,
+          queryKey: [],
+          meta: undefined,
+        });
 
-        expect(mockedPerformancesApi.getFavoritePerformances).toHaveBeenCalledWith({
+        expect(
+          mockedPerformancesApi.getFavoritePerformances
+        ).toHaveBeenCalledWith({
           cursorId: undefined,
           size: undefined,
         });
@@ -113,10 +135,16 @@ describe('useFavorite hooks', () => {
           cursorId: 10,
         };
 
-        mockedPerformancesApi.getFavoritePerformances.mockResolvedValueOnce(mockResponse);
+        mockedPerformancesApi.getFavoritePerformances.mockResolvedValueOnce(
+          mockResponse
+        );
 
         const options = favoritePerformancesOptions();
-        const result = await options.queryFn({ pageParam: 1, queryKey: [], meta: undefined });
+        const result = await options.queryFn({
+          pageParam: 1,
+          queryKey: [],
+          meta: undefined,
+        });
 
         expect(result).toEqual(mockResponse);
       });
@@ -131,7 +159,12 @@ describe('useFavorite hooks', () => {
           cursorId: 15,
         };
 
-        const nextPageParam = options.getNextPageParam(lastPage, [], undefined, []);
+        const nextPageParam = options.getNextPageParam(
+          lastPage,
+          [],
+          undefined,
+          []
+        );
 
         expect(nextPageParam).toBe(15);
       });
@@ -144,7 +177,12 @@ describe('useFavorite hooks', () => {
           cursorId: 15,
         };
 
-        const nextPageParam = options.getNextPageParam(lastPage, [], undefined, []);
+        const nextPageParam = options.getNextPageParam(
+          lastPage,
+          [],
+          undefined,
+          []
+        );
 
         expect(nextPageParam).toBeUndefined();
       });
@@ -205,7 +243,11 @@ describe('useFavorite hooks', () => {
         mockedUsersApi.getFavoriteUsers.mockResolvedValueOnce(mockResponse);
 
         const options = favoriteUsersOptions();
-        await options.queryFn({ pageParam: undefined, queryKey: [], meta: undefined });
+        await options.queryFn({
+          pageParam: undefined,
+          queryKey: [],
+          meta: undefined,
+        });
 
         expect(mockedUsersApi.getFavoriteUsers).toHaveBeenCalledWith({
           cursorId: undefined,
@@ -232,7 +274,11 @@ describe('useFavorite hooks', () => {
         mockedUsersApi.getFavoriteUsers.mockResolvedValueOnce(mockResponse);
 
         const options = favoriteUsersOptions();
-        const result = await options.queryFn({ pageParam: 5, queryKey: [], meta: undefined });
+        const result = await options.queryFn({
+          pageParam: 5,
+          queryKey: [],
+          meta: undefined,
+        });
 
         expect(result).toEqual(mockResponse);
       });
@@ -247,7 +293,12 @@ describe('useFavorite hooks', () => {
           cursorId: 25,
         };
 
-        const nextPageParam = options.getNextPageParam(lastPage, [], undefined, []);
+        const nextPageParam = options.getNextPageParam(
+          lastPage,
+          [],
+          undefined,
+          []
+        );
 
         expect(nextPageParam).toBe(25);
       });
@@ -260,7 +311,12 @@ describe('useFavorite hooks', () => {
           cursorId: 25,
         };
 
-        const nextPageParam = options.getNextPageParam(lastPage, [], undefined, []);
+        const nextPageParam = options.getNextPageParam(
+          lastPage,
+          [],
+          undefined,
+          []
+        );
 
         expect(nextPageParam).toBeUndefined();
       });
@@ -270,7 +326,9 @@ describe('useFavorite hooks', () => {
   describe('integration scenarios', () => {
     it('should handle API errors in queryFn', async () => {
       const error = new Error('API Error');
-      mockedPerformancesApi.getFavoritePerformances.mockRejectedValueOnce(error);
+      mockedPerformancesApi.getFavoritePerformances.mockRejectedValueOnce(
+        error
+      );
 
       const options = favoritePerformancesOptions();
 
@@ -294,20 +352,40 @@ describe('useFavorite hooks', () => {
 
       // First page
       const firstPage: GetFavoriteUsersResponse = {
-        users: [{ id: 'user1', name: 'User 1', profileImage: null, gender: 'MALE', age: 25, isLiked: true }],
+        users: [
+          {
+            id: 'user1',
+            name: 'User 1',
+            profileImage: null,
+            gender: 'MALE',
+            age: 25,
+            isLiked: true,
+          },
+        ],
         hasNext: true,
         cursorId: 10,
       };
 
       // Last page
       const lastPage: GetFavoriteUsersResponse = {
-        users: [{ id: 'user2', name: 'User 2', profileImage: null, gender: 'FEMALE', age: 30, isLiked: true }],
+        users: [
+          {
+            id: 'user2',
+            name: 'User 2',
+            profileImage: null,
+            gender: 'FEMALE',
+            age: 30,
+            isLiked: true,
+          },
+        ],
         hasNext: false,
         cursorId: 20,
       };
 
       expect(options.getNextPageParam(firstPage, [], undefined, [])).toBe(10);
-      expect(options.getNextPageParam(lastPage, [], undefined, [])).toBeUndefined();
+      expect(
+        options.getNextPageParam(lastPage, [], undefined, [])
+      ).toBeUndefined();
     });
   });
 });

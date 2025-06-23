@@ -4,13 +4,13 @@ import '@testing-library/jest-dom';
 import TwoButton from './TwoButton';
 
 jest.mock('@/components/common', () => ({
-  Button: ({ 
-    children, 
-    onClick, 
-    disabled, 
-    variant, 
-    className, 
-    type 
+  Button: ({
+    children,
+    onClick,
+    disabled,
+    variant,
+    className,
+    type,
   }: {
     children: React.ReactNode;
     onClick?: () => void;
@@ -84,10 +84,10 @@ describe('TwoButton', () => {
   describe('props 전달 테스트', () => {
     it('leftVariant와 rightVariant가 올바르게 적용된다', () => {
       render(
-        <TwoButton 
-          {...defaultProps} 
-          leftVariant="danger" 
-          rightVariant="secondary" 
+        <TwoButton
+          {...defaultProps}
+          leftVariant='danger'
+          rightVariant='secondary'
         />
       );
 
@@ -99,7 +99,12 @@ describe('TwoButton', () => {
     });
 
     it('leftDisabled가 올바르게 적용된다', () => {
-      render(<TwoButton {...defaultProps} leftDisabled={true} />);
+      render(
+        <TwoButton
+          {...defaultProps}
+          leftDisabled={true}
+        />
+      );
 
       const leftButton = screen.getByText('취소');
       const rightButton = screen.getByText('확인');
@@ -109,7 +114,12 @@ describe('TwoButton', () => {
     });
 
     it('rightDisabled가 올바르게 적용된다', () => {
-      render(<TwoButton {...defaultProps} rightDisabled={true} />);
+      render(
+        <TwoButton
+          {...defaultProps}
+          rightDisabled={true}
+        />
+      );
 
       const leftButton = screen.getByText('취소');
       const rightButton = screen.getByText('확인');
@@ -120,7 +130,10 @@ describe('TwoButton', () => {
 
     it('className이 올바르게 적용된다', () => {
       const { container } = render(
-        <TwoButton {...defaultProps} className="custom-class" />
+        <TwoButton
+          {...defaultProps}
+          className='custom-class'
+        />
       );
 
       const twoButtonDiv = container.firstChild as HTMLElement;
@@ -129,10 +142,10 @@ describe('TwoButton', () => {
 
     it('leftClassName과 rightClassName이 올바르게 적용된다', () => {
       render(
-        <TwoButton 
-          {...defaultProps} 
-          leftClassName="left-custom" 
-          rightClassName="right-custom" 
+        <TwoButton
+          {...defaultProps}
+          leftClassName='left-custom'
+          rightClassName='right-custom'
         />
       );
 
@@ -147,7 +160,12 @@ describe('TwoButton', () => {
   describe('클릭 이벤트 테스트', () => {
     it('leftAction이 올바르게 호출된다', () => {
       const leftAction = jest.fn();
-      render(<TwoButton {...defaultProps} leftAction={leftAction} />);
+      render(
+        <TwoButton
+          {...defaultProps}
+          leftAction={leftAction}
+        />
+      );
 
       const leftButton = screen.getByText('취소');
       fireEvent.click(leftButton);
@@ -157,7 +175,12 @@ describe('TwoButton', () => {
 
     it('rightAction이 올바르게 호출된다', () => {
       const rightAction = jest.fn();
-      render(<TwoButton {...defaultProps} rightAction={rightAction} />);
+      render(
+        <TwoButton
+          {...defaultProps}
+          rightAction={rightAction}
+        />
+      );
 
       const rightButton = screen.getByText('확인');
       fireEvent.click(rightButton);
@@ -168,10 +191,10 @@ describe('TwoButton', () => {
     it('disabled된 leftButton 클릭 시 leftAction이 호출되지 않는다', () => {
       const leftAction = jest.fn();
       render(
-        <TwoButton 
-          {...defaultProps} 
-          leftAction={leftAction} 
-          leftDisabled={true} 
+        <TwoButton
+          {...defaultProps}
+          leftAction={leftAction}
+          leftDisabled={true}
         />
       );
 
@@ -184,10 +207,10 @@ describe('TwoButton', () => {
     it('disabled된 rightButton 클릭 시 rightAction이 호출되지 않는다', () => {
       const rightAction = jest.fn();
       render(
-        <TwoButton 
-          {...defaultProps} 
-          rightAction={rightAction} 
-          rightDisabled={true} 
+        <TwoButton
+          {...defaultProps}
+          rightAction={rightAction}
+          rightDisabled={true}
         />
       );
 
@@ -203,8 +226,8 @@ describe('TwoButton', () => {
       const rightAction = jest.fn();
       const onRightDisabledClick = jest.fn();
       render(
-        <TwoButton 
-          {...defaultProps} 
+        <TwoButton
+          {...defaultProps}
           rightAction={rightAction}
           rightDisabled={true}
           onRightDisabledClick={onRightDisabledClick}
@@ -222,8 +245,8 @@ describe('TwoButton', () => {
       const rightAction = jest.fn();
       const onRightDisabledClick = jest.fn();
       render(
-        <TwoButton 
-          {...defaultProps} 
+        <TwoButton
+          {...defaultProps}
           rightAction={rightAction}
           rightDisabled={true}
           onRightDisabledClick={onRightDisabledClick}
@@ -240,8 +263,8 @@ describe('TwoButton', () => {
       const rightAction = jest.fn();
       const onRightDisabledClick = jest.fn();
       render(
-        <TwoButton 
-          {...defaultProps} 
+        <TwoButton
+          {...defaultProps}
           rightAction={rightAction}
           rightDisabled={false}
           onRightDisabledClick={onRightDisabledClick}
@@ -257,8 +280,8 @@ describe('TwoButton', () => {
 
     it('onRightDisabledClick이 있을 때 rightButton이 활성화된다', () => {
       render(
-        <TwoButton 
-          {...defaultProps} 
+        <TwoButton
+          {...defaultProps}
           rightDisabled={true}
           onRightDisabledClick={jest.fn()}
         />
@@ -269,7 +292,12 @@ describe('TwoButton', () => {
     });
 
     it('onRightDisabledClick이 없을 때 rightButton이 비활성화된다', () => {
-      render(<TwoButton {...defaultProps} rightDisabled={true} />);
+      render(
+        <TwoButton
+          {...defaultProps}
+          rightDisabled={true}
+        />
+      );
 
       const rightButton = screen.getByText('확인');
       expect(rightButton).toBeDisabled();
@@ -278,7 +306,12 @@ describe('TwoButton', () => {
 
   describe('스타일링 테스트', () => {
     it('rightDisabled이고 onRightDisabledClick이 없을 때 적절한 클래스가 적용된다', () => {
-      render(<TwoButton {...defaultProps} rightDisabled={true} />);
+      render(
+        <TwoButton
+          {...defaultProps}
+          rightDisabled={true}
+        />
+      );
 
       const rightButton = screen.getByText('확인');
       expect(rightButton).toHaveClass('cursor-not-allowed', 'opacity-50');
@@ -286,10 +319,10 @@ describe('TwoButton', () => {
 
     it('rightDisabled이고 onRightDisabledClick이 있을 때 적절한 클래스가 적용된다', () => {
       render(
-        <TwoButton 
-          {...defaultProps} 
-          rightDisabled={true} 
-          onRightDisabledClick={jest.fn()} 
+        <TwoButton
+          {...defaultProps}
+          rightDisabled={true}
+          onRightDisabledClick={jest.fn()}
         />
       );
 
@@ -322,19 +355,19 @@ describe('TwoButton', () => {
       const onRightDisabledClick = jest.fn();
 
       render(
-        <TwoButton 
-          leftText="Delete"
-          rightText="Save"
+        <TwoButton
+          leftText='Delete'
+          rightText='Save'
           leftAction={leftAction}
           rightAction={rightAction}
-          leftVariant="danger"
-          rightVariant="primary"
+          leftVariant='danger'
+          rightVariant='primary'
           leftDisabled={false}
           rightDisabled={true}
           onRightDisabledClick={onRightDisabledClick}
-          className="custom-wrapper"
-          leftClassName="custom-left"
-          rightClassName="custom-right"
+          className='custom-wrapper'
+          leftClassName='custom-left'
+          rightClassName='custom-right'
         />
       );
 
