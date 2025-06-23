@@ -6,10 +6,10 @@ import MainTopGroupsPerformances from '@/components/pages/main/MainTopGroupsPerf
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 const Home = async () => (
-  <div className='flex flex-col gap-2.5 bg-[#edeef2]'>
+  <div className='flex flex-col bg-[#edeef2]'>
     <Header />
     <ScrollArea className='h-[calc(100dvh-124px)]'>
-      <div className='w-screen max-w-lg'>
+      <div className='mt-2.5 flex w-screen max-w-lg flex-col gap-2.5 bg-[#edeef2]'>
         <MainBanner />
         <MainTopFavoritesPerformances />
         <MainTopGroupsPerformances />
