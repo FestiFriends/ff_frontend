@@ -34,30 +34,26 @@ const ProfileBody = ({ profile }: ProfileBodyProps) => {
             onTabChange={setSelectedTab}
           />
         </div>
-        <ProfileWrapper className='py-0'>
-          <div className='mb-4'>
-            {selectedTab === '참여 모임' && (
-              <div>
-                {isGroupsError && (
-                  <StateNotice
-                    preset='error'
-                    message='참여 모임 불러오기에 실패했어요.'
-                  />
-                )}
-                {(isGroupsLoading || joinedGroupsData) && (
-                  <ProfileJoinedGroups
-                    groupSummary={profile.groupSummary}
-                    groups={joinedGroupsData?.data ?? []}
-                    isLoading={isGroupsLoading}
-                  />
-                )}
-              </div>
-            )}
+        <ProfileWrapper className='mb-4 py-0'>
+          {selectedTab === '참여 모임' && (
+            <>
+              {isGroupsError && (
+                <StateNotice
+                  preset='error'
+                  message='참여 모임 불러오기에 실패했어요.'
+                />
+              )}
+              {(isGroupsLoading || joinedGroupsData) && (
+                <ProfileJoinedGroups
+                  groupSummary={profile.groupSummary}
+                  groups={joinedGroupsData?.data ?? []}
+                  isLoading={isGroupsLoading}
+                />
+              )}
+            </>
+          )}
 
-            {selectedTab === '리뷰 목록' && (
-              <ReceivedReviews profile={profile} />
-            )}
-          </div>
+          {selectedTab === '리뷰 목록' && <ReceivedReviews profile={profile} />}
         </ProfileWrapper>
       </div>
     </section>
