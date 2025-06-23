@@ -63,6 +63,20 @@ const SlideCard = (props: SlideCardProps) => {
 
   const Icon = GroupCategoryIconLabels[groupInfo.category];
 
+  const formatDateRange = () => {
+    const isReview = type === 'review';
+    const startDate = isReview
+      ? groupInfo.groupStartDate.split('T')[0]
+      : groupInfo.startDate;
+    const endDate = isReview
+      ? groupInfo.groupEndDate.split('T')[0]
+      : groupInfo.endDate;
+
+    return startDate === endDate
+      ? formatNormalDate(endDate)
+      : `${formatNormalDate(startDate)}~${formatNormalDate(endDate)}`;
+  };
+
   return (
     <div
       {...(type === 'application' && {
@@ -97,20 +111,7 @@ const SlideCard = (props: SlideCardProps) => {
               {<Icon className='h-4 w-4' />}
               {GroupCategoryLabels[groupInfo.category]}
             </span>
-            <p className='text-12_M text-gray-600'>
-              {(() => {
-                const isReview = type === 'review';
-                const startDate = isReview
-                  ? groupInfo.groupStartDate
-                  : groupInfo.startDate;
-                const endDate = isReview
-                  ? groupInfo.groupEndDate
-                  : groupInfo.endDate;
-                return startDate === endDate
-                  ? formatNormalDate(endDate)
-                  : `${formatNormalDate(startDate)}~${formatNormalDate(endDate)}`;
-              })()}
-            </p>
+            <p className='text-12_M text-gray-600'>{formatDateRange()}</p>
           </div>
           <div className='flex flex-col gap-1'>
             <h2 className='truncate text-12_B text-gray-950'>
