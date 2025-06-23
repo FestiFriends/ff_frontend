@@ -127,6 +127,6 @@ export const extractGroupInfo = (
   category: group.category as GroupCategoryType,
   memberCount: group.memberCount,
   maxMembers: group.maxMembers,
-  startDate: group.startDate,
-  endDate: group.endDate,
+  startDate: formatNormalDate(group.startDate),
+  endDate: formatNormalDate(group.endDate),
 });
