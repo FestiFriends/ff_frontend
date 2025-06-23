@@ -1,3 +1,4 @@
+import { eachDayOfInterval } from 'date-fns';
 import CalendarBase from '@/components/common/EventCalendar/CalendarBase/CalendarBase';
 import PerformanceCell from '@/components/pages/PerformanceCalendar/PerformanceCell';
 import { Performance } from '@/types/performance';
@@ -26,7 +27,18 @@ const EventCalendar = ({
   <CalendarBase
     month={month}
     events={performances}
-    getDate={(p) => new Date(p.startDate)}
+    getDate={(p) => {
+      const d = new Date(p.startDate);
+      return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    }}
+    getDates={(p) => {
+      const start = new Date(p.startDate);
+      const end = new Date(p.endDate);
+      return eachDayOfInterval({
+        start: new Date(start.getFullYear(), start.getMonth(), start.getDate()),
+        end: new Date(end.getFullYear(), end.getMonth(), end.getDate()),
+      });
+    }}
     renderCell={(date, events) => (
       <PerformanceCell
         date={date}

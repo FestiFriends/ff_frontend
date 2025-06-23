@@ -19,6 +19,7 @@ interface CalendarBaseProps<T> {
   renderCell: (date: Date, events: T[]) => React.ReactNode;
   onMonthChange?: (month: Date) => void;
   weekdayLabels?: string[];
+  getDates?: (event: T) => Date[];
 }
 
 const CalendarBase = <T,>({
@@ -28,6 +29,7 @@ const CalendarBase = <T,>({
   renderCell,
   onMonthChange,
   weekdayLabels,
+  getDates,
 }: CalendarBaseProps<T>) => {
   const [internalMonth, setInternalMonth] = useState(month);
 
@@ -41,13 +43,18 @@ const CalendarBase = <T,>({
 
   const eventsByDate = useMemo(() => {
     const grouped: Record<string, T[]> = {};
+
     for (const event of events) {
-      const key = format(getDate(event), 'yyyy-MM-dd');
-      if (!grouped[key]) grouped[key] = [];
-      grouped[key].push(event);
+      const dates = getDates?.(event) ?? [getDate(event)];
+      for (const d of dates) {
+        const key = format(d, 'yyyy-MM-dd');
+        if (!grouped[key]) grouped[key] = [];
+        grouped[key].push(event);
+      }
     }
+
     return grouped;
-  }, [events, getDate]);
+  }, [events, getDate, getDates]);
 
   const handlePrevMonth = () => {
     const newMonth = new Date(
