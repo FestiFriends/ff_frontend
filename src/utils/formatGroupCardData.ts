@@ -1,6 +1,7 @@
 import { CursorResponse, PageResponse } from '@/types/api';
 import { GenderType, GroupCategoryType } from '@/types/enums';
 import { Group } from '@/types/group';
+import { formatNormalDate } from './date';
 
 export interface PerformanceGroupsApiResponse {
   code: number;
@@ -108,8 +109,8 @@ export const formatJoinedGroups = (groups: JoinedGroupsApiResponse): Group[] =>
     startAge: group.startAge,
     endAge: group.endAge,
     location: group.location,
-    startDate: group.startDate,
-    endDate: group.endDate,
+    startDate: formatNormalDate(group.startDate),
+    endDate: formatNormalDate(group.endDate),
     memberCount: group.memberCount,
     maxMembers: group.maxMembers,
     description: group.description,
