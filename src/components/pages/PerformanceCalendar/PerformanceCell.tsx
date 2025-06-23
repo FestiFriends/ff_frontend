@@ -20,8 +20,8 @@ interface PerformanceCellProps {
 }
 
 const visitStyles: Record<string, string> = {
-  내한: 'bg-green-100 text-green-700',
-  국내: 'bg-red-100 text-red-700',
+  내한: 'bg-[#FFF8DD] text-[#FC8A00]',
+  국내: 'bg-red-100 text-primary-red',
 };
 
 const PerformanceCell = ({
@@ -64,7 +64,7 @@ const PerformanceCell = ({
   const cellClasses = cn(
     cellBase,
     'border-gray-200',
-    !isCurrentMonth && 'text-gray-400',
+    !isCurrentMonth && 'opacity-50',
     isTodayDate && 'border-gray-600 bg-gray-50',
     isSelected && 'border-red-400 bg-red-50'
   );
@@ -95,7 +95,7 @@ const PerformanceCell = ({
                   onPerformanceClick?.(perf);
                 }}
                 className={cn(
-                  'block w-full truncate overflow-hidden rounded px-1 text-left text-xs text-ellipsis whitespace-nowrap hover:underline',
+                  'block w-full truncate overflow-hidden rounded px-1 text-left !text-12_M text-ellipsis whitespace-nowrap hover:underline',
                   visitStyles[perf.visit] || 'bg-gray-100 text-gray-700'
                 )}
               >
