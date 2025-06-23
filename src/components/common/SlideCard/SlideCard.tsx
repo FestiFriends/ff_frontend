@@ -77,7 +77,7 @@ const SlideCard = (props: SlideCardProps) => {
         },
       })}
       className={cn(
-        'flex w-full flex-col rounded-2xl bg-gray-25 p-5',
+        'flex w-full max-w-screen flex-col rounded-2xl bg-gray-25 p-5',
         (open || openToClose) && 'gap-4'
       )}
     >
