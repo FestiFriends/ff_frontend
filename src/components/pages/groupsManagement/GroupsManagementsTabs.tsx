@@ -6,7 +6,7 @@ import Applications from './Applications';
 import AppliedGroups from './AppliedGroups';
 import JoinedGroups from './JoinedGroups';
 
-const tabs = ['신청한 모임', '참가 중인 모임', '받은 신청서'];
+const tabs = ['참가 중인 모임', '신청한 모임', '받은 신청서'];
 
 const GroupsManagementsTabs = () => {
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
