@@ -42,19 +42,11 @@ const WrittenReviewsModal = ({ review }: WrittenReviewsModalProps) => (
               {review.defaultTag.map((tag) => (
                 <span
                   key={tag}
-                  className='flex w-full items-center rounded-[6px] bg-[#f4f4f4] px-4 py-3 text-14_M leading-normal tracking-[-0.35px]'
+                  className='flex w-full items-center rounded-[0px_16px_16px_16px] bg-[#f4f4f4] px-4 py-3 text-14_M leading-normal tracking-[-0.35px]'
                 >
                   {ReviewTagLabels[tag]}
                 </span>
               ))}
-            </div>
-          )}
-
-          {review.content !== '' && (
-            <div>
-              <span className='flex w-full items-center rounded-[6px] bg-[#f4f4f4] px-4 py-3 text-14_M leading-normal tracking-[-0.35px]'>
-                {review.content}
-              </span>
             </div>
           )}
 
@@ -73,6 +65,14 @@ const WrittenReviewsModal = ({ review }: WrittenReviewsModalProps) => (
               />
             </div>
           </div>
+
+          {review.content !== '' && (
+            <div className='flex w-full items-center rounded-[6px] bg-[#f4f4f4] px-4 py-3'>
+              <span className='text-14_M leading-normal tracking-[-0.35px]'>
+                {review.content}
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
