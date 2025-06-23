@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import {
   endOfMonth,
   endOfWeek,
@@ -18,10 +18,10 @@ import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
 import { Performance } from '@/types/performance';
 
 const PerformanceCalendarPage = () => {
-  const { getPerformanceQueryString, setMultipleQueryParams } = useQueryParam();
+  const { getPerformanceQueryString, setMultipleQueryParams, getQueryParam } =
+    useQueryParam();
   const queryString = getPerformanceQueryString();
 
-  const [filterValues, setFilterValues] = useState<{ visit?: string }>({});
   const [selectedDate, setSelectedDate] = useState(() => new Date());
   const [currentMonth, setCurrentMonth] = useState(() => new Date());
   const [showScrollToTop, setShowScrollToTop] = useState(false);
@@ -29,9 +29,16 @@ const PerformanceCalendarPage = () => {
 
   const start = startOfWeek(startOfMonth(currentMonth), { weekStartsOn: 0 });
   const end = endOfWeek(endOfMonth(currentMonth), { weekStartsOn: 0 });
-
   const startDate = format(start, 'yyyy-MM-dd');
   const endDate = format(end, 'yyyy-MM-dd');
+
+  useEffect(() => {
+    setMultipleQueryParams({
+      startDate,
+      endDate,
+      size: '100',
+    });
+  }, [startDate, endDate, setMultipleQueryParams]);
 
   const {
     data: allPerformances,
@@ -39,29 +46,20 @@ const PerformanceCalendarPage = () => {
     isError,
   } = useGetPerformances(queryString, queryString.includes('startDate'));
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      setShowScrollToTop(scrollY > 300);
-    };
+  console.log(
+    '받아온 공연 id 목록:',
+    allPerformances?.data?.map((p) => p.id) ?? '아직 로딩 중이거나 데이터 없음'
+  );
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const queryParams = {
-      startDate,
-      endDate,
-      size: '100',
-    };
-    setMultipleQueryParams(queryParams);
-  }, [startDate, endDate, setMultipleQueryParams]);
+  const visit = getQueryParam('visit');
+  const location = getQueryParam('location');
 
   const filteredPerformances =
-    allPerformances?.data?.filter(
-      (perf) => !filterValues.visit || perf.visit === filterValues.visit
-    ) || [];
+    allPerformances?.data?.filter((perf) => {
+      const matchesVisit = !visit || perf.visit === visit;
+      const matchesLocation = !location || perf.location?.startsWith(location);
+      return matchesVisit && matchesLocation;
+    }) || [];
 
   const handleDateClick = (
     date: Date,
@@ -76,9 +74,17 @@ const PerformanceCalendarPage = () => {
     }
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollToTop(window.scrollY > 300);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div className='mx-auto max-w-2xl px-4 py-8'>
-      <CalendarFilter onChange={setFilterValues} />
+      <CalendarFilter />
       <div className='relative'>
         {isPending && <LoadingOverlay />}
         {isError && <></>}
