@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, TwoButtonModal, Toast } from '@/components/common';
+import { TwoButton, TwoButtonModal, Toast } from '@/components/common';
 import { useModalController } from '@/hooks';
 
 interface FormActionProps {
@@ -40,25 +40,16 @@ const FormAction = ({
 
   return (
     <>
-      <div className='flex gap-4'>
-        <Button
-          type='button'
-          onClick={() => resetModal.openModal()}
-          variant='secondary'
-          className='flex-1 whitespace-nowrap'
-        >
-          초기화
-        </Button>
-        <Button
-          type='submit'
-          onClick={onSubmit}
-          disabled={!isValid || isSubmitting}
-          variant='primary'
-          className='flex-1 whitespace-nowrap disabled:cursor-not-allowed'
-        >
-          {isSubmitting ? '생성 중...' : '모임 만들기'}
-        </Button>
-      </div>
+      <TwoButton
+        leftText='초기화'
+        rightText={isSubmitting ? '생성 중...' : '모임 만들기'}
+        leftAction={() => resetModal.openModal()}
+        rightAction={onSubmit}
+        leftVariant='secondary'
+        rightVariant='primary'
+        rightDisabled={!isValid || isSubmitting}
+        rightClassName='disabled:cursor-not-allowed'
+      />
 
       <TwoButtonModal
         isOpen={resetModal.isOpen}
