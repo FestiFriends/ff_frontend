@@ -22,6 +22,7 @@ export { default as TabBar } from './TabBar/TabBar';
 export { default as Tabs } from './Tabs/Tabs';
 export { default as Toast } from './Toast/Toast';
 export { default as TwoButtonModal } from './TwoButtonModal';
+export { TwoButton } from './TwoButton';
 export { default as TextareaInput } from './TextareaInput/TextareaInput';
 
 export { default as Button } from './Button/Button';
