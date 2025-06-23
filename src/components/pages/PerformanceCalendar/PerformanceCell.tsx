@@ -4,7 +4,7 @@ import { memo, useCallback } from 'react';
 import { format, isSameMonth, isToday, isSameDay, getDay } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Performance } from '@/types/performance';
-import PerformanceHoverCard from './PerformanceHoverCard';
+import PerformanceQuickView from './PerformanceQuickView';
 
 interface PerformanceCellProps {
   date: Date;
@@ -20,8 +20,8 @@ interface PerformanceCellProps {
 }
 
 const visitStyles: Record<string, string> = {
-  내한: 'bg-green-100 text-green-700',
-  국내: 'bg-red-100 text-red-700',
+  내한: 'bg-[#FFF8DD] text-[#FC8A00]',
+  국내: 'bg-red-100 text-primary-red',
 };
 
 const PerformanceCell = ({
@@ -59,12 +59,12 @@ const PerformanceCell = ({
   );
 
   const cellBase =
-    'flex min-h-[100px] flex-col items-center justify-start overflow-hidden rounded border-b bg-white p-2';
+    'flex min-h-[100px] flex-col items-center justify-start overflow-visible rounded border-b bg-white p-2';
 
   const cellClasses = cn(
     cellBase,
     'border-gray-200',
-    !isCurrentMonth && 'text-gray-400',
+    !isCurrentMonth && 'opacity-50',
     isTodayDate && 'border-gray-600 bg-gray-50',
     isSelected && 'border-red-400 bg-red-50'
   );
@@ -77,42 +77,50 @@ const PerformanceCell = ({
       onClick={handleClick}
       onKeyDown={handleKeyDown}
     >
-      <button
-        className={cn('w-full rounded text-12_M font-medium', dayColorClass)}
-      >
+      <button className={cn('rounded !text-12_M', dayColorClass)}>
         {format(date, 'd')}
       </button>
       {performances.length > 0 && (
-        <div className='mt-1 flex w-full flex-col space-y-0.5'>
+        <div className='mt-2 flex w-full flex-col items-center space-y-1'>
           {performances.slice(0, 2).map((perf) => (
-            <PerformanceHoverCard
+            <PerformanceQuickView
               key={perf.id}
               performance={perf}
             >
-              <button
+              <div
+                role='button'
+                tabIndex={0}
                 onClick={(e) => {
                   e.stopPropagation();
                   onPerformanceClick?.(perf);
                 }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onPerformanceClick?.(perf);
+                  }
+                }}
                 className={cn(
-                  'block w-full truncate overflow-hidden rounded px-1 text-left text-xs text-ellipsis whitespace-nowrap hover:underline',
+                  'block w-full max-w-[60px] truncate rounded px-1 py-[2px] text-left !text-12_M',
                   visitStyles[perf.visit] || 'bg-gray-100 text-gray-700'
                 )}
               >
                 {perf.title}
-              </button>
-            </PerformanceHoverCard>
+              </div>
+            </PerformanceQuickView>
           ))}
           {performances.length > 2 && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onDateClick?.(date, performances, true);
-              }}
-              className='w-fit text-xs text-gray-400 hover:underline'
-            >
-              +{performances.length - 2}개
-            </button>
+            <PerformanceQuickView performances={performances.slice(2)}>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                className='mx-auto block w-fit text-12_M text-gray-400'
+              >
+                +{performances.length - 2}
+              </button>
+            </PerformanceQuickView>
           )}
         </div>
       )}

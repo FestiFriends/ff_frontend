@@ -110,3 +110,4 @@ const apiFetcher = {
 };
 
 export default apiFetcher;
+export { instance };

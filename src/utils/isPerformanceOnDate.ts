@@ -1,9 +1,21 @@
-import { isWithinInterval, parseISO, startOfDay } from 'date-fns';
 import { Performance } from '@/types/performance';
 
 export const isPerformanceOnDate = (perf: Performance, date: Date): boolean => {
-  const normalizedDate = startOfDay(date);
-  const start = startOfDay(parseISO(perf.startDate));
-  const end = startOfDay(parseISO(perf.endDate));
-  return isWithinInterval(normalizedDate, { start, end });
+  const targetDate = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+  const start = new Date(
+    new Date(perf.startDate).getFullYear(),
+    new Date(perf.startDate).getMonth(),
+    new Date(perf.startDate).getDate()
+  );
+  const end = new Date(
+    new Date(perf.endDate).getFullYear(),
+    new Date(perf.endDate).getMonth(),
+    new Date(perf.endDate).getDate()
+  );
+
+  return targetDate >= start && targetDate <= end;
 };
