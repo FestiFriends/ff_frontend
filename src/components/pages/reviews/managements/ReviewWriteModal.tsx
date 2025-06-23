@@ -90,7 +90,7 @@ const ReviewWriteModal = ({ review, groupId }: ReviewWriteModalProps) => {
             </h1>
 
             <div className='flex flex-col gap-2'>
-              <span className='flex h-[14px] items-center text-12_B text-gray-500'>
+              <span className='flex h-[14px] items-center text-14_B text-gray-500'>
                 최소 1개, 중복 선택 가능
               </span>
 
@@ -114,7 +114,7 @@ const ReviewWriteModal = ({ review, groupId }: ReviewWriteModalProps) => {
                             type={selected ? 'active' : 'normal'}
                             className={cn(selected && 'text-primary-red')}
                           />
-                          <span className='text-12_M'>
+                          <span className='text-16_M'>
                             {ReviewTagLabels[tag]}
                           </span>
                         </>
@@ -130,7 +130,7 @@ const ReviewWriteModal = ({ review, groupId }: ReviewWriteModalProps) => {
                             type={otherCheck ? 'active' : 'normal'}
                             className={cn(otherCheck && 'text-primary-red')}
                           />
-                          <span className='text-12_M'>기타</span>
+                          <span className='text-16_M'>기타</span>
                         </div>
                       </div>
                     }
@@ -149,7 +149,7 @@ const ReviewWriteModal = ({ review, groupId }: ReviewWriteModalProps) => {
             </div>
 
             <div className='flex flex-col'>
-              <span className='flex h-[14px] items-center text-12_B text-gray-500'>
+              <span className='flex h-[14px] items-center text-14_B text-gray-500'>
                 별점
               </span>
 
