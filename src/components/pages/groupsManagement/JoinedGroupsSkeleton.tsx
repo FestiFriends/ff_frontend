@@ -2,7 +2,7 @@ import React from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const JoinedGroupsSkeleton = () => (
-  <div className='flex flex-col items-center gap-5 px-4'>
+  <>
     {[1, 2, 3].map((i) => (
       <div
         key={i}
@@ -28,7 +28,7 @@ const JoinedGroupsSkeleton = () => (
         <Skeleton className='h-[42px] w-full bg-gray-50' />
       </div>
     ))}
-  </div>
+  </>
 );
 
 export default JoinedGroupsSkeleton;
