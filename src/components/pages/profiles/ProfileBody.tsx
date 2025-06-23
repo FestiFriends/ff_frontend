@@ -13,7 +13,7 @@ interface ProfileBodyProps {
   profile: FullProfile;
 }
 
-const TABS = ['참여 모임', '리뷰 목록'];
+const TABS = ['참가 모임', '받은 리뷰'];
 
 const ProfileBody = ({ profile }: ProfileBodyProps) => {
   const [selectedTab, setSelectedTab] = useState(TABS[0]);
@@ -35,12 +35,12 @@ const ProfileBody = ({ profile }: ProfileBodyProps) => {
           />
         </div>
         <ProfileWrapper className='mb-4 py-0'>
-          {selectedTab === '참여 모임' && (
+          {selectedTab === '참가 모임' && (
             <>
               {isGroupsError && (
                 <StateNotice
                   preset='error'
-                  message='참여 모임 불러오기에 실패했어요.'
+                  message='참가한 모임 불러오기에 실패했어요.'
                 />
               )}
               {(isGroupsLoading || joinedGroupsData) && (
@@ -53,7 +53,7 @@ const ProfileBody = ({ profile }: ProfileBodyProps) => {
             </>
           )}
 
-          {selectedTab === '리뷰 목록' && <ReceivedReviews profile={profile} />}
+          {selectedTab === '받은 리뷰' && <ReceivedReviews profile={profile} />}
         </ProfileWrapper>
       </div>
     </section>
