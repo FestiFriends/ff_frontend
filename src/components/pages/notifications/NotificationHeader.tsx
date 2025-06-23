@@ -36,7 +36,7 @@ const NotificationHeader = () => {
           disabled={deleteAllIsPending}
           className='flex items-center justify-center'
         >
-          <span className='to-gray-700 text-12_M underline'>삭제</span>
+          <span className='to-gray-700 text-12_M underline'>전체 삭제</span>
         </button>
       </div>
     </header>
