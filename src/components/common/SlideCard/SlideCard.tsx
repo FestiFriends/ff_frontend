@@ -91,7 +91,6 @@ const SlideCard = (props: SlideCardProps) => {
             className='object-cover'
           />
         </div>
-
         <div className='flex w-full flex-1 flex-col justify-between overflow-hidden'>
           <div className='flex items-center justify-between'>
             <span className='flex items-center gap-1 text-14_M text-gray-600'>
@@ -109,7 +108,7 @@ const SlideCard = (props: SlideCardProps) => {
                   : groupInfo.endDate;
                 return startDate === endDate
                   ? formatNormalDate(endDate)
-                  : `${formatNormalDate(startDate)} ~ ${formatNormalDate(endDate)}`;
+                  : `${formatNormalDate(startDate)}~${formatNormalDate(endDate)}`;
               })()}
             </p>
           </div>
@@ -121,7 +120,6 @@ const SlideCard = (props: SlideCardProps) => {
               {groupInfo.groupTitle}
             </h1>
           </div>
-
           <div className='flex flex-col gap-2.5'>
             <div className='flex items-center justify-between'>
               <p className='text-14_M text-gray-700'>
