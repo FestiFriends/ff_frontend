@@ -89,7 +89,7 @@ const GroupInfoCard = ({
               >
                 <ProfileImage
                   size='xs'
-                  src={groupInfo.host.profileImage}
+                  src={groupInfo.host.profileImageUrl}
                   alt={groupInfo.host.name}
                   border={false}
                 />

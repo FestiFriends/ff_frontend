@@ -82,7 +82,7 @@ export interface GroupInfo {
     id?: string;
     name: string;
     rating?: number;
-    profileImage?: string;
+    profileImageUrl?: string;
   };
   isMember: boolean;
   chatRoomId: number;
