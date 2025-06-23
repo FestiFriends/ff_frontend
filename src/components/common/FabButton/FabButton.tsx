@@ -20,7 +20,7 @@ const FabButton: React.FC<FabButtonProps> = ({
   const scrollTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
   useEffect(() => {
     const scrollContainer = document.querySelector(
-      'div[class*="overflow-auto"]'
+      'div[data-slot="scroll-area-viewport"]'
     );
     if (!scrollContainer) return;
 
@@ -44,7 +44,7 @@ const FabButton: React.FC<FabButtonProps> = ({
 
   const handleScrollToTop = (): void => {
     const scrollContainer = document.querySelector(
-      'div[class*="overflow-auto"]'
+      'div[data-slot="scroll-area-viewport"]'
     );
     if (!scrollContainer) return;
 
