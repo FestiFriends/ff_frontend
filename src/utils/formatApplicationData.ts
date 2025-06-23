@@ -109,7 +109,7 @@ export const formatApplications = (
       rating: Number(application.rating.toFixed(1)),
       gender: application.gender as GenderType,
       status: application.status as ApplicationStatusType,
-      createdAt: formatNormalDate(application.createdAt),
+      createdAt: application.createdAt,
     })),
   }));
 
@@ -127,6 +127,6 @@ export const extractGroupInfo = (
   category: group.category as GroupCategoryType,
   memberCount: group.memberCount,
   maxMembers: group.maxMembers,
-  startDate: formatNormalDate(group.startDate),
-  endDate: formatNormalDate(group.endDate),
+  startDate: group.startDate,
+  endDate: group.endDate,
 });

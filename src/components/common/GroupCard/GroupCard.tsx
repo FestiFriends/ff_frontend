@@ -86,8 +86,9 @@ const GroupCard = ({
           {groupData.isHost && <span>👑</span>}
         </div>
         <span className='text-12_M text-gray-600'>
-          {formatNormalDate(groupData.startDate)}~
-          {formatNormalDate(groupData.endDate)}
+          {groupData.startDate === groupData.endDate
+            ? formatNormalDate(groupData.startDate)
+            : `${formatNormalDate(groupData.startDate)}~${formatNormalDate(groupData.endDate)}`}
         </span>
       </div>
       <div className='flex w-full justify-between gap-4'>

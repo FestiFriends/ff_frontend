@@ -1,8 +1,6 @@
 'use client';
 
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { format } from 'date-fns';
-import { ko } from 'date-fns/locale';
 import Image from 'next/image';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
@@ -12,6 +10,7 @@ import {
 import { cn } from '@/lib/utils';
 import { ApplicationGroupInfo } from '@/types/application';
 import { ReviewGroupInfo } from '@/types/reviews';
+import { formatNormalDate } from '@/utils/date';
 import ProgressBar from '../ProgressBar/ProgressBar';
 
 interface BaseProps {
@@ -99,23 +98,21 @@ const SlideCard = (props: SlideCardProps) => {
               {<Icon className='h-4 w-4' />}
               {GroupCategoryLabels[groupInfo.category]}
             </span>
-
             <p className='text-12_M text-gray-600'>
-              {format(
-                type === 'review'
+              {(() => {
+                const isReview = type === 'review';
+                const startDate = isReview
                   ? groupInfo.groupStartDate
-                  : groupInfo.startDate,
-                'yy.MM.dd'
-              )}{' '}
-              ~{' '}
-              {format(
-                type === 'review' ? groupInfo.groupEndDate : groupInfo.endDate,
-                'yy.MM.dd',
-                { locale: ko }
-              )}
+                  : groupInfo.startDate;
+                const endDate = isReview
+                  ? groupInfo.groupEndDate
+                  : groupInfo.endDate;
+                return startDate === endDate
+                  ? formatNormalDate(endDate)
+                  : `${formatNormalDate(startDate)} ~ ${formatNormalDate(endDate)}`;
+              })()}
             </p>
           </div>
-
           <div className='flex flex-col gap-1'>
             <h2 className='truncate text-12_B text-gray-950'>
               {groupInfo.performance.title}
@@ -139,7 +136,6 @@ const SlideCard = (props: SlideCardProps) => {
                 <span>{open ? '닫기' : '더보기'}</span>
               </button>
             </div>
-
             <ProgressBar
               current={
                 type === 'review' ? props.reviewsCount : groupInfo.memberCount
@@ -152,7 +148,6 @@ const SlideCard = (props: SlideCardProps) => {
           </div>
         </div>
       </div>
-
       <ScrollArea
         className={cn(
           'transition-all duration-300',
