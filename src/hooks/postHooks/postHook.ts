@@ -1,7 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { GROUP_QUERY_KEYS, POSTS_QUERY_KEYS } from '@/constants/queryKeys';
 import { postApi } from '@/services/postService';
-import { CommentsResponse } from '@/types/comment';
 import { Post } from '@/types/post';
 
 export const useGetPost = ({
@@ -34,7 +38,10 @@ export const useCreatePost = () => {
       isPinned: boolean;
       images: { alt: string; src: string }[];
     }) => postApi.createPost({ groupId, content, isPinned, images }),
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: [GROUP_QUERY_KEYS.groupPosts, String(variables.groupId)],
+      });
       queryClient.invalidateQueries({
         queryKey: [GROUP_QUERY_KEYS.groupPosts],
       });
@@ -60,14 +67,15 @@ export const usePinPost = () => {
     }) => postApi.pinPost({ groupId, postId, isPinned }),
 
     onSuccess: (_data, variables) => {
+      console.log('onSuccess', variables);
       queryClient.invalidateQueries({
-        queryKey: [GROUP_QUERY_KEYS.groupPosts],
+        queryKey: [GROUP_QUERY_KEYS.groupPosts, String(variables.groupId)],
       });
       queryClient.invalidateQueries({
         queryKey: [
           POSTS_QUERY_KEYS.postDetail,
-          variables.groupId,
-          variables.postId,
+          String(variables.groupId),
+          String(variables.postId),
         ],
       });
     },
@@ -90,13 +98,13 @@ export const useReactionPost = () => {
 
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
-        queryKey: [GROUP_QUERY_KEYS.groupPosts],
+        queryKey: [GROUP_QUERY_KEYS.groupPosts, String(variables.groupId)],
       });
       queryClient.invalidateQueries({
         queryKey: [
           POSTS_QUERY_KEYS.postDetail,
-          variables.groupId,
-          variables.postId,
+          String(variables.groupId),
+          String(variables.postId),
         ],
       });
     },
@@ -122,13 +130,13 @@ export const useUpdatePost = () => {
     }) => postApi.updatePost({ groupId, postId, content, isPinned, images }),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
-        queryKey: [GROUP_QUERY_KEYS.groupPosts, variables.groupId],
+        queryKey: [GROUP_QUERY_KEYS.groupPosts, String(variables.groupId)],
       });
       queryClient.invalidateQueries({
         queryKey: [
           POSTS_QUERY_KEYS.postDetail,
-          variables.groupId,
-          variables.postId,
+          String(variables.groupId),
+          String(variables.postId),
         ],
       });
     },
@@ -142,7 +150,10 @@ export const useDeletePost = () => {
     mutationFn: ({ groupId, postId }: { groupId: string; postId: string }) =>
       postApi.deletePost({ groupId, postId }),
 
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: [GROUP_QUERY_KEYS.groupPosts, String(variables.groupId)],
+      });
       queryClient.invalidateQueries({
         queryKey: [GROUP_QUERY_KEYS.groupPosts],
       });
@@ -159,14 +170,24 @@ export const useGetComments = ({
 }: {
   groupId: string;
   postId: string;
-}) =>
-  useQuery<CommentsResponse>({
+}) => {
+  const size = 20;
+  return useInfiniteQuery({
     queryKey: [POSTS_QUERY_KEYS.comments, groupId, postId],
-    queryFn: async () => {
-      const res = await postApi.getComments({ groupId, postId });
+    queryFn: async ({ pageParam }) => {
+      const res = await postApi.getComments({
+        groupId,
+        postId,
+        cursorId: pageParam,
+        size,
+      });
       return res;
     },
+    getNextPageParam: (lastPage) =>
+      lastPage.hasNext && lastPage.cursorId ? lastPage.cursorId : undefined,
+    initialPageParam: 0,
   });
+};
 
 export const useCreateComment = () => {
   const queryClient = useQueryClient();
@@ -182,12 +203,16 @@ export const useCreateComment = () => {
       content: string;
     }) => postApi.createComment({ groupId, postId, content }),
 
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
-        queryKey: [POSTS_QUERY_KEYS.postDetail],
+        queryKey: [
+          POSTS_QUERY_KEYS.postDetail,
+          String(variables.groupId),
+          String(variables.postId),
+        ],
       });
       queryClient.invalidateQueries({
-        queryKey: [POSTS_QUERY_KEYS.comments],
+        queryKey: [POSTS_QUERY_KEYS.comments, String(variables.groupId)],
       });
     },
   });
@@ -212,15 +237,15 @@ export const useUpdateComment = () => {
       queryClient.invalidateQueries({
         queryKey: [
           POSTS_QUERY_KEYS.postDetail,
-          variables.groupId,
-          variables.postId,
+          String(variables.groupId),
+          String(variables.postId),
         ],
       });
       queryClient.invalidateQueries({
         queryKey: [
           POSTS_QUERY_KEYS.comments,
-          variables.groupId,
-          variables.postId,
+          String(variables.groupId),
+          String(variables.postId),
         ],
       });
     },

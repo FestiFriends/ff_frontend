@@ -1,5 +1,6 @@
 import {
   InfiniteData,
+  useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
@@ -24,7 +25,7 @@ import {
   UpdateGroupApiRequest,
 } from '@/types/group';
 import { CreateGroupFormData } from '@/types/group';
-import { GroupPostsResponse } from '@/types/post';
+import { Post } from '@/types/post';
 import { PerformanceGroupsApiResponse } from '@/utils/formatGroupCardData';
 
 export const useGetGroups = (params: GetGroupsParams) =>
@@ -69,17 +70,41 @@ export const usePostJoinGroup = () => {
   });
 };
 
-export const useGetGroupPosts = ({ groupId }: { groupId: string }) =>
-  useQuery<GroupPostsResponse>({
-    queryKey: [GROUP_QUERY_KEYS.groupPosts, groupId],
-    queryFn: async () => {
-      const res = await groupsApi.getGroupPosts({ groupId });
-      return {
-        ...res,
-        groupId: String(res.groupId),
+export const useGetGroupPosts = ({ groupId }: { groupId: string }) => {
+  const size = 20;
+  return useInfiniteQuery<
+    {
+      data: {
+        groupId: number;
+        posts: Post[];
       };
+      hasNext: boolean;
+      cursorId?: number;
     },
+    ApiResponse,
+    InfiniteData<{
+      data: {
+        groupId: number;
+        posts: Post[];
+      };
+      hasNext: boolean;
+      cursorId?: number;
+    }>,
+    string[],
+    number | undefined
+  >({
+    queryKey: [GROUP_QUERY_KEYS.groupPosts, groupId],
+    queryFn: ({ pageParam }) =>
+      groupsApi.getGroupPosts({
+        groupId,
+        cursorId: pageParam,
+        size,
+      }),
+    getNextPageParam: (lastPage) =>
+      lastPage.hasNext ? lastPage.cursorId : undefined,
+    initialPageParam: undefined,
   });
+};
 
 export const useCreateGroup = () => {
   const queryClient = useQueryClient();
