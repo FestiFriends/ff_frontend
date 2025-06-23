@@ -1,4 +1,10 @@
-# 🎭 Festi Friends (FF)
+# Festi Friends (FF)
+
+<table align="center">
+  <tr>
+    <td><img src="docs/logo.png"></td>
+  </tr>
+</table>
 
 **신뢰 기반 공연/페스티벌 동행 매칭 플랫폼**
 
@@ -7,7 +13,13 @@
 
 <!-- 메인 페이지 스크린샷 -->
 
-![메인 페이지](docs/screenshots/main-page.png)
+<table>
+  <tr>
+    <td><img src="docs/screenshots/main-page1.png" width="200" height="428"></td>
+    <td><img src="docs/screenshots/main-page2.png" width="200" height="428"></td>
+    <td><img src="docs/screenshots/main-page3.png" width="200" height="428"></td>
+  </tr>
+</table>
 _↑ 메인 페이지 - 인기 공연과 최근 리뷰를 한눈에 확인_
 
 ---
@@ -71,7 +83,13 @@ _↑ 메인 페이지 - 인기 공연과 최근 리뷰를 한눈에 확인_
 
 <!-- 공연 목록 페이지 스크린샷 -->
 
-![공연 목록](docs/screenshots/performances-list.png)
+<table>
+  <tr>
+    <td><img src="docs/screenshots/performances-list1.png" width="200" height="428"></td>
+    <td><img src="docs/screenshots/performances-list2.png" width="200" height="428"></td>
+    <td><img src="docs/screenshots/performances-list3.png" width="200" height="428"></td>
+  </tr>
+</table>
 _↑ 공연 목록 페이지 - 다양한 필터링과 정렬 옵션_
 
 ### 👥 그룹 매칭 시스템
@@ -81,8 +99,13 @@ _↑ 공연 목록 페이지 - 다양한 필터링과 정렬 옵션_
 - **신청 관리**: 그룹장의 멤버 승인/거절 시스템
 
 <!-- 그룹 생성 페이지 스크린샷 -->
-
-![그룹 생성](docs/screenshots/group-create.png)
+<table>
+  <tr>
+    <td><img src="docs/screenshots/group-create1.png" width="200" height="428"></td>
+    <td><img src="docs/screenshots/group-create2.png" width="200" height="428"></td>
+    <td><img src="docs/screenshots/group-create3.png" width="200" height="428"></td>
+  </tr>
+</table>
 _↑ 그룹 생성 페이지 - 직관적인 폼과 실시간 검증_
 
 ### 💬 실시간 채팅
@@ -104,7 +127,13 @@ _↑ 실시간 채팅 - 그룹 멤버들과의 즉시 소통_
 
 <!-- 프로필 페이지 스크린샷 -->
 
-![사용자 프로필](docs/screenshots/user-profile.png)
+<table>
+  <tr>
+    <td><img src="docs/screenshots/user-profile1.png" width="200" height="428"></td>
+    <td><img src="docs/screenshots/user-profile2.png" width="200" height="428"></td>
+    <td><img src="docs/screenshots/user-profile3.png" width="200" height="428"></td>
+  </tr>
+</table>
 _↑ 사용자 프로필 - 리뷰와 신뢰도 확인_
 
 ### 📅 일정 관리
@@ -115,7 +144,13 @@ _↑ 사용자 프로필 - 리뷰와 신뢰도 확인_
 
 <!-- 캘린더 페이지 스크린샷 -->
 
-![캘린더](docs/screenshots/calendar.png)
+<table>
+  <tr>
+    <td><img src="docs/screenshots/calendar1.png" width="200" height="428"></td>
+    <td><img src="docs/screenshots/calendar2.png" width="200" height="428"></td>
+    <td><img src="docs/screenshots/calendar3.png" width="200" height="428"></td>
+  </tr>
+</table>
 _↑ 캘린더 페이지 - 공연 일정과 그룹 일정 통합 관리_
 
 ---
