@@ -6,7 +6,7 @@ const NotificationsPage = () => (
   <>
     <NotificationHeader />
     <ScrollArea className='h-[calc(100dvh-124px)]'>
-      <div className='max-w-lg'>
+      <div className='w-screen max-w-lg'>
         <NotificationList />
       </div>
     </ScrollArea>

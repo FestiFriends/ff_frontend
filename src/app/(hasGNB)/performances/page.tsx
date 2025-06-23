@@ -14,7 +14,7 @@ const PerformancesPage = () => (
       <DraggableSortOptions />
     </>
     <ScrollArea className='h-[calc(100dvh-202.6px)] p-4 pt-0'>
-      <div className='max-w-lg'>
+      <div className='max-w-[calc(100dvw-32px)]'>
         <PerformanceListContainer />
       </div>
     </ScrollArea>

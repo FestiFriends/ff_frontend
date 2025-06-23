@@ -51,7 +51,7 @@ const ProfileJoinedGroupsCard = ({
       onClick={handleCardClick}
       onKeyDown={handleCardClick}
       className={cn(
-        'flex w-full flex-col items-start justify-center gap-3 rounded-2xl bg-gray-25 p-5',
+        'flex w-full max-w-screen flex-col items-start justify-center gap-3 rounded-2xl bg-gray-25 p-5',
         className
       )}
     >
