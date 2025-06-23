@@ -42,8 +42,9 @@ const GroupInfoCard = ({
           </div>
           <div className='flex items-center justify-center'>
             <span className='text-12_M text-gray-600'>
-              {formatNormalDate(groupInfo.startDate)}~
-              {formatNormalDate(groupInfo.endDate)}
+              {groupInfo.startDate === groupInfo.endDate
+                ? formatNormalDate(groupInfo.startDate)
+                : `${formatNormalDate(groupInfo.startDate)}~${formatNormalDate(groupInfo.endDate)}`}
             </span>
             <MoreDropdown
               className='flex items-center justify-center'
