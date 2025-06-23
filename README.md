@@ -6,8 +6,9 @@
 > 리뷰 시스템을 통한 신뢰도 확보와 실시간 채팅으로 안전하고 즐거운 공연 동행을 만들어갑니다.
 
 <!-- 메인 페이지 스크린샷 -->
+
 ![메인 페이지](docs/screenshots/main-page.png)
-*↑ 메인 페이지 - 인기 공연과 최근 리뷰를 한눈에 확인*
+_↑ 메인 페이지 - 인기 공연과 최근 리뷰를 한눈에 확인_
 
 ---
 
@@ -27,27 +28,33 @@
 ## 👥 팀 구성
 
 ### Frontend 개발
-**고성인**, **송지현**, **임찬호**, **정유진**, **지서경**
+
+**[고성인](https://github.com/rhtjddls123)**, **[송지현](https://github.com/songdaramji)**, **[임찬호](https://github.com/CHAN-H0)**, **[정유진](https://github.com/jadewisemann)**, **[지서경](https://github.com/Seokyung)**
 
 ### Backend 개발
-**박성민**, **이정우**
+
+**[박성민](https://github.com/dnjsals45)**, **[이정우](https://github.com/JWbase)**
 
 ### Design
-- **반수정**
+
+**[반수정]()**
 
 ---
 
 ## 🎯 프로젝트 개요
 
 ### 핵심 아이디어
+
 공연 동행의 딜레마인 **경제적 이익**과 **안전성** 사이의 균형을 해결하기 위해 리뷰 시스템과 실시간 채팅을 통한 신뢰 기반 매칭 플랫폼을 구축했습니다.
 
 ### 해결하고자 하는 문제
+
 - 혼자 가기엔 아쉽고, 모르는 사람과 가기엔 불안한 공연 관람
 - 공연 티켓의 높은 가격 부담
 - 동행자의 신뢰성 검증 어려움
 
 ### 솔루션
+
 - **리뷰 시스템**: 동행 후 상호 평가를 통한 신뢰도 확보
 - **실시간 채팅**: WebSocket 기반 즉시 소통
 - **상세 필터링**: 연령대, 성별, 관심사 기반 맞춤 매칭
@@ -57,71 +64,84 @@
 ## ✨ 주요 기능
 
 ### 🎪 공연 탐색 & 검색
+
 - **무한 스크롤**: Intersection Observer 기반 성능 최적화
 - **다중 필터링**: 지역, 날짜, 카테고리별 정렬
 - **실시간 검색**: 공연명, 장소 기반 즉시 검색
 
 <!-- 공연 목록 페이지 스크린샷 -->
+
 ![공연 목록](docs/screenshots/performances-list.png)
-*↑ 공연 목록 페이지 - 다양한 필터링과 정렬 옵션*
+_↑ 공연 목록 페이지 - 다양한 필터링과 정렬 옵션_
 
 ### 👥 그룹 매칭 시스템
+
 - **그룹 생성**: 상세한 조건 설정으로 원하는 동행자 모집
 - **스마트 매칭**: 연령대, 성별, 관심사 기반 추천
 - **신청 관리**: 그룹장의 멤버 승인/거절 시스템
 
 <!-- 그룹 생성 페이지 스크린샷 -->
+
 ![그룹 생성](docs/screenshots/group-create.png)
-*↑ 그룹 생성 페이지 - 직관적인 폼과 실시간 검증*
+_↑ 그룹 생성 페이지 - 직관적인 폼과 실시간 검증_
 
 ### 💬 실시간 채팅
+
 - **WebSocket 기반**: STOMP + SockJS를 활용한 안정적 연결
 - **그룹별 채팅방**: 다중 그룹 동시 참여 지원
 - **메시지 히스토리**: HTTP API와 WebSocket 데이터 통합
 
 <!-- 채팅 화면 스크린샷 -->
+
 ![실시간 채팅](docs/screenshots/chat-system.png)
-*↑ 실시간 채팅 - 그룹 멤버들과의 즉시 소통*
+_↑ 실시간 채팅 - 그룹 멤버들과의 즉시 소통_
 
 ### ⭐ 신뢰도 시스템
+
 - **상호 리뷰**: 동행 후 양방향 평가
 - **성향별 태그**: 시간 준수, 친화력 등 세분화된 평가
 - **신뢰도 지표**: 평점과 리뷰 수 기반 객관적 표시
 
 <!-- 프로필 페이지 스크린샷 -->
+
 ![사용자 프로필](docs/screenshots/user-profile.png)
-*↑ 사용자 프로필 - 리뷰와 신뢰도 확인*
+_↑ 사용자 프로필 - 리뷰와 신뢰도 확인_
 
 ### 📅 일정 관리
+
 - **그룹 캘린더**: 공유 일정 관리
 - **개인 캘린더**: 참여 중인 공연 일정 통합 관리
 - **알림 시스템**: SSE 기반 실시간 알림
 
 <!-- 캘린더 페이지 스크린샷 -->
+
 ![캘린더](docs/screenshots/calendar.png)
-*↑ 캘린더 페이지 - 공연 일정과 그룹 일정 통합 관리*
+_↑ 캘린더 페이지 - 공연 일정과 그룹 일정 통합 관리_
 
 ---
 
 ## 🛠 기술 스택
 
 ### 🎯 Frontend Core
+
 ```json
 {
   "next": "15.3.2",
-  "react": "19.0.0", 
+  "react": "19.0.0",
   "typescript": "5.7.3",
   "@tailwindcss/postcss": "4.0.0-alpha.42"
 }
 ```
 
 **선택 이유**:
+
 - **Next.js 15**: App Router와 Server Components 활용
 - **React 19**: 최신 React 기능 적극 활용
 - **TypeScript**: 타입 안전성 및 개발 생산성 확보
 - **TailwindCSS 4**: 유틸리티 기반 일관된 스타일링
 
 ### 🔄 상태 관리 & 데이터
+
 ```json
 {
   "zustand": "5.0.5",
@@ -131,11 +151,13 @@
 ```
 
 **아키텍처**:
+
 - **Zustand**: 경량 클라이언트 상태 관리
 - **TanStack Query**: 서버 상태 캐싱 및 동기화
 - **Axios**: HTTP 클라이언트 및 인터셉터
 
 ### 🧪 개발 도구 & 품질 관리
+
 ```json
 {
   "jest": "29.7.0",
@@ -148,12 +170,14 @@
 ```
 
 **품질 보장**:
+
 - **Jest + Testing Library**: 단위/통합 테스트 (커버리지 70%+)
 - **MSW**: API 모킹으로 독립적 개발
 - **ESLint + Prettier**: 코드 품질 및 스타일 통일
 - **Husky**: Git Hook 기반 자동화
 
 ### 💬 실시간 통신
+
 ```json
 {
   "@stomp/stompjs": "7.0.0",
@@ -162,6 +186,7 @@
 ```
 
 **실시간 기능**:
+
 - **WebSocket**: 그룹 채팅
 - **SSE**: 실시간 알림
 
@@ -210,6 +235,7 @@ src/
 ```
 
 ### 설계 원칙
+
 - **도메인 기반 구조**: 기능별로 명확히 분리
 - **재사용성 우선**: 공통 컴포넌트 중심 설계
 - **타입 안전성**: 모든 레이어에서 TypeScript 활용
@@ -233,16 +259,16 @@ export const useChatWebSocket = (userId: number, chatRoomId: number) => {
     const stompClient = new Client({
       webSocketFactory: () => socket,
       connectHeaders: { Authorization: `Bearer ${token}` },
-      
+
       onConnect: () => {
         setIsConnected(true);
         // 그룹별 채팅방 구독
         stompClient.subscribe(`/sub/chat/${chatRoomId}`, (message) => {
           const body = JSON.parse(message.body);
-          setMessages(prev => [...prev, body]);
+          setMessages((prev) => [...prev, body]);
         });
       },
-      
+
       onStompError: async () => {
         // 토큰 만료 시 자동 갱신 후 재연결
         const newToken = await getNewAccessToken();
@@ -250,7 +276,7 @@ export const useChatWebSocket = (userId: number, chatRoomId: number) => {
           stompClient.deactivate();
           connectWebSocket(newToken);
         }
-      }
+      },
     });
   };
 
@@ -264,11 +290,11 @@ export const useChatWebSocket = (userId: number, chatRoomId: number) => {
 // components/pages/groupDetail/Chat/ChatArea.tsx
 const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
   // WebSocket 실시간 메시지
-  const { messages: liveMessages, sendMessage } = 
+  const { messages: liveMessages, sendMessage } =
     useChatWebSocket(userId, chatRoomId);
-  
+
   // HTTP API 채팅 히스토리 (무한스크롤)
-  const { data: chatHistory, fetchNextPage } = 
+  const { data: chatHistory, fetchNextPage } =
     useGetChatHistory(chatRoomId, 20);
 
   // 히스토리 + 실시간 메시지 병합
@@ -280,7 +306,7 @@ const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
 
   return (
     <div className="flex h-[60dvh] flex-col">
-      <ChatMessageList 
+      <ChatMessageList
         messages={allMessages}
         fetchPrev={fetchNextPage}
       />
@@ -325,7 +351,7 @@ export const useInfiniteScroll = <T extends HTMLElement>(
 ```typescript
 // components/common/InfiniteList/InfiniteList.tsx
 const InfiniteList = <TPage extends { data: TData[] }, TData>({
-  options, getDataId, renderData, className, 
+  options, getDataId, renderData, className,
   emptyFallback, fallback, isFetchingFallback
 }: InfiniteListProps<TPage, TData>) => (
   <ErrorBoundary fallback={({ error }) => <p>{error.message}</p>}>
@@ -371,18 +397,18 @@ export const useGetGroupDetail = (groupId: number) =>
     queryKey: [GROUP_QUERY_KEY.groupDetail, groupId.toString()],
     queryFn: () => groupsServiceApi.getGroupDetail({ groupId }),
     staleTime: 5 * 60 * 1000, // 5분간 fresh
-    gcTime: 10 * 60 * 1000,   // 10분간 캐시 유지
+    gcTime: 10 * 60 * 1000, // 10분간 캐시 유지
   });
 
 export const useJoinGroup = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: groupsServiceApi.joinGroup,
     onSuccess: (data, { groupId }) => {
       // 관련된 모든 캐시 무효화
-      queryClient.invalidateQueries({ 
-        queryKey: [GROUP_QUERY_KEY.groupDetail, groupId.toString()] 
+      queryClient.invalidateQueries({
+        queryKey: [GROUP_QUERY_KEY.groupDetail, groupId.toString()],
       });
     },
   });
@@ -420,12 +446,14 @@ export const groupCreateSchema = z.object({
   title: z.string().min(1, '제목을 입력해주세요').max(50),
   description: z.string().min(1, '설명을 입력해주세요').max(500),
   participantLimit: z.number().min(2).max(30),
-  ageRange: z.object({
-    min: z.number().min(10).max(100),
-    max: z.number().min(10).max(100),
-  }).refine(data => data.min <= data.max, {
-    message: '최소 연령이 최대 연령보다 클 수 없습니다',
-  }),
+  ageRange: z
+    .object({
+      min: z.number().min(10).max(100),
+      max: z.number().min(10).max(100),
+    })
+    .refine((data) => data.min <= data.max, {
+      message: '최소 연령이 최대 연령보다 클 수 없습니다',
+    }),
   genderRestriction: z.enum(['MALE', 'FEMALE', 'ALL']),
   tags: z.array(z.string()).max(5),
 });
@@ -451,7 +479,7 @@ const useIsMobile = () => {
 // 레이아웃 분기 처리
 const Layout = ({ children }) => {
   const isMobile = useIsMobile();
-  
+
   return (
     <div className="min-h-screen">
       {isMobile && <Header />}        {/* 모바일: 상단 헤더 */}
@@ -464,8 +492,9 @@ const Layout = ({ children }) => {
 ```
 
 <!-- 모바일 vs 데스크톱 UI 비교 스크린샷 -->
+
 ![반응형 디자인](docs/screenshots/responsive-design.png)
-*↑ 모바일과 데스크톱에서의 다른 네비게이션 패턴*
+_↑ 모바일과 데스크톱에서의 다른 네비게이션 패턴_
 
 **터치 인터랙션 최적화**:
 
@@ -488,7 +517,7 @@ const PerformanceHoverCard = ({ performance }) => {
   };
 
   return (
-    <div 
+    <div
       onClick={handleClick}
       onMouseEnter={handleEnter}
       onMouseLeave={() => !isMobile && setShow(false)}
@@ -504,15 +533,16 @@ const PerformanceHoverCard = ({ performance }) => {
 
 ```typescript
 // hooks/useDragScroll/useDragScroll.ts
-export const useDragScroll = <T extends HTMLElement>(
-  options: { direction?: 'horizontal' | 'vertical'; sensitivity?: number }
-) => {
+export const useDragScroll = <T extends HTMLElement>(options: {
+  direction?: 'horizontal' | 'vertical';
+  sensitivity?: number;
+}) => {
   const elementRef = useRef<T>(null);
   const isDragging = useRef(false);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (!isDragging.current || !elementRef.current) return;
-    
+
     const deltaX = (startPosition.current.x - e.clientX) * sensitivity;
     elementRef.current.scrollLeft = scrollStart.current.x + deltaX;
   }, []);
@@ -526,6 +556,7 @@ export const useDragScroll = <T extends HTMLElement>(
 ## 🧪 테스트
 
 ### 테스트 전략
+
 - **단위 테스트**: 컴포넌트, 훅, 유틸 함수별 검증
 - **통합 테스트**: API 통신, 상태 관리 시나리오
 - **MSW 모킹**: 독립적인 프론트엔드 테스트 환경
@@ -555,7 +586,7 @@ describe('Button Component', () => {
   it('handles click events', () => {
     const handleClick = jest.fn();
     render(<Button onClick={handleClick}>Click me</Button>);
-    
+
     fireEvent.click(screen.getByRole('button'));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
@@ -582,7 +613,7 @@ module.exports = {
   extends: ["@commitlint/config-conventional"],
   rules: {
     'subject-case': [0],
-    
+
     // prefix 검증
     "type-enum": [
       2,
@@ -621,14 +652,14 @@ export default [
     extends: [
       '@next/eslint-config-next',
       'plugin:@typescript-eslint/recommended',
-      'plugin:testing-library/react'
+      'plugin:testing-library/react',
     ],
     rules: {
       '@typescript-eslint/no-unused-vars': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-      'testing-library/prefer-screen-queries': 'error'
-    }
-  }
+      'testing-library/prefer-screen-queries': 'error',
+    },
+  },
 ];
 ```
 
@@ -637,35 +668,39 @@ export default [
 ## 📊 성능 최적화
 
 ### Core Web Vitals 달성 ( 실제 측정 데이터)
+
 - **LCP (Largest Contentful Paint)**: < 2.5s
-- **FID (First Input Delay)**: < 100ms  
+- **FID (First Input Delay)**: < 100ms
 - **CLS (Cumulative Layout Shift)**: < 0.1
 
 ### 최적화 기법
+
 - **코드 분할**: 페이지별 번들 스플리팅
 - **이미지 최적화**: Next.js Image 컴포넌트 활용
 - **무한 스크롤**: Intersection Observer 기반 지연 로딩
 - **캐싱 전략**: TanStack Query 기반 적극적 캐싱
 
 <!-- 성능 최적화 결과 스크린샷 -->
+
 ![성능 최적화](docs/screenshots/performance-metrics.png)
-*↑ Lighthouse 성능 측정 결과*
+_↑ Lighthouse 성능 측정 결과_
 
 ---
 
 ## 🚀 배포 & CI/CD
 
 ### 배포 환경
+
 - **개발**: Vercel Preview 배포
-- **스테이징**: Vercel Production 배포  
+- **스테이징**: Vercel Production 배포
 - **프로덕션**: 실서비스 환경
 
 ---
 
-
 ## 📈 프로젝트 성과
 
 ### 정량적 지표
+
 - **총 커밋 수**: 500+
 - **재사용 컴포넌트**: 80+
 - **커스텀 훅**: 40+
@@ -673,6 +708,7 @@ export default [
 - **주요 페이지**: 15개
 
 ### 기술적 성취
+
 - React 19, Next.js 15 등 최신 기술 스택 성공적 적용
 - 실시간 채팅 시스템 안정적 구현
 - 무한 스크롤 성능 최적화 달성
@@ -682,12 +718,14 @@ export default [
 
 ## 전체 의존성
 
------
+---
 
 ## Festi Friends Frontend 프로젝트 의존성
 
 Festi Friends 프론트엔드 프로젝트는 다음과 같은 주요 의존성들을 활용하여 개발되었습니다. GitHub README에 보기 좋게 분류하여 정리했습니다.
+
 ### 🚀 핵심 프레임워크 및 빌드 도구 (Core Framework & Build Tools)
+
 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
   <img alt="Next.js" src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=ffffff">
   <img alt="React" src="https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB">
@@ -696,6 +734,7 @@ Festi Friends 프론트엔드 프로젝트는 다음과 같은 주요 의존성�
 </div>
 
 ### 📦 데이터 관리 (Data Management)
+
 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
   <img alt="TanStack Query" src="https://img.shields.io/badge/TanStack_Query-FF4154?style=flat-square&logo=databricks&logoColor=ffffff">
   <img alt="Zustand" src="https://img.shields.io/badge/Zustand-2C2C2C?style=flat-square&logo=zustand&logoColor=ffffff">
@@ -704,6 +743,7 @@ Festi Friends 프론트엔드 프로젝트는 다음과 같은 주요 의존성�
 </div>
 
 ### 🎨 UI 컴포넌트 및 스타일링 (UI Components & Styling)
+
 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
   <img alt="Radix UI Popover" src="https://img.shields.io/badge/Radix_UI_Popover-151515?style=flat-square&logo=radix-ui&logoColor=white">
   <img alt="Radix UI Scroll Area" src="https://img.shields.io/badge/Radix_UI_Scroll_Area-151515?style=flat-square&logo=radix-ui&logoColor=white">
@@ -718,6 +758,7 @@ Festi Friends 프론트엔드 프로젝트는 다음과 같은 주요 의존성�
 </div>
 
 ### ⚡️ 애니메이션 및 동적 효과 (Animation & Dynamic Effects)
+
 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
   <img alt="Embla Carousel Autoplay" src="https://img.shields.io/badge/Embla_Carousel_Autoplay-000000?style=flat-square">
   <img alt="Embla Carousel React" src="https://img.shields.io/badge/Embla_Carousel_React-000000?style=flat-square&logo=react&logoColor=white">
@@ -727,6 +768,7 @@ Festi Friends 프론트엔드 프로젝트는 다음과 같은 주요 의존성�
 </div>
 
 ### 🧩 폼 및 유효성 검사 (Form & Validation)
+
 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
   <img alt="Hookform Resolvers" src="https://img.shields.io/badge/Hookform_Resolvers-EC5990?style=flat-square&logo=reacthookform&logoColor=white">
   <img alt="React Hook Form" src="https://img.shields.io/badge/React_Hook_Form-EC5990?style=flat-square&logo=reacthookform&logoColor=white">
@@ -734,6 +776,7 @@ Festi Friends 프론트엔드 프로젝트는 다음과 같은 주요 의존성�
 </div>
 
 ### 📡 실시간 통신 및 기타 유틸리티 (Real-time Communication & Utilities)
+
 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
   <img alt="STOMP.js" src="https://img.shields.io/badge/STOMP.js-880E4F?style=flat-square">
   <img alt="SockJS Client" src="https://img.shields.io/badge/SockJS_Client-4A148C?style=flat-square">
@@ -747,6 +790,7 @@ Festi Friends 프론트엔드 프로젝트는 다음과 같은 주요 의존성�
 </div>
 
 ### 🛠️ 개발 도구 (Development Tools)
+
 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
   <img alt="Commitlint CLI" src="https://img.shields.io/badge/Commitlint_CLI-1A1A1A?style=flat-square&logo=conventionalcommits&logoColor=white">
   <img alt="Commitlint Config Conventional" src="https://img.shields.io/badge/Commitlint_Config_Conventional-1A1A1A?style=flat-square&logo=conventionalcommits&logoColor=white">
@@ -769,15 +813,12 @@ Festi Friends 프론트엔드 프로젝트는 다음과 같은 주요 의존성�
   <img alt="TypeScript ESLint" src="https://img.shields.io/badge/TypeScript_ESLint-4B32C3?style=flat-square&logo=eslint&logoColor=white">
 </div>
 
-
-
-
 ---
 
 <div align="center">
 
 **🎭 Festi Friends**  
-*함께가는 공연, 더 안전하게*
+_함께가는 공연, 더 안전하게_
 
 Made with ❤️ by FF Team
 
