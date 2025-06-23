@@ -6,7 +6,7 @@ const ReviewCardSkeleton = () => (
     {[1, 2, 3].map((i) => (
       <div
         key={i}
-        className='flex h-[152px] w-[343px] gap-4 bg-gray-25 p-5'
+        className='flex h-[152px] w-full gap-4 bg-gray-25 p-5'
       >
         <Skeleton className='h-[112px] w-[84px] shrink-0 overflow-hidden rounded-[12px] bg-gray-50' />
         <div className='flex w-[204px] flex-col justify-between'>

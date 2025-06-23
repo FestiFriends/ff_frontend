@@ -129,7 +129,7 @@ const PostEditWrapper = () => {
   };
 
   return (
-    <div className='flex h-full min-h-screen flex-col'>
+    <div className='flex h-dvh flex-col'>
       <DetailHeader
         title='게시글 수정'
         hasRightText='수정'
@@ -140,7 +140,7 @@ const PostEditWrapper = () => {
         isPinned={isPinned}
         onClick={handlePinClick}
       />
-      <div className='h-full flex-1 px-4 pt-1 pb-20'>
+      <div className='h-[calc(100dvh-164px)] flex-1 px-4 pt-1 pb-20'>
         <TextareaInput
           value={content}
           onChange={handleChange}

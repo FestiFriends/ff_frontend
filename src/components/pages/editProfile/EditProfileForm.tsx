@@ -221,7 +221,7 @@ const EditProfileForm = ({ profile }: EditProfileFormProps) => {
         />
       </FormSection>
 
-      <div className='mt-[30px] mb-[28px] flex gap-[10px]'>
+      <div className='mt-[30px] flex gap-[10px]'>
         <button
           type='button'
           className='flex-1 rounded-[12px] border border-gray-300 py-3 text-16_M text-gray-800'

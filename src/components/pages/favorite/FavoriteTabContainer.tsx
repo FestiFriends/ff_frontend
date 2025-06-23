@@ -36,8 +36,8 @@ const FavoriteTabContainer: React.FC = () => {
   );
 
   return (
-    <div className='flex flex-col'>
-      <div className='sticky top-11 z-20 bg-white'>
+    <>
+      <div className='sticky top-0 z-20 bg-white'>
         <QueryTabs
           tabs={TABS}
           defaultTab={TABS[0]}
@@ -80,7 +80,7 @@ const FavoriteTabContainer: React.FC = () => {
           />
         )}
       </div>
-    </div>
+    </>
   );
 };
 

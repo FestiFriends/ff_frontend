@@ -56,7 +56,7 @@ const SlideCard = (props: SlideCardProps) => {
       setOpen(false);
       setTimeout(() => {
         setOpenToClose(false);
-      }, 300);
+      }, 200);
     } else {
       setOpen(true);
     }
