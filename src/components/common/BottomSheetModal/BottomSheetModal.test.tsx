@@ -1,40 +1,56 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import BottomSheetModal from './BottomSheetModal';
 
-jest.mock('@/components/common/Modal', () => ({
-  Modal: ({
-    children,
-    disableBackdropClose,
-  }: {
-    children: React.ReactNode;
-    disableBackdropClose: boolean;
-  }) => (
-    <div
-      data-testid='modal-wrapper'
-      data-disable-backdrop={disableBackdropClose}
-    >
-      {children}
-    </div>
-  ),
-  ModalTrigger: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid='modal-trigger'>{children}</div>
-  ),
-  ModalContent: ({
-    children,
-    className,
-  }: {
-    children: React.ReactNode;
-    className: string;
-  }) => (
-    <div
-      data-testid='modal-content'
-      className={className}
-    >
-      {children}
-    </div>
-  ),
+const mockCloseModal = jest.fn();
+
+jest.mock('@/components/common/Modal', () => {
+  const ModalProvider = ({ children }: { children: React.ReactNode }) => (
+    <div data-testid='modal-provider'>{children}</div>
+  );
+
+  return {
+    Modal: ({
+      children,
+      disableBackdropClose,
+    }: {
+      children: React.ReactNode;
+      disableBackdropClose: boolean;
+    }) => (
+      <ModalProvider>
+        <div
+          data-testid='modal-wrapper'
+          data-disable-backdrop={disableBackdropClose}
+        >
+          {children}
+        </div>
+      </ModalProvider>
+    ),
+    ModalTrigger: ({ children }: { children: React.ReactNode }) => (
+      <div data-testid='modal-trigger'>{children}</div>
+    ),
+    ModalContent: ({
+      children,
+      className,
+    }: {
+      children: React.ReactNode;
+      className: string;
+    }) => (
+      <div
+        data-testid='modal-content'
+        className={className}
+      >
+        {children}
+      </div>
+    ),
+  };
+});
+
+jest.mock('@/components/common/Modal/ModalContext', () => ({
+  useModalContext: () => ({
+    closeModal: mockCloseModal,
+  }),
 }));
 
 jest.mock('./BottomSheetContent', () => {
@@ -70,6 +86,53 @@ jest.mock('./BottomSheetContent', () => {
 
   return MockBottomSheetContent;
 });
+
+jest.mock('@/components/common', () => ({
+  TwoButton: ({
+    leftText,
+    rightText,
+    leftAction,
+    rightAction,
+    leftVariant,
+    rightVariant,
+    leftDisabled,
+    rightDisabled,
+  }: {
+    leftText: string;
+    rightText: string;
+    leftAction?: () => void;
+    rightAction?: () => void;
+    leftVariant?: string;
+    rightVariant?: string;
+    leftDisabled?: boolean;
+    rightDisabled?: boolean;
+  }) => (
+    <div data-testid='two-button'>
+      <button
+        data-testid='left-button'
+        onClick={leftAction}
+        disabled={leftDisabled}
+        data-variant={leftVariant}
+      >
+        {leftText}
+      </button>
+      <button
+        data-testid='right-button'
+        onClick={rightAction}
+        disabled={rightDisabled}
+        data-variant={rightVariant}
+      >
+        {rightText}
+      </button>
+    </div>
+  ),
+  buttonStyles: {
+    variants: {
+      primary: 'primary',
+      secondary: 'secondary',
+    },
+  },
+}));
 
 describe('BottomSheetModal', () => {
   const defaultProps = {
@@ -203,6 +266,59 @@ describe('BottomSheetModal', () => {
       const bottomSheetContent = screen.getByTestId('bottom-sheet-content');
       expect(bottomSheetContent).toHaveAttribute('data-has-close', 'false');
     });
+
+    it('controlType이 none일 때 기본 동작한다', () => {
+      render(
+        <BottomSheetModal
+          {...defaultProps}
+          controlType='none'
+        />
+      );
+
+      expect(screen.queryByTestId('two-button')).not.toBeInTheDocument();
+    });
+
+    it('controlType이 headerControl일 때 TwoButton이 헤더에 렌더링된다', () => {
+      const twoButtonProps = {
+        leftText: 'Cancel',
+        rightText: 'Confirm',
+        leftAction: jest.fn(),
+        rightAction: jest.fn(),
+      };
+
+      render(
+        <BottomSheetModal
+          {...defaultProps}
+          controlType='headerControl'
+          twoButtonProps={twoButtonProps}
+        />
+      );
+
+      expect(screen.getByTestId('two-button')).toBeInTheDocument();
+      expect(screen.getByText('Cancel')).toBeInTheDocument();
+      expect(screen.getByText('Confirm')).toBeInTheDocument();
+    });
+
+    it('controlType이 bottomControl일 때 TwoButton이 하단에 렌더링된다', () => {
+      const twoButtonProps = {
+        leftText: 'Cancel',
+        rightText: 'Save',
+        leftAction: jest.fn(),
+        rightAction: jest.fn(),
+      };
+
+      render(
+        <BottomSheetModal
+          {...defaultProps}
+          controlType='bottomControl'
+          twoButtonProps={twoButtonProps}
+        />
+      );
+
+      expect(screen.getByTestId('two-button')).toBeInTheDocument();
+      expect(screen.getByText('Cancel')).toBeInTheDocument();
+      expect(screen.getByText('Save')).toBeInTheDocument();
+    });
   });
 
   describe('복합 Props 테스트', () => {
@@ -274,6 +390,141 @@ describe('BottomSheetModal', () => {
     });
   });
 
+  describe('TwoButton 기능 테스트', () => {
+    beforeEach(() => {
+      mockCloseModal.mockClear();
+      jest.clearAllMocks();
+    });
+
+    it('TwoButton의 leftAction이 올바르게 호출된다', () => {
+      const leftAction = jest.fn();
+      const twoButtonProps = {
+        leftText: 'Cancel',
+        rightText: 'Confirm',
+        leftAction,
+        rightAction: jest.fn(),
+      };
+
+      render(
+        <BottomSheetModal
+          {...defaultProps}
+          controlType='headerControl'
+          twoButtonProps={twoButtonProps}
+        />
+      );
+
+      const leftButton = screen.getByTestId('left-button');
+      fireEvent.click(leftButton);
+
+      expect(leftAction).toHaveBeenCalledTimes(1);
+    });
+
+    it('TwoButton의 rightAction이 호출되고 모달이 닫힌다', () => {
+      const rightAction = jest.fn();
+      const twoButtonProps = {
+        leftText: 'Cancel',
+        rightText: 'Confirm',
+        leftAction: jest.fn(),
+        rightAction,
+      };
+
+      render(
+        <BottomSheetModal
+          {...defaultProps}
+          controlType='headerControl'
+          twoButtonProps={twoButtonProps}
+        />
+      );
+
+      const rightButton = screen.getByTestId('right-button');
+      fireEvent.click(rightButton);
+
+      expect(rightAction).toHaveBeenCalledTimes(1);
+    });
+
+    it('TwoButton의 variant props가 올바르게 전달된다', () => {
+      const twoButtonProps = {
+        leftText: 'Cancel',
+        rightText: 'Confirm',
+        leftVariant: 'secondary' as const,
+        rightVariant: 'primary' as const,
+      };
+
+      render(
+        <BottomSheetModal
+          {...defaultProps}
+          controlType='headerControl'
+          twoButtonProps={twoButtonProps}
+        />
+      );
+
+      const leftButton = screen.getByTestId('left-button');
+      const rightButton = screen.getByTestId('right-button');
+
+      expect(leftButton).toHaveAttribute('data-variant', 'secondary');
+      expect(rightButton).toHaveAttribute('data-variant', 'primary');
+    });
+
+    it('TwoButton의 disabled props가 올바르게 전달된다', () => {
+      const twoButtonProps = {
+        leftText: 'Cancel',
+        rightText: 'Confirm',
+        leftDisabled: true,
+        rightDisabled: false,
+      };
+
+      render(
+        <BottomSheetModal
+          {...defaultProps}
+          controlType='headerControl'
+          twoButtonProps={twoButtonProps}
+        />
+      );
+
+      const leftButton = screen.getByTestId('left-button');
+      const rightButton = screen.getByTestId('right-button');
+
+      expect(leftButton).toBeDisabled();
+      expect(rightButton).not.toBeDisabled();
+    });
+  });
+
+  describe('hasClose 동작 테스트', () => {
+    it('controlType이 headerControl일 때 hasClose가 true로 설정된다', () => {
+      render(
+        <BottomSheetModal
+          {...defaultProps}
+          controlType='headerControl'
+          hasClose={false}
+          twoButtonProps={{
+            leftText: 'Cancel',
+            rightText: 'Confirm',
+          }}
+        />
+      );
+
+      const bottomSheetContent = screen.getByTestId('bottom-sheet-content');
+      expect(bottomSheetContent).toHaveAttribute('data-has-close', 'true');
+    });
+
+    it('controlType이 headerControl이 아닐 때 hasClose 값이 유지된다', () => {
+      render(
+        <BottomSheetModal
+          {...defaultProps}
+          controlType='bottomControl'
+          hasClose={false}
+          twoButtonProps={{
+            leftText: 'Cancel',
+            rightText: 'Confirm',
+          }}
+        />
+      );
+
+      const bottomSheetContent = screen.getByTestId('bottom-sheet-content');
+      expect(bottomSheetContent).toHaveAttribute('data-has-close', 'false');
+    });
+  });
+
   describe('타입 안전성', () => {
     it('height prop이 올바른 타입만 허용된다', () => {
       const validHeights = ['half', 'full', 'auto'] as const;
@@ -284,6 +535,25 @@ describe('BottomSheetModal', () => {
             <BottomSheetModal
               {...defaultProps}
               height={height}
+            />
+          );
+        }).not.toThrow();
+      });
+    });
+
+    it('controlType prop이 올바른 타입만 허용된다', () => {
+      const validControlTypes = [
+        'none',
+        'headerControl',
+        'bottomControl',
+      ] as const;
+
+      validControlTypes.forEach((controlType) => {
+        expect(() => {
+          render(
+            <BottomSheetModal
+              {...defaultProps}
+              controlType={controlType}
             />
           );
         }).not.toThrow();

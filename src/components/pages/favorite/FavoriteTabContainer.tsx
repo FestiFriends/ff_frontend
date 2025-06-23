@@ -73,8 +73,8 @@ const FavoriteTabContainer: React.FC = () => {
             options={favoriteUsersOptions(DEFAULT_SIZE)}
             getDataId={(user) => user.userUid}
             renderData={(user) => <FavoriteUserCard {...user} />}
-            fallback={<Spinner />}
-            isFetchingFallback={<Spinner />}
+            fallback={<SpinnerWrapper />}
+            isFetchingFallback={<SpinnerWrapper />}
             className='flex flex-col gap-5'
             emptyFallback={<StateNotice preset='likedUsersEmpty' />}
           />

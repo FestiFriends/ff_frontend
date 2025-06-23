@@ -32,7 +32,7 @@ const ProfileInfoBox = ({
       </div>
 
       <div className='flex w-full flex-col gap-[8px]'>
-        <div className='flex items-center justify-between'>
+        <div className='flex items-center justify-between gap-4'>
           <div className='flex items-center gap-[5px]'>
             <span className='text-16_B text-gray-950'>{profile.name}</span>
 
