@@ -19,6 +19,7 @@ import { cn } from '@/lib/utils';
 import { groupsApi } from '@/services/groupsService';
 import { EventColorName } from '@/types/enums';
 import { GroupSchedule, ScheduleRequest } from '@/types/group';
+import { formatScheduleDate } from '@/utils/date';
 
 //TODO: 모달위로 달력 구현해야함, timepicker로 교체해야 함
 
@@ -151,13 +152,11 @@ const ScheduleFormModal = ({
     try {
       const scheduleRequest: ScheduleRequest = {
         description: title,
-        startAt: startTime.toISOString(),
-        endAt: endTime.toISOString(),
+        startAt: formatScheduleDate(startDate, startTime),
+        endAt: formatScheduleDate(endDate || startDate, endTime),
         location: location ?? '',
         eventColor: eventColor,
       };
-
-      console.log('📝 일정 등록 요청:', scheduleRequest);
 
       await mutateAsync(scheduleRequest);
       return true;
