@@ -6,6 +6,7 @@ import {
   PerformanceCard,
   InfiniteList,
 } from '@/components/common';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import { useQueryParam } from '@/hooks';
 import {
   favoritePerformancesOptions,
@@ -61,11 +62,7 @@ const FavoriteTabContainer: React.FC = () => {
             fallback={<SpinnerWrapper />}
             isFetchingFallback={<SpinnerWrapper />}
             className='mx-auto flex flex-col gap-4'
-            emptyFallback={
-              <div className='col-span-2 py-8 text-center text-gray-500'>
-                찜한 공연이 없습니다.
-              </div>
-            }
+            emptyFallback={<StateNotice preset='likedPerformancesEmpty' />}
           />
         )}
         {selectedTab === favoriteTabLabel.USERS && (
@@ -79,11 +76,7 @@ const FavoriteTabContainer: React.FC = () => {
             fallback={<Spinner />}
             isFetchingFallback={<Spinner />}
             className='flex flex-col gap-5'
-            emptyFallback={
-              <div className='col-span-2 py-8 text-center text-gray-500'>
-                찜한 사용자가 없습니다.
-              </div>
-            }
+            emptyFallback={<StateNotice preset='likedUsersEmpty' />}
           />
         )}
       </div>

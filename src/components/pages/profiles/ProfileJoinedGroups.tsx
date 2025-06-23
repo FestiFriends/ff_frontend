@@ -1,41 +1,48 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import GroupCard from '@/components/common/GroupCard/GroupCard';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import { Group } from '@/types/group';
 import { GroupSummary } from '@/types/profiles';
+import ProfileJoinedGroupsCard from './ProfileJoinedGroupsCard';
+import ProfileJoinedGroupsCardSkeleton from './ProfileJoinedGroupsCardSkeleton';
 import ProfileSummaryBox from './ProfileSummaryBox';
 
 interface ProfileJoinedGroupsProps {
   groups: Group[];
+  groupSummary: GroupSummary;
+  isLoading: boolean;
 }
 
-const ProfileJoinedGroups = ({ groups }: ProfileJoinedGroupsProps) => {
+const ProfileJoinedGroups = ({
+  groups,
+  groupSummary,
+  isLoading,
+}: ProfileJoinedGroupsProps) => {
   const router = useRouter();
 
-  if (groups.length === 0) {
+  if (isLoading) {
     return (
-      <p className='text-center text-gray-500'>참여 중인 모임이 없습니다.</p>
+      <>
+        <ProfileSummaryBox groupSummary={groupSummary} />
+        <ProfileJoinedGroupsCardSkeleton />
+      </>
     );
   }
 
-  const calculateGroupSummary = (groups: Group[]): GroupSummary => ({
-    joinedCount: groups.length,
-    totalJoinedCount: groups.length,
-    createdCount: groups.filter((g) => g.isHost).length,
-  });
+  if (!groups || groups.length === 0) {
+    return <StateNotice preset='groupEmpty' />;
+  }
 
   return (
     <div className='flex flex-col items-center'>
-      <ProfileSummaryBox groupSummary={calculateGroupSummary(groups)} />
+      <ProfileSummaryBox groupSummary={groupSummary} />
       <div className='flex flex-col gap-4'>
         {groups.map((group) => (
-          <GroupCard
+          <ProfileJoinedGroupsCard
             key={group.id}
             groupData={group}
-            buttonText='모임 보기'
             onCardClick={() => router.push(`/groups/${group.id}`)}
-            onButtonClick={() => router.push(`/groups/${group.id}`)}
           />
         ))}
       </div>

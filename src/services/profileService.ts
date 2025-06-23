@@ -11,7 +11,10 @@ export const profilesApi = {
     const res = await apiFetcher.get<ApiResponse<FullProfile>>(
       `/api/v1/profiles/${userId}`
     );
-    return res.data.data!;
+    if (!res.data.data) {
+      throw new Error('존재하지 않는 사용자입니다.');
+    }
+    return res.data.data;
   },
   updateProfile: async (data: ProfileEditRequest) => {
     const { data: updated } = await apiFetcher.patch<ApiResponse<FullProfile>>(
