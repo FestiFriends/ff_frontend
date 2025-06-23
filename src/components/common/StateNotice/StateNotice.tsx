@@ -96,7 +96,8 @@ const StateNotice = ({
   height = '60vh',
   textColor,
 }: StateNoticeProps) => {
-  const presetData = preset ? presetConfig[preset] : undefined;
+  const presetData =
+    preset && preset in presetConfig ? presetConfig[preset] : undefined;
 
   const finalMessage =
     message ?? presetData?.message ?? '표시할 내용이 없습니다.';
