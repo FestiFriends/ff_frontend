@@ -11,7 +11,7 @@ import { SseStoreProvider } from '@/providers/SseStoreProvider';
 initMocks();
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ff-frontend-rust.vercel.app';
+  process.env.NEXT_PUBLIC_BASE_URL ?? 'https://ff-frontend-rust.vercel.app';
 
 export const metadata: Metadata = {
   title: 'FestiFriends - 공연장부터 숙소까지 함께할 친구 찾기',
