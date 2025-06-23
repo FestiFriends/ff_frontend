@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { ProfileImage } from '@/components/common';
 import { LikeIcon } from '@/components/icons';
 import { GenderLabels } from '@/constants';
@@ -25,6 +26,7 @@ const FavoriteUserCard = ({
   gender,
   name,
 }: FavoriteUserCardProps) => {
+  const router = useRouter();
   const [isLiked, setIsLiked] = useState(initialIsLiked ?? false);
   const { mutate: toggleLike, isPending } = useMutation({
     mutationFn: ({ isLiked, userId }: { isLiked: boolean; userId: string }) =>
@@ -34,20 +36,36 @@ const FavoriteUserCard = ({
     },
   });
 
-  const handleLikeClick = () => {
+  const handleLikeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (!isPending) {
       setIsLiked((pre) => !pre);
       toggleLike({ isLiked: !isLiked, userId: userUid });
     }
   };
 
+  const handleProfileClick = (e: React.MouseEvent | React.KeyboardEvent) => {
+    e.stopPropagation();
+    router.push(`/profiles/${userUid}`);
+  };
+
   return (
     <div className='h-[68px] py-1'>
-      <div className='flex h-[60px] items-center gap-[14px]'>
+      <div
+        className='flex h-[60px] items-center gap-[14px]'
+        onClick={handleProfileClick}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            handleProfileClick(e);
+          }
+        }}
+        role='button'
+        tabIndex={0}
+      >
         <ProfileImage
           src={profileImage?.src || ''}
           size='md-lg'
-          className='shrink-0'
+          className='shrink-0 cursor-pointer'
         />
 
         <div className='flex w-full flex-col gap-2'>
@@ -55,7 +73,10 @@ const FavoriteUserCard = ({
             <h2 className='text-16_B text-gray-950'>{name}</h2>
             <button
               className='flex h-5 w-5 items-center justify-center'
-              onClick={handleLikeClick}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleLikeClick(e);
+              }}
             >
               <LikeIcon
                 type={isLiked ? 'active' : 'empty'}
