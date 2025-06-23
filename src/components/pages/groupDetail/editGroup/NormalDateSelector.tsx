@@ -42,6 +42,7 @@ const DateSelectorContent = ({
           endDate={tempStart ? null : value.endDate}
           onDateClick={handleDateClick}
           className='mb-4 flex flex-col gap-1'
+          colorScheme='black'
         />
       </div>
       {value && (
