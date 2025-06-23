@@ -11,8 +11,6 @@
 > "함께가는 공연, 더 안전하게"  
 > 리뷰 시스템을 통한 신뢰도 확보와 실시간 채팅으로 안전하고 즐거운 공연 동행을 만들어갑니다.
 
-<!-- 메인 페이지 스크린샷 -->
-
 <table>
   <tr>
     <td><img src="docs/screenshots/main-page1.png" width="200" height="428"></td>
@@ -20,24 +18,19 @@
     <td><img src="docs/screenshots/main-page3.png" width="200" height="428"></td>
   </tr>
 </table>
-_↑ 메인 페이지 - 인기 공연과 최근 리뷰를 한눈에 확인_
 
----
+## 목차
 
-## 📋 목차
+- [팀 구성](#팀-구성)
+- [프로젝트 개요](#프로젝트-개요)
+- [주요 기능](#주요-기능)
+- [기술 스택](#기술-스택)
+- [프로젝트 구조](#프로젝트-구조)
+- [핵심 구현 사항](#핵심-구현-사항)
+- [반응형 디자인](#반응형-디자인)
+- [테스트](#테스트)
 
-- [👥 팀 구성](#-팀-구성)
-- [🎯 프로젝트 개요](#-프로젝트-개요)
-- [✨ 주요 기능](#-주요-기능)
-- [🛠 기술 스택](#-기술-스택)
-- [📁 프로젝트 구조](#-프로젝트-구조)
-- [💡 핵심 구현 사항](#-핵심-구현-사항)
-- [📱 반응형 디자인](#-반응형-디자인)
-- [🧪 테스트](#-테스트)
-
----
-
-## 👥 팀 구성
+## 팀 구성
 
 ### Frontend 개발
 
@@ -51,9 +44,7 @@ _↑ 메인 페이지 - 인기 공연과 최근 리뷰를 한눈에 확인_
 
 **[반수정]()**
 
----
-
-## 🎯 프로젝트 개요
+## 프로젝트 개요
 
 ### 핵심 아이디어
 
@@ -71,11 +62,9 @@ _↑ 메인 페이지 - 인기 공연과 최근 리뷰를 한눈에 확인_
 - **실시간 채팅**: WebSocket 기반 즉시 소통
 - **상세 필터링**: 연령대, 성별, 관심사 기반 맞춤 매칭
 
----
+## 주요 기능
 
-## ✨ 주요 기능
-
-### 🎪 공연 탐색 & 검색
+### 공연 탐색 & 검색
 
 - **무한 스크롤**: Intersection Observer 기반 성능 최적화
 - **다중 필터링**: 지역, 날짜, 카테고리별 정렬
@@ -90,9 +79,8 @@ _↑ 메인 페이지 - 인기 공연과 최근 리뷰를 한눈에 확인_
     <td><img src="docs/screenshots/performances-list3.png" width="200" height="428"></td>
   </tr>
 </table>
-_↑ 공연 목록 페이지 - 다양한 필터링과 정렬 옵션_
 
-### 👥 그룹 매칭 시스템
+### 그룹 매칭 시스템
 
 - **그룹 생성**: 상세한 조건 설정으로 원하는 동행자 모집
 - **스마트 매칭**: 연령대, 성별, 관심사 기반 추천
@@ -106,7 +94,6 @@ _↑ 공연 목록 페이지 - 다양한 필터링과 정렬 옵션_
     <td><img src="docs/screenshots/group-create3.png" width="200" height="428"></td>
   </tr>
 </table>
-_↑ 그룹 생성 페이지 - 직관적인 폼과 실시간 검증_
 
 ### 💬 실시간 채팅
 
@@ -117,7 +104,6 @@ _↑ 그룹 생성 페이지 - 직관적인 폼과 실시간 검증_
 <!-- 채팅 화면 스크린샷 -->
 
 ![실시간 채팅](docs/screenshots/chat-system.png)
-_↑ 실시간 채팅 - 그룹 멤버들과의 즉시 소통_
 
 ### ⭐ 신뢰도 시스템
 
@@ -134,7 +120,6 @@ _↑ 실시간 채팅 - 그룹 멤버들과의 즉시 소통_
     <td><img src="docs/screenshots/user-profile3.png" width="200" height="428"></td>
   </tr>
 </table>
-_↑ 사용자 프로필 - 리뷰와 신뢰도 확인_
 
 ### 📅 일정 관리
 
@@ -151,13 +136,10 @@ _↑ 사용자 프로필 - 리뷰와 신뢰도 확인_
     <td><img src="docs/screenshots/calendar3.png" width="200" height="428"></td>
   </tr>
 </table>
-_↑ 캘린더 페이지 - 공연 일정과 그룹 일정 통합 관리_
 
----
+## 기술 스택
 
-## 🛠 기술 스택
-
-### 🎯 Frontend Core
+### Frontend Core
 
 ```json
 {
@@ -175,7 +157,7 @@ _↑ 캘린더 페이지 - 공연 일정과 그룹 일정 통합 관리_
 - **TypeScript**: 타입 안전성 및 개발 생산성 확보
 - **TailwindCSS 4**: 유틸리티 기반 일관된 스타일링
 
-### 🔄 상태 관리 & 데이터
+### 상태 관리 & 데이터
 
 ```json
 {
@@ -191,7 +173,7 @@ _↑ 캘린더 페이지 - 공연 일정과 그룹 일정 통합 관리_
 - **TanStack Query**: 서버 상태 캐싱 및 동기화
 - **Axios**: HTTP 클라이언트 및 인터셉터
 
-### 🧪 개발 도구 & 품질 관리
+### 개발 도구 & 품질 관리
 
 ```json
 {
@@ -211,7 +193,7 @@ _↑ 캘린더 페이지 - 공연 일정과 그룹 일정 통합 관리_
 - **ESLint + Prettier**: 코드 품질 및 스타일 통일
 - **Husky**: Git Hook 기반 자동화
 
-### 💬 실시간 통신
+### 실시간 통신
 
 ```json
 {
@@ -225,9 +207,7 @@ _↑ 캘린더 페이지 - 공연 일정과 그룹 일정 통합 관리_
 - **WebSocket**: 그룹 채팅
 - **SSE**: 실시간 알림
 
----
-
-## 📁 프로젝트 구조
+## 프로젝트 구조
 
 ```
 src/
@@ -275,11 +255,9 @@ src/
 - **재사용성 우선**: 공통 컴포넌트 중심 설계
 - **타입 안전성**: 모든 레이어에서 TypeScript 활용
 
----
+## 핵심 구현 사항
 
-## 💡 핵심 구현 사항
-
-### 🔗 실시간 채팅 시스템
+### 실시간 채팅 시스템
 
 **STOMP + SockJS 기반 WebSocket 연결**:
 
@@ -351,7 +329,7 @@ const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
 };
 ```
 
-### ⚡ 무한 스크롤 최적화
+### 무한 스크롤 최적화
 
 **Intersection Observer 기반 성능 최적화**:
 
@@ -421,7 +399,7 @@ const InfiniteList = <TPage extends { data: TData[] }, TData>({
 );
 ```
 
-### 🔄 상태 관리 아키텍처
+### 상태 관리 아키텍처
 
 **TanStack Query 서버 상태 관리**:
 
@@ -471,7 +449,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 }));
 ```
 
-### 🛡️ 타입 안전성 & 검증
+### 타입 안전성 & 검증
 
 **Zod 스키마 기반 폼 검증**:
 
@@ -498,7 +476,7 @@ export type GroupCreateForm = z.infer<typeof groupCreateSchema>;
 
 ---
 
-## 📱 반응형 디자인
+## 반응형 디자인
 
 ### 모바일 우선 접근법
 
@@ -526,10 +504,7 @@ const Layout = ({ children }) => {
 };
 ```
 
-<!-- 모바일 vs 데스크톱 UI 비교 스크린샷 -->
-
 ![반응형 디자인](docs/screenshots/responsive-design.png)
-_↑ 모바일과 데스크톱에서의 다른 네비게이션 패턴_
 
 **터치 인터랙션 최적화**:
 
@@ -588,7 +563,7 @@ export const useDragScroll = <T extends HTMLElement>(options: {
 
 ---
 
-## 🧪 테스트
+## 테스트
 
 ### 테스트 전략
 
@@ -603,10 +578,26 @@ export const useDragScroll = <T extends HTMLElement>(options: {
 npm run test
 
 # 커버리지 리포트
-npm run test:coverage
+npx jest --coverage
 ```
 
 **현재 커버리지**: 70%+ (핵심 로직 80% 이상)
+
+```bash
+npx jest --coverage --coverageReporters=text-summary
+
+=============================== Coverage summary ===============================
+Statements   : 82.27% ( 10341/12569 )
+Branches     : 91.47% ( 837/915 )
+Functions    : 66.32% ( 258/389 )
+Lines        : 82.27% ( 10341/12569 )
+================================================================================
+
+Test Suites: 64 passed, 64 total
+Tests:       732 passed, 732 total
+Snapshots:   0 total
+Time:        22.42 s
+```
 
 ### 테스트 예시
 
@@ -633,9 +624,7 @@ describe('Button Component', () => {
 });
 ```
 
----
-
-## 🔧 개발 도구 & 자동화
+## 개발 도구 & 자동화
 
 ### Git Hook 자동화 (by Husky)
 
@@ -681,28 +670,108 @@ npm run build
 
 ```javascript
 // eslint.config.mjs
-export default [
+
+// import ...
+
+const eslintConfig = [
+  js.configs.recommended, // JavaScript 기본 권장 설정
+  ...tseslint.configs.recommended, // TypeScript 권장 설정들
+
   {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      '@next/eslint-config-next',
-      'plugin:@typescript-eslint/recommended',
-      'plugin:testing-library/react',
-    ],
+    files: ['**/*.{js,jsx,ts,tsx}'],
+
+    // setting, plugins ...
     rules: {
-      '@typescript-eslint/no-unused-vars': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
-      'testing-library/prefer-screen-queries': 'error',
+      ...react.configs.recommended.rules, // React 기본 권장 규칙들
+      ...reactHooks.configs.recommended.rules, // React Hooks 권장 설정
+      ...jsxA11y.configs.recommended.rules, // JSX A11y 권장 설정
+      ...nextjs.configs.recommended.rules, // Next.js 권장 설정
+      ...nextjs.configs['core-web-vitals'].rules,
+
+      /************************ js ************************/
+      'no-var': 'error', // var 금지
+      'no-new-object': 'error', // 객체 생성자 사용 금지
+      'quote-props': ['error', 'as-needed'], // 유효하지 않은 객체 키는 따옴표 사용
+      'no-array-constructor': 'error', // new Array() 생성자 사용 금지
+      'arrow-body-style': ['error', 'as-needed'], // 화살표 함수는 중괄호 생략 가능
+      'prefer-arrow-callback': 'error', // 콜백 선언은 화살표 함수로만
+      eqeqeq: ['error', 'always'], // 일치 비교 연산자(===) 강제
+      'func-style': ['warn', 'expression'], // 함수는 표현식 형태 권장
+      // for...in 비권장, for...of 권장
+      'no-restricted-syntax': [
+        'error',
+        {
+          //*..
+        },
+      ],
+
+      /******************* react & jsx *******************/
+      'react/prop-types': 'off', // react prop 검증 건너뛰기 => ts면 필요 없음
+      'react/react-in-jsx-scope': 'off', // React 17+ JSX Transform 사용
+      'react/jsx-no-target-blank': 'off', // target blank 금지
+      'react/jsx-uses-vars': 'error', // JSX에서 변수 사용 시 오류 방지
+      // 인라인 함수 지양
+      'react/jsx-no-bind': [
+        'error',
+        {
+          // ...
+        },
+      ],
+      // React Fast Refresh, 컴포넌트만 내보내기 허용
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
+      // 컴포넌트는 화살표 함수 또는 함수 표현식 사용
+      'react/function-component-definition': [
+        'error',
+        {
+          // ...
+        },
+      ],
+
+      /******************* typescript *******************/
+      '@typescript-eslint/no-unused-vars': ['error'], // 사용하지 않는 변수 금지
+      // 헝가리안 케이스 금지
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {
+          // ...
+        },
+      ],
+
+      /******************* prettier *******************/
+      'prettier/prettier': [
+        'error',
+        {
+          // ...
+        },
+      ],
+
+      /******************* import/order *******************/
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
+            'object',
+            'type',
+          ],
+        },
+      ],
     },
   },
 ];
 ```
 
----
+## 성능 최적화
 
-## 📊 성능 최적화
-
-### Core Web Vitals 달성 ( 실제 측정 데이터)
+### Core Web Vitals 달성 (실제 측정 데이터 추가 필요)
 
 - **LCP (Largest Contentful Paint)**: < 2.5s
 - **FID (First Input Delay)**: < 100ms
@@ -718,11 +787,8 @@ export default [
 <!-- 성능 최적화 결과 스크린샷 -->
 
 ![성능 최적화](docs/screenshots/performance-metrics.png)
-_↑ Lighthouse 성능 측정 결과_
 
----
-
-## 🚀 배포 & CI/CD
+## 배포 & CI/CD
 
 ### 배포 환경
 
@@ -730,9 +796,7 @@ _↑ Lighthouse 성능 측정 결과_
 - **스테이징**: Vercel Production 배포
 - **프로덕션**: 실서비스 환경
 
----
-
-## 📈 프로젝트 성과
+## 프로젝트 성과
 
 ### 정량적 지표
 
@@ -749,17 +813,9 @@ _↑ Lighthouse 성능 측정 결과_
 - 무한 스크롤 성능 최적화 달성
 - 완전한 타입 안전성 확보
 
----
+## 의존성
 
-## 전체 의존성
-
----
-
-## Festi Friends Frontend 프로젝트 의존성
-
-Festi Friends 프론트엔드 프로젝트는 다음과 같은 주요 의존성들을 활용하여 개발되었습니다. GitHub README에 보기 좋게 분류하여 정리했습니다.
-
-### 🚀 핵심 프레임워크 및 빌드 도구 (Core Framework & Build Tools)
+### 핵심 프레임워크 및 빌드 도구 (Core Framework & Build Tools)
 
 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
   <img alt="Next.js" src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=ffffff">
@@ -852,7 +908,7 @@ Festi Friends 프론트엔드 프로젝트는 다음과 같은 주요 의존성�
 
 <div align="center">
 
-**🎭 Festi Friends**  
+**Festi Friends**  
 _함께가는 공연, 더 안전하게_
 
 Made with ❤️ by FF Team
