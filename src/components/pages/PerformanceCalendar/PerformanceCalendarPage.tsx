@@ -46,11 +46,6 @@ const PerformanceCalendarPage = () => {
     isError,
   } = useGetPerformances(queryString, queryString.includes('startDate'));
 
-  console.log(
-    '받아온 공연 id 목록:',
-    allPerformances?.data?.map((p) => p.id) ?? '아직 로딩 중이거나 데이터 없음'
-  );
-
   const visit = getQueryParam('visit');
   const location = getQueryParam('location');
 

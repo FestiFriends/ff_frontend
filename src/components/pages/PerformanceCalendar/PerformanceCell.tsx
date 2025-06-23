@@ -4,7 +4,8 @@ import { memo, useCallback } from 'react';
 import { format, isSameMonth, isToday, isSameDay, getDay } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Performance } from '@/types/performance';
-import PerformanceHoverCard from './PerformanceHoverCard';
+import PerformanceQuickView from './PerformanceQuickView';
+import PerformanceSummaryTooltip from './PerformanceSummaryTooltip';
 
 interface PerformanceCellProps {
   date: Date;
@@ -59,7 +60,7 @@ const PerformanceCell = ({
   );
 
   const cellBase =
-    'flex min-h-[100px] flex-col items-center justify-start overflow-hidden rounded border-b bg-white p-2';
+    'flex min-h-[100px] flex-col items-center justify-start overflow-visible rounded border-b bg-white p-2';
 
   const cellClasses = cn(
     cellBase,
@@ -78,41 +79,51 @@ const PerformanceCell = ({
       onKeyDown={handleKeyDown}
     >
       <button
-        className={cn('w-full rounded text-12_M font-medium', dayColorClass)}
+        className={cn('w-full rounded !text-12_M font-medium', dayColorClass)}
       >
         {format(date, 'd')}
       </button>
       {performances.length > 0 && (
         <div className='mt-1 flex w-full flex-col space-y-0.5'>
           {performances.slice(0, 2).map((perf) => (
-            <PerformanceHoverCard
+            <PerformanceQuickView
               key={perf.id}
               performance={perf}
             >
-              <button
+              <div
+                role='button'
+                tabIndex={0}
                 onClick={(e) => {
                   e.stopPropagation();
                   onPerformanceClick?.(perf);
                 }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onPerformanceClick?.(perf);
+                  }
+                }}
                 className={cn(
-                  'block w-full truncate overflow-hidden rounded px-1 text-left !text-12_M text-ellipsis whitespace-nowrap hover:underline',
+                  'block w-full max-w-[30px] truncate rounded px-1 text-left !text-12_M',
                   visitStyles[perf.visit] || 'bg-gray-100 text-gray-700'
                 )}
               >
                 {perf.title}
-              </button>
-            </PerformanceHoverCard>
+              </div>
+            </PerformanceQuickView>
           ))}
           {performances.length > 2 && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onDateClick?.(date, performances, true);
-              }}
-              className='w-fit text-xs text-gray-400 hover:underline'
-            >
-              +{performances.length - 2}개
-            </button>
+            <PerformanceSummaryTooltip performances={performances.slice(2)}>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                className='w-fit text-12_M text-gray-400 hover:underline'
+              >
+                +{performances.length - 2}개
+              </button>
+            </PerformanceSummaryTooltip>
           )}
         </div>
       )}

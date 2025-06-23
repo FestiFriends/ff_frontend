@@ -18,7 +18,7 @@ const SelectedDatePerformances = ({ date, performances }: Props) => {
 
   if (filtered.length === 0) {
     return (
-      <div className='mt-6 min-h-[850px] space-y-4'>
+      <div className='mt-6 space-y-4'>
         <h2 className='text-lg font-semibold'>
           {format(date, 'M월 d일')} 공연 목록
         </h2>
@@ -30,7 +30,7 @@ const SelectedDatePerformances = ({ date, performances }: Props) => {
   }
 
   return (
-    <div className='mt-6 min-h-[850px] space-y-4'>
+    <div className='mt-6 space-y-4'>
       <h2 className='text-lg font-semibold'>
         {format(date, 'M월 d일')} 공연 목록
       </h2>
