@@ -30,7 +30,7 @@ const JoinedGroups = () => {
     isFetchingNextPage
   );
 
-  if (isPending) return <div>Loading...</div>;
+  if (isPending) return <div className='mx-auto w-fit'>로딩 중...</div>;
 
   const handleButtonClick = (
     groupId: string,

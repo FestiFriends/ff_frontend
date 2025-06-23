@@ -56,10 +56,8 @@ const DateSelector = <
 
   const handleDateClick = (date: Date) => {
     if (!tempStartDate && !dateRange.startDate) {
-      // 처음 선택하는 경우
       setTempStartDate(date);
     } else if (tempStartDate) {
-      // 종료일 선택하는 경우
       const startDate = tempStartDate;
       const endDate = date;
 
@@ -142,10 +140,22 @@ const DateSelector = <
         height='auto'
         hasClose={false}
         hasHandle={false}
+        controlType='bottomControl'
+        twoButtonProps={{
+          leftText: '초기화',
+          rightText: '선택완료',
+          leftAction: handleReset,
+          leftVariant: 'secondary',
+          rightVariant: 'primary',
+          leftDisabled:
+            !dateRange.startDate && !dateRange.endDate && !tempStartDate,
+          rightDisabled: !dateRange.startDate || !dateRange.endDate,
+        }}
       >
         <div className='p-6'>
           <Calendar
-            key={`${dateRange.startDate?.toISOString()}-${dateRange.endDate?.toISOString()}-${tempStartDate?.toISOString()}`}
+            key={`calendar-${dateRange.startDate?.getTime()}-${dateRange.endDate?.getTime()}-${tempStartDate?.getTime()}`}
+            month={tempStartDate || dateRange.startDate || new Date()}
             isControllable={true}
             startDate={getCurrentStartDate()}
             endDate={getCurrentEndDate()}
@@ -153,25 +163,6 @@ const DateSelector = <
             className='mb-4 flex flex-col gap-1'
             colorScheme='black'
           />
-
-          <div className='mb-4 flex items-center justify-between text-sm text-gray-600'>
-            <span>
-              {tempStartDate
-                ? '종료일을 선택해주세요'
-                : dateRange.startDate && dateRange.endDate
-                  ? ''
-                  : '시작일을 선택해주세요'}
-            </span>
-            {(dateRange.startDate || dateRange.endDate || tempStartDate) && (
-              <button
-                type='button'
-                onClick={handleReset}
-                className='text-red-500 hover:text-red-700'
-              >
-                초기화
-              </button>
-            )}
-          </div>
 
           <div className='flex min-h-11 items-center justify-center rounded-md bg-blue-50 p-3 text-sm text-blue-700'>
             <div>

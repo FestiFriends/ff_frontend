@@ -59,6 +59,10 @@ const FormLocationSelector = <
     field.onChange(selectedValue);
   };
 
+  const handleReset = () => {
+    field.onChange('');
+  };
+
   const TriggerButton = ({ onClick }: { onClick?: () => void }) => (
     <button
       type='button'
@@ -93,6 +97,16 @@ const FormLocationSelector = <
         title=''
         hasHandle={false}
         hasClose={false}
+        controlType='bottomControl'
+        twoButtonProps={{
+          leftText: '초기화',
+          rightText: '선택완료',
+          leftAction: handleReset,
+          leftVariant: 'secondary',
+          rightVariant: 'primary',
+          leftDisabled: !field.value,
+          rightDisabled: !field.value,
+        }}
       >
         <div className='p-5'>
           <div className='grid grid-cols-4 place-items-stretch gap-4'>
@@ -115,16 +129,6 @@ const FormLocationSelector = <
               </button>
             ))}
           </div>
-          <div className='my-4 border-b border-gray-100' />
-          <button
-            onClick={() => handleLocationSelect('')}
-            className={cn(
-              'text-md w-full text-gray-500 transition-colors',
-              field.value && 'text-red-500 hover:text-red-700'
-            )}
-          >
-            {field.value ? '선택 초기화' : '지역을 선택해 주세요'}
-          </button>
         </div>
       </BottomSheetModal>
 
