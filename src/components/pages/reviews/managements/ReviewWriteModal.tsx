@@ -81,7 +81,7 @@ const ReviewWriteModal = ({ review, groupId }: ReviewWriteModalProps) => {
           </button>
         </ModalTrigger>
         <ModalContent
-          className='w-4/5 rounded-2xl p-5'
+          className='w-[calc(100%-2rem)] max-w-lg rounded-2xl p-5'
           ref={ref}
         >
           <div className='flex flex-col gap-5'>
