@@ -37,7 +37,7 @@ const TwoButton = ({
       onRightDisabledClick();
       return;
     }
-    
+
     if (!rightDisabled && rightAction) {
       rightAction();
     }
@@ -61,7 +61,9 @@ const TwoButton = ({
         variant={rightVariant}
         className={cn(
           'flex-1 whitespace-nowrap',
-          rightDisabled && !onRightDisabledClick && 'cursor-not-allowed opacity-50',
+          rightDisabled
+            && !onRightDisabledClick
+            && 'cursor-not-allowed opacity-50',
           rightDisabled && onRightDisabledClick && 'cursor-pointer opacity-50',
           rightClassName
         )}
