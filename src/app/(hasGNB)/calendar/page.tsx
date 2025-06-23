@@ -1,3 +1,13 @@
 import PerformanceCalendarPage from '@/components/pages/PerformanceCalendar/PerformanceCalendarPage';
-const CalendarPage = () => <PerformanceCalendarPage />;
+import { ScrollArea } from '@/components/ui/scroll-area';
+const CalendarPage = () => (
+  <>
+    <ScrollArea className='h-[calc(100dvh-80px)]'>
+      <div className='max-w-lg'>
+        <PerformanceCalendarPage />
+      </div>
+    </ScrollArea>
+  </>
+);
+
 export default CalendarPage;

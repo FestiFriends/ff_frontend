@@ -17,7 +17,7 @@ const ReviewTabs = () => {
         activeTab={selectedTab}
         onTabChange={setSelectedTab}
       />
-      <ScrollArea className='h-[calc(100dvh-93px)] px-4'>
+      <ScrollArea className='h-[calc(100dvh-173px)] p-4'>
         {selectedTab === '작성 가능한 리뷰' && <WritableReviews />}
         {selectedTab === '작성한 리뷰' && <WrittenReviews />}
       </ScrollArea>

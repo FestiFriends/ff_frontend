@@ -4,19 +4,20 @@ import {
   Search,
   DraggableSortOptions,
 } from '@/components/pages/performances';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const PerformancesPage = () => (
   <div className='flex flex-col'>
-    <div className='fixed top-0 right-0 left-0 z-[100] bg-white'>
+    <>
       <Header title='공연 목록' />
       <Search />
       <DraggableSortOptions />
-    </div>
-    <div className='flex flex-col gap-2 px-4 pt-32'>
-      <div className='grow'>
+    </>
+    <ScrollArea className='h-[calc(100dvh-202.6px)] p-4 pt-0'>
+      <div className='max-w-lg'>
         <PerformanceListContainer />
       </div>
-    </div>
+    </ScrollArea>
   </div>
 );
 
