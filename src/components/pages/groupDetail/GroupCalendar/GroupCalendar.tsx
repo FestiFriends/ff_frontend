@@ -1,7 +1,13 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { endOfMonth, endOfWeek, startOfMonth, startOfWeek } from 'date-fns';
+import {
+  eachDayOfInterval,
+  endOfMonth,
+  endOfWeek,
+  startOfMonth,
+  startOfWeek,
+} from 'date-fns';
 import CalendarBase from '@/components/common/EventCalendar/CalendarBase/CalendarBase';
 import GroupCalendarCell from '@/components/pages/groupDetail/GroupCalendar/GroupCalendarCell';
 import ScheduleDetailModal from '@/components/pages/groupDetail/GroupCalendar/ScheduleDetailModal';
@@ -39,6 +45,19 @@ const GroupCalendar = ({ groupId }: GroupCalendarProps) => {
         month={currentMonth}
         events={schedules}
         getDate={(s) => new Date(s.startAt)}
+        getDates={(s) => {
+          const start = new Date(s.startAt);
+          const end = new Date(s.endAt ?? s.startAt);
+          const days = eachDayOfInterval({
+            start: new Date(
+              start.getFullYear(),
+              start.getMonth(),
+              start.getDate()
+            ),
+            end: new Date(end.getFullYear(), end.getMonth(), end.getDate()),
+          });
+          return days;
+        }}
         renderCell={(date, events) => (
           <GroupCalendarCell
             date={date}
