@@ -127,6 +127,12 @@
 - **개인 캘린더**: 참여 중인 공연 일정 통합 관리
 - **알림 시스템**: SSE 기반 실시간 알림
 
+### 🔔 실시간 알림 시스템 (SSE)
+
+- **Server-Sent Events**: 웹 푸시 권한 없이 실시간 알림 구현
+- **자동 토큰 갱신**: 401 에러 시 끊김 없는 재연결
+- **이벤트 타입 분류**: 알림, 메시지 등 다양한 이벤트 처리
+
 <!-- 캘린더 페이지 스크린샷 -->
 
 <table>
@@ -204,8 +210,8 @@
 
 **실시간 기능**:
 
-- **WebSocket**: 그룹 채팅
-- **SSE**: 실시간 알림
+- **WebSocket**: 그룹 채팅, STOMP + SockJS 기반 안정적 연결
+- **SSE**: 실시간 알림, EventSource Polyfill로 브라우저 호환성 확보
 
 ## 프로젝트 구조
 
@@ -238,7 +244,7 @@ src/
 │   ├── groupsService.ts  # 그룹 API
 │   └── ...
 ├── stores/               # 전역 상태
-│   ├── authStore.ts      # 인증 상태
+│   ├── authStore.ts      # 인증 상태 (Zustand + Context API)
 │   └── sseStore.ts       # SSE 연결 상태
 ├── types/                # 타입 정의
 │   ├── api.ts           # API 공통 타입
@@ -428,26 +434,147 @@ export const useJoinGroup = () => {
 };
 ```
 
-**Zustand 클라이언트 상태 관리**:
+**Zustand + Context API 클라이언트 상태 관리**:
 
 ```typescript
 // stores/authStore.ts
-interface AuthState {
-  user: User | null;
-  accessToken: string | null;
-  setUser: (user: User | null) => void;
-  setAccessToken: (token: string | null) => void;
-  logout: () => void;
-}
+export const createAuthStore = (initState: AuthState = defaultInitState) =>
+  createStore<AuthStore>()(
+    persist(
+      (set) => ({
+        ...initState,
+        login: (token: string) =>
+          set({
+            accessToken: token,
+            isLoggedIn: true,
+          }),
+        logout: () => {
+          set({
+            accessToken: null,
+            isLoggedIn: false,
+          });
+          localStorage.removeItem('authInfo');
+        },
+      }),
+      { name: 'authInfo' }
+    )
+  );
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  accessToken: null,
-  setUser: (user) => set({ user }),
-  setAccessToken: (accessToken) => set({ accessToken }),
-  logout: () => set({ user: null, accessToken: null }),
-}));
+// providers/AuthStoreProvider.tsx
+export const AuthStoreProvider = ({ children }: AuthStoreProviderProps) => {
+  const storeRef = useRef<AuthStoreApi | null>(null);
+  
+  // SSR 안전성을 위한 컴포넌트당 하나의 스토어 인스턴스 보장
+  if (storeRef.current === null) {
+    storeRef.current = createAuthStore(initAuthStore());
+  }
+
+  return (
+    <AuthStoreContext.Provider value={storeRef.current}>
+      {children}
+    </AuthStoreContext.Provider>
+  );
+};
+
+// 타입 안전한 커스텀 훅
+export const useAuthStore = <T,>(selector: (store: AuthStore) => T): T => {
+  const authStoreContext = useContext(AuthStoreContext);
+  
+  if (!authStoreContext) {
+    throw new Error('useAuthStore는 AuthStoreProvider 내부에서만 사용 가능');
+  }
+  
+  return useStore(authStoreContext, selector);
+};
 ```
+
+**SSR 환경에서 Zustand와 Context API 결합 이유**:
+- **Hydration Mismatch 방지**: 서버와 클라이언트 상태 불일치 해결
+- **SSR 안전성**: React 생명주기와 완전한 동기화
+- **스토어 격리**: Provider 패턴으로 각 컴포넌트 트리별 독립적 스토어 관리
+
+### SSE (Server-Sent Events) 실시간 알림
+
+**SseStoreProvider - 자동 연결 관리**:
+
+```typescript
+// providers/SseStoreProvider.tsx
+export const SseStoreProvider = ({ children }: SseStoreProviderProps) => {
+  const storeRef = useRef<SseStoreApi | null>(null);
+  
+  if (storeRef.current === null) {
+    storeRef.current = createSseStore(initSseStore());
+  }
+
+  // 인증 상태 변화 감지하여 자동 SSE 연결 관리
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      storeRef.current?.getState().connect(); // 로그인 시 SSE 연결
+    } else {
+      storeRef.current?.getState().disconnect(); // 로그아웃 시 연결 해제
+    }
+  }, [isLoggedIn]);
+
+  return (
+    <SseStoreContext.Provider value={storeRef.current}>
+      {children}
+    </SseStoreContext.Provider>
+  );
+};
+```
+
+**SSE 스토어 - 토큰 갱신과 이벤트 처리**:
+
+```typescript
+// stores/sseStore.ts
+export const createSseStore = (initState: SseState = defaultInitState) =>
+  createStore<SseStore>()((set) => {
+    let es: EventSource | null = null;
+
+    return {
+      connect: () => {
+        const token = getAccessToken();
+        if (es || !token) return;
+        
+        es = createEventSource(token);
+
+        // 일반 메시지 수신
+        es.onmessage = (e) => {
+          set({ message: e.data });
+        };
+
+        // 토큰 만료 시 자동 갱신 후 재연결
+        es.onerror = async (e) => {
+          if ('status' in e && e.status === 401) {
+            const newToken = await getNewAccessToken();
+            await createEventSource(newToken);
+          }
+        };
+
+        // 알림 이벤트 전용 리스너
+        es.addEventListener('notification', (e) => {
+          const data = JSON.parse(e.data) as SseNotificationResponse;
+          set({ notification: data });
+        });
+      },
+
+      disconnect: () => {
+        if (!es) return;
+        es.close();
+        es = null;
+        set({ message: null, notification: null });
+      },
+    };
+  });
+```
+
+**SSE 구현의 핵심 특징**:
+- **웹 푸시 대안**: 별도 권한 없이 실시간 알림 구현
+- **토큰 갱신**: 401 에러 시 자동으로 새 토큰으로 재연결
+- **이벤트 분류**: 일반 메시지와 알림 이벤트를 구분하여 처리
+- **리소스 관리**: 로그인 상태에 따른 자동 연결/해제
 
 ### 타입 안전성 & 검증
 
