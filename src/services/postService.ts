@@ -1,8 +1,15 @@
 import apiFetcher from '@/lib/apiFetcher';
-import { ApiResponse } from '@/types/api';
+import { ApiResponse, CursorResponse } from '@/types/api';
 import { CommentsResponse } from '@/types/comment';
 import { Post } from '@/types/post';
 import { formatPost } from '@/utils/formatPostCard';
+
+interface GetCommentsParams {
+  groupId: string;
+  postId: string;
+  cursorId?: number;
+  size?: number;
+}
 
 export const postApi = {
   getPost: async ({
@@ -82,13 +89,13 @@ export const postApi = {
     groupId,
     postId,
     content,
-    isPinned = false,
+    isPinned,
     images = [],
   }: {
     groupId: string;
     postId: string;
     content: string;
-    isPinned?: boolean;
+    isPinned: boolean;
     images?: { alt: string; src: string }[];
   }): Promise<ApiResponse> => {
     const res = await apiFetcher.patch<ApiResponse>(
@@ -118,13 +125,17 @@ export const postApi = {
   getComments: async ({
     groupId,
     postId,
-  }: {
-    groupId: string;
-    postId: string;
-  }): Promise<CommentsResponse> => {
-    const res = await apiFetcher.get<CommentsResponse>(
-      `/api/v1/groups/${groupId}/posts/${postId}/comments`
-    );
+    cursorId,
+    size = 20,
+  }: GetCommentsParams) => {
+    const res = await apiFetcher.get<
+      { data: CommentsResponse } & CursorResponse
+    >(`/api/v1/groups/${groupId}/posts/${postId}/comments`, {
+      params: {
+        cursor: cursorId,
+        size,
+      },
+    });
     return res.data;
   },
 

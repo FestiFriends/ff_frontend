@@ -254,6 +254,7 @@ describe('cleanQueryParams', () => {
 
       const result = cleanQueryParams(params);
 
+      // Type check - result should be Partial<TestParams>
       expect(typeof result.name).toBe('string');
       expect(typeof result.isActive).toBe('boolean');
       expect(typeof result.createdAt).toBe('string');

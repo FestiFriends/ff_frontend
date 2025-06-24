@@ -5,19 +5,19 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import ChevronDownIcon from '@/components/icons/ChevronDownIcon';
 import MegaphoneIcon from '@/components/icons/MegaphoneIcon';
-import { useGetGroupPosts } from '@/hooks/groupHooks/groupHooks';
 import { cn } from '@/lib/utils';
+import { Post } from '@/types/post';
 
 interface PostNoticeProps {
   className?: string;
+  pinnedPost?: Post | null;
 }
 
-const PostNotice = ({ className }: PostNoticeProps) => {
+const PostNotice = ({ className, pinnedPost }: PostNoticeProps) => {
   const { groupId } = useParams<{ groupId: string }>();
-  const { data: posts } = useGetGroupPosts({ groupId });
   const [isOpen, setIsOpen] = useState(false);
 
-  if (posts?.posts.length === 0 || !posts?.posts[0].isPinned) {
+  if (!pinnedPost || !pinnedPost.isPinned) {
     return null;
   }
 
@@ -38,8 +38,8 @@ const PostNotice = ({ className }: PostNoticeProps) => {
                   : 'line-clamp-1 overflow-hidden text-ellipsis'
               }`}
             >
-              <Link href={`/groups/${groupId}/posts/${posts?.posts[0].id}`}>
-                {posts?.posts[0].content}
+              <Link href={`/groups/${groupId}/posts/${pinnedPost.id}`}>
+                {pinnedPost.content}
               </Link>
             </div>
           </div>

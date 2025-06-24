@@ -1,34 +1,28 @@
-import {
-  AlertCircle,
-  BellOff,
-  Heart,
-  Inbox,
-  MessageCircle,
-  MessageSquare,
-  Music2,
-  Pencil,
-  Search,
-  TriangleAlert,
-  XCircle,
-} from 'lucide-react';
+import EmptyIcon from '@/components/icons/EmptyIcon';
 
-type StateNoticePreset =
-  | 'reviewEmpty'
+export type StateNoticePreset =
   | 'groupEmpty'
-  | 'notfound'
-  | 'unauthorized'
-  | 'error'
+  | 'groupExpired'
+  | 'joinedGroupsEmpty'
+  | 'appliedGroupsEmpty'
+  | 'applicationsEmpty'
+  | 'applicationEmpty'
   | 'likedUsersEmpty'
   | 'likedPerformancesEmpty'
-  | 'searchEmpty'
-  | 'writeFirst'
+  | 'postsEmpty'
+  | 'reportEmpty'
   | 'notificationEmpty'
-  | 'chatEmpty';
+  | 'writableReviewEmpty'
+  | 'writtenReviewEmpty'
+  | 'reviewEmpty'
+  | 'searchEmpty'
+  | 'badRequest'
+  | 'notfound'
+  | 'error';
 
 interface StateNoticeProps {
   preset?: StateNoticePreset;
   message?: string;
-  icon?: React.ReactNode;
   action?: React.ReactNode;
   className?: string;
   height?: string;
@@ -37,60 +31,92 @@ interface StateNoticeProps {
 
 const presetConfig: Record<
   StateNoticePreset,
-  { icon: React.ReactNode; message: string; textColor?: string }
+  { message: React.ReactNode; textColor?: string }
 > = {
-  reviewEmpty: {
-    icon: <MessageCircle className='h-10 w-10 text-gray-400' />,
-    message: '아직 받은 리뷰가 없습니다.',
-  },
   groupEmpty: {
-    icon: <Inbox className='h-10 w-10 text-gray-400' />,
-    message: '참여 중인 모임이 없습니다.',
+    message: (
+      <>
+        <p>모임이 없습니다.</p>
+        <p>첫 번째 모임을 개설해 보세요.</p>
+      </>
+    ),
   },
-  notfound: {
-    icon: <AlertCircle className='h-10 w-10 text-gray-400' />,
-    message: '페이지를 찾을 수 없습니다.',
+  groupExpired: {
+    message: <p>종료된 모임입니다.</p>,
   },
-  unauthorized: {
-    icon: <XCircle className='h-10 w-10 text-orange-400' />,
-    message: '로그인이 필요합니다.',
+  joinedGroupsEmpty: {
+    message: <p>참가한 모임이 없습니다.</p>,
   },
-  error: {
-    icon: <AlertCircle className='h-10 w-10 text-red-500' />,
-    message: '문제가 발생했습니다. 다시 시도해 주세요.',
+  appliedGroupsEmpty: {
+    message: <p>신청한 모임이 없습니다.</p>,
+  },
+  applicationsEmpty: {
+    message: <p>방장인 모임이 없습니다.</p>,
+  },
+  applicationEmpty: {
+    message: <p>받은 신청서가 없습니다.</p>,
   },
   likedUsersEmpty: {
-    icon: <Heart className='h-10 w-10 text-gray-400' />,
-    message: '찜한 유저가 없습니다.',
+    message: <p>찜한 유저가 없습니다.</p>,
   },
   likedPerformancesEmpty: {
-    icon: <Music2 className='h-10 w-10 text-gray-400' />,
-    message: '찜한 공연이 없습니다.',
+    message: <p>찜한 공연이 없습니다.</p>,
   },
-  searchEmpty: {
-    icon: <Search className='h-10 w-10 text-gray-400' />,
-    message: '검색 결과가 없습니다.',
+  postsEmpty: {
+    message: (
+      <>
+        <p>모임 상세 게시글이 없습니다.</p>
+        <p>첫 번째 게시글을 작성해 보세요.</p>
+      </>
+    ),
   },
-  writeFirst: {
-    icon: <Pencil className='h-10 w-10 text-gray-400' />,
-    message: '아직 작성된 항목이 없습니다.',
+  reportEmpty: {
+    message: <p>신고된 유저가 없습니다.</p>,
   },
   notificationEmpty: {
-    icon: <BellOff className='h-10 w-10 text-gray-400' />,
-    message: '새로운 알림이 없습니다.',
+    message: <p>새로운 알림이 없습니다.</p>,
   },
-  chatEmpty: {
-    icon: <MessageSquare className='h-10 w-10 text-gray-400' />,
-    message: '아직 대화가 없습니다.',
+  writableReviewEmpty: {
+    message: <p>작성 가능한 리뷰가 없습니다.</p>,
+  },
+  writtenReviewEmpty: {
+    message: <p>작성한 리뷰가 없습니다.</p>,
+  },
+  reviewEmpty: {
+    message: <p>아직 받은 리뷰가 없습니다.</p>,
+  },
+  searchEmpty: {
+    message: <p>검색 결과가 없습니다.</p>,
+  },
+  badRequest: {
+    message: (
+      <>
+        <p>잘못된 요청입니다.</p>
+        <p>다시 시도해 주세요.</p>
+      </>
+    ),
+  },
+  notfound: {
+    message: (
+      <>
+        <p>페이지를 찾을 수 없습니다.</p>
+        <p>다시 시도해 주세요.</p>
+      </>
+    ),
+  },
+  error: {
+    message: (
+      <>
+        <p>문제가 발생했습니다.</p>
+        <p>다시 시도해 주세요.</p>
+      </>
+    ),
   },
 };
-
-const defaultIcon = <TriangleAlert className='h-10 w-10 text-orange-400' />;
 
 const StateNotice = ({
   preset,
   message,
-  icon,
   action,
   className,
   height = '60vh',
@@ -99,18 +125,20 @@ const StateNotice = ({
   const presetData =
     preset && preset in presetConfig ? presetConfig[preset] : undefined;
 
-  const finalMessage =
-    message ?? presetData?.message ?? '표시할 내용이 없습니다.';
-  const finalIcon = icon ?? presetData?.icon ?? defaultIcon;
-  const finalTextColor = textColor ?? presetData?.textColor ?? 'text-gray-800';
+  const finalMessage = message ? (
+    <p>{message}</p>
+  ) : (
+    (presetData?.message ?? <p>표시할 내용이 없습니다.</p>)
+  );
+  const finalTextColor = textColor ?? 'text-gray-500';
 
   return (
     <div
       style={{ minHeight: height }}
-      className={`flex flex-col items-center justify-center gap-3 text-center text-gray-500 ${className}`}
+      className={`flex flex-col items-center justify-center gap-6 text-center ${className}`}
     >
-      {finalIcon}
-      <div className={`text-14_B ${finalTextColor}`}>{finalMessage}</div>
+      <EmptyIcon className='h-20 w-20 text-gray-100' />
+      <div className={`text-16_body_M ${finalTextColor}`}>{finalMessage}</div>
       {action}
     </div>
   );

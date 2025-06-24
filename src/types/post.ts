@@ -1,3 +1,4 @@
+import { ApiResponse, CursorResponse } from './api';
 import type { Image } from './image';
 
 export interface Post {
@@ -25,3 +26,9 @@ export interface GroupPostsResponse {
   groupId: string;
   posts: Post[];
 }
+
+export type GroupsPostsResponseType = ApiResponse<{
+  groupId: string;
+  posts: Post[];
+}>
+  & CursorResponse;

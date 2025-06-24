@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { Button } from '@/components/common';
+import { Button, Toast } from '@/components/common';
 import DetailHeader from '@/components/common/DetailHeader/DetailHeader';
 import NormalCategorySelector from '@/components/pages/groupDetail/editGroup/NormalCategorySelector';
 import NormalDateSelector from '@/components/pages/groupDetail/editGroup/NormalDateSelector';
@@ -53,6 +53,7 @@ const EditGroupWrapper = () => {
     startDate: null,
     endDate: null,
   });
+  const [message, setMessage] = useState<string | null>(null);
 
   const originalGender = groupDetail?.data?.gender;
   const originalStartAge = groupDetail?.data?.startAge;
@@ -131,13 +132,16 @@ const EditGroupWrapper = () => {
       if (res.code === 200) {
         router.replace(`/groups/${groupId}`);
       }
-    } catch (err) {
-      console.error('수정 API 오류', err);
-      // TODO: 에러 토스트 등 UI 처리
+    } catch (error: unknown) {
+      if (typeof error === 'object' && error !== null && 'message' in error) {
+        setMessage((error as { message: string }).message);
+      } else {
+        setMessage('모임 정보 수정 중 오류가 발생했습니다.');
+      }
     }
   };
 
-  if (isPending) return <div>로딩 중…</div>;
+  if (isPending && !groupDetail) return <div>로딩 중…</div>;
 
   return (
     <div className='flex h-screen flex-col'>
@@ -205,6 +209,12 @@ const EditGroupWrapper = () => {
           수정
         </Button>
       </div>
+      {message && (
+        <Toast
+          message={message}
+          onClose={() => {}}
+        />
+      )}
     </div>
   );
 };

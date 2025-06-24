@@ -7,30 +7,45 @@ import ModalAction from '@/components/common/Modal/ModalAction';
 import ModalCancel from '@/components/common/Modal/ModalCancel';
 import ModalContent from '@/components/common/Modal/ModalContent';
 import ModalTrigger from '@/components/common/Modal/ModalTrigger';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import Toast from '@/components/common/Toast/Toast';
 import {
   useGetJoinedGroups,
   useLeaveGroup,
 } from '@/hooks/groupsManagementsHooks/groupsManagementsHooks';
+import { renderErrorNotice } from '@/hooks/useErrorNoticePreset/useErrorNoticePreset';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
 import { formatJoinedGroups } from '@/utils/formatGroupCardData';
+import JoinedGroupsSkeleton from './JoinedGroupsSkeleton';
 
 const JoinedGroups = () => {
   const router = useRouter();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const { mutateAsync: leaveGroup } = useLeaveGroup();
   const [selectedGroupId, setSelectedGroupId] = useState('');
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
-    useGetJoinedGroups();
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isPending,
+  } = useGetJoinedGroups();
   const [isToastOpen, setIsToastOpen] = useState(false);
+
+  const groups =
+    data && data?.pages.flatMap((page) => formatJoinedGroups(page.data));
+
+  const activeGroups = groups?.filter((group) => {
+    if (!group.endDate) return true;
+    return new Date(group.endDate) >= new Date();
+  });
 
   const bottomRef = useInfiniteScroll<HTMLDivElement>(
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage
   );
-
-  if (isPending) return <div className='mx-auto w-fit'>로딩 중...</div>;
 
   const handleButtonClick = (
     groupId: string,
@@ -42,6 +57,7 @@ const JoinedGroups = () => {
       triggerRef.current?.click();
     }
   };
+
   const handleModalConfirm = async () => {
     if (selectedGroupId) {
       const res = await leaveGroup({ groupId: selectedGroupId });
@@ -51,36 +67,60 @@ const JoinedGroups = () => {
     }
   };
 
+  if (isPending && !data) {
+    return (
+      <div className='flex flex-col items-center gap-5 px-4'>
+        <JoinedGroupsSkeleton />
+      </div>
+    );
+  }
+
+  if (activeGroups?.length === 0) {
+    return (
+      <div className='flex h-full items-center justify-center'>
+        <StateNotice preset='joinedGroupsEmpty' />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>{renderErrorNotice(error, '100%')}</div>;
+  }
+
   return (
     <div className='flex flex-col items-center gap-5 px-4'>
-      {data?.pages.flatMap((page) =>
-        formatJoinedGroups(page.data).map((group) => (
-          <GroupCard
-            key={group.id}
-            groupData={group}
-            buttonText='모임 탈퇴'
-            {...(group.isHost
-              && group.memberCount > 1 && {
-                buttonColor: 'disable',
-                buttonDisabled: true,
-              })}
-            onCardClick={() => router.push(`/groups/${group.id}`)}
-            onButtonClick={() =>
-              handleButtonClick(group.id, group.isHost, group.memberCount)
-            }
-          />
-        ))
-      )}
-      {hasNextPage && (
-        <div
-          ref={bottomRef}
-          className='h-10'
+      {activeGroups?.map((group) => (
+        <GroupCard
+          key={group.id}
+          groupData={group}
+          buttonText='모임 탈퇴'
+          {...(group.isHost
+            && group.memberCount > 1 && {
+              buttonColor: 'disable',
+              buttonDisabled: true,
+            })}
+          onCardClick={() => router.push(`/groups/${group.id}`)}
+          onButtonClick={() =>
+            handleButtonClick(group.id, group.isHost, group.memberCount)
+          }
         />
-      )}
+      ))}
 
+      {hasNextPage && (
+        <>
+          {isFetchingNextPage && <JoinedGroupsSkeleton />}
+          <div
+            ref={bottomRef}
+            className='h-10'
+          />
+        </>
+      )}
       <Modal>
         <ModalTrigger>
-          <button ref={triggerRef}></button>
+          <button
+            ref={triggerRef}
+            className='hidden'
+          ></button>
         </ModalTrigger>
         <ModalContent className='flex w-[343px] flex-col rounded-2xl bg-white p-5 pt-11'>
           <p className='mb-[30px] flex w-full justify-center text-16_B text-black'>
