@@ -4,9 +4,9 @@ theme: default
 paginate: true
 backgroundColor: #f3f3f3
 color: #444444
-style:  |
+style: |
   @import url("https://cdn.jsdelivr.net/gh/Jihwan-Suh/PyeojinGothic/CSS/pyeojin-font.css");
-  
+
   section {
     justify-content: center;
     text-align: center;
@@ -19,19 +19,19 @@ style:  |
     text-align: left;
     padding-left: 0;
   }
-  
+
   /* 기본 간격 증가 */
   li {
     line-height: 1.7;     /* 줄 간격도 증가 */
   }
-  
+
   /* 중첩 리스트 간격 */
   ul ul {
     margin-top: 6px;
     margin-bottom: 10px;
     padding-left: 40px;
   }
-  
+
   ul ul ul {
     margin-top: 4px;
     margin-bottom: 6px;
@@ -67,9 +67,10 @@ style:  |
     object-fit: contain;
   }
   code {
-  font-size: 1.1em;
-  display: inline;
-  padding: 2px 4px;
+    font-size: 1.1em;
+    display: inline;
+    padding: 2px 4px;
+    font-family: 'Fira Code Retina, Interop'
   }
 
   pre {
@@ -86,11 +87,10 @@ style:  |
   }
 ---
 
-
 # 3조: Festi Friends (FF)
 
 - **Frontend**: 고성인, 송지현, 임찬호, 정유진, 지서경
-- **Backend**: 박성민, 이정우  
+- **Backend**: 박성민, 이정우
 - **Design**: 반수정
 
 <!--
@@ -110,7 +110,8 @@ style:  |
 - **핵심 기능** - 주요 기능 구현 내용
 - **기술적 도전과제** - 해결한 복잡한 문제들
 - **성과 및 시연** - 개발 결과와 실제 데모
-- **QNA** 
+- **QNA**
+
 ---
 
 # 프로젝트 개요
@@ -137,6 +138,7 @@ style:  |
 ## 경제적 이익 <=> 안전 + 편의성
 
 ### **리뷰 시스템**으로 신뢰도 확보
+
 ### **실시간 채팅**으로 소통 강화
 
 </div>
@@ -152,11 +154,11 @@ style:  |
 
 ## Frontend 개발팀
 
-- **고성인**: 아키텍처, 메인 페이지, 레이아웃, 리뷰 관리페이지
-- **송지현**: 모임 상세 페이지, 모임 관리 페이지, 신고 페이지
-- **임찬호**: 캘린더 페이지, 마이 페이지, 프로필 페이지
-- **정유진**: PM, 형상 관리, 공연 목록, 찜, 모임 개설 페이지
-- **지서경**: 공연 상세 페이지, 모임 상세 페이지, 실시간 채팅
+- **고성인**: 아키텍처, 레이아웃, 메인 · 리뷰 관리 · 신고 관리 페이지
+- **송지현**: 모임 상세 페이지, 모임 관리 페이지, 와이어 프레임
+- **임찬호**: 캘린더 · 나의 프로필 · 프로필 페이지
+- **정유진**: PM, 형상 관리, 공연 목록 · 찜 · 모임 개설 페이지
+- **지서경**: 공연 상세 · 모임 상세 페이지, 실시간 채팅 및 히스토리
 
 <!--
 프론트엔드 개발팀은 효율적인 작업을 위해 도메인별로 역할을 분담했습니다.
@@ -167,11 +169,13 @@ style:  |
 
 # 팀 구성 - Backend & Design
 
-## Backend 개발팀 
-- **박성민**, **이정우**
+## Backend 개발팀
+
+**박성민**, **이정우**
 
 ## Design
-- **반수정**: UI/UX 디자인, 프로토타입
+
+**반수정**
 
 <!--
 백엔드 팀은 안정적인 API 서버 구축을, 디자이너는 일관된 UI/UX 설계를 담당했습니다.
@@ -187,6 +191,7 @@ style:  |
 ## **Frontend 중심의 현대적 기술 스택**
 
 ### Next.js 15 + React 19 + TypeScript 기반
+
 ### 확장 가능하고 안정적인 아키텍처
 
 </div>
@@ -200,16 +205,14 @@ style:  |
 
 # Frontend Core
 
-
-- **`Next.js 15.3.2`** 
+- **`Next.js 15.3.2`**
   - App Router, Server Components 활용
-- **`React 19.0.0`**   
-  - 최신 React 기능 적극 활용  
-- **`TypeScript 5`**  
-  -  타입 안전성 및 개발 생산성 확보
+- **`React 19.0.0`**
+  - 최신 React 기능 적극 활용
+- **`TypeScript 5`**
+  - 타입 안전성 및 개발 생산성 확보
 - **`TailwindCSS 4`**
   - 유틸리티 기반 일관된 스타일링
-
 
 <!--
 핵심 기술부터 살펴보면, Next.js 15의 App Router와 Server Components로 성능을 최적화했고,
@@ -235,12 +238,10 @@ React 19의 최신 기능들을 적극 활용했습니다.
 
 ---
 
-
-
-  # 개발 도구 & 품질 관리
+# 개발 도구 & 품질 관리
 
 - **`Jest` + `Testing Library`**
-  -  단위/통합 테스트
+  - 단위/통합 테스트
 - **`MSW 2.8.4`**
   - API 모킹으로 독립적 개발
 - **`ESLint` + `Prettier`**
@@ -262,6 +263,7 @@ MSW를 활용해 백엔드와 완전히 독립적인 개발 환경을 구축했�
 <div class="center">
 
 ### 도메인 기반 폴더 구조
+
 ### 컴포넌트 중심 설계
 
 </div>
@@ -287,7 +289,7 @@ MSW를 활용해 백엔드와 완전히 독립적인 개발 환경을 구축했�
 ```
 src/
 ├── components/   # UI 컴포넌트
-├── hooks/        # 커스텀 훅  
+├── hooks/        # 커스텀 훅
 ├── services/     # API 통신
 ├── stores/       # 전역 상태
 ├── types/        # 타입 정의
@@ -332,6 +334,7 @@ components/
 <div class="center">
 
 ## Component Driven Development
+
 ## API First Development
 
 </div>
@@ -369,7 +372,7 @@ components/
 - **API 스펙 우선 정의**
   - TypeScript 인터페이스 먼저 작성
 - **MSW 기반 모킹**
-  - 백엔드와 독립적인 프론트엔드 개발  
+  - 백엔드와 독립적인 프론트엔드 개발
 - **실제 API 전환**
   - 개발 완료 후 실제 API로 교체
 
@@ -387,6 +390,7 @@ TypeScript 인터페이스를 먼저 정의하고 MSW로 실제와 똑같이 모
 <div class="center">
 
 ## GitHub Flow 기반
+
 ## 3단계 브랜치 전략
 
 </div>
@@ -397,6 +401,7 @@ TypeScript 인터페이스를 먼저 정의하고 MSW로 실제와 똑같이 모
 -->
 
 ---
+
 <style>
 .b {
   width: 80%;
@@ -404,21 +409,19 @@ TypeScript 인터페이스를 먼저 정의하고 MSW로 실제와 똑같이 모
 }
 </style>
 
-
 # 브랜치 전략
 
 <div class="b">
 
 ```
 develop (메인)
- │  
+ │
  └─ base: prefix/issue-***/base (기능 통합)
-      │   
+      │
       └─ sub-base: prefix/issue-***/feature (기능 개발)
 ```
 
 </div>
-
 
 <!--
 develop은 안정적인 메인 브랜치, base는 기능별 통합 공간, sub-base는 개별 작업 공간으로 운영했습니다.
@@ -431,7 +434,6 @@ develop은 안정적인 메인 브랜치, base는 기능별 통합 공간, sub-b
 
 - **전원 승인 원칙**
   - 모든 PR은 팀원 전체가 리뷰
-  
 - **코드 품질 검증**
   - 기능, 스타일, 성능 등 다각도 검토
 - **지식 공유**
@@ -449,8 +451,8 @@ develop은 안정적인 메인 브랜치, base는 기능별 통합 공간, sub-b
 
 <div class="center">
 
-
 ## 공연 검색 → 그룹 매칭 → 신뢰도 확인
+
 ## 완전한 동행 매칭 플로우
 
 </div>
@@ -464,10 +466,8 @@ develop은 안정적인 메인 브랜치, base는 기능별 통합 공간, sub-b
 
 # 공연 목록 & 검색
 
-
 - **무한 스크롤**
   - Intersection Observer 기반 성능 최적화
-  
 - **다중 필터링**
   - 지역, 날짜, 카테고리별 정렬 지원
 - **실시간 검색**
@@ -483,10 +483,8 @@ develop은 안정적인 메인 브랜치, base는 기능별 통합 공간, sub-b
 
 # 그룹 매칭 시스템
 
-
 - **상세 필터링**
   - 연령대, 성별, 관심사 기반 매칭
-  
 - **실시간 채팅**
   - WebSocket 기반 즉시 소통 지원
 - **일정 관리**
@@ -504,7 +502,6 @@ develop은 안정적인 메인 브랜치, base는 기능별 통합 공간, sub-b
 
 - **상호 리뷰 시스템**
   - 동행 후 양방향 평가 진행
-  
 - **성향별 태그**
   - 시간 준수, 친화력 등 세분화된 평가
 - **객관적 지표**
@@ -520,7 +517,6 @@ develop은 안정적인 메인 브랜치, base는 기능별 통합 공간, sub-b
 
 # 핵심 기술 구현
 
-
 <!--
 정말 품질 높은 웹 애플리케이션을 만들기 위해서는 여러 복잡한 기술적 문제들을 해결해야 했습니다.
 가장 중요했던 상태 관리 아키텍처부터 차근차근 설명드리겠습니다.
@@ -532,9 +528,10 @@ develop은 안정적인 메인 브랜치, base는 기능별 통합 공간, sub-b
 
 <div class="center">
 
-##  **3단계 상태 관리 전략**
+## **3단계 상태 관리 전략**
 
 ### URL State + Server State + Client State
+
 ### 사용자 경험과 개발 효율성 극대화
 
 </div>
@@ -548,10 +545,8 @@ URL 상태, 서버 상태, 클라이언트 상태를 명확히 분리해서 각�
 
 # URL 기반 상태 관리
 
-
 - **북마크 가능한 검색 결과**
   - 필터링된 공연 목록 URL 직접 공유
-  
 - **브라우저 뒤로가기 지원**
   - 자연스러운 네비게이션 경험
 - **새로고침 후 상태 유지**
@@ -573,21 +568,25 @@ const useQueryParam = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const setQueryParam = useCallback((key: string, value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    value ? params.set(key, value) : params.delete(key);
-    router.replace(`${window.location.pathname}?${params.toString()}`);
-  }, [router, searchParams]);
+  const setQueryParam = useCallback(
+    (key: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      value ? params.set(key, value) : params.delete(key);
+      router.replace(`${window.location.pathname}?${params.toString()}`);
+    },
+    [router, searchParams]
+  );
 
-  const setMultipleQueryParams = useCallback((
-    params: Record<string, string | null>
-  ) => {
-    const newParams = new URLSearchParams(searchParams.toString());
-    Object.entries(params).forEach(([key, value]) => {
-      value ? newParams.set(key, value) : newParams.delete(key);
-    });
-    router.replace(`${window.location.pathname}?${newParams.toString()}`);
-  }, [router, searchParams]);
+  const setMultipleQueryParams = useCallback(
+    (params: Record<string, string | null>) => {
+      const newParams = new URLSearchParams(searchParams.toString());
+      Object.entries(params).forEach(([key, value]) => {
+        value ? newParams.set(key, value) : newParams.delete(key);
+      });
+      router.replace(`${window.location.pathname}?${newParams.toString()}`);
+    },
+    [router, searchParams]
+  );
 
   return { getQueryParam, setQueryParam, setMultipleQueryParams };
 };
@@ -608,16 +607,14 @@ const useQueryParam = () => {
 
 ```typescript
 // URL 쿼리스트링 기반 공연 목록 조회
-export const useGetPerformances = (
-  queryString: string, 
-  enabled?: boolean
-) => useQuery<PerformancesResponsePagination>({
-  queryKey: [PERFORMANCES_QUERY_KEYS.performances, queryString],
-  queryFn: async () => await performancesApi.getPerformances(queryString),
-  enabled: enabled && Boolean(queryString), // 조건부 실행
-  staleTime: 30 * 1000,  // 30초간 캐시 유지
-  gcTime: 5 * 60 * 1000, // 5분간 메모리 보관
-});
+export const useGetPerformances = (queryString: string, enabled?: boolean) =>
+  useQuery<PerformancesResponsePagination>({
+    queryKey: [PERFORMANCES_QUERY_KEYS.performances, queryString],
+    queryFn: async () => await performancesApi.getPerformances(queryString),
+    enabled: enabled && Boolean(queryString), // 조건부 실행
+    staleTime: 30 * 1000, // 30초간 캐시 유지
+    gcTime: 5 * 60 * 1000, // 5분간 메모리 보관
+  });
 ```
 
 </div>
@@ -636,10 +633,10 @@ export const useGetPerformances = (
 ```typescript
 const PerformancesListContainer = () => {
   const { getPerformanceQueryString } = useQueryParam();
-  
+
   // URL 쿼리스트링을 API 쿼리스트링으로 변환
   const queryString = getPerformanceQueryString();
-  
+
   // 쿼리스트링 기반 데이터 페칭
   const { data: performancesData, isLoading } = useGetPerformances(
     queryString,
@@ -652,9 +649,9 @@ const PerformancesListContainer = () => {
       <PerformancesLocationSelector /> {/* 지역 → URL */}
       <PerformancesDatePicker />       {/* 날짜 → URL */}
       <CustomSortDropdown />           {/* 정렬 → URL */}
-      
+
       <PerformanceList data={performancesData?.data} />
-      
+
       {/* URL 기반 페이지네이션 */}
       <QueryPagination totalPages={performancesData?.totalPages || 1} />
     </div>
@@ -669,7 +666,6 @@ const PerformancesListContainer = () => {
 검색어, 필터, 정렬, 페이지네이션 모든 상태가 URL로 관리되어서 완전히 공유 가능하고 복원 가능한 검색 결과를 만들어냅니다.
 이제 실시간 채팅 구현으로 넘어가보겠습니다.
 -->
-
 
 ---
 
@@ -704,7 +700,6 @@ export const createAuthStore = (initState: AuthState = defaultInitState) =>
 
 </div>
 
-
 <!--
 Zustand로는 정말 꼭 필요한 인증 상태만 관리해서 전체 상태 관리의 복잡성을 최소화했습니다.
 대부분의 상태는 URL과 서버 상태로 충분히 처리할 수 있었거든요.
@@ -714,9 +709,9 @@ Zustand로는 정말 꼭 필요한 인증 상태만 관리해서 전체 상태 �
 
 # 실시간 채팅 시스템
 
-##  WebSocket 기반 실시간 통신
+## WebSocket 기반 실시간 통신
 
-- **토큰 만료 시 재인증**: JWT 토큰 갱신 중 연결 유지
+- **토큰 만료 시 재인증**: 액세스 토큰 갱신 중 연결 유지
 - **다중 그룹 채팅 관리**: 사용자가 여러 그룹에 동시 참여
 - **HTTP + WebSocket 통합**: 히스토리 조회와 실시간 메시지 병합
 
@@ -728,8 +723,8 @@ Zustand로는 정말 꼭 필요한 인증 상태만 관리해서 전체 상태 �
 ---
 
 # WebSocket 연결 관리 구현
-## STOMP + SockJS 기반 안정적 연결
 
+## STOMP + SockJS 기반 안정적 연결
 
 <div class="b">
 
@@ -756,8 +751,8 @@ STOMP와 SockJS를 조합해서 정말 안정적인 WebSocket 연결을 구현�
 ---
 
 # WebSocket 에러 처리 & 재연결
-## 토큰 갱신과 자동 재연결
 
+## 토큰 갱신과 자동 재연결
 
 <div class="b">
 
@@ -770,7 +765,7 @@ STOMP와 SockJS를 조합해서 정말 안정적인 WebSocket 연결을 구현�
           setMessages(prev => [...prev, body]);
         });
       },
-      
+
       onStompError: async () => {
         // 토큰 만료 시 자동 갱신 후 재연결
         const newToken = await getNewAccessToken();
@@ -799,11 +794,11 @@ STOMP와 SockJS를 조합해서 정말 안정적인 WebSocket 연결을 구현�
 ```typescript
 const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
   // WebSocket 실시간 메시지
-  const { messages: liveMessages, sendMessage } = 
+  const { messages: liveMessages, sendMessage } =
     useChatWebSocket(userId, chatRoomId);
-  
+
   // HTTP API 채팅 히스토리 (무한스크롤)
-  const { data: chatHistory, fetchNextPage } = 
+  const { data: chatHistory, fetchNextPage } =
     useGetChatHistory(chatRoomId, 20);
 
   // 히스토리 + 실시간 메시지 병합
@@ -821,11 +816,9 @@ const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
 정말 끊김 없는 하나의 연속된 채팅 경험을 만들어냈습니다.
 -->
 
-
 ---
 
 # 낙관적 업데이트 (Optimistic Updates)
-
 
 <div class="b">
 
@@ -836,7 +829,7 @@ export const usePatchPerformanceLiked = () => {
 
   return useMutation({
     mutationFn: performancesApi.patchLiked,
-    
+
     onMutate: async ({ performanceId, isLiked }) => {
       // 진행 중인 쿼리 취소
       await queryClient.cancelQueries({
@@ -849,7 +842,7 @@ export const usePatchPerformanceLiked = () => {
       });
 
       queries.forEach(([queryKey, queryData]) => {
-        // ... 
+        // ...
       });
     },
   });
@@ -882,7 +875,7 @@ export const usePatchPerformanceLiked = () => {
 
 # 디바이스별 UI 패턴 분기
 
-##  조건부 렌더링 전략
+## 조건부 렌더링 전략
 
 <div class="a">
 
@@ -896,7 +889,7 @@ const useIsMobile = () => {
 // 네비게이션 분기 처리
 const Layout = ({ children }) => {
   const isMobile = useIsMobile();
-  
+
   return (
     <div className="min-h-screen">
       {isMobile && <Header />}
@@ -944,7 +937,6 @@ const PerformanceHoverCard = ({ performance }) => {
 
 </div>
 
-
 <!--
 인터랙션도 디바이스 특성에 맞게 분기 처리했습니다.
 모바일에서는 hover가 없으니까 클릭으로, 데스크톱에서는 hover로 각각 다르게 동작하도록 해서 정말 자연스러운 경험을 만들었습니다.
@@ -959,30 +951,33 @@ const PerformanceHoverCard = ({ performance }) => {
 <div class="b">
 
 ```typescript
-export const useDragScroll = <T extends HTMLElement>(
-  options: { direction?: 'horizontal' | 'vertical' | 'both'; sensitivity?: number }
-) => {
+export const useDragScroll = <T extends HTMLElement>(options: {
+  direction?: 'horizontal' | 'vertical' | 'both';
+  sensitivity?: number;
+}) => {
   const elementRef = useRef<T>(null);
   const isDragging = useRef(false);
   const startPosition = useRef({ x: 0, y: 0 });
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isDragging.current || !elementRef.current) return;
-    
-    e.preventDefault();
-    const deltaX = (startPosition.current.x - e.clientX) * sensitivity;
-    
-    if (direction === 'horizontal') {
-      elementRef.current.scrollLeft = scrollStart.current.x + deltaX;
-    }
-  }, [direction, sensitivity]);
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!isDragging.current || !elementRef.current) return;
+
+      e.preventDefault();
+      const deltaX = (startPosition.current.x - e.clientX) * sensitivity;
+
+      if (direction === 'horizontal') {
+        elementRef.current.scrollLeft = scrollStart.current.x + deltaX;
+      }
+    },
+    [direction, sensitivity]
+  );
 
   return elementRef;
 };
 ```
 
 </div>
-
 
 <!--
 특히 수평 스크롤이 필요한 부분에서는 터치 스크롤과 마우스 드래그를 모두 지원하는 범용 커스텀 훅을 만들어서,
@@ -1007,7 +1002,6 @@ Intersection Observer라는 브라우저 네이티브 API를 활용했습니다.
 ---
 
 # Intersection Observer 기반 무한 스크롤
-
 
 <div class="b">
 
@@ -1038,7 +1032,6 @@ export const useInfiniteScroll = <T extends HTMLElement>(
 
 </div>
 
-
 <!--
 이 방법으로 무한 스크롤을 구현하니까 성능이 정말 크게 향상되었습니다.
 스크롤할 때마다 이벤트가 발생하는 게 아니라, 필요한 시점에만 트리거되거든요.
@@ -1048,13 +1041,16 @@ export const useInfiniteScroll = <T extends HTMLElement>(
 
 # 범용 무한 스크롤 컴포넌트
 
-##  Suspense + ErrorBoundary 통합
+## Suspense + ErrorBoundary 통합
 
 <div class="a">
 
 ```tsx
 const InfiniteList = ({
-  options, getDataId, renderData, className,
+  options,
+  getDataId,
+  renderData,
+  className,
   emptyFallback = <p>데이터가 없습니다.</p>,
   fallback = <p>로딩 중...</p>,
   isFetchingFallback = <p>로딩 중...</p>,
@@ -1079,7 +1075,6 @@ const InfiniteList = ({
 ```
 
 </div>
-
 
 <!--
 그리고 이걸 재사용 가능한 범용 컴포넌트로 만들어서 다양한 목록에서 활용할 수 있게 했습니다.
@@ -1113,13 +1108,15 @@ const groupCreateSchema = z.object({
   title: z.string().min(1, '제목을 입력해주세요').max(50),
   description: z.string().min(1, '설명을 입력해주세요').max(500),
   participantLimit: z.number().min(2).max(30),
-  ageRange: z.object({
-    min: z.number().min(10).max(100),
-    max: z.number().min(10).max(100),
-  }).refine(data => data.min <= data.max, {
-    message: '최소 연령이 최대 연령보다 클 수 없습니다',
-    path: ['min'],
-  }),
+  ageRange: z
+    .object({
+      min: z.number().min(10).max(100),
+      max: z.number().min(10).max(100),
+    })
+    .refine((data) => data.min <= data.max, {
+      message: '최소 연령이 최대 연령보다 클 수 없습니다',
+      path: ['min'],
+    }),
   genderRestriction: z.enum(['MALE', 'FEMALE', 'ALL']),
   tags: z.array(z.string()).max(5),
 });
@@ -1128,7 +1125,6 @@ type GroupCreateForm = z.infer<typeof groupCreateSchema>;
 ```
 
 </div>
-
 
 <!--
 Zod를 활용해서 복잡한 폼 검증 로직을 정말 선언적이고 읽기 쉽게 표현했습니다.
@@ -1149,7 +1145,7 @@ const GroupCreateForm = () => {
   });
 
   const createGroupMutation = useMutation({
-    mutationFn: (data: GroupCreateForm) => 
+    mutationFn: (data: GroupCreateForm) =>
       groupsServiceApi.createGroup(data), // 타입 안전한 API 호출
   });
 
@@ -1165,7 +1161,6 @@ const GroupCreateForm = () => {
 
 </div>
 
-
 <!--
 React Hook Form과 Zod를 완벽하게 연동해서, 컴파일 타임과 런타임 모두에서 안전한 폼을 만들어냈습니다.
 이제 이런 노력들의 결과인 프로젝트 성과를 보겠습니다.
@@ -1180,6 +1175,7 @@ React Hook Form과 Zod를 완벽하게 연동해서, 컴파일 타임과 런타�
 ## **프로젝트 완성도**
 
 ### 정량적 성과 + 정성적 성취
+
 ### 실제 서비스 수준의 완성도
 
 </div>
@@ -1211,7 +1207,7 @@ React Hook Form과 Zod를 완벽하게 연동해서, 컴파일 타임과 런타�
 
 # 기능 구현 성과
 
-##  완전한 서비스 구현
+## 완전한 서비스 구현
 
 - **15개 주요 페이지**
   - 완전한 사용자 플로우 제공
@@ -1229,7 +1225,7 @@ React Hook Form과 Zod를 완벽하게 연동해서, 컴파일 타임과 런타�
 
 # 품질 지표
 
-##  안정성과 신뢰성
+## 안정성과 신뢰성
 
 - **테스트 커버리지 70%+**
   - 핵심 로직 안정성 보장
@@ -1245,8 +1241,8 @@ React Hook Form과 Zod를 완벽하게 연동해서, 컴파일 타임과 런타�
 
 # 시연
 
-
 ### 주요 사용자 플로우
+
 - **회원가입/로그인** - 카카오 소셜 로그인
 - **공연 검색** - 필터링 및 정렬 기능
 - **그룹 생성/참여** - 매칭 시스템
@@ -1259,7 +1255,6 @@ React Hook Form과 Zod를 완벽하게 연동해서, 컴파일 타임과 런타�
 -->
 
 ---
-
 
 # 🙋‍♂️ Q & A
 
@@ -1275,4 +1270,3 @@ React Hook Form과 Zod를 완벽하게 연동해서, 컴파일 타임과 런타�
 이상으로 Festi Friends 프로젝트 발표를 마치겠습니다.
 한 달간 정말 많은 것을 배우고 성장할 수 있었던 값진 경험이었습니다. 감사합니다.
 -->
-
