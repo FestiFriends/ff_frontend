@@ -1,6 +1,5 @@
 'use client';
 import React, { useRef, useState, useCallback } from 'react';
-import { createPortal } from 'react-dom';
 import { AltArrowUpIcon, DeleteIcon } from '@/components/icons';
 import { LocationLabels, LocationValues } from '@/constants';
 import { useClickOutside, useQueryParam } from '@/hooks/';
@@ -136,36 +135,30 @@ const PerformancesLocationSelector = ({
   );
 
   return (
-    <>
-      <div
-        ref={selectorRef}
-        className={cn('relative z-20 inline-block', className)}
-      >
-        <TriggerButton />
-      </div>
-      {isOpen
-        && typeof window !== 'undefined'
-        && buttonWrapperRef.current
-        && createPortal(
-          <div
-            className='fixed z-20 inline-flex w-[calc(100vw-2rem)] max-w-[calc(32rem-2rem)] -translate-x-1/2 flex-col gap-4 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white p-5 shadow-lg'
-            style={{
-              top: `${buttonPosition.top + 8}px`,
-              left: '50%',
-            }}
-          >
-            <div className='grid grid-cols-4 gap-3'>
-              {locationOptions.map((location) => (
-                <OptionButton
-                  key={location.value}
-                  location={location}
-                />
-              ))}
-            </div>
-          </div>,
-          document.body
-        )}
-    </>
+    <div
+      ref={selectorRef}
+      className={cn('relative z-20 inline-block', className)}
+    >
+      <TriggerButton />
+      {isOpen && (
+        <div
+          className='fixed z-20 inline-flex w-[calc(100vw-2rem)] max-w-[calc(32rem-2rem)] -translate-x-1/2 flex-col gap-4 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white p-5 shadow-lg'
+          style={{
+            top: `${buttonPosition.top + 8}px`,
+            left: '50%',
+          }}
+        >
+          <div className='grid grid-cols-4 gap-3'>
+            {locationOptions.map((location) => (
+              <OptionButton
+                key={location.value}
+                location={location}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 
