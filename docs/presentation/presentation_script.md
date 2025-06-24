@@ -1,4 +1,4 @@
-# Festi Friends 발표 대본
+xLC# Festi Friends 발표 대본
 
 ## 슬라이드 1: 팀 소개
 안녕하세요. 3조 Festi Friends입니다.
