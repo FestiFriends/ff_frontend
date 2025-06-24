@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { format, parse, isValid } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { Calendar } from '@/components/common';
@@ -199,30 +200,35 @@ const PerformanceDatePicker = ({
   );
 
   return (
-    <div
-      ref={datePickerRef}
-      className={cn('relative inline-block', className)}
-    >
-      <TriggerButton />
-
-      {isOpen && (
-        <div
-          className='fixed z-[9999] inline-flex w-[calc(100vw-2rem)] max-w-[calc(32rem-2rem)] -translate-x-1/2 flex-col gap-5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white p-5 shadow-lg'
-          style={{
-            top: `${buttonPosition.top + 8}px`,
-            left: '50%',
-          }}
-        >
-          <Calendar
-            startDate={dateRange.startDate}
-            endDate={dateRange.endDate}
-            onDateClick={handleDateClick}
-            isControllable={true}
-            className='flex flex-col gap-1'
-          />
-        </div>
-      )}
-    </div>
+    <>
+      <div
+        ref={datePickerRef}
+        className={cn('relative inline-block', className)}
+      >
+        <TriggerButton />
+      </div>
+      {isOpen
+        && typeof window !== 'undefined'
+        && buttonWrapperRef.current
+        && createPortal(
+          <div
+            className='fixed z-[9999] inline-flex w-[calc(100vw-2rem)] max-w-[calc(32rem-2rem)] -translate-x-1/2 flex-col gap-5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white p-5 shadow-lg'
+            style={{
+              top: `${buttonPosition.top + 8}px`,
+              left: '50%',
+            }}
+          >
+            <Calendar
+              startDate={dateRange.startDate}
+              endDate={dateRange.endDate}
+              onDateClick={handleDateClick}
+              isControllable={true}
+              className='flex flex-col gap-1'
+            />
+          </div>,
+          document.body
+        )}
+    </>
   );
 };
 
