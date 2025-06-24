@@ -14,15 +14,27 @@ import { cn } from '@/lib/utils';
 const BANNER_INFO: { id: string; src: string; alt: string; href: string }[] = [
   {
     id: '1',
-    src: '/banner.png',
-    alt: 'FestiFriends main banner',
+    src: '/banner_1.png',
+    alt: 'FestiFriends main banner 1',
     href: '/performances',
   },
   {
     id: '2',
-    src: '/banner.png',
-    alt: 'FestiFriends main banner',
-    href: '/performances',
+    src: '/banner_2.jpg',
+    alt: 'FestiFriends main banner 2',
+    href: '/performances/32',
+  },
+  {
+    id: '3',
+    src: '/banner_3.jpg',
+    alt: 'FestiFriends main banner 3',
+    href: '/performances/43',
+  },
+  {
+    id: '4',
+    src: '/banner_4.jpg',
+    alt: 'FestiFriends main banner 4',
+    href: '/performances/33',
   },
 ];
 

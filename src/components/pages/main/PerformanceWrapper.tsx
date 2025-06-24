@@ -24,7 +24,7 @@ const PerformanceWrapper = ({
 }: PerformanceWrapperProps) => (
   <div className='flex flex-col gap-5 bg-white px-4 pt-5 pb-[30px]'>
     <div className='flex items-center justify-between'>
-      <h2 className='flex h-[19px] items-center text-16_B text-gray-950'>
+      <h2 className='flex items-center text-16_B leading-normal tracking-[-0.4px] text-gray-950'>
         {title}
       </h2>
       <Link

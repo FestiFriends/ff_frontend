@@ -37,16 +37,18 @@ const WrittenReviewsModal = ({ review }: WrittenReviewsModalProps) => (
             </span>
           </div>
 
-          <div className='flex flex-col gap-[14px]'>
-            {review.defaultTag.map((tag) => (
-              <span
-                key={tag}
-                className='flex h-10 w-full items-center rounded-[6px] bg-[#f4f4f4] px-4 text-14_M'
-              >
-                {ReviewTagLabels[tag]}
-              </span>
-            ))}
-          </div>
+          {review.defaultTag.length > 0 && (
+            <div className='flex flex-col gap-[14px]'>
+              {review.defaultTag.map((tag) => (
+                <span
+                  key={tag}
+                  className='flex w-full items-center rounded-[0px_16px_16px_16px] bg-[#f4f4f4] px-4 py-3 text-14_M leading-normal tracking-[-0.35px]'
+                >
+                  {ReviewTagLabels[tag]}
+                </span>
+              ))}
+            </div>
+          )}
 
           <div className='flex flex-col'>
             <span className='text-12_B text-gray-500'>별점</span>
@@ -63,6 +65,14 @@ const WrittenReviewsModal = ({ review }: WrittenReviewsModalProps) => (
               />
             </div>
           </div>
+
+          {review.content !== '' && (
+            <div className='flex w-full items-center rounded-[6px] bg-[#f4f4f4] px-4 py-3'>
+              <span className='text-14_M leading-normal tracking-[-0.35px]'>
+                {review.content}
+              </span>
+            </div>
+          )}
         </div>
       </div>
 

@@ -2,7 +2,8 @@ import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
 import ReviewRating from './ReviewRating';
 
 interface MainReviewCardProps {
-  nickname: string;
+  nickname?: string;
+  performanceTitle?: string;
   groupTitle: string;
   ratings: number;
   content?: string;
@@ -10,7 +11,8 @@ interface MainReviewCardProps {
 }
 
 const MainReviewCard = ({
-  nickname,
+  // nickname,
+  performanceTitle,
   groupTitle,
   ratings,
   content,
@@ -21,12 +23,16 @@ const MainReviewCard = ({
       <ProfileImage
         size='sm'
         src={imgSrc}
+        className='aspect-square shrink-0 rounded-[12px]'
       />
       <div className='flex flex-col gap-1'>
-        <span className='flex h-4 items-center text-13_M text-gray-500'>
-          {nickname}
+        <span className='line-clamp-1 text-13_M leading-normal tracking-[-0.325px] text-gray-500'>
+          {performanceTitle}
         </span>
-        <h4 className='flex h-[17px] items-center text-14_B text-gray-950'>
+        {/* <span className='flex h-4 items-center text-13_M leading-normal tracking-[-0.35px] text-gray-500'>
+          {nickname}
+        </span> */}
+        <h4 className='flex items-center text-14_B leading-normal tracking-[-0.35px] text-gray-950'>
           {groupTitle}
         </h4>
       </div>
@@ -34,7 +40,7 @@ const MainReviewCard = ({
 
     <ReviewRating rating={ratings} />
 
-    <p className='line-clamp-2 h-[50px] text-14_body_M text-gray-950'>
+    <p className='line-clamp-2 h-[50px] text-14_body_M leading-[180%] tracking-[-0.35px] text-gray-950'>
       {content}
     </p>
   </div>

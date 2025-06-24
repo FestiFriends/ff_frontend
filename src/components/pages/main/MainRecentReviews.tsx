@@ -30,6 +30,7 @@ const MainRecentReviews = async () => {
             className='basis-[233px] p-0'
           >
             <MainReviewCard
+              performanceTitle={group.performance.title}
               groupTitle={group.groupTitle}
               nickname={'blur'}
               ratings={review.rating}
@@ -59,8 +60,8 @@ const MainRecentReviews = async () => {
 
   return (
     <section className='flex flex-col gap-2.5 bg-white px-4 py-5'>
-      <h2 className='flex h-[19px] w-fit items-center to-gray-950 text-16_B'>
-        실제 모임 후기
+      <h2 className='flex items-center text-16_B leading-normal tracking-[-0.4px] text-gray-950'>
+        실제 모임 후기 💬
       </h2>
 
       <Carousel
