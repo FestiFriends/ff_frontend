@@ -3,22 +3,25 @@ import { PerformancesResponsePagination } from '@/types/performance';
 import { Performance } from '@/types/performance';
 import type { MetadataRoute } from 'next';
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_BASE_URL ?? 'https://ff-frontend-rust.vercel.app';
+
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: `${process.env.NEXT_PUBLIC_SITE_URL}`,
+      url: `${SITE_URL}`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
-      url: `${process.env.NEXT_PUBLIC_SITE_URL}/performances`,
+      url: `${SITE_URL}/performances`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${process.env.NEXT_PUBLIC_SITE_URL}/calendar`,
+      url: `${SITE_URL}/calendar`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.6,
@@ -41,7 +44,7 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
 
   const performanceRoutes: MetadataRoute.Sitemap = performances.map(
     (performance) => ({
-      url: `${process.env.NEXT_PUBLIC_SITE_URL}/performances/${performance.id}`,
+      url: `${SITE_URL}/performances/${performance.id}`,
       lastModified: new Date(
         performance.endDate ?? performance.startDate ?? Date.now()
       ),
