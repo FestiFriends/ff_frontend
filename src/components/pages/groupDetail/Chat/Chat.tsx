@@ -1,5 +1,6 @@
 'use client';
 
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGetUserId } from '@/hooks/userHooks/userHooks';
 import { GroupInfo } from '@/types/group';
@@ -26,10 +27,11 @@ const Chat = ({ groupInfo }: ChatProps) => {
 
   if (isError || !userId || !groupInfo?.isMember) {
     return (
-      <div className='flex flex-col items-center justify-center px-4 py-5'>
-        <p className='font-semibold text-gray-500'>
-          채팅 접근 권한이 없습니다.
-        </p>
+      <div className='flex h-full items-center justify-center py-20'>
+        <StateNotice
+          message='채팅 접근 권한이 없습니다.'
+          height='100%'
+        />
       </div>
     );
   }

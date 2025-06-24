@@ -119,7 +119,9 @@ const PerformanceDetailSummary = ({
               장소
             </span>
             <span className='text-16_M leading-normal tracking-[-0.4px] text-gray-700'>
-              {formatLocation(performanceDetail.location).place}
+              {formatLocation(performanceDetail.location).place === ''
+                ? '정보 없음'
+                : formatLocation(performanceDetail.location).place}
             </span>
 
             <span className='pr-7.5 text-16_B leading-normal tracking-[-0.4px] whitespace-nowrap text-gray-700'>
