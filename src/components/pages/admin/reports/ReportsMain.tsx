@@ -5,6 +5,7 @@ import { SuspenseQuery } from '@suspensive/react-query';
 import { useSearchParams } from 'next/navigation';
 import { LoadingOverlay } from '@/components/common';
 import QueryPagination from '@/components/common/QueryPagination/QueryPagination';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import { reportListOption } from '@/hooks/reportHooks/reportHooks';
 import AdminCheck from './AdminCheck';
 import ReportCard from './ReportCard';
@@ -28,7 +29,7 @@ const ReportsMain = () => {
         <SuspenseQuery {...reportListOption(page)}>
           {({ data }) => {
             if (data.totalElements === 0) {
-              return <p>데이터가 존재하지 않습니다.</p>;
+              return <StateNotice preset='reportEmpty' />;
             } else {
               return (
                 <>

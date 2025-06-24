@@ -1,4 +1,5 @@
 import React from 'react';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import {
   Carousel,
   CarouselContent,
@@ -19,7 +20,7 @@ const MainRecentReviews = async () => {
     );
 
     if (!recentReviews.data || recentReviews.data.length === 0) {
-      content = <p>데이터가 존재하지 않습니다.</p>;
+      content = <StateNotice preset='reviewEmpty' />;
     }
 
     if (recentReviews.data && recentReviews.data.length > 0) {

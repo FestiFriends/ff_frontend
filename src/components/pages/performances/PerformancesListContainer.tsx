@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import QueryPagination from '@/components/common/QueryPagination/QueryPagination';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import { PerformanceList } from '@/components/pages/performances';
 import { useGetPerformances } from '@/hooks/performanceHooks/performanceHooks';
 import useQueryParam from '@/hooks/useQueryParam/useQueryParam';
@@ -36,11 +37,7 @@ const PerformanceListContainer = () => {
       </div>
     );
   if (searchResult.data.length === 0)
-    return (
-      <div className='flex items-center justify-center py-8'>
-        <span>검색 결과가 없습니다.</span>
-      </div>
-    );
+    return <StateNotice preset='searchEmpty' />;
 
   const { totalPages = 0 } = searchResult;
 
