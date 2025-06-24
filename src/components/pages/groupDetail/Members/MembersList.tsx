@@ -2,6 +2,7 @@ import { RefObject } from 'react';
 import { CrownIcon } from 'lucide-react';
 import Link from 'next/link';
 import ProfileImage from '@/components/common/ProfileImage/ProfileImage';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import {
   Carousel,
   CarouselContent,
@@ -52,11 +53,11 @@ const MembersList = ({
 
   if (isError || members?.length === 0) {
     return (
-      <div className='flex flex-col items-center justify-center px-4 py-5'>
-        <p className='font-semibold text-gray-500'>
-          모임원 목록을 불러오지 못했습니다.
-        </p>
-      </div>
+      <StateNotice
+        message='모임원 목록을 불러오지 못했습니다.'
+        height='fit-content'
+        className='py-4'
+      />
     );
   }
 
