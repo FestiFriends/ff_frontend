@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { createPortal } from 'react-dom';
 import { AltArrowUpIcon, DeleteIcon } from '@/components/icons';
 import { useClickOutside, useQueryParam } from '@/hooks/';
 import { cn } from '@/lib/utils';
@@ -114,42 +113,32 @@ const CustomSortDropdown = ({
   );
 
   return (
-    <>
-      <div
-        className={cn('relative inline-block rounded-[100px]', className)}
-        ref={dropdownRef}
-      >
-        <TriggerButton />
-      </div>
-      {isOpen
-        && typeof window !== 'undefined'
-        && dropdownRef.current
-        && createPortal(
-          <div
-            className={cn(
-              'fixed z-20 mt-2 flex flex-col overflow-hidden rounded-[12px] border border-gray-50 bg-white shadow-lg',
-              {
-                'w-full': width === 'full',
-                'w-auto': width === 'auto',
-                'w-fit min-w-25': width === 'fit',
-              }
-            )}
-            style={{
-              top: dropdownRef.current.getBoundingClientRect().bottom + 8,
-              left: dropdownRef.current.getBoundingClientRect().left,
-            }}
-          >
-            {options.map((option, index) => (
-              <OptionButton
-                option={option}
-                index={index}
-                key={option.value}
-              />
-            ))}
-          </div>,
-          document.body
-        )}
-    </>
+    <div
+      className={cn('relative inline-block rounded-[100px]', className)}
+      ref={dropdownRef}
+    >
+      <TriggerButton />
+      {isOpen && (
+        <div
+          className={cn(
+            'fixed z-20 mt-2 flex flex-col overflow-hidden rounded-[12px] border border-gray-50 bg-white shadow-lg',
+            {
+              'w-full': width === 'full',
+              'w-auto': width === 'auto',
+              'w-fit min-w-25': width === 'fit',
+            }
+          )}
+        >
+          {options.map((option, index) => (
+            <OptionButton
+              option={option}
+              index={index}
+              key={option.value}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 
