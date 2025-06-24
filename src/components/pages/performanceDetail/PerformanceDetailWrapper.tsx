@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import Toast from '@/components/common/Toast/Toast';
 import { Summary, Tabs } from '@/components/pages/performanceDetail';
 import { useGetPerformanceDetail } from '@/hooks';
@@ -37,8 +38,8 @@ const PerformanceDetailWrapper = ({
 
   if (isError)
     return (
-      <div className='flex h-full flex-col items-center justify-center px-4 py-5'>
-        <p className='font-semibold text-gray-500'>존재하지 않는 공연입니다.</p>
+      <div className='flex h-[calc(100dvh-124px)] flex-col items-center justify-center'>
+        <StateNotice preset='notfound' />
       </div>
     );
 

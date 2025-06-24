@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import GroupCard from '@/components/common/GroupCard/GroupCard';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import Toast from '@/components/common/Toast/Toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
@@ -94,8 +95,8 @@ const PerformanceDetailGroupsList = ({
         </span>
 
         <div className='flex flex-col gap-5'>
-          {groups
-            && formatPerformanceGroups(groups).map((group) => (
+          {groups && formatPerformanceGroups(groups).length > 0 ? (
+            formatPerformanceGroups(groups).map((group) => (
               <div key={group.id}>
                 <GroupCard
                   onCardClick={() => routeToGroupPage(group.id)}
@@ -108,7 +109,10 @@ const PerformanceDetailGroupsList = ({
                   className='cursor-pointer'
                 />
               </div>
-            ))}
+            ))
+          ) : (
+            <StateNotice preset='groupEmpty' />
+          )}
 
           {/* 모임 참가 신청 모달 */}
           <GroupApplyModal
