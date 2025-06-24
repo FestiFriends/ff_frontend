@@ -15,7 +15,7 @@ const MainRecentReviews = async () => {
   try {
     const recentReviews = await nextFetcher<RecentReviewsResponse>(
       '/api/v1/performances/recent-reviews',
-      { method: 'GET', revalidate: 21600 }
+      { method: 'GET', revalidate: 300 }
     );
 
     if (!recentReviews.data || recentReviews.data.length === 0) {
@@ -32,7 +32,7 @@ const MainRecentReviews = async () => {
             <MainReviewCard
               performanceTitle={group.performance.title}
               groupTitle={group.groupTitle}
-              nickname={'blur'}
+              nickname={'익명의 리뷰어'}
               ratings={review.rating}
               content={
                 review.content

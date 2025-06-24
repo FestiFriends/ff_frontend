@@ -73,6 +73,7 @@ const PerformanceDetailSummary = ({
               height={imageHeight}
               sizes={`${imageWidth}px`}
               className='rounded-[12px] object-contain'
+              priority
             />
           </div>
         </div>
