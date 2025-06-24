@@ -11,7 +11,7 @@ style: |
     justify-content: center;
     text-align: center;
     padding: 0;
-    font-family: 'Fira Code Retina', 'PyeojinGothic', 'Pyeojin Gothic', 'Pretendard', 'Interop';
+    font-family: 'Fira Code','Fira Code Retina', 'PyeojinGothic', 'Pyeojin Gothic', 'Pretendard', 'Interop';
   }
   ul {
     display: inline-block;
@@ -70,7 +70,8 @@ style: |
     font-size: 1.1em;
     display: inline;
     padding: 2px 4px;
-    font-family: 'Fira Code Retina, Interop'
+    font-family: 'Fira Code','Fira Code Retina', 'PyeojinGothic', 'Pyeojin Gothic', 'Pretendard', 'Interop';
+
   }
 
   pre {
@@ -709,18 +710,60 @@ Zustand로는 정말 꼭 필요한 인증 상태만 관리해서 전체 상태 �
 
 # Zustand with Context API
 
-## SSR에서 전역 상태 관리의 side Effect
+## SSR에서 전역 상태 관리의 문제점 해결
+
+- **Hydration Mismatch**: 서버와 클라이언트의 상태 불일치
+- **SSR 안전성**: 리액트 생명주기와 완전한 동기화
+- **Context API 결합**: Provider 패턴으로 스토어 격리
 
 <!--
-TODO
+Next.js SSR 환경에서 Zustand만 단독으로 사용하면 서버와 클라이언트 간 상태 불일치 문제가 발생할 수 있습니다.
+이를 해결하기 위해 Context API와 결합하여 리액트 생명주기와 완전히 동기화된 상태 관리 시스템을 구축했습니다.
 -->
 
 ---
 
-# Zustand with Context API with code
+# Context API와 Zustand 결합 패턴
+
+<div class="b">
+
+```typescript
+export const AuthStoreProvider = ({ children }: AuthStoreProviderProps) => {
+  const storeRef = useRef<AuthStoreApi | null>(null);
+
+  // 컴포넌트당 하나의 스토어 인스턴스 보장
+  if (storeRef.current === null) {
+    storeRef.current = createAuthStore(initAuthStore());
+  }
+
+  // 글로벌 함수에 스토어 메서드 연결
+  setTokenUpdater(storeRef.current.getState().login);
+  setLogout(storeRef.current.getState().logout);
+
+  return (
+    <AuthStoreContext.Provider value={storeRef.current}>
+      {children}
+    </AuthStoreContext.Provider>
+  );
+};
+
+// 타입 안전한 커스텀 훅
+export const useAuthStore = <T,>(selector: (store: AuthStore) => T): T => {
+  const authStoreContext = useContext(AuthStoreContext);
+
+  if (!authStoreContext) {
+    throw new Error('useAuthStore는 AuthStoreProvider 내부에서만 사용 가능');
+  }
+
+  return useStore(authStoreContext, selector);
+};
+```
+
+</div>
 
 <!--
-TODO
+AuthStoreProvider는 Zustand 스토어를 React Context로 감싸서 SSR 안전성을 보장합니다.
+useRef로 스토어 인스턴스를 컴포넌트 생명주기에 동기화하고, 타입 안전한 커스텀 훅으로 사용성을 극대화했습니다.
 -->
 
 ---
@@ -772,7 +815,7 @@ STOMP와 SockJS를 조합해서 정말 안정적인 WebSocket 연결을 구현�
 
 ## 토큰 갱신과 자동 재연결
 
-<div class="b">
+<div class="a">
 
 ```typescript
       onConnect: () => {
@@ -807,7 +850,7 @@ STOMP와 SockJS를 조합해서 정말 안정적인 WebSocket 연결을 구현�
 
 ## 히스토리와 실시간 메시지 병합
 
-<div class="b">
+<div class="a">
 
 ```typescript
 const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
@@ -838,7 +881,7 @@ const ChatArea = ({ userId, chatRoomId }: ChatAreaProps) => {
 
 # 낙관적 업데이트 (Optimistic Updates)
 
-<div class="b">
+<div class="a">
 
 ```typescript
 // 찜하기 기능의 낙관적 업데이트
@@ -876,20 +919,105 @@ export const usePatchPerformanceLiked = () => {
 
 ---
 
-# SSE (server sent event)
+# SSE (Server Sent Events)
 
-## 웹의 알림 기능에 대한 제약 타파
+## 웹 푸시 알림의 제약사항 극복
+
+- **웹 푸시의 한계**: 사용자 권한 허용 필수, 브라우저별 지원 차이
+- **SSE의 장점**: HTTP 기반 단방향 실시간 통신, 별도 권한 불필요
+- **EventSource Polyfill**: 구형 브라우저 지원 및 헤더 커스터마이징
 
 <!--
-TODO
+웹 푸시 알림은 사용자의 명시적 권한이 필요하고 브라우저 지원이 제한적입니다.
+SSE를 활용하면 별도 권한 없이도 실시간 알림을 구현할 수 있어서, 더 나은 사용자 경험을 제공할 수 있습니다.
 -->
 
 ---
 
-# SSE Code
+# Zustand + Context API + SSE 통합
+
+<div class="b">
+
+```typescript
+export const SseStoreProvider = ({ children }: SseStoreProviderProps) => {
+  const storeRef = useRef<SseStoreApi | null>(null);
+
+  if (storeRef.current === null) {
+    storeRef.current = createSseStore(initSseStore());
+  }
+
+  // 인증 상태 변화 감지
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      storeRef.current?.getState().connect(); // 로그인 시 SSE 연결
+    } else {
+      storeRef.current?.getState().disconnect(); // 로그아웃 시 연결 해제
+    }
+  }, [isLoggedIn]);
+
+  return (
+    <SseStoreContext.Provider value={storeRef.current}>
+      {children}
+    </SseStoreContext.Provider>
+  );
+};
+```
+
+</div>
 
 <!--
-TODO
+SseStoreProvider는 사용자의 로그인 상태에 따라 자동으로 SSE 연결을 관리합니다.
+AuthStore의 상태를 구독해서 로그인하면 연결하고, 로그아웃하면 해제하는 방식으로 효율적인 리소스 관리를 달성했습니다.
+-->
+
+---
+
+# SSE 스토어: 토큰 갱신과 이벤트 처리
+
+<div class="b">
+
+```typescript
+export const createSseStore = (initState: SseState = defaultInitState) =>
+  createStore<SseStore>()((set) => {
+    let es: EventSource | null = null;
+
+    return {
+      connect: () => {
+        const token = getAccessToken();
+        if (es || !token) return;
+
+        es = createEventSource(token);
+
+        // 일반 메시지 수신
+        es.onmessage = (e) => {
+          set({ message: e.data });
+        };
+
+        // 토큰 만료 시 자동 갱신
+        es.onerror = async (e) => {
+          if ('status' in e && e.status === 401) {
+            const newToken = await getNewAccessToken();
+            await createEventSource(newToken); // 새 토큰으로 재연결
+          }
+        };
+
+        // 알림 이벤트 전용 리스너
+        es.addEventListener('notification', (e) => {
+          const data = JSON.parse(e.data) as SseNotificationResponse;
+          set({ notification: data });
+        });
+      },
+    };
+  });
+```
+
+</div>
+
+<!--
+SSE 연결에서 가장 복잡한 부분은 토큰 만료 처리입니다. 401 에러 발생 시 자동으로 새 토큰을 받아와서
+끊김 없이 재연결하고, 다양한 이벤트 타입을 구분해서 처리할 수 있도록 구현했습니다.
 -->
 
 ---
