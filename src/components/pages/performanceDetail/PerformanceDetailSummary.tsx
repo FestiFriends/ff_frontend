@@ -29,7 +29,7 @@ const PerformanceDetailSummary = ({
   if (isPending || !performanceDetail)
     return (
       <div className='flex flex-col gap-5 bg-white px-4 pt-5 pb-7.5'>
-        <Skeleton className='h-[50dvh] w-full' />
+        <Skeleton className='h-[60dvh] w-full' />
         <div className='flex flex-col gap-5'>
           <Skeleton className='h-8 w-full' />
           <div className='flex flex-col gap-3'>
@@ -65,7 +65,7 @@ const PerformanceDetailSummary = ({
       <div className='flex flex-col gap-5 bg-white px-4 pt-5 pb-7.5'>
         {/* 공연 포스터 */}
         <div>
-          <div className='flex max-h-[60dvh] justify-center'>
+          <div className='flex max-h-[65dvh] justify-center'>
             <Image
               src={performanceDetail.poster || ''}
               alt={performanceDetail.title || ''}
