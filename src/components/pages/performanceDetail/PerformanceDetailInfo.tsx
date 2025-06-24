@@ -46,7 +46,11 @@ const PerformanceDetailInfo = ({
       },
       {
         label: '공연 런타임',
-        value: performanceDetail?.runtime || '정보 없음',
+        value:
+          performanceDetail?.runtime === undefined
+          || performanceDetail?.runtime.trim() === ''
+            ? '정보 없음'
+            : performanceDetail?.runtime,
       },
       { label: '관람 연령', value: performanceDetail.age || '정보 없음' },
       { label: '공연 상태', value: performanceDetail.state || '정보 없음' },
@@ -101,24 +105,29 @@ const PerformanceDetailInfo = ({
         label: '제작사',
         value: (
           <div className='flex flex-col gap-1.5'>
-            {performanceDetail.productionCompany?.map((company: string) => (
-              <p key={company}>{company}</p>
-            ))}
+            {performanceDetail.productionCompany === undefined
+            || performanceDetail.productionCompany.length === 0
+            || performanceDetail.productionCompany[0].trim() === ''
+              ? '정보 없음'
+              : performanceDetail.productionCompany?.map((company: string) => (
+                  <p key={company}>{company}</p>
+                ))}
           </div>
         ),
       },
       {
         label: '기획사',
-        value:
-          performanceDetail.agency?.length === 0 ? (
-            '정보 없음'
-          ) : (
-            <div className='flex flex-col gap-1.5'>
-              {performanceDetail.agency?.map((agency: string) => (
-                <span key={agency}>{agency}</span>
-              ))}
-            </div>
-          ),
+        value: (
+          <div className='flex flex-col gap-1.5'>
+            {performanceDetail.agency === undefined
+            || performanceDetail.agency.length === 0
+            || performanceDetail.agency[0].trim() === ''
+              ? '정보 없음'
+              : performanceDetail.agency?.map((agency: string) => (
+                  <span key={agency}>{agency}</span>
+                ))}
+          </div>
+        ),
       },
     ];
   }, [performanceDetail]);
