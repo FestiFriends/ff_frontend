@@ -90,21 +90,23 @@ const SlideCard = (props: SlideCardProps) => {
         },
       })}
       className={cn(
+        'flex w-full flex-col rounded-2xl bg-gray-25 p-5',
         'flex w-full max-w-screen flex-col rounded-2xl bg-gray-25 p-5',
         (open || openToClose) && 'gap-4'
       )}
     >
       <div className='flex gap-4'>
-        <div className='relative h-[126px] w-[94px] shrink-0 overflow-hidden rounded-12'>
+        <div className='relative h-[112px] w-[84px] shrink-0 overflow-hidden rounded-[12px]'>
           <Image
             src={groupInfo.performance.poster}
             alt={groupInfo.performance.title}
-            width={94}
-            height={126}
-            sizes='94px'
+            width={84}
+            height={112}
+            sizes='84px'
             className='object-cover'
           />
         </div>
+
         <div className='flex w-full flex-1 flex-col justify-between overflow-hidden'>
           <div className='flex items-center justify-between'>
             <span className='flex items-center gap-1 text-14_M text-gray-600'>
@@ -113,6 +115,7 @@ const SlideCard = (props: SlideCardProps) => {
             </span>
             <p className='text-12_M text-gray-600'>{formatDateRange()}</p>
           </div>
+
           <div className='flex flex-col gap-1'>
             <h2 className='truncate text-12_B text-gray-950'>
               {groupInfo.performance.title}
@@ -121,6 +124,7 @@ const SlideCard = (props: SlideCardProps) => {
               {groupInfo.groupTitle}
             </h1>
           </div>
+
           <div className='flex flex-col gap-2.5'>
             <div className='flex items-center justify-between'>
               <p className='text-14_M text-gray-700'>
@@ -135,6 +139,7 @@ const SlideCard = (props: SlideCardProps) => {
                 <span>{open ? '닫기' : '더보기'}</span>
               </button>
             </div>
+
             <ProgressBar
               current={
                 type === 'review' ? props.reviewsCount : groupInfo.memberCount
@@ -147,6 +152,7 @@ const SlideCard = (props: SlideCardProps) => {
           </div>
         </div>
       </div>
+
       <ScrollArea
         className={cn(
           'transition-all duration-300',
