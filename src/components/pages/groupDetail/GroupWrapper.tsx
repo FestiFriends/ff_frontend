@@ -2,6 +2,7 @@
 
 import StateNotice from '@/components/common/StateNotice/StateNotice';
 import { useGetGroupInfo } from '@/hooks/groupHooks/groupHooks';
+import { renderErrorNotice } from '@/hooks/useErrorNoticePreset/useErrorNoticePreset';
 import { useAuthStore } from '@/providers/AuthStoreProvider';
 import GroupBlurredContainer from './GroupBlurredContainer';
 import GroupInfo from './GroupInfo';
@@ -14,16 +15,30 @@ interface GroupWrapperProps {
 
 const GroupWrapper = ({ groupId }: GroupWrapperProps) => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-  const { data: groupInfo, isPending, isError } = useGetGroupInfo(groupId);
+  const {
+    data: groupInfo,
+    isPending,
+    isError,
+    error,
+  } = useGetGroupInfo(groupId);
   const isMember = groupInfo?.data?.isMember;
 
-  if (isError) {
+  const isExpired =
+    groupInfo?.data?.endDate && new Date(groupInfo.data.endDate) < new Date();
+
+  if (!isPending && isExpired) {
     return (
-      <StateNotice
-        preset='notfound'
-        message='존재하지 않는 모임입니다.'
-      />
+      <div className='h-[80vh]'>
+        <StateNotice
+          preset='groupExpired'
+          height='100%'
+        />
+      </div>
     );
+  }
+
+  if (isError) {
+    return <div className='h-[80vh]'>{renderErrorNotice(error, '100%')}</div>;
   }
 
   return (

@@ -7,10 +7,13 @@ import ModalCancel from '@/components/common/Modal/ModalCancel';
 import ModalContent from '@/components/common/Modal/ModalContent';
 import ModalTrigger from '@/components/common/Modal/ModalTrigger';
 import SlideCard from '@/components/common/SlideCard/SlideCard';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   useGetApplications,
   usePatchApplication,
 } from '@/hooks/groupsManagementsHooks/groupsManagementsHooks';
+import { renderErrorNotice } from '@/hooks/useErrorNoticePreset/useErrorNoticePreset';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
 import { ApplicationGroupInfo } from '@/types/application';
 import { ApplicationStatus } from '@/types/enums';
@@ -20,11 +23,18 @@ import {
   formatApplications,
 } from '@/utils/formatApplicationData';
 import ApplicationComponent from './Application/Application';
+import ApplicationsSkeleton from './ApplicationsSkeleton';
 
 const Applications = () => {
   const router = useRouter();
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
-    useGetApplications();
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isPending,
+  } = useGetApplications();
   const [actionType, setActionType] = useState<'accept' | 'reject' | null>(
     null
   );
@@ -40,17 +50,8 @@ const Applications = () => {
     isFetchingNextPage
   );
 
-  if (isPending) {
-    return (
-      <div className='flex h-full items-center justify-center'>
-        <p>로딩 중...</p>
-      </div>
-    );
-  }
-
-  const groups = formatApplications(
-    data?.pages[0]?.data as ApplicationsApiResponse
-  );
+  const groups =
+    data && formatApplications(data?.pages[0]?.data as ApplicationsApiResponse);
 
   const handleAcceptClick = (applicationId: string) => {
     setActionType('accept');
@@ -85,6 +86,22 @@ const Applications = () => {
   const handleCardClick = (groupId: string) => {
     router.push(`/groups/${groupId}`);
   };
+
+  if (isPending && !data) {
+    return <ApplicationsSkeleton />;
+  }
+
+  if (groups?.length === 0) {
+    return (
+      <div className='flex h-full items-center justify-center'>
+        <StateNotice preset='applicationsEmpty' />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>{renderErrorNotice(error, '100%')}</div>;
+  }
 
   return (
     <div className='flex flex-col items-center gap-5 px-4'>
@@ -127,17 +144,30 @@ const Applications = () => {
                   e.stopPropagation();
                 }}
               >
-                <p>아직 신청자가 없습니다</p>
+                <p>받은 신청서가 없습니다.</p>
               </div>
             )
           }
         />
       ))}
-      {isFetchingNextPage && <p>로딩 중...</p>}
-      <div ref={bottomRef} />
+      {hasNextPage && (
+        <>
+          {isFetchingNextPage && (
+            // TODO: 다음 꺼 스켈레톤
+            <Skeleton className='h-10 w-full rounded-[16px]' />
+          )}
+          <div
+            ref={bottomRef}
+            className='h-10'
+          />
+        </>
+      )}
       <Modal>
         <ModalTrigger>
-          <button ref={triggerRef}></button>
+          <button
+            ref={triggerRef}
+            className='hidden'
+          ></button>
         </ModalTrigger>
         <ModalContent className='flex w-[343px] flex-col rounded-2xl bg-white p-5 pt-11'>
           <p className='mb-[30px] flex w-full justify-center text-16_B text-black'>

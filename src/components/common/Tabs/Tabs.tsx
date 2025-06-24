@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 
 interface TabsProps {
@@ -9,55 +8,29 @@ interface TabsProps {
   onTabChange: (tab: string) => void;
   className?: string;
 }
-
-const Tabs = ({ tabs, activeTab, onTabChange, className }: TabsProps) => {
-  const [underline, setUnderline] = useState({ left: 0, width: 0 });
-  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
-
-  useEffect(() => {
-    const activeIndex = tabs.findIndex((t) => t === activeTab);
-    const activeTabEl = tabRefs.current[activeIndex];
-    if (activeTabEl) {
-      const fullWidth = activeTabEl.offsetWidth;
-      const underlineWidth = fullWidth * 0.6;
-      const underlineLeft =
-        activeTabEl.offsetLeft + (fullWidth - underlineWidth) / 2;
-
-      setUnderline({
-        left: underlineLeft,
-        width: underlineWidth,
-      });
-    }
-  }, [activeTab, tabs]);
-
-  return (
-    <div className={cn('relative border-b border-gray-100', className)}>
-      <div className='flex h-full justify-between'>
-        {tabs.map((tab, i) => (
-          <button
-            key={tab}
-            ref={(el) => void (tabRefs.current[i] = el)}
-            onClick={() => onTabChange(tab)}
-            className={`flex-[1_0_0] cursor-pointer items-center justify-center px-2 py-3.5 leading-normal tracking-[-0.35px] transition-all ${
-              activeTab === tab
-                ? 'text-14_B text-black'
-                : 'text-14_M text-gray-500'
-            }`}
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
-
-      <div
-        className='absolute bottom-0 h-[3px] bg-black transition-all duration-300 ease-in-out'
-        style={{
-          width: underline.width,
-          transform: `translateX(${underline.left}px)`,
-        }}
-      />
+const Tabs = ({ tabs, activeTab, onTabChange, className }: TabsProps) => (
+  <div className={cn('relative', className)}>
+    <div className='flex h-full justify-between border-b border-gray-100'>
+      {tabs.map((tab) => (
+        <button
+          key={tab}
+          onClick={() => onTabChange(tab)}
+          className={`relative flex-[1_0_0] cursor-pointer items-center justify-center px-2 py-3.5 leading-normal tracking-[-0.35px] transition-all ${
+            activeTab === tab
+              ? 'text-14_B text-gray-950'
+              : 'text-14_M text-gray-950'
+          }`}
+        >
+          {tab}
+          <span
+            className={`absolute bottom-0 left-1/2 block h-[3px] -translate-x-1/2 transform ${
+              activeTab === tab ? 'bg-gray-950' : 'bg-transparent'
+            } w-20`}
+          />
+        </button>
+      ))}
     </div>
-  );
-};
+  </div>
+);
 
 export default Tabs;

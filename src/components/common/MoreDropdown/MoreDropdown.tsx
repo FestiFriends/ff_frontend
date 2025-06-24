@@ -38,10 +38,7 @@ const MoreDropdown = ({
         <MoreIcon className='h-6 w-6 text-gray-400' />
       </DropdownTrigger>
       <DropdownContent
-        className={cn(
-          'right-6 -mt-8 w-[106px] rounded-[12px]',
-          contentClassName
-        )}
+        className={cn('right-6 -mt-8 w-[106px] rounded-12', contentClassName)}
       >
         {Array.from(items, (item, index) => (
           <DropdownItem

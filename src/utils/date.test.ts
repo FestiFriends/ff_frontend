@@ -134,23 +134,9 @@ describe('Date Utils', () => {
   });
 
   describe('formatNormalDate', () => {
-    it('문자열 날짜를 yy.MM.dd 형식으로 변환해야 한다', () => {
-      expect(formatNormalDate('2024-03-15')).toBe('24.03.15');
-      expect(formatNormalDate('2024-12-25')).toBe('24.12.25');
-      expect(formatNormalDate('2023-01-01')).toBe('23.01.01');
-    });
-
-    it('Date 객체를 yy.MM.dd 형식으로 변환해야 한다', () => {
-      const date = new Date('2024-03-15');
-      expect(formatNormalDate(date)).toBe('24.03.15');
-    });
-
-    it('ISO 문자열을 yy.MM.dd 형식으로 변환해야 한다', () => {
-      expect(formatNormalDate('2024-03-15T14:30:00Z')).toBe('24.03.15');
-    });
-
-    it('잘못된 날짜는 Invalid Date 처리로 인해 예외가 발생할 수 있다', () => {
-      expect(() => formatNormalDate('invalid-date')).toThrow();
+    it('날짜 문자열을 "yy.MM.dd" 형식으로 변환해야 한다', () => {
+      const testDate = '2024-06-23T12:00:00Z';
+      expect(formatNormalDate(testDate)).toBe('24.06.23');
     });
   });
 

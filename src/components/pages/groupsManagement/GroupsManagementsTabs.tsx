@@ -6,7 +6,7 @@ import Applications from './Applications';
 import AppliedGroups from './AppliedGroups';
 import JoinedGroups from './JoinedGroups';
 
-const tabs = ['신청한 모임', '참가 중인 모임', '받은 신청서'];
+const tabs = ['참가 중인 모임', '신청한 모임', '받은 신청서'];
 
 const GroupsManagementsTabs = () => {
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
@@ -20,8 +20,8 @@ const GroupsManagementsTabs = () => {
         />
       </div>
       <div className='mt-[71px] mb-5'>
-        {selectedTab === '신청한 모임' && <AppliedGroups />}
         {selectedTab === '참가 중인 모임' && <JoinedGroups />}
+        {selectedTab === '신청한 모임' && <AppliedGroups />}
         {selectedTab === '받은 신청서' && <Applications />}
       </div>
     </>

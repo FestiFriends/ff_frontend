@@ -22,6 +22,7 @@ import {
 import { useDeletePost, usePinPost } from '@/hooks/postHooks/postHook';
 import { ReportTarget } from '@/types/enums';
 import { Post } from '@/types/post';
+import { formatPostDate } from '@/utils/date';
 
 interface PostCardProps {
   post: Post;
@@ -146,7 +147,7 @@ const PostCard = ({ post, type = 'posts', children }: PostCardProps) => {
                   </span>
                 </button>
                 <div className='flex items-center gap-1 text-13_M text-gray-500'>
-                  <span>{createdAt}</span>
+                  <span>{formatPostDate(createdAt)}</span>
                   {isPinned && <span>· 공지</span>}
                 </div>
               </div>
@@ -212,7 +213,10 @@ const PostCard = ({ post, type = 'posts', children }: PostCardProps) => {
 
       <Modal>
         <ModalTrigger>
-          <button ref={triggerRef}></button>
+          <button
+            ref={triggerRef}
+            className='hidden'
+          ></button>
         </ModalTrigger>
         <ModalContent className='flex w-[343px] flex-col rounded-2xl bg-white p-5 pt-11'>
           <p className='mb-[30px] flex w-full justify-center text-16_B text-black'>
@@ -239,7 +243,10 @@ const PostCard = ({ post, type = 'posts', children }: PostCardProps) => {
         targetId={author.id || ''}
         category={ReportTarget.POST}
       >
-        <button ref={reportTriggerRef}></button>
+        <button
+          ref={reportTriggerRef}
+          className='hidden'
+        ></button>
       </CreateReportModal>
     </div>
   );

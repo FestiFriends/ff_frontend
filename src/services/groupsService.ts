@@ -1,6 +1,7 @@
 import QueryString from 'qs';
 import apiFetcher from '@/lib/apiFetcher';
 import { ApiResponse } from '@/types/api';
+import { CursorResponse } from '@/types/api';
 import { Gender } from '@/types/enums';
 import {
   GetGroupsParams,
@@ -17,7 +18,6 @@ import {
   UpdateGroupApiRequest,
 } from '@/types/group';
 import { Post } from '@/types/post';
-import { formatPostDate } from '@/utils/date';
 import { PerformanceGroupsApiResponse } from '@/utils/formatGroupCardData';
 
 const formatDateWithKoreanTimezone = (date: Date): string => {
@@ -34,6 +34,12 @@ const formatDateWithKoreanTimezone = (date: Date): string => {
 interface GroupPostsResponse {
   groupId: number;
   posts: Post[];
+}
+
+interface GetGroupPostsParams {
+  groupId: string;
+  cursorId?: number;
+  size?: number;
 }
 
 export const groupsApi = {
@@ -56,17 +62,21 @@ export const groupsApi = {
       })
     ).data,
 
-  getGroupPosts: async ({ groupId }: { groupId: string }) => {
-    const res = await apiFetcher.get<{ data: GroupPostsResponse }>(
-      `/api/v1/groups/${groupId}/posts`
-    );
-    return {
-      ...res.data.data,
-      posts: res.data.data.posts.map((post) => ({
-        ...post,
-        createdAt: formatPostDate(post.createdAt),
-      })),
-    };
+  getGroupPosts: async ({
+    groupId,
+    cursorId,
+    size = 20,
+  }: GetGroupPostsParams) => {
+    const res = await apiFetcher.get<
+      { data: GroupPostsResponse } & CursorResponse
+    >(`/api/v1/groups/${groupId}/posts`, {
+      params: {
+        cursorId,
+        size,
+      },
+    });
+
+    return res.data;
   },
 
   createGroup: async (performanceId: string, data: CreateGroupFormData) => {

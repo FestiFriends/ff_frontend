@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils';
 const NAV_ITEM = [
   { href: '/', name: '홈', Icon: HomeIcon },
   { href: '/calendar', name: '캘린더', Icon: CalendarIcon },
-  { href: '/groups/managements', name: '나의모임', Icon: GroupIcon },
+  { href: '/groups/managements', name: '나의 모임', Icon: GroupIcon },
   { href: '/favorite', name: '찜', Icon: LikeIcon },
   { href: '/mypage', name: '마이', Icon: UserIcon },
 ];
@@ -57,7 +57,7 @@ const TabBar = ({ children }: TabBarProps) => {
             <NavLink
               key={item.name}
               href={item.href}
-              className='flex h-11 w-11 flex-col items-center gap-1.5 text-gray-400'
+              className='flex h-11 w-12 flex-col items-center gap-1.5 text-gray-400'
               activeClassName='text-primary-red'
               end
             >

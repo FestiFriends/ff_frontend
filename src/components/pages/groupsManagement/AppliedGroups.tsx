@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/common/Button/Button';
 import Modal from '@/components/common/Modal/Modal';
@@ -6,16 +6,20 @@ import ModalAction from '@/components/common/Modal/ModalAction';
 import ModalCancel from '@/components/common/Modal/ModalCancel';
 import ModalContent from '@/components/common/Modal/ModalContent';
 import ModalTrigger from '@/components/common/Modal/ModalTrigger';
+import StateNotice from '@/components/common/StateNotice/StateNotice';
 import Toast from '@/components/common/Toast/Toast';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   useCancelApplication,
   useConfirmApplication,
   useGetAppliedGroups,
 } from '@/hooks/groupsManagementsHooks/groupsManagementsHooks';
+import { renderErrorNotice } from '@/hooks/useErrorNoticePreset/useErrorNoticePreset';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll/useInfiniteScroll';
 import { ApplicationStatus, ApplicationStatusType } from '@/types/enums';
 import { formatAppliedGroups } from '@/utils/formatApplicationData';
 import AppliedGroup from './AppliedGroup/AppliedGroup';
+import AppliedGroupsSkeleton from './AppliedGroupsSkeleton';
 
 const AppliedGroups = () => {
   const router = useRouter();
@@ -29,23 +33,23 @@ const AppliedGroups = () => {
   const primaryText = (status: ApplicationStatusType) =>
     status === ApplicationStatus.ACCEPTED ? '참가 확정' : '신청 취소';
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
-    useGetAppliedGroups();
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isPending,
+  } = useGetAppliedGroups();
+
+  const groups =
+    data && data?.pages.flatMap((page) => formatAppliedGroups(page.data));
 
   const bottomRef = useInfiniteScroll<HTMLDivElement>(
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage
   );
-
-  useEffect(() => {}, [data]);
-  if (isPending) {
-    return (
-      <div className='flex h-full items-center justify-center'>
-        <p>로딩 중...</p>
-      </div>
-    );
-  }
 
   const routeToGroupPage = (groupId: string) => {
     router.push(`/groups/${groupId}`);
@@ -72,34 +76,63 @@ const AppliedGroups = () => {
     }
   };
 
+  if (isPending && !data) {
+    return <AppliedGroupsSkeleton />;
+  }
+
+  if (groups?.length === 0) {
+    return (
+      <div className='flex h-full items-center justify-center'>
+        <StateNotice preset='appliedGroupsEmpty' />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className='flex h-full items-center justify-center'>
+        {renderErrorNotice(error, '70vh')}
+      </div>
+    );
+  }
+
   return (
     <div className='flex flex-col items-center gap-5 px-4'>
-      {data?.pages.flatMap((page) =>
-        formatAppliedGroups(page.data).map((group) => (
-          <AppliedGroup
-            key={group.applicationId}
-            applicationData={group}
-            primaryButtonText={primaryText(group.status)}
-            onCardClick={() => routeToGroupPage(group.groupId)}
-            onPrimaryClick={() =>
-              handlePrimaryClick(group.applicationId, group.status)
-            }
-            {...(group.status === ApplicationStatus.ACCEPTED && {
-              secondaryButtonText: '신청 취소',
-              onSecondaryClick: () => handleSecondaryClick(group.applicationId),
-            })}
-          />
-        ))
-      )}
-      {hasNextPage && (
-        <div
-          ref={bottomRef}
-          className='h-10'
+      {groups?.map((group) => (
+        <AppliedGroup
+          key={group.applicationId}
+          applicationData={group}
+          primaryButtonText={primaryText(group.status)}
+          onCardClick={() => routeToGroupPage(group.groupId)}
+          onPrimaryClick={() =>
+            handlePrimaryClick(group.applicationId, group.status)
+          }
+          {...(group.status === ApplicationStatus.ACCEPTED && {
+            secondaryButtonText: '신청 취소',
+            onSecondaryClick: () => handleSecondaryClick(group.applicationId),
+          })}
         />
+      ))}
+
+      {hasNextPage && (
+        <>
+          {isFetchingNextPage && (
+            // TODO: 다음 꺼 스켈레톤
+            <Skeleton className='h-10 w-full rounded-[16px]' />
+          )}
+          <div
+            ref={bottomRef}
+            className='h-10'
+          />
+        </>
       )}
+
       <Modal>
         <ModalTrigger>
-          <button ref={triggerRef}></button>
+          <button
+            ref={triggerRef}
+            className='hidden'
+          ></button>
         </ModalTrigger>
         <ModalContent className='flex w-[343px] flex-col rounded-2xl bg-white p-5 pt-11'>
           <p className='mb-[30px] flex w-full justify-center text-16_B text-black'>

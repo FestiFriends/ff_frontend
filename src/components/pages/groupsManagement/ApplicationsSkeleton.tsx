@@ -1,8 +1,8 @@
 import React from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
-const ReviewCardSkeleton = () => (
-  <div className='flex flex-col items-center gap-5'>
+const ApplicationsSkeleton = () => (
+  <div className='flex flex-col items-center gap-5 px-4'>
     {[1, 2, 3].map((i) => (
       <div
         key={i}
@@ -22,4 +22,4 @@ const ReviewCardSkeleton = () => (
   </div>
 );
 
-export default ReviewCardSkeleton;
+export default ApplicationsSkeleton;

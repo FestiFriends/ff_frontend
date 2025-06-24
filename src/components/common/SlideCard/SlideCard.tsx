@@ -1,8 +1,6 @@
 'use client';
 
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { format } from 'date-fns';
-import { ko } from 'date-fns/locale';
 import Image from 'next/image';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
@@ -12,6 +10,7 @@ import {
 import { cn } from '@/lib/utils';
 import { ApplicationGroupInfo } from '@/types/application';
 import { ReviewGroupInfo } from '@/types/reviews';
+import { formatNormalDate } from '@/utils/date';
 import ProgressBar from '../ProgressBar/ProgressBar';
 
 interface BaseProps {
@@ -64,6 +63,20 @@ const SlideCard = (props: SlideCardProps) => {
 
   const Icon = GroupCategoryIconLabels[groupInfo.category];
 
+  const formatDateRange = () => {
+    const isReview = type === 'review';
+    const startDate = isReview
+      ? groupInfo.groupStartDate.split('T')[0]
+      : groupInfo.startDate;
+    const endDate = isReview
+      ? groupInfo.groupEndDate.split('T')[0]
+      : groupInfo.endDate;
+
+    return startDate === endDate
+      ? formatNormalDate(endDate)
+      : `${formatNormalDate(startDate)}~${formatNormalDate(endDate)}`;
+  };
+
   return (
     <div
       {...(type === 'application' && {
@@ -82,40 +95,24 @@ const SlideCard = (props: SlideCardProps) => {
       )}
     >
       <div className='flex gap-4'>
-        <div className='relative h-[112px] w-[84px] shrink-0 overflow-hidden rounded-[12px]'>
+        <div className='relative h-[126px] w-[94px] shrink-0 overflow-hidden rounded-12'>
           <Image
             src={groupInfo.performance.poster}
             alt={groupInfo.performance.title}
-            width={84}
-            height={112}
-            sizes='84px'
+            width={94}
+            height={126}
+            sizes='94px'
             className='object-cover'
           />
         </div>
-
         <div className='flex w-full flex-1 flex-col justify-between overflow-hidden'>
           <div className='flex items-center justify-between'>
             <span className='flex items-center gap-1 text-14_M text-gray-600'>
               {<Icon className='h-4 w-4' />}
               {GroupCategoryLabels[groupInfo.category]}
             </span>
-
-            <p className='text-12_M text-gray-600'>
-              {format(
-                type === 'review'
-                  ? groupInfo.groupStartDate
-                  : groupInfo.startDate,
-                'yy.MM.dd'
-              )}{' '}
-              ~{' '}
-              {format(
-                type === 'review' ? groupInfo.groupEndDate : groupInfo.endDate,
-                'yy.MM.dd',
-                { locale: ko }
-              )}
-            </p>
+            <p className='text-12_M text-gray-600'>{formatDateRange()}</p>
           </div>
-
           <div className='flex flex-col gap-1'>
             <h2 className='truncate text-12_B text-gray-950'>
               {groupInfo.performance.title}
@@ -124,7 +121,6 @@ const SlideCard = (props: SlideCardProps) => {
               {groupInfo.groupTitle}
             </h1>
           </div>
-
           <div className='flex flex-col gap-2.5'>
             <div className='flex items-center justify-between'>
               <p className='text-14_M text-gray-700'>
@@ -139,7 +135,6 @@ const SlideCard = (props: SlideCardProps) => {
                 <span>{open ? '닫기' : '더보기'}</span>
               </button>
             </div>
-
             <ProgressBar
               current={
                 type === 'review' ? props.reviewsCount : groupInfo.memberCount
@@ -152,7 +147,6 @@ const SlideCard = (props: SlideCardProps) => {
           </div>
         </div>
       </div>
-
       <ScrollArea
         className={cn(
           'transition-all duration-300',

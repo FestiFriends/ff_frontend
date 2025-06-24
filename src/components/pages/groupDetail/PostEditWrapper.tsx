@@ -2,13 +2,13 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { Toast } from '@/components/common';
 import DetailHeader from '@/components/common/DetailHeader/DetailHeader';
 import TextareaInput from '@/components/common/TextareaInput/TextareaInput';
 import { UploadedImage, useImageUploader } from '@/hooks';
 import { useGetPost, useUpdatePost } from '@/hooks/postHooks/postHook';
-import { useGetPresignedURL } from '@/hooks/useGetPresignedUrl/useGetPresignedUrl';
+import { useUploadMultipleFiles } from '@/hooks/useGetPresignedUrl/useGetPresignedUrl';
 import { hasProfanity } from '@/lib/utils';
-import { imagesApi } from '@/services/imagesService';
 import PinCheckbox from './PinCheckbox/PinCheckbox';
 import PostImageUploader from './PostImageUploader/PostImageUploader';
 
@@ -27,7 +27,10 @@ const PostEditWrapper = () => {
   const [hasImage, setHasImage] = useState(false);
   const [originalImages, setOriginalImages] = useState<UploadedImage[]>([]);
   const [isPinned, setIsPinned] = useState(false);
-  const { mutateAsync: getPresignedURL } = useGetPresignedURL();
+  const [originalIsPinned, setOriginalIsPinned] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const { mutateAsync: uploadMultipleFiles } = useUploadMultipleFiles();
   const { mutateAsync: updatePost } = useUpdatePost();
   const {
     upload,
@@ -40,25 +43,29 @@ const PostEditWrapper = () => {
   const isImagesChanged =
     originalImages.length !== stagedImages.length
     || originalImages.some((img, idx) => img.url !== stagedImages[idx]?.url);
+  const isPinnedChanged = isPinned !== originalIsPinned;
+
   const canSubmit = useMemo(
     () =>
       isValidText
       && content.length > 0
-      && (isContentChanged || isImagesChanged),
-    [content, isValidText, isContentChanged, isImagesChanged]
+      && (isContentChanged || isImagesChanged || isPinnedChanged),
+    [content, isValidText, isContentChanged, isImagesChanged, isPinnedChanged]
   );
 
   useEffect(() => {
-    if (post) {
+    if (post && !isInitialized) {
       setContent(post.content);
       setIsPinned(post.isPinned);
+      setOriginalIsPinned(post.isPinned);
       const originalImagesUrls = post.images?.map((img) => img.src.toString());
       defaultUrlUpload(originalImagesUrls || []);
+      setIsInitialized(true);
     }
     if (post?.images && post.images.length > 0) {
       setHasImage(true);
     }
-  }, [post, defaultUrlUpload]);
+  }, [post, defaultUrlUpload, isInitialized]);
 
   useEffect(() => {
     if (originalImages?.length === 0 && hasImage) {
@@ -72,55 +79,32 @@ const PostEditWrapper = () => {
   };
 
   const handleSubmit = async () => {
-    let uploadResults: { idx: number; url: string }[] = [];
     try {
-      const uploadPromises = stagedImages
-        .map((img) => {
-          if (!img.file) {
-            return null;
-          }
-          return getPresignedURL(img.file.name).then((res) => {
-            if (res.code !== 200) {
-              throw new Error('URL 생성 실패');
-            }
-            const { presignedUrl } = res.data as { presignedUrl: string };
-            const fileToUpload = img.file;
-            if (!fileToUpload) {
-              throw new Error('파일이 없습니다.');
-            }
-            return imagesApi
-              .uploadImage(presignedUrl, fileToUpload)
-              .then(() => ({
-                idx: stagedImages.indexOf(img),
-                url: presignedUrl.split('?')[0],
-              }));
-          });
-        })
-        .filter(Boolean);
-      uploadResults = (await Promise.all(uploadPromises)) as {
-        idx: number;
-        url: string;
-      }[];
-    } catch (error) {
-      console.error('이미지 업로드 오류:', error);
-      return;
-    }
-    const finalImageObjects = stagedImages.map((img, idx) => {
-      const uploaded = uploadResults.find((r) => r && r.idx === idx);
-      return {
+      const files = stagedImages.map((img) => img.file);
+      const uploadedUrls = await uploadMultipleFiles(files);
+
+      const finalImageObjects = stagedImages.map((img, idx) => ({
         alt: img.file.name,
-        src: uploaded ? uploaded.url : img.url,
-      };
-    });
-    const res = await updatePost({
-      groupId,
-      postId,
-      content,
-      isPinned,
-      images: finalImageObjects,
-    });
-    if ((res.data as { result: boolean }).result === true) {
-      router.replace(`/groups/${groupId}/posts/${postId}`);
+        src: uploadedUrls[idx],
+      }));
+
+      const res = await updatePost({
+        groupId,
+        postId,
+        content,
+        isPinned,
+        images: finalImageObjects,
+      });
+
+      if ((res.data as { result: boolean }).result === true) {
+        router.replace(`/groups/${groupId}/posts/${postId}`);
+      }
+    } catch (error: unknown) {
+      if (typeof error === 'object' && error !== null && 'message' in error) {
+        setMessage((error as { message: string }).message);
+      } else {
+        setMessage('게시글 수정 중 오류가 발생했습니다.');
+      }
     }
   };
 
@@ -162,6 +146,12 @@ const PostEditWrapper = () => {
           onImageRemove={remove}
         />
       </div>
+      {message && (
+        <Toast
+          message={message}
+          onClose={() => {}}
+        />
+      )}
     </div>
   );
 };

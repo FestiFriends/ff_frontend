@@ -56,14 +56,13 @@ const NormalTagInput: React.FC<TagSelectorProps> = ({
           {tags.map((t) => (
             <span
               key={t}
-              className='flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-sm'
+              className='flex items-center gap-1 rounded-full border border-gray-100 bg-white px-5 py-3 text-16_M text-gray-950'
             >
               {t}
               <button
                 onClick={() => onRemove(t)}
-                className='flex items-center justify-center text-gray-500'
+                className='flex items-center justify-center'
               >
-                {/* // TODO: 아이콘 변경 필요 */}
                 <XIcon className='flex h-4 w-4 items-center justify-center' />
               </button>
             </span>
