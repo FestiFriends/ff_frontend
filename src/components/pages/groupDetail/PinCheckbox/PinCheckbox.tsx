@@ -7,7 +7,7 @@ interface PinCheckboxProps {
 }
 
 const PinCheckbox = ({ isPinned, onClick }: PinCheckboxProps) => (
-  <div className='bg-primary-100 px-4 pt-16 pb-[14.5px]'>
+  <div className='w-full bg-primary-100 px-4 py-[14.5px]'>
     <button
       type='button'
       onClick={onClick}

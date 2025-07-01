@@ -79,55 +79,49 @@ const PostFormWrapper = () => {
   };
 
   return (
-    <>
+    <div className='h-dvh'>
       <DetailHeader
         title='게시글 작성'
         hasRightText='등록'
         onRightClick={handleSubmit}
         rightDisabled={!canSubmit}
       />
-      <div className='flex h-dvh flex-col'>
+
+      <div className='relative flex flex-col'>
         <PinCheckbox
           isPinned={isPinned}
           onClick={handlePinClick}
         />
-        <div className='h-[calc(100dvh-164px)] flex-1 px-4 pt-1 pb-20'>
-          <TextareaInput
-            value={content}
-            onChange={handleChange}
-            maxLength={MAX_TEXTAREA_LENGTH}
-            rows={MAX_TEXTAREA_ROWS}
-            className='border-none p-4 pt-2.5 text-16_M placeholder:text-gray-400'
-            hasBorder={false}
-            isValidText={isValidText}
-            showLength={false}
-            placeholder='내용을 입력해 주세요'
-            showToast={true}
-            showWarning={false}
-          />
-        </div>
-        <div className='fixed bottom-0 w-full'>
-          <PostImageUploader
-            images={uploadedImages}
-            onImageUpload={upload}
-            onImageRemove={remove}
-          />
-        </div>
+        <TextareaInput
+          value={content}
+          onChange={handleChange}
+          maxLength={MAX_TEXTAREA_LENGTH}
+          rows={MAX_TEXTAREA_ROWS}
+          className='border-none px-4 py-5 text-16_M placeholder:text-gray-400'
+          hasBorder={false}
+          isValidText={isValidText}
+          showLength={false}
+          placeholder='내용을 입력해 주세요'
+          showToast={true}
+          showWarning={false}
+        />
       </div>
-      <div className='fixed bottom-0 w-full'>
+
+      <div className='fixed right-0 bottom-0 left-0 w-full'>
         <PostImageUploader
           images={uploadedImages}
           onImageUpload={upload}
           onImageRemove={remove}
         />
       </div>
+
       {message && (
         <Toast
           message={message}
           onClose={handleToastClose}
         />
       )}
-    </>
+    </div>
   );
 };
 
