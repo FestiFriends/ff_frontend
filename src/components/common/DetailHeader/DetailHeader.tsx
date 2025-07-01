@@ -28,40 +28,43 @@ const DetailHeader = ({
   const handleLeftClick = onLeftClick || (() => router.back());
 
   return (
-    <header className='fixed top-0 left-0 z-50 flex h-11 w-full items-center justify-between border-b border-gray-50 bg-white p-4 text-black'>
-      <div className='flex w-1/3 items-center justify-start gap-0.5'>
-        {hasLeftIcon && (
-          <button
-            onClick={handleLeftClick}
-            className='flex items-center'
-          >
-            {hasLeftIcon}
-          </button>
-        )}
-        {hasLeftText && <span className='text-14_B'>{hasLeftText}</span>}
-      </div>
-      <h1 className='w-1/3 text-center text-16_B'>{title}</h1>
-      <div className='flex w-1/3 items-center justify-end gap-0.5'>
-        {hasRightIcon && (
-          <button
-            onClick={onRightClick}
-            className='flex items-center'
-            disabled={rightDisabled}
-          >
-            {hasRightIcon}
-          </button>
-        )}
-        {hasRightText && (
-          <button
-            onClick={onRightClick}
-            className='text-14_B'
-            disabled={rightDisabled}
-          >
-            {hasRightText}
-          </button>
-        )}
-      </div>
-    </header>
+    <>
+      <header className='fixed top-0 left-0 z-50 flex h-11 w-full items-center justify-between border-b border-gray-50 bg-white p-4 text-black'>
+        <div className='flex items-center justify-start gap-0.5'>
+          {hasLeftIcon && (
+            <button
+              onClick={handleLeftClick}
+              className='flex items-center'
+            >
+              {hasLeftIcon}
+            </button>
+          )}
+          {hasLeftText && <span className='text-14_B'>{hasLeftText}</span>}
+        </div>
+        <h1 className='text-center text-16_B'>{title}</h1>
+        <div className='flex items-center justify-end gap-0.5'>
+          {hasRightIcon && (
+            <button
+              onClick={onRightClick}
+              className='flex items-center'
+              disabled={rightDisabled}
+            >
+              {hasRightIcon}
+            </button>
+          )}
+          {hasRightText && (
+            <button
+              onClick={onRightClick}
+              className='text-14_B'
+              disabled={rightDisabled}
+            >
+              {hasRightText}
+            </button>
+          )}
+        </div>
+      </header>
+      <div className='h-11' />
+    </>
   );
 };
 
