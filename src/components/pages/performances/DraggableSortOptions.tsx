@@ -48,7 +48,7 @@ const DraggableSortOptions = () => {
     <>
       <div
         ref={dragScrollRef}
-        className='z-20 scrollbar-hide flex w-full cursor-grab gap-4 overflow-x-auto px-4 py-4 select-none active:cursor-grabbing'
+        className='z-20 scrollbar-hide flex w-full cursor-grab gap-2 overflow-x-auto px-4 py-4 select-none active:cursor-grabbing'
       >
         {Object.values(DROPDOWN_OPTIONS).map((option) => (
           <CustomSortDropdown

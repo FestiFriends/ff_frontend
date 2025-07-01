@@ -13,8 +13,8 @@ const PerformancesPage = () => (
       <Search />
       <DraggableSortOptions />
     </>
-    <ScrollArea className='h-[calc(100dvh-202.6px)] p-4 pt-0'>
-      <div className='max-w-[calc(100dvw-32px)]'>
+    <ScrollArea className='h-[calc(100dvh-202.6px)] px-4'>
+      <div className='max-w-[calc(100dvw-32px)] pb-4'>
         <PerformanceListContainer />
       </div>
     </ScrollArea>
