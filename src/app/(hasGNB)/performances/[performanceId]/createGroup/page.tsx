@@ -84,7 +84,7 @@ const CreateGroupPage = () => {
           <h1 className='sr-only'>모임 개설</h1>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className='mx-auto flex flex-col gap-7.5 p-6 pb-24'
+            className='mx-auto flex flex-col gap-7.5 px-4 py-6'
           >
             <LabeledWrapper label='공연 이름'>
               <FormText
@@ -216,20 +216,19 @@ const CreateGroupPage = () => {
                 }}
               />
             </LabeledWrapper>
-
-            <div className='fixed right-0 bottom-0 left-0 z-20 bg-white p-6'>
-              <FormActions
-                onSubmit={handleSubmit(onSubmit)}
-                onReset={onReset}
-                isValid={isValid}
-                isSubmitting={createGroupMutation.isPending}
-                submitError={createGroupMutation.error?.message}
-                showSuccessToast={createGroupMutation.isSuccess}
-              />
-            </div>
           </form>
         </div>
       </ScrollArea>
+      <div className='sticky right-0 bottom-0 left-0 z-20 bg-white px-4 py-5'>
+        <FormActions
+          onSubmit={handleSubmit(onSubmit)}
+          onReset={onReset}
+          isValid={isValid}
+          isSubmitting={createGroupMutation.isPending}
+          submitError={createGroupMutation.error?.message}
+          showSuccessToast={createGroupMutation.isSuccess}
+        />
+      </div>
     </>
   );
 };
