@@ -93,8 +93,9 @@ const PostDetailWrapper = () => {
         hasLeftIcon={<BackIcon />}
         onLeftClick={() => router.back()}
       />
-      <ScrollArea className='h-[calc(100dvh-44px)]'>
-        <div className='flex w-full flex-col overflow-auto px-4 pt-11 pb-[89px]'>
+
+      <ScrollArea className='h-[calc(100dvh-120px)]'>
+        <div className='flex w-full flex-col px-4 pb-[89px]'>
           <PostCard
             post={post}
             type='detail'
