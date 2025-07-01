@@ -113,24 +113,25 @@ const PostEditWrapper = () => {
   };
 
   return (
-    <div className='flex h-dvh flex-col'>
+    <div className='h-dvh'>
       <DetailHeader
         title='게시글 수정'
         hasRightText='수정'
         onRightClick={handleSubmit}
         rightDisabled={!canSubmit}
       />
-      <PinCheckbox
-        isPinned={isPinned}
-        onClick={handlePinClick}
-      />
-      <div className='h-[calc(100dvh-164px)] flex-1 px-4 pt-1 pb-20'>
+
+      <div className='relative flex flex-col'>
+        <PinCheckbox
+          isPinned={isPinned}
+          onClick={handlePinClick}
+        />
         <TextareaInput
           value={content}
           onChange={handleChange}
           maxLength={MAX_TEXTAREA_LENGTH}
           rows={MAX_TEXTAREA_ROWS}
-          className='h-full border-none px-4 py-2.5 text-16_M placeholder:text-gray-400'
+          className='border-none px-4 py-5 text-16_M placeholder:text-gray-400'
           hasBorder={false}
           isValidText={isValidText}
           showLength={false}
@@ -139,13 +140,15 @@ const PostEditWrapper = () => {
           showWarning={false}
         />
       </div>
-      <div className='fixed bottom-0 w-full'>
+
+      <div className='sticky right-0 bottom-0 left-0 w-full'>
         <PostImageUploader
           images={stagedImages}
           onImageUpload={upload}
           onImageRemove={remove}
         />
       </div>
+
       {message && (
         <Toast
           message={message}
