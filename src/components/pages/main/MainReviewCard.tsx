@@ -32,7 +32,7 @@ const MainReviewCard = ({
         {/* <span className='flex h-4 items-center text-13_M leading-normal tracking-[-0.35px] text-gray-500'>
           {nickname}
         </span> */}
-        <h4 className='flex items-center text-14_B leading-normal tracking-[-0.35px] text-gray-950'>
+        <h4 className='line-clamp-1 text-14_B leading-normal tracking-[-0.35px] text-gray-950'>
           {groupTitle}
         </h4>
       </div>
