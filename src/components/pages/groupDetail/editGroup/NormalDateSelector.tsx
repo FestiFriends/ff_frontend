@@ -113,7 +113,12 @@ const NormalDateSelector: React.FC<NormalDateSelectorProps> = ({
         triggerClassName
       )}
     >
-      <span className={cn(hasSelection ? 'text-gray-950' : 'text-gray-400')}>
+      <span
+        className={cn(
+          'text-left',
+          hasSelection ? 'text-gray-950' : 'text-gray-400'
+        )}
+      >
         {displayText}
       </span>
       <BlankIcon className='flex-shrink-0' />

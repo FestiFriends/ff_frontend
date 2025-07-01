@@ -39,14 +39,14 @@ const NormalTagInput: React.FC<TagSelectorProps> = ({
               }
             }}
             placeholder='태그를 추가해 주세요'
-            className='flex-1 rounded-2xl border border-gray-100 px-5 py-4 placeholder-gray-400'
+            className='w-full min-w-0 flex-1 rounded-2xl border border-gray-400 px-5 py-4 placeholder:text-gray-400 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none'
           />
           <Button
             onClick={handleAdd}
             disabled={!input.trim()}
             size='sm'
             color={!input.trim() ? 'disable' : 'normal'}
-            className='rounded-2xl px-[17px] py-[17.5px]'
+            className='rounded-2xl px-5 py-4'
           >
             추가
           </Button>
