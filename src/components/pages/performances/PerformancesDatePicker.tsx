@@ -49,7 +49,7 @@ const PerformanceDatePicker = ({
 }: PerformanceDatePickerProps) => {
   const { getQueryParam, setMultipleQueryParams } = useQueryParam();
   const datePickerRef = useRef<HTMLDivElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownPortalRef = useRef<HTMLDivElement>(null);
   const buttonWrapperRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [dateRange, setDateRange] = useState<DateRange>({
@@ -58,7 +58,7 @@ const PerformanceDatePicker = ({
   });
 
   useClickOutside({
-    ref: [datePickerRef, dropdownRef],
+    ref: [datePickerRef, dropdownPortalRef],
     onClose: () => setIsOpen(false),
   });
 
@@ -206,7 +206,7 @@ const PerformanceDatePicker = ({
       {isOpen && (
         <Portal>
           <div
-            ref={dropdownRef}
+            ref={dropdownPortalRef}
             className='fixed right-2 left-2 z-[9999] mx-auto flex max-w-[31rem] flex-col gap-5 overflow-hidden rounded-[12px] border border-gray-50 bg-white p-5 shadow-lg'
             style={{
               top: datePickerRef.current

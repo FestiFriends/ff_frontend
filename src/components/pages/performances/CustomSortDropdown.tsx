@@ -29,6 +29,7 @@ const CustomSortDropdown = ({
   const [isOpen, setIsOpen] = useState(false);
   const { getQueryParam, setQueryParam } = useQueryParam();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownPortalRef = useRef<HTMLDivElement>(null);
   const [positionReady, setPositionReady] = useState(false);
   const [dropdownPos, setDropdownPos] = useState<{
     top: number;
@@ -44,7 +45,7 @@ const CustomSortDropdown = ({
   );
 
   useClickOutside({
-    ref: dropdownRef,
+    ref: [dropdownRef, dropdownPortalRef],
     onClose: () => {
       setIsOpen(false);
       setPositionReady(false);
@@ -143,13 +144,14 @@ const CustomSortDropdown = ({
 
   return (
     <div
-      className={cn('relative inline-block rounded-[100px]', className)}
       ref={dropdownRef}
+      className={cn('relative inline-block rounded-[100px]', className)}
     >
       <TriggerButton />
       {isOpen && positionReady && (
         <Portal>
           <div
+            ref={dropdownPortalRef}
             className={cn(
               'fixed z-20 mt-2 flex flex-col overflow-hidden rounded-[12px] border border-gray-50 bg-white shadow-lg',
               {
