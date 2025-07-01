@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { format } from 'date-fns';
+import { addMonths, format, subMonths } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import DatePicker from './DatePicker';
 
@@ -84,19 +84,34 @@ describe('DatePicker 컴포넌트 테스트', () => {
       />
     );
 
+    const currentMonth = new Date();
+
     fireEvent.click(screen.getByLabelText('datepicker open'));
 
-    const monthLabel = screen.getByText(/2025년 6월/);
+    // 현재 년/월 (n월)
+    const monthLabel = screen.getByText(
+      format(currentMonth, 'yyyy년 M월', { locale: ko })
+    );
     expect(monthLabel).toBeInTheDocument();
 
     const prevButton = screen.getByLabelText('prev month');
     const nextButton = screen.getByLabelText('next month');
 
     fireEvent.click(prevButton);
-    expect(screen.getByText(/2025년 5월/)).toBeInTheDocument();
+    // n-1월
+    expect(
+      screen.getByText(
+        format(subMonths(currentMonth, 1), 'yyyy년 M월', { locale: ko })
+      )
+    );
 
-    fireEvent.click(nextButton); // 다시 6월
-    fireEvent.click(nextButton); // 7월
-    expect(screen.getByText(/2025년 7월/)).toBeInTheDocument();
+    fireEvent.click(nextButton);
+    fireEvent.click(nextButton);
+    // n+1월
+    expect(
+      screen.getByText(
+        format(addMonths(currentMonth, 1), 'yyyy년 M월', { locale: ko })
+      )
+    );
   });
 });
