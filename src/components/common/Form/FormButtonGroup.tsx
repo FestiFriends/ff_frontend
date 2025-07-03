@@ -60,7 +60,7 @@ const FormButtonGroup = <
         disabled={disabled}
       >
         <div
-          className='flex gap-2'
+          className='flex flex-wrap gap-2'
           role='radiogroup'
         >
           {options.map((option) => (

@@ -1,5 +1,6 @@
 'use client';
 import React, { useRef, useState, useCallback } from 'react';
+import Portal from '@/components/common/Portal';
 import { AltArrowUpIcon, DeleteIcon } from '@/components/icons';
 import { LocationLabels, LocationValues } from '@/constants';
 import { useClickOutside, useQueryParam } from '@/hooks/';
@@ -20,24 +21,28 @@ const PerformancesLocationSelector = ({
   className,
 }: PerformancesLocationSelectorProps) => {
   const selectorRef = useRef<HTMLDivElement>(null);
+  const dropdownPortalRef = useRef<HTMLDivElement>(null);
   const buttonWrapperRef = useRef<HTMLDivElement>(null);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [buttonPosition, setButtonPosition] = useState({ top: 0 });
 
   const { getQueryParam, setMultipleQueryParams } = useQueryParam();
   const selectedLocation = getQueryParam(queryKey) || '';
 
-  useClickOutside({ ref: selectorRef, onClose: () => setIsOpen(false) });
+  useClickOutside({
+    ref: [selectorRef, dropdownPortalRef],
+    onClose: () => {
+      setIsOpen(false);
+    },
+  });
 
-  const toggleSelector = () => {
+  const toggleSelector = (e: React.MouseEvent | React.TouchEvent) => {
+    e.stopPropagation();
     if (!isOpen && buttonWrapperRef.current) {
-      const rect = buttonWrapperRef.current.getBoundingClientRect();
-      setButtonPosition({
-        top: rect.bottom + window.scrollY,
-      });
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
     }
-    setIsOpen((prev) => !prev);
   };
 
   const handleLocationSelect = useCallback(
@@ -141,22 +146,28 @@ const PerformancesLocationSelector = ({
     >
       <TriggerButton />
       {isOpen && (
-        <div
-          className='fixed z-20 inline-flex w-[calc(100vw-2rem)] max-w-[calc(32rem-2rem)] -translate-x-1/2 flex-col gap-4 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white p-5 shadow-lg'
-          style={{
-            top: `${buttonPosition.top + 8}px`,
-            left: '50%',
-          }}
-        >
-          <div className='grid grid-cols-4 gap-3'>
-            {locationOptions.map((location) => (
-              <OptionButton
-                key={location.value}
-                location={location}
-              />
-            ))}
+        <Portal>
+          <div
+            ref={dropdownPortalRef}
+            className='fixed right-2 left-2 z-20 mx-auto flex max-w-[31rem] flex-col gap-4 overflow-hidden rounded-[12px] border border-gray-50 bg-white p-5 shadow-lg'
+            style={{
+              top: buttonWrapperRef.current
+                ? buttonWrapperRef.current.getBoundingClientRect().bottom
+                  + window.scrollY
+                  + 8
+                : 0,
+            }}
+          >
+            <div className='grid grid-cols-4 gap-3'>
+              {locationOptions.map((location) => (
+                <OptionButton
+                  key={location.value}
+                  location={location}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        </Portal>
       )}
     </div>
   );

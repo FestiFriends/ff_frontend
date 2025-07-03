@@ -42,12 +42,13 @@ const FormAction = ({
     <>
       <TwoButton
         leftText='초기화'
-        rightText={isSubmitting ? '생성 중...' : '모임 만들기'}
+        rightText={isSubmitting ? '생성 중...' : '모임 개설'}
         leftAction={() => resetModal.openModal()}
         rightAction={onSubmit}
         leftVariant='secondary'
         rightVariant='primary'
         rightDisabled={!isValid || isSubmitting}
+        className='gap-2.5'
         rightClassName='disabled:cursor-not-allowed'
       />
 

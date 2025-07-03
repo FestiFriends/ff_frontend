@@ -66,7 +66,7 @@ describe('Popover 컴포넌트 테스트', () => {
     fireEvent.click(screen.getByText('열기'));
     expect(screen.getByText('팝오버 내용')).toBeInTheDocument();
 
-    fireEvent.mouseDown(screen.getByTestId('outside'));
+    fireEvent.click(screen.getByTestId('outside'));
     expect(screen.queryByText('팝오버 내용')).not.toBeInTheDocument();
   });
 

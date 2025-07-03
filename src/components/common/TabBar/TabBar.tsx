@@ -23,6 +23,7 @@ const NAV_ITEM = [
 ];
 
 const INVISIBLE_ROUTE = [
+  '/performances/:performanceId/createGroup',
   '/groups/create',
   '/profiles/me/edit',
   '/groups/:groupId/edit',

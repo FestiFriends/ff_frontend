@@ -4,6 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import DetailHeader from '@/components/common/DetailHeader/DetailHeader';
 import MessageInput from '@/components/common/MessageInput/MessageInput';
 import BackIcon from '@/components/icons/BackIcon';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   useCreateComment,
   useGetComments,
@@ -92,36 +93,40 @@ const PostDetailWrapper = () => {
         hasLeftIcon={<BackIcon />}
         onLeftClick={() => router.back()}
       />
-      <div className='scrollbar-hide flex h-screen w-full flex-col overflow-auto px-4 pt-11 pb-[89px]'>
-        <PostCard
-          post={post}
-          type='detail'
-        >
-          <CheckButton
+
+      <ScrollArea className='h-[calc(100dvh-120px)]'>
+        <div className='flex w-full flex-col px-4 pb-[89px]'>
+          <PostCard
             post={post}
-            onClick={handleReaction}
-          />
-          <CommentButton commentCount={post.commentCount} />
-        </PostCard>
-        <CommentList
-          comments={commentsData ?? []}
-          error={commentsError || null}
-        />
-        {hasNextPage && (
-          <>
-            {isFetchingNextPage && <CommentsSkeleton />}
-            <div
-              ref={bottomRef}
-              className='h-10'
+            type='detail'
+          >
+            <CheckButton
+              post={post}
+              onClick={handleReaction}
             />
-          </>
-        )}
-      </div>
+            <CommentButton commentCount={post.commentCount} />
+          </PostCard>
+          <CommentList
+            comments={commentsData ?? []}
+            error={commentsError || null}
+          />
+          {hasNextPage && (
+            <>
+              {isFetchingNextPage && <CommentsSkeleton />}
+              <div
+                ref={bottomRef}
+                className='h-10'
+              />
+            </>
+          )}
+        </div>
+      </ScrollArea>
+
       <MessageInput
         type='comment'
         sendMessage={handleSubmit}
         maxLength={150}
-        className='fixed bottom-0'
+        className='sticky right-0 bottom-0 left-0'
       />
     </>
   );

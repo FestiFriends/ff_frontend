@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
+import Portal from '@/components/common/Portal';
 import { AltArrowUpIcon, DeleteIcon } from '@/components/icons';
 import { useClickOutside, useQueryParam } from '@/hooks/';
 import { cn } from '@/lib/utils';
@@ -28,6 +29,15 @@ const CustomSortDropdown = ({
   const [isOpen, setIsOpen] = useState(false);
   const { getQueryParam, setQueryParam } = useQueryParam();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownPortalRef = useRef<HTMLDivElement>(null);
+  const [positionReady, setPositionReady] = useState(false);
+  const [dropdownPos, setDropdownPos] = useState<{
+    top: number;
+    left: number;
+  }>({
+    top: 0,
+    left: 0,
+  });
 
   const selectedValue = getQueryParam(queryKey) || '';
   const selectedOption = options.find(
@@ -35,13 +45,33 @@ const CustomSortDropdown = ({
   );
 
   useClickOutside({
-    ref: dropdownRef,
-    onClose: () => setIsOpen(false),
+    ref: [dropdownRef, dropdownPortalRef],
+    onClose: () => {
+      setIsOpen(false);
+      setPositionReady(false);
+    },
   });
+
+  const openDropdown = () => {
+    if (dropdownRef.current) {
+      const rect = dropdownRef.current.getBoundingClientRect();
+      setDropdownPos({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+      });
+      setPositionReady(true);
+      setIsOpen(true);
+    }
+  };
 
   const handleFn = {
     toggle: () => {
-      setIsOpen(!isOpen);
+      if (isOpen) {
+        setIsOpen(false);
+        setPositionReady(false);
+      } else {
+        openDropdown();
+      }
     },
     select: (value: string) => {
       setQueryParam(queryKey, value);
@@ -114,29 +144,36 @@ const CustomSortDropdown = ({
 
   return (
     <div
-      className={cn('relative inline-block rounded-[100px]', className)}
       ref={dropdownRef}
+      className={cn('relative inline-block rounded-[100px]', className)}
     >
       <TriggerButton />
-      {isOpen && (
-        <div
-          className={cn(
-            'fixed z-20 mt-2 flex flex-col overflow-hidden rounded-[12px] border border-gray-50 bg-white shadow-lg',
-            {
-              'w-full': width === 'full',
-              'w-auto': width === 'auto',
-              'w-fit min-w-25': width === 'fit',
-            }
-          )}
-        >
-          {options.map((option, index) => (
-            <OptionButton
-              option={option}
-              index={index}
-              key={option.value}
-            />
-          ))}
-        </div>
+      {isOpen && positionReady && (
+        <Portal>
+          <div
+            ref={dropdownPortalRef}
+            className={cn(
+              'fixed z-20 mt-2 flex flex-col overflow-hidden rounded-[12px] border border-gray-50 bg-white shadow-lg',
+              {
+                'w-full': width === 'full',
+                'w-auto': width === 'auto',
+                'w-fit min-w-25': width === 'fit',
+              }
+            )}
+            style={{
+              top: dropdownPos.top,
+              left: dropdownPos.left,
+            }}
+          >
+            {options.map((option, index) => (
+              <OptionButton
+                option={option}
+                index={index}
+                key={option.value}
+              />
+            ))}
+          </div>
+        </Portal>
       )}
     </div>
   );

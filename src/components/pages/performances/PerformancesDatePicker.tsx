@@ -3,6 +3,7 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { format, parse, isValid } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { Calendar } from '@/components/common';
+import Portal from '@/components/common/Portal';
 import { AltArrowUpIcon, DeleteIcon } from '@/components/icons';
 import { useClickOutside, useQueryParam } from '@/hooks/';
 import { cn } from '@/lib/utils';
@@ -48,15 +49,18 @@ const PerformanceDatePicker = ({
 }: PerformanceDatePickerProps) => {
   const { getQueryParam, setMultipleQueryParams } = useQueryParam();
   const datePickerRef = useRef<HTMLDivElement>(null);
+  const dropdownPortalRef = useRef<HTMLDivElement>(null);
   const buttonWrapperRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [buttonPosition, setButtonPosition] = useState({ top: 0 });
   const [dateRange, setDateRange] = useState<DateRange>({
     startDate: null,
     endDate: null,
   });
 
-  useClickOutside({ ref: datePickerRef, onClose: () => setIsOpen(false) });
+  useClickOutside({
+    ref: [datePickerRef, dropdownPortalRef],
+    onClose: () => setIsOpen(false),
+  });
 
   const loadDateParams = () => {
     const startDateParam = getQueryParam(startDateKey);
@@ -76,12 +80,6 @@ const PerformanceDatePicker = ({
   }, [startDateKey, endDateKey, dateFormat]);
 
   const toggleDatePicker = () => {
-    if (!isOpen && buttonWrapperRef.current) {
-      const rect = buttonWrapperRef.current.getBoundingClientRect();
-      setButtonPosition({
-        top: rect.bottom + window.scrollY,
-      });
-    }
     setIsOpen((prev) => !prev);
   };
 
@@ -206,21 +204,27 @@ const PerformanceDatePicker = ({
       <TriggerButton />
 
       {isOpen && (
-        <div
-          className='fixed z-[9999] inline-flex w-[calc(100vw-2rem)] max-w-[calc(32rem-2rem)] -translate-x-1/2 flex-col gap-5 overflow-hidden rounded-[12px] border-1 border-gray-50 bg-white p-5 shadow-lg'
-          style={{
-            top: `${buttonPosition.top + 8}px`,
-            left: '50%',
-          }}
-        >
-          <Calendar
-            startDate={dateRange.startDate}
-            endDate={dateRange.endDate}
-            onDateClick={handleDateClick}
-            isControllable={true}
-            className='flex flex-col gap-1'
-          />
-        </div>
+        <Portal>
+          <div
+            ref={dropdownPortalRef}
+            className='fixed right-2 left-2 z-[9999] mx-auto flex max-w-[31rem] flex-col gap-5 overflow-hidden rounded-[12px] border border-gray-50 bg-white p-5 shadow-lg'
+            style={{
+              top: datePickerRef.current
+                ? datePickerRef.current.getBoundingClientRect().bottom
+                  + window.scrollY
+                  + 8
+                : 0,
+            }}
+          >
+            <Calendar
+              startDate={dateRange.startDate}
+              endDate={dateRange.endDate}
+              onDateClick={handleDateClick}
+              isControllable={true}
+              className='flex flex-col gap-1'
+            />
+          </div>
+        </Portal>
       )}
     </div>
   );
