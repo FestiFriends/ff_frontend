@@ -67,7 +67,6 @@ export const usePinPost = () => {
     }) => postApi.pinPost({ groupId, postId, isPinned }),
 
     onSuccess: (_data, variables) => {
-      console.log('onSuccess', variables);
       queryClient.invalidateQueries({
         queryKey: [GROUP_QUERY_KEYS.groupPosts, String(variables.groupId)],
       });

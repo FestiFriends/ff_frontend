@@ -25,7 +25,7 @@ const GroupTabs = ({ groupInfo }: GroupTabsProps) => {
       />
       <>
         {selectedTab === '게시글' && <GroupPosts />}
-        {selectedTab === '채팅' && <Chat groupInfo={groupInfo} />}
+        {selectedTab === '채팅' && groupInfo && <Chat groupInfo={groupInfo} />}
         {selectedTab === '캘린더' && groupInfo?.id && (
           <GroupCalendar groupId={groupInfo?.id} />
         )}
