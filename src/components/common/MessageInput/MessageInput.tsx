@@ -40,18 +40,6 @@ const MessageInput = ({
     return true;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!validateMessage(message)) {
-      return;
-    }
-
-    sendMessage(message.trim());
-    setMessage('');
-    setError('');
-  };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newMessage = e.target.value;
 
@@ -61,6 +49,23 @@ const MessageInput = ({
     } else {
       setMessage(newMessage.slice(0, maxLength));
       setError(`최대 ${maxLength}자까지 입력 가능합니다.`);
+    }
+  };
+
+  const handleClick = () => {
+    if (!validateMessage(message)) {
+      return;
+    }
+
+    sendMessage(message.trim());
+    setMessage('');
+    setError('');
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+      e.preventDefault();
+      handleClick();
     }
   };
 
@@ -79,8 +84,7 @@ const MessageInput = ({
         className
       )}
     >
-      <form
-        onSubmit={handleSubmit}
+      <div
         className={cn(
           'flex h-11 w-full flex-1 gap-2.5 rounded-[100px] border-1 border-gray-100 bg-white py-1.5 pr-2 pl-3.5',
           type === 'comment' && 'bg-gray-25',
@@ -95,17 +99,19 @@ const MessageInput = ({
           disabled={disabled}
           value={message}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           className='flex w-full items-center text-16_M text-gray-950 placeholder:text-16_M placeholder:leading-normal placeholder:tracking-[-0.35px] placeholder:text-gray-400 focus:outline-none'
         />
         <Button
-          type='submit'
+          type='button'
           variant='primary'
+          onClick={handleClick}
           disabled={isSubmitDisabled}
           className='flex w-11 shrink-0 items-center justify-center self-stretch rounded-[100px] px-3 py-1.5'
         >
           <SendIcon className='aspect-square h-4 w-4 shrink-0' />
         </Button>
-      </form>
+      </div>
 
       {error && (
         <Toast
